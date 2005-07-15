@@ -1,0 +1,9 @@
+2005-07-15 Hermod in cvs <joakim.moller@chalmers.se>
+
+	* files-pdc/: Scripts that fetches files from pdc
+
+	* files-nilu/: Scripts that fetches files from nilu
+
+	* l1b/: gawk-scripts, adds l1b to the database and starts processings
+
+	* l2b/: python-scripts, adds l2-files to the database.

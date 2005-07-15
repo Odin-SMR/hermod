@@ -1,0 +1,10 @@
+#!/bin/bash
+cd ~/hermod/files-pdc/
+./getticket
+./genlist
+./getlist
+if [ -s files ] ; then 
+    gawk -F"/" -f getfiles.awk files | expect
+fi
+find /odin/smr/Data/spool -type f -regex ".*HDF.gz" -exec gunzip -f \{\} \;
+#~/files-rss/odinsort

@@ -1,0 +1,11 @@
+#!/usr/bin/expect --
+set timeout 60
+set prompt "toad:*>"
+spawn /usr/lib/heimdal/bin/telnet -f -l donal esrange.pdc.kth.se
+expect $prompt 
+send ".odin/odinlist\r"
+expect $prompt
+send "exit\r"
+expect "host."
+close
+wait

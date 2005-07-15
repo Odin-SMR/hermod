@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+
+newfiles=~/files
+timestamp=~/.odin/timestamp
+
+rm -f $newfiles
+
+# Find files newer than the ones we processed last time
+find `ls -t1d /hsm/projects/esrange/odin/level1b/aero/submm/AC{1,2}/* | head -9` \
+    -newer $timestamp | grep -E "HDF|LOG" > $newfiles
+touch $timestamp

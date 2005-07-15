@@ -1,0 +1,8 @@
+#!/bin/bash
+cd ~/hermod/files-nilu/
+ssh murtagh@zardoz.nilu.no "/nadir/home/murtagh/.odin/genfiles"
+printf "get files\nbye\n" |lftp zardoz.nilu.no
+if [ -s files ] ; then 
+    ./makedir files | sh -C
+    gawk -F"/" -f getfiles.awk files | lftp
+fi

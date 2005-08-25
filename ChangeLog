@@ -1,3 +1,8 @@
+2005-08-25 Pythonised startscript <joakim.moller@chalmers.se>
+	
+	* l1b/insertFiles.py: Inserts all files in spooldir into odin
+	database, reorganises files according to SMR-directory structure.
+
 2005-07-15 Hermod in cvs <joakim.moller@chalmers.se>
 
 	* files-pdc/: Scripts that fetches files from pdc

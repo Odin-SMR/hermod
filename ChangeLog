@@ -3,6 +3,11 @@
 	* l1b/insertFiles.py: Inserts all files in spooldir into odin
 	database, reorganises files according to SMR-directory structure.
 
+2005-07-18 Joakim Möller <joakim.moller@chalmers.se>
+	
+	* l1b/msl.awk: Changing directory to ~logs/ before sending job to
+	queue. This to avoid logfiles in odinops home directory.
+
 2005-07-15 Hermod in cvs <joakim.moller@chalmers.se>
 
 	* files-pdc/: Scripts that fetches files from pdc

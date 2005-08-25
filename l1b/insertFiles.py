@@ -8,12 +8,12 @@ import re
 import glob,commands
 
 #Set path
-SPOOL_DIR= "./"
-LEVEL1B_DIR= "./test/"
-SMRL1B_DIR="./smrtest/"
+SPOOL_DIR= "/odin/smr/Data/spool/"
+LEVEL1B_DIR= "/odin/smr/Data/level1b/"
+SMRL1B_DIR="/odin/smr/Data/SMRl1b/"
 
 #Connect to database
-db=MySQLdb.connect(host="coral",user="odinuser",passwd="***REMOVED***",db="odin")
+db=MySQLdb.connect(user="odinuser",passwd="***REMOVED***",db="odin")
 
 def main():
     files=glob.glob(SPOOL_DIR+"*.HDF")
@@ -46,8 +46,8 @@ def main():
             print "abort. no logfile"
             continue
         shutil.move(i,dest)
-        for ii in availfreq[0]:
-            symdest = genSMRL1bDir(ii,cal)
+        for ii in availfreq:
+            symdest = genSMRL1bDir(ii[0],cal)
             if not os.path.exists(symdest):
                 os.makedirs(symdest,0755)
 
@@ -55,25 +55,48 @@ def main():
             srcl = dest    + os.path.basename(name) + ".LOG"
             if os.path.islink(dstl):
                 os.remove(dstl)
-            os.symlink(srcl,dstl)
+            try:
+                os.symlink(srcl,dstl)
+            except:
+                pass
             dsth = symdest + os.path.basename(name) + ".HDF"
             srch = dest    + os.path.basename(name) + ".HDF"
             if os.path.islink(dsth):
                 os.remove(dsth)
-            os.symlink(srch,dsth)
-        
+            try:
+                os.symlink(srch,dsth)
+            except:
+                pass
         #add scans to db
         addData(scans)
 
         #create zpt-files
         zptcom = "~/bin/createzpt.sh %s%s.LOG" %(dest,os.path.basename(name))
-        print zptcom
-        #commands.getstatusoutput(zptcom)
+        stin,stou, = os.popen4(zptcom)
+        lines=stou.readlines()
+        stin.close()
+        stou.close()
+        print lines
+        symdest = "%sV-%d/ECMWF/%s/" %(SMRL1B_DIR,cal,backend[0][0])
+        if not os.path.exists(symdest):
+           os.makedirs(symdest,0755)
+
+        dstz = symdest + os.path.basename(name) + ".ZPT"
+        srcz = dest    + os.path.basename(name) + ".ZPT"
+        if os.path.islink(dstz):
+            os.remove(dstz)
+        try:
+            os.symlink(srcz,dstz)
+        except:
+           pass
         #for every active freqmode queue a job
         for ii in activefreq:
             com = "cd /home/odinop/logs && echo \"~/bin/odinrun_Qsmr-2-0 %X %d %s\" | qsub -qstratos -l walltime=%s -N %s.%X.2-0\n" % (orbit,cal,ii[0],ii[1],ii[0],orbit)
-            print com
-            #commands.getstatusoutput(com)
+            stin,stou, = os.popen4(com)
+            lines = stou.readlines()
+            stin.close()
+            stou.close()
+            print lines
             
             
 
@@ -188,7 +211,7 @@ def getScans(data):
         
 
 def readFile(file):
-    stin,stou, = os.popen4("./read_hdf "+file)
+    stin,stou, = os.popen4("~/hermod/l1b/read_hdf "+file)
     lines = stou.readlines()
     stin.close()
     stou.close()

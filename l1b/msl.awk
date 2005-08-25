@@ -143,20 +143,20 @@ END{
         
     printf "\necho Launch processes to cluster\n"
     ## Send the job into the cluster	
-    if (cal==4) {
-        for (i in sour) {
-            if (i!="") {
-                printf "cd /home/odinop/logs && echo \"~/bin/odinrun_Qsmr-1-2 %X %d %s\" | qsub -qstratos -l walltime=24:0:0 -N %s.%X.1-2\n",orb,cal,fmod(i),fmod(i),orb
-            }
-        }
-    } 
-    else {
+#    if (cal==4) {
+#        for (i in sour) {
+#            if (i!="") {
+#                printf "cd /home/odinop/logs && echo \"~/bin/odinrun_Qsmr-1-2 %X %d %s\" | qsub -qstratos -l walltime=24:0:0 -N %s.%X.1-2\n",orb,cal,fmod(i),fmod(i),orb
+#            }
+#        }
+#    } 
+#    else {
         if (cal==6) {
             for (i in sour) {
                 if (i!="") {
-                    printf "cd /home/odinop/logs && echo \"~/bin/odinrun_Qsmr-2-0 %X %d %s\" | qsub -qstratos -l walltime=24:0:0 -N %s.%X.2-0\n",orb,cal,fmod(i),fmod(i),orb
+                    printf "cd /home/odinop/logs && echo \"~/bin/odinrun_Qsmr-2-0 %X %d %s\" | qsub -qstratos -l walltime=6:0:0 -N %s.%X.2-0\n",orb,cal,fmod(i),fmod(i),orb
                 }
             }
         }
-    }
+#    }
 }

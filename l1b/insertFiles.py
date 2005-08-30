@@ -186,29 +186,28 @@ def getFM(scan):
 
 def getScans(data):
     scan=[]
+    spekt=0
+    
     count=0
-    flag3 = False
-    flag9 = False
+    reset = False
     for i in data:
-        if i['Type']==3:
-            flag3=True
-        elif i['Type']==9 and flag3:
-            flag9=True
-        elif flag9 and flag3 and i['Type']!=9:
-            count=count+1
-            fmnr=i['Source'].split("=")
-            i['fm']=int(fmnr[1])
-            i['cal']=i['Level']&0xFF
-            i['att']=i['Level']>>8
-            i['nr']=count
-            scan.append(i)
-            flag3=False
-            flag9=False
-        else:
-            pass
+        spekt=spekt+1
+        if i['Type']==8:
+            if reset:
+                count=count+1
+                print "Scannr: %d\tstarts at spectra: %d" %(count,spekt)
+                fmnr=i['Source'].split("=")
+                i['fm']=int(fmnr[1])
+                i['cal']=i['Level']&0xFF
+                i['att']=i['Level']>>8
+                i['nr']=count
+                scan.append(i)
+                reset=False
+            else:
+                pass
+        elif i['Type']==3:
+            reset==True
     return scan
-      
-        
 
 def readFile(file):
     stin,stou, = os.popen4("~/hermod/l1b/read_hdf "+file)

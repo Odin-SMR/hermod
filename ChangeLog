@@ -1,3 +1,8 @@
+2005-08-29 Pythonised startscript <joakim.moller@chalmers.se>
+
+	* l1b/insertFiles.py: Problems with different kinds of calibration
+	solved. Now '3' is the one and only calibration spectrum.
+
 2005-08-25 Pythonised startscript <joakim.moller@chalmers.se>
 	
 	* l1b/insertFiles.py: Inserts all files in spooldir into odin

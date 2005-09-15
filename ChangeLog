@@ -1,3 +1,15 @@
+2005-09-16 Some bugfixes and cleanup <joakim.moller@chalmers.se>
+
+	* l1b/read_hdf.c: Compilation instructions in file
+
+	* l1b/inserFiles.py: Some very verbose printouts removed
+
+	* l1b/msl.awk, l1b/freqmodes, l1b/freqmodes_nr, l1b/freqmodes_str:
+	removed.
+
+	* l1b/rerunOrbits.py: Tool to rerun orbit files. Note this is program
+	is not tested yet. Use were carefully! Talk to Joakim first.
+
 2005-08-29 Pythonised startscript <joakim.moller@chalmers.se>
 
 	* l1b/insertFiles.py: Problems with different kinds of calibration

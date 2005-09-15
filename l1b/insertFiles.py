@@ -22,6 +22,8 @@ def main():
         name,extention,=os.path.splitext(i)
         data=readFile(i)
         scans=getScans(data)
+        if scans==[]:
+            continue
         fm,cal,orbit, = fileInfo(scans)
         c=db.cursor()
         #fake fqmode to make Mysqld get it right
@@ -76,7 +78,6 @@ def main():
         lines=stou.readlines()
         stin.close()
         stou.close()
-        print lines
         symdest = "%sV-%d/ECMWF/%s/" %(SMRL1B_DIR,cal,backend[0][0])
         if not os.path.exists(symdest):
            os.makedirs(symdest,0755)
@@ -96,7 +97,6 @@ def main():
             lines = stou.readlines()
             stin.close()
             stou.close()
-            print lines
             
             
 
@@ -187,7 +187,6 @@ def getFM(scan):
 def getScans(data):
     scan=[]
     spekt=0
-    
     count=0
     reset = False
     for i in data:
@@ -195,7 +194,6 @@ def getScans(data):
         if i['Type']==8:
             if reset:
                 count=count+1
-                print "Scannr: %d\tstarts at spectra: %d" %(count,spekt)
                 fmnr=i['Source'].split("=")
                 i['fm']=int(fmnr[1])
                 i['cal']=i['Level']&0xFF
@@ -206,7 +204,7 @@ def getScans(data):
             else:
                 pass
         elif i['Type']==3:
-            reset==True
+            reset=True
     return scan
 
 def readFile(file):

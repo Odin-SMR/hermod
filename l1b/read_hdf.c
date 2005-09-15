@@ -5,6 +5,8 @@
 #define  FIELDNAME_LIST  "Version,Level,MJD,Orbit,Source,Type,Latitude,Longitude,SunZD"
 #define  BUFFER_SIZE     ( 3*sizeof(short)+2*sizeof(double)+sizeof(char[32])+3*sizeof(float)) 
 
+/* compile with gcc read_hdf.c -lmfhdf -ldf -ljpeg -lz -o read_hdf */
+
 int main (int argc,char *argv[])
 {
     /************************* Variable declaration **************************/

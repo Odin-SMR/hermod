@@ -40,13 +40,13 @@ if cc!=1:
     mesg = sys.argv[0] + ": error resolving freqmode and calibration"
     sys.exit(mesg)
 else:
-    hdffile = "%sSMRhdf/Qsmr-%s/%s/SCH_%s_%s%s_%s.L2P" %(l2dir,r[3],freq,r[0],r[1],orbit,str(r[2]).zfill(3))
-    auxfile = "%sSMRhdf/Qsmr-%s/%s/SCH_%s_%s%s_%s.AUX" %(l2dir,r[3],freq,r[0],r[1],orbit,str(r[2]).zfill(3))
-    inffile = "%sSMRhdf/Qsmr-%s/%s/SCH_%s_%s%s_%s.ERR" %(l2dir,r[3],freq,r[0],r[1],orbit,str(r[2]).zfill(3))
-    matfile = "%sSMRmat/Qsmr-%s/%s/%s%s.mat" %(l2dir,r[3],freq,r[5],orbit)
-    errfile = "%sSMRmat/Qsmr-%s/%s/%s%s.qsmr_error" %(l2dir,r[3],freq,r[5],orbit)
-    efile   = "/home/odinop/logs/%s.%s.%s.e" %(freq,orbit,r[3])
-    ofile   = "/home/odinop/logs/%s.%s.%s.o" %(freq,orbit,r[3])
+    hdffile = "%sSMRhdf/Qsmr-%s/%s/SCH_%s_%s%s_%s.L2P" %(l2dir,r[3],freq,r[0],r[1],str(orbit).zfill(4),str(r[2]).zfill(3))
+    auxfile = "%sSMRhdf/Qsmr-%s/%s/SCH_%s_%s%s_%s.AUX" %(l2dir,r[3],freq,r[0],r[1],str(orbit).zfill(4),str(r[2]).zfill(3))
+    inffile = "%sSMRhdf/Qsmr-%s/%s/SCH_%s_%s%s_%s.ERR" %(l2dir,r[3],freq,r[0],r[1],str(orbit).zfill(4),str(r[2]).zfill(3))
+    matfile = "%sSMRmat/Qsmr-%s/%s/%s%s.mat" %(l2dir,r[3],freq,r[5],str(orbit).zfill(4))
+    errfile = "%sSMRmat/Qsmr-%s/%s/%s%s.qsmr_error" %(l2dir,r[3],freq,r[5],str(orbit).zfill(4))
+    efile   = "/home/odinop/logs/%s.%s.%s.e" %(freq,str(orbit).zfill(4),r[3])
+    ofile   = "/home/odinop/logs/%s.%s.%s.o" %(freq,str(orbit).zfill(4),r[3])
 
 #clean up database: delete all records from this orbit,freqmod and version
 c.execute("""DELETE level2 FROM level2,scans WHERE hex(orbit)=%s and calibration=%s and freqmode=%s and version=%s and scans.id=level2.id""",(orbit,cal,r[4],r[3]))
@@ -54,9 +54,9 @@ c.execute("""DELETE level2 FROM level2,scans WHERE hex(orbit)=%s and calibration
 #add record in "Processed"
 test = c.execute("""select prnr from Processed where hex(orbit)=%s and freqmode=%s and version=%s""",(orbit,freq,r[3]))
 if test==0:
-    c.execute("""insert into Processed (orbit,freqmode,version,prdate) values (cast(x%s as unsigned),%s,%s,now())""",(orbit,freq,r[3]))
+	c.execute("""insert into Processed (orbit,freqmode,version,prdate) values (cast(x%s as unsigned),%s,%s,now())""",(str(orbit,freq,r[3]))
 else:
-    c.execute("""update Processed set prnr=prnr+1,prdate=now() where hex(orbit)=%s and freqmode=%s and version=%s""",(orbit,freq,r[3]))
+	c.execute("""update Processed set prnr=prnr+1,prdate=now() where hex(orbit)=%s and freqmode=%s and version=%s""",(orbit,freq,r[3]))
 
 #remove old stderr/stdout files
 

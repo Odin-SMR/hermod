@@ -17,14 +17,16 @@ def usage():
     rerunOrbits orbit1 orbit2 calibration threshold
        orbit1 - first orbit number (hex)
        orbit2 - last orbit number
+       freqmode - freqmode number, 0 is used for all.
        calibration - l1b calibration nr
        threshold - number of not processed scans to ignore
        
     examples:
-        ./rerunOrbits.py 4000 40FF 6 20
+        ./rerunOrbits.py 4000 40FF 21 6 20
   
-    Executing this command would rerun all level1b files in calibration 6 which
-    has more than 20 not processed scans in the interval [4000,40FF].
+    Executing this command would rerun all level1b files having freqmode 21 
+    in calibration 6 which has more than 20 not processed scans in the 
+    interval [4000,40Fq].
 """
                  
 def main():
@@ -32,24 +34,34 @@ def main():
     for i in sys.argv:
         a=a+1
         
-    if a!=5:
+    if a!=6:
         usage()
         sys.exit(str(a)+" :Not correct number of parameters")
 
     orbit1=sys.argv[1]
     orbit2=sys.argv[2]
-    cal=sys.argv[3]
-    min=sys.argv[4]
+    fq=sys.argv[3]
+    cal=sys.argv[4]
+    min=sys.argv[5]
 
     c=db.cursor()
     
     #find parameters in the database (Freqmodes,Currentversions)
-    status=c.execute("""select hex(orbit),freqmode,calibration,count(*) as cnt
-    from scans
-    left join level2 using (id)
-    where level2.mjd is null and hex(orbit)<=%s and hex(orbit)>=%s and calibration=%s
-    group by orbit,freqmode,calibration
-    having cnt>%s""",(orbit2,orbit1,cal,min))
+    if fq!=0:
+        status=c.execute("""select hex(orbit),freqmode,calibration,count(*) as cnt
+        from scans
+        left join level2 using (id)
+        where level2.mjd is null and hex(orbit)<=%s and hex(orbit)>=%s and calibration=%s and freqmodeq=%s
+        group by orbit,freqmode,calibration
+        having cnt>%s""",(orbit2,orbit1,cal,fq,min))
+    else:
+        status=c.execute("""select hex(orbit),freqmode,calibration,count(*) as cnt
+        from scans
+        left join level2 using (id)
+        where level2.mjd is null and hex(orbit)<=%s and hex(orbit)>=%s and calibration=%s
+        group by orbit,freqmode,calibration
+        having cnt>%s""",(orbit2,orbit1,cal,fq,min))
+
     #find orbit in the database (Freqmodes,Currentversions)
     res=c.fetchall()
     for o in res:

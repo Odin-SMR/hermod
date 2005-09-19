@@ -1,3 +1,13 @@
+2005-09-19 Freqmode search <joakim.moller@chalmers.se>
+
+	* l1b/rerunOrbit.py: Added a inparameter to make it easier to search
+	for not processed data.
+
+2005-09-19 Three digit bugfix <joakim.moller@chalmers.se>
+
+	* l1b/readFreq.py: Adds zeros in front of the orbitnumber if it has
+	less than 4 digits. 
+
 2005-09-16 Some bugfixes and cleanup <joakim.moller@chalmers.se>
 
 	* l1b/read_hdf.c: Compilation instructions in file

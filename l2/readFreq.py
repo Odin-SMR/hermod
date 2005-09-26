@@ -54,9 +54,9 @@ c.execute("""DELETE level2 FROM level2,scans WHERE hex(orbit)=%s and calibration
 #add record in "Processed"
 test = c.execute("""select prnr from Processed where hex(orbit)=%s and freqmode=%s and version=%s""",(orbit,freq,r[3]))
 if test==0:
-	c.execute("""insert into Processed (orbit,freqmode,version,prdate) values (cast(x%s as unsigned),%s,%s,now())""",(str(orbit,freq,r[3]))
+    c.execute("""insert into Processed (orbit,freqmode,version,prdate) values (cast(x%s as unsigned),%s,%s,now())""",(str(orbit).zfill(4),freq,r[3]))
 else:
-	c.execute("""update Processed set prnr=prnr+1,prdate=now() where hex(orbit)=%s and freqmode=%s and version=%s""",(orbit,freq,r[3]))
+    c.execute("""update Processed set prnr=prnr+1,prdate=now() where hex(orbit)=%s and freqmode=%s and version=%s""",(orbit,freq,r[3]))
 
 #remove old stderr/stdout files
 

@@ -25,6 +25,9 @@ def main():
         if scans==[]:
             continue
         fm,cal,orbit, = fileInfo(scans)
+        print fm
+        print cal
+        print "%X" %(orbit)
         c=db.cursor()
         #fake fqmode to make Mysqld get it right
         fm.append(223)
@@ -92,7 +95,8 @@ def main():
            pass
         #for every active freqmode queue a job
         for ii in activefreq:
-            com = "cd /home/odinop/logs && echo \"~/bin/odinrun_Qsmr-2-0 %X %d %s\" | qsub -qstratos -l walltime=%s -N %s.%X.2-0\n" % (orbit,cal,ii[0],ii[1],ii[0],orbit)
+            com = "cd /home/odinop/logs && echo \"~/bin/odinrun_Qsmr-2-0 %0.4X %d %s\" | qsub -qstratos -l walltime=%s -N %s.%0.4X.2-0\n" % (orbit,cal,ii[0],ii[1],ii[0],orbit)
+            print com
             stin,stou, = os.popen4(com)
             lines = stou.readlines()
             stin.close()
@@ -138,7 +142,7 @@ def addData(sc):
 def fileInfo(scans):
     cal=scans[0]['Level']&0xFF
     fm = getFM(scans)
-    orbit=scans[0]['Orbit']
+    orbit=scans[2]['Orbit']
     return (fm,cal,orbit)
 
 def mjdtoutc(mjdnr):

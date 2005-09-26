@@ -26,7 +26,7 @@ def usage():
   
     Executing this command would rerun all level1b files having freqmode 21 
     in calibration 6 which has more than 20 not processed scans in the 
-    interval [4000,40Fq].
+    interval [4000,40FF].
 """
                  
 def main():
@@ -45,22 +45,21 @@ def main():
     min=sys.argv[5]
 
     c=db.cursor()
-    
     #find parameters in the database (Freqmodes,Currentversions)
-    if fq!=0:
+    if fq=="0": 
         status=c.execute("""select hex(orbit),freqmode,calibration,count(*) as cnt
-        from scans
-        left join level2 using (id)
-        where level2.mjd is null and hex(orbit)<=%s and hex(orbit)>=%s and calibration=%s and freqmodeq=%s
-        group by orbit,freqmode,calibration
-        having cnt>%s""",(orbit2,orbit1,cal,fq,min))
+            from scans
+            left join level2 using (id)
+            where level2.mjd is null and hex(orbit)<=%s and hex(orbit)>=%s and calibration=%s
+            group by orbit,freqmode,calibration
+            having cnt>%s""",(orbit2,orbit1,cal,min))
     else:
         status=c.execute("""select hex(orbit),freqmode,calibration,count(*) as cnt
-        from scans
-        left join level2 using (id)
-        where level2.mjd is null and hex(orbit)<=%s and hex(orbit)>=%s and calibration=%s
-        group by orbit,freqmode,calibration
-        having cnt>%s""",(orbit2,orbit1,cal,fq,min))
+            from scans
+            left join level2 using (id)
+            where level2.mjd is null and hex(orbit)<=%s and hex(orbit)>=%s and calibration=%s and freqmode=%s
+            group by orbit,freqmode,calibration
+            having cnt>%s""",(orbit2,orbit1,cal,fq,min))
 
     #find orbit in the database (Freqmodes,Currentversions)
     res=c.fetchall()
@@ -78,13 +77,12 @@ def main():
                                     and scans.id=level2.id""",(o[0],o[1],o[2]))
 
         print "delete %s %s %d" % (o[0],o[1],o[2])
-        com = "cd /home/odinop/logs && echo \"~/bin/odinrun_Qsmr-%s %s %d %s\" | qsub -qstratos -l walltime=%s -N %s.%s.%s\n" % (qsmr[0][0],o[0],o[1],info[0][0],info[0][1],info[0][0],o[0],qsmr[0][0])
+        com = "cd /home/odinop/logs && echo \"~/bin/odinrun_Qsmr-%s %s %d %s\" | qsub -qstratos -l walltime=%s -N %s.%s.%s\n" % (qsmr[0][0],o[0],o[2],info[0][0],info[0][1],info[0][0],o[0],qsmr[0][0])
         print com
         stin,stou, = os.popen4(com)
         lines = stou.readlines()
         stin.close()
         stou.close()
   
-   
 if __name__ == "__main__":
     main()

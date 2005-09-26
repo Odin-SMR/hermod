@@ -95,7 +95,7 @@ def main():
            pass
         #for every active freqmode queue a job
         for ii in activefreq:
-            com = "cd /home/odinop/logs && echo \"~/bin/odinrun_Qsmr-2-0 %0.4X %d %s\" | qsub -qstratos -l walltime=%s -N %s.%0.4X.2-0\n" % (orbit,cal,ii[0],ii[1],ii[0],orbit)
+            com = "cd /home/odinop/logs && echo \"~/bin/odinrun_Qsmr-2-0 %X %d %s\" | qsub -qstratos -l walltime=%s -N %s.%X.2-0\n" % (orbit,cal,ii[0],ii[1],ii[0],orbit)
             print com
             stin,stou, = os.popen4(com)
             lines = stou.readlines()

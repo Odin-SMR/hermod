@@ -1,5 +1,13 @@
 2005-09-19 Freqmode search <joakim.moller@chalmers.se>
 
+	* l2/readFreq.py: Problems to read 3digit hexorbit number fixed
+
+	* l1b/rerunOrbits.py: Fixed and operational, but not safe.
+
+	* l1b/insertFiles.py: Fixed problem with 3digits.
+
+2005-09-19 Freqmode search <joakim.moller@chalmers.se>
+
 	* l1b/rerunOrbit.py: Added a inparameter to make it easier to search
 	for not processed data.
 

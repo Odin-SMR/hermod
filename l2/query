@@ -1,5 +1,0 @@
-SELECT hex(orbit) as orbitnr,fm as freqmode,calibration,status,count(status) as scans
-FROM l1b
-group by orbit,fm,calibration,status
-order by orbit
-limit 100000

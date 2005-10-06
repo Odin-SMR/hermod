@@ -1,3 +1,10 @@
+2005-10-06 Bad orbit files <joakim.moller@chalmers.se>
+
+	* l1b/insertFiles.py: Added a check to find bad orbit files, files
+	with less than 3 scans are ignored.
+
+	* l1b/insert_level1b.awk, l2/test, l2/update.log,
+	l2/update_l2_files.awk, l2/update_level2_files.awk: removed, not used anymore.
 2005-09-19 Freqmode search <joakim.moller@chalmers.se>
 
 	* l2/readFreq.py: Problems to read 3digit hexorbit number fixed

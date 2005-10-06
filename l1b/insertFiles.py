@@ -19,10 +19,13 @@ def main():
     files=glob.glob(SPOOL_DIR+"*.HDF")
     #for every file
     for i in files:
+        print i
         name,extention,=os.path.splitext(i)
         data=readFile(i)
         scans=getScans(data)
         if scans==[]:
+            continue
+        if len(scans)<3:
             continue
         fm,cal,orbit, = fileInfo(scans)
         print fm

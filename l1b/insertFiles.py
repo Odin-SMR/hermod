@@ -9,6 +9,7 @@ import glob,commands
 
 #Set path
 SPOOL_DIR= "/odin/smr/Data/spool/"
+FAILURE_DIR="/odin/smr/Datra/spool_failure/"
 LEVEL1B_DIR= "/odin/smr/Data/level1b/"
 SMRL1B_DIR="/odin/smr/Data/SMRl1b/"
 
@@ -19,20 +20,26 @@ def main():
     files=glob.glob(SPOOL_DIR+"*.HDF")
     #for every file
     for i in files:
-        print i
         name,extention,=os.path.splitext(i)
         data=readFile(i)
         scans=getScans(data)
-        if scans==[]:
-            continue
         if len(scans)<3:
-            continue
+			#move file to /odin/smr/Data/spool_failure
+			try:
+				shutil.move(name+".LOG",FAILURE_DIR)
+			except:
+            	sys.stderr.write("hermod: error couldn't move : %s.LOG to failure directory\n",name)
+			try:
+				shutil.move(name+".HDF",FAILURE_DIR)
+			except:
+            	sys.stderr.write("hermod: error couldn't move : %s.HDF to failure directory\n",name)
+			continue
         fm,cal,orbit, = fileInfo(scans)
         print fm
         print cal
         print "%X" %(orbit)
         c=db.cursor()
-        #fake fqmode to make Mysqld get it right
+        #fake fqmode to make Mysqld get it right, I add a none existing freqmode to make fm a list...
         fm.append(223)
         status = c.execute("""select name,maxproctime from Freqmodes where freqmode in %s and active""",(fm,))
         activefreq = c.fetchall()
@@ -51,7 +58,7 @@ def main():
             shutil.move(name+".LOG",dest)
         except: 
             #if no logfile leave this file in spooldir
-            print "abort. no logfile"
+            sys.stderr.write("no logfile for file %s\n",i)
             continue
         shutil.move(i,dest)
         for ii in availfreq:

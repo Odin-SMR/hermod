@@ -1,3 +1,8 @@
+2005-10-19 Error to stderr <joakim.moller@chalmers.se>
+
+	* l1b/insertFiles.py: Moving files to a spool_failure director i files not
+	having more than 3 scan. Also errors are written to stderr.
+	
 2005-10-06 Bad orbit files <joakim.moller@chalmers.se>
 
 	* l1b/insertFiles.py: Added a check to find bad orbit files, files

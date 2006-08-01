@@ -116,15 +116,9 @@ def main():
             print "      %d profiles removed" %(status)
             print "    creating and linking zpt-file"
             linkcom = "ln -sf %sV-%s/%s/%s/%s%s.ZPT /odin/smr/Data/SMRl1b/V-%s/ECMWF/%s/%s%s.ZPT" %(LEVEL1B_DIR,str(cal),back,orb[:2],pfix,orb,str(cal),back,pfix,orb)
-            zptcom ="~/bin/createzpt.sh %sV-%s/%s/%s/%s%s.LOG" %(LEVEL1B_DIR,cal,back,orb[:2],pfix,orb)
+            zptcom ="~/bin/create_tp_ecmwf_rss2 %sV-%s/%s/%s/%s%s.LOG" %(LEVEL1B_DIR,cal,back,orb[:2],pfix,orb)
             #execute zptcom
-            stin,stou,sterr, = os.popen3(zptcom)
-            for i in sterr.readlines():
-                info = "  - %s" %(i)
-                sys.stdout.write(info)
-            stin.close()
-            stou.close()
-            sterr.close()
+            os.system(zptcom)
             #execute linkcom
             stin,stou,sterr, = os.popen3(linkcom)
             lines = stou.readlines()

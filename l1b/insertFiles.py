@@ -9,106 +9,178 @@ import glob,commands
 
 #Set path
 SPOOL_DIR= "/odin/smr/Data/spool/"
-FAILURE_DIR="/odin/smr/Datra/spool_failure/"
+FAILURE_DIR="/odin/smr/Data/spool_failure/"
+MISSING_LOG="/odin/smr/Data/spool_missing/"
 LEVEL1B_DIR= "/odin/smr/Data/level1b/"
 SMRL1B_DIR="/odin/smr/Data/SMRl1b/"
 
 #Connect to database
-db=MySQLdb.connect(user="odinuser",passwd="***REMOVED***",db="odin")
+db=MySQLdb.connect(host="jet",user="odinuser",passwd="***REMOVED***",db="odin")
 
 def main():
-    files=glob.glob(SPOOL_DIR+"*.HDF")
-    #for every file
-    for i in files:
-        name,extention,=os.path.splitext(i)
-        data=readFile(i)
+    files=sys.argv[1:]
+    #for every file in argumentlist
+    for file in files:
+        name,extention,=os.path.splitext(file)
+        if not extention==".HDF":
+            mesg = "%s: Not a valid extention: %s \n" % (file,extention)
+            sys.stderr.write(mesg)
+            continue
+        basename = os.path.basename(file)
+        data=readFile(file)
         scans=getScans(data)
         if len(scans)<3:
-			#move file to /odin/smr/Data/spool_failure
-			try:
-				shutil.move(name+".LOG",FAILURE_DIR)
-			except:
-            	sys.stderr.write("hermod: error couldn't move : %s.LOG to failure directory\n",name)
-			try:
-				shutil.move(name+".HDF",FAILURE_DIR)
-			except:
-            	sys.stderr.write("hermod: error couldn't move : %s.HDF to failure directory\n",name)
-			continue
-        fm,cal,orbit, = fileInfo(scans)
-        print fm
-        print cal
-        print "%X" %(orbit)
+            #move file to /odin/smr/Data/spool_failure
+	    try:
+                shutil.move(name+".LOG",FAILURE_DIR)
+	    except:
+                text ="hermod: error couldn't move : %s.LOG to failure directory\n" % (name)
+                sys.stderr.write(text)
+                shutil.move(file,MISSING_LOG)
+            try:
+		shutil.move(file,FAILURE_DIR)
+	    except:
+                text ="hermod: error couldn't move : %s to failure directory\n" % (file)
+                sys.stderr.write(text)
+	    continue
+        fqnr,cal,orbit, = fileInfo(scans)
+
+        #destination
+        backends = ["AC0","AC1","AC2"]
+        indexlist = ["A","B","C"]
+        backend = backends[indexlist.index(basename[1])]
+        
+        l1bdir = "%sV-%d/%s/%0.2X/" %(LEVEL1B_DIR,cal,backend,orbit>>8)
+        if not os.path.exists(l1bdir):
+            os.makedirs(l1bdir,0755)
+        try:
+            shutil.move(name+".LOG",l1bdir)
+        except: 
+            #if no logfile don't leave this file in spooldir
+            shutil.move(file,MISSING_LOG)
+            text="no logfile for file %s\n" % (file)
+            sys.stderr.write(text)
+            continue
+        
+        shutil.move(file,l1bdir)
+        
         c=db.cursor()
         #fake fqmode to make Mysqld get it right, I add a none existing freqmode to make fm a list...
-        fm.append(223)
-        status = c.execute("""select name,maxproctime from Freqmodes where freqmode in %s and active""",(fm,))
-        activefreq = c.fetchall()
-        status = c.execute("""select name from Freqmodes where freqmode in %s""",(fm,))
-        availfreq = c.fetchall()
-        status = c.execute("""select distinct backend from Freqmodes where freqmode in %s""",(fm,))
-        backend = c.fetchall()
-        #copy file to position (version,freqmode needed)
-        #delete spoolfile
-        dest = genL1bDir(fm,cal,orbit)
-        #remove fake fqmode
-        fm.remove(223)
-        if not os.path.exists(dest):
-            os.makedirs(dest,0755)
-        try:
-            shutil.move(name+".LOG",dest)
-        except: 
-            #if no logfile leave this file in spooldir
-            sys.stderr.write("no logfile for file %s\n",i)
-            continue
-        shutil.move(i,dest)
-        for ii in availfreq:
-            symdest = genSMRL1bDir(ii[0],cal)
+        fqnr.append(223)
+        # Find all modenames assigned to the fqnr-list
+        status = c.execute("""  select name
+                                from Freqmodes
+                                where freqmode in %s""",(fqnr,))
+        modes = c.fetchall()
+
+        # loop over all available modes and link files to SMR-tree
+        for m in modes:
+            modename = m[0]
+            symdest = "%sV-%d/%s/" %(SMRL1B_DIR,cal,modename)
             if not os.path.exists(symdest):
                 os.makedirs(symdest,0755)
 
             dstl = symdest + os.path.basename(name) + ".LOG"
-            srcl = dest    + os.path.basename(name) + ".LOG"
-            if os.path.islink(dstl):
+            srcl = l1bdir  + os.path.basename(name) + ".LOG"
+            if os.path.exists(dstl):
                 os.remove(dstl)
             try:
                 os.symlink(srcl,dstl)
             except:
-                pass
+                msg = "Could not link logfile %s to %s\n" % (srcl,dstl)
+                sys.err.write(msg)
+                sys.exit(1)
+                
             dsth = symdest + os.path.basename(name) + ".HDF"
-            srch = dest    + os.path.basename(name) + ".HDF"
-            if os.path.islink(dsth):
+            srch = l1bdir  + os.path.basename(name) + ".HDF"
+            if os.path.exists(dsth):
                 os.remove(dsth)
             try:
                 os.symlink(srch,dsth)
             except:
-                pass
-        #add scans to db
-        addData(scans)
+                msg = "Could not link hdf file %s to %s\n" % (srch,dsth)
+                sys.err.write(msg)
+                sys.exit(1)
+                 
 
         #create zpt-files
-        zptcom = "~/bin/createzpt.sh %s%s.LOG" %(dest,os.path.basename(name))
-        stin,stou, = os.popen4(zptcom)
-        lines=stou.readlines()
-        stin.close()
-        stou.close()
+        zptcom = "~/bin/create_tp_ecmwf_rss2 %s%s.LOG" %(l1bdir,os.path.basename(name))
+        os.system(zptcom)
         symdest = "%sV-%d/ECMWF/%s/" %(SMRL1B_DIR,cal,backend[0][0])
         if not os.path.exists(symdest):
            os.makedirs(symdest,0755)
 
         dstz = symdest + os.path.basename(name) + ".ZPT"
-        srcz = dest    + os.path.basename(name) + ".ZPT"
+        srcz = l1bdir    + os.path.basename(name) + ".ZPT"
         if os.path.islink(dstz):
             os.remove(dstz)
         try:
             os.symlink(srcz,dstz)
         except:
-           pass
+           msg = "Could not link logfile %s to %s\n" % (srcl,dstl)
+           sys.err.write(msg)
+           sys.exit(1)
+
+        
+        # Removing all scans from level2, level1b and scans tables from this new file
+        status = c.execute("""  delete level2
+                                from scans, level2
+                                where scans.id=level2.id 
+                                    and orbit=%s 
+                                    and freqmode in %s 
+                                    and calibration=%s """,(orbit,fqnr,cal))
+        print "scans removed from level2: " + str(status)
+
+        status = c.execute("""  delete level1b
+                                from scans ,level1b
+                                where scans.id=level1b.id 
+                                    and orbit=%s
+                                    and freqmode in %s
+                                    and calibration=%s """,(orbit,fqnr,cal))
+        print "scan removed from level1b: " + str(status)
+
+        status = c.execute("""  delete from scans
+                                where orbit=%s
+                                    and freqmode in %s
+                                    and calibration=%s """,(orbit,fqnr,cal))
+        print "scans removed from scans: " + str(status)
+        
+        
+        # Adding data from file
+        for i in scans:
+            c.execute(""" insert scans 
+                            (orbit,freqmode,calibration,scan) 
+                            values (%s,%s,%s,%s) """,(i['Orbit'],i['fm'],i['cal'],i['nr']))
+            c.execute(""" insert level1b
+                            (id,formatMajor,formatMinor,attitudeVersion,mjd,date,latitude,longitude,rssdate)
+                            select id,%s,%s,%s,%s,%s,%s,%s,now()
+                            from scans
+                            where scans.orbit=%s and scans.freqmode=%s and scans.calibration=%s 
+                                and scans.scan=%s """,(i['Version']>>8,i['Version']&0xFF,i['Level']>>8,i['MJD'],mjdtoutc(i['MJD']),i['Latitude'],i['Longitude'],i['Orbit'],i['fm'],i['cal'],i['nr']))
+
+        
+        
+        # Starting jobs related to the file
+        status = c.execute("""  select maxproctime,Freqmodes.freqmode,name,Freqmodes.fqid,qsmr 
+                                from Freqmodes natural join Versions
+                                where Freqmodes.freqmode in %s and calibration=%s and active""",(fqnr,cal))
+
+        active_modes = c.fetchall()
         #for every active freqmode queue a job
-        for ii in activefreq:
-            com = "cd /home/odinop/logs && echo \"~/bin/odinrun_Qsmr-2-0 %X %d %s\" | qsub -qstratos -l walltime=%s -N %s.%X.2-0\n" % (orbit,cal,ii[0],ii[1],ii[0],orbit)
-            print com
-            stin,stou, = os.popen4(com)
-            lines = stou.readlines()
+        for amode in active_modes:
+            process_time = amode[0]
+            fmnr = amode[1]
+            fmname = amode[2]
+            fqid = amode[3]
+            version = amode[4]
+
+            com = "cd /home/odinop/logs && echo \"~/bin/odinrun_Qsmr-%s %X %d %s\" | qsub -qstratos -l walltime=%s -N %s.%X.%s\n" % (version,orbit,cal,fmname,process_time,fmname,orbit,version)
+            stin,stou,sterr = os.popen3(com)
+            sout = stou.readlines()
+            serr = sterr.readlines()
+            print sout
+            print serr
+            sterr.close()
             stin.close()
             stou.close()
             
@@ -123,8 +195,8 @@ def addData(sc):
             a.append(param)
     for ii in a:
         cur.execute("""delete level2
-                        from scans,level2
-                        where orbit=%s and freqmode=%s 
+                       from scans natural join level2
+                       where orbit=%s and freqmode=%s 
                             and calibration=%s
                             and scans.id=level2.id""",(ii[0],ii[1],ii[2]))
         
@@ -142,8 +214,8 @@ def addData(sc):
                         (orbit,freqmode,calibration,scan) 
                         values (%s,%s,%s,%s)""",(i['Orbit'],i['fm'],i['cal'],i['nr']))
         cur.execute("""insert level1b
-                        (id,formatMajor,formatMinor,attitudeVersion,mjd,date,latitude,longitude)
-                        select id,%s,%s,%s,%s,%s,%s,%s
+                        (id,formatMajor,formatMinor,attitudeVersion,mjd,date,latitude,longitude,rssdate)
+                        select id,%s,%s,%s,%s,%s,%s,%s,now()
                         from scans
                         where scans.orbit=%s and scans.freqmode=%s and scans.calibration=%s 
                             and scans.scan=%s""",(i['Version']>>8,i['Version']&0xFF,i['Level']>>8,i['MJD'],mjdtoutc(i['MJD']),i['Latitude'],i['Longitude'],i['Orbit'],i['fm'],i['cal'],i['nr']))
@@ -194,8 +266,9 @@ def getFM(scan):
     fm = []
     for i in scan:
         fmnr=i['Source'].split("=")
-        if not int(fmnr[1]) in fm:
-            fm.append(int(fmnr[1]))
+        if len(fmnr)==2:
+            if not int(fmnr[1]) in fm:
+                fm.append(int(fmnr[1]))
     return fm
 
 def getScans(data):
@@ -209,7 +282,10 @@ def getScans(data):
             if reset:
                 count=count+1
                 fmnr=i['Source'].split("=")
-                i['fm']=int(fmnr[1])
+                if len(fmnr)==2:
+                    i['fm']=int(fmnr[1])
+                else:
+                    i['fm']=0
                 i['cal']=i['Level']&0xFF
                 i['att']=i['Level']>>8
                 i['nr']=count
@@ -237,7 +313,7 @@ def genL1bDir(fmname,cal,orb):
     cc= db.cursor()
     status = cc.execute("""select distinct backend from Freqmodes where freqmode in %s""",(fmname,))
     result = cc.fetchall()
-    dir = "%sV-%d/%s/%X/" %(LEVEL1B_DIR,cal,result[0][0],orb>>8)
+    dir = "%sV-%d/%s/%0.2X/" %(LEVEL1B_DIR,cal,result[0][0],orb>>8)
     cc.close()
     return dir
 

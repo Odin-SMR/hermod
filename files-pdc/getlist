@@ -1,6 +1,6 @@
 #!/usr/bin/expect --
 set timeout 60
-spawn /usr/lib/heimdal/bin/ftp -p esrange.pdc.kth.se
+spawn /usr/bin/kftp -p esrange.pdc.kth.se
 expect "Name*):" 
 send "donal\r"
 expect "ftp> "

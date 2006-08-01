@@ -1,7 +1,7 @@
 #!/usr/bin/expect --
 set timeout 600
-set prompt "toad:*>"
-spawn /usr/lib/heimdal/bin/telnet -f -l donal esrange.pdc.kth.se
+set prompt ":~>"
+spawn /usr/bin/ktelnet -f -l donal esrange.pdc.kth.se
 expect $prompt 
 send ".odin/odinlist\r"
 expect $prompt

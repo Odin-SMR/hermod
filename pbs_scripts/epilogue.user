@@ -1,0 +1,25 @@
+#!/bin/python
+import commands,nis,sys,os
+
+print "### System information:"
+print "###"
+
+for i in os.uname():
+  print "### "+ i
+
+print "###"
+
+for i in sys.argv:
+  print "### "+i
+
+print "###"
+
+for i in nis.cat("auto.odin").keys():
+  ec=commands.getstatusoutput('ls /odin/'+i)
+  if ec[0]:
+    print "### Warning:"+ i+" not present"
+
+status = getstatusoutput("find /tmp/ -mmin +600 -user $user -maxdepth 1 -type d -regex ^/tmp/Tmp.* -exec rm -r \{\} \;")
+
+
+sys.exit(0)

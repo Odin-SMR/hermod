@@ -1,6 +1,6 @@
 #!/usr/bin/expect --
 set timeout 60
-spawn kinit -l 2h -f donal@NADA.KTH.SE
+spawn kinit -l 168h -f donal@NADA.KTH.SE
 expect "Password*:"
-send   "d/HRnsvugv\r"
+send   "***REMOVED***\r"
 wait

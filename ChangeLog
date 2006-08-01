@@ -1,3 +1,15 @@
+2006-08-01 Major changes <joakim.moller@chalmers.se>
+	
+	* Almost all files: fqid is a new parameter in level2 table. Major
+	parts of the sourcecode was rewritten. No fundamental changes in
+	functionality
+
+	* l1b/insertFiles.py: a compiled matlab script runs instead of
+	create_tp
+
+	* l1b/rerunOrbits.py: changed in-parameter. see usage()
+
+	
 2005-10-19 Error to stderr <joakim.moller@chalmers.se>
 
 	* l1b/insertFiles.py: Moving files to a spool_failure director i files not

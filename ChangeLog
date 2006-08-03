@@ -1,3 +1,10 @@
+2006-08-02 Objectoriented readFreq <joakim.moller@chalmers.se>
+
+	* l2/readFreq.py: Total remake of structural design - towards making
+	it easy to reuse code or use it in the python interpreter.
+
+	* l2/collectStd.py: removed, not needed anymore
+
 2006-08-01 Major changes <joakim.moller@chalmers.se>
 	
 	* Almost all files: fqid is a new parameter in level2 table. Major

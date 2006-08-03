@@ -115,7 +115,11 @@ class Level2:
         Removes matfiles and moves err-files
         """
         os.system("rm -f "+self.matfile)
-        shutil.move(self.errfile,self.inffile)
+        try:
+            shutil.move(self.errfile,self.inffile)
+        except IOError:
+            mesg = "Couldn't move %s to $s\n" % (self.errfile,self.inffile)
+            sys.stderr.write(mesg)
 
     def close(self):
         """
@@ -188,7 +192,7 @@ if __name__ == "__main__":
     l2p.dell2()
     l2p.readl2()
     l2p.addData()
-    #l2p.cleanFiles()
+    l2p.cleanFiles()
     l2p.close()
     
 #        ##Read the matfiles

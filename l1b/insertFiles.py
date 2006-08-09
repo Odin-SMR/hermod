@@ -16,6 +16,9 @@ SMRL1B_DIR="/odin/smr/Data/SMRl1b"
 
 #Connect to database
 
+class HermodError(Exception):
+    pass
+
 class Level1b:
     def __init__(self,file,openDatabase):
         self.origHDFfile = file
@@ -33,20 +36,18 @@ class Level1b:
             self.SMR = [ dict(zip(keys,d)) for d in lists ]
         else:
             mesg = "%s: Not a valid extension: %s \n" % (file,extension)
-            sys.stderr.write(mesg)
-            sys.exit(1)
+            raise HermodError(mesg)
 
     def setNames(self):
         #Reads sourcesfield and gives a list of freqmodes in the file
         self.freqmodes = list(set([int(y['Source'].split('FM=')[1]) for y in self.SMR]))
+        self.freqmodes.append(0)
         calibrations = list(set([y['Level']&0xff for y in self.SMR]))
         orbits = list(set([int(y['Orbit']) for y in self.SMR]))
         if len(calibrations)<>1:
-            sys.stderr.write("Warning none or many calibrations")
-            sys.exit(1)
+            raise HermodError("-None or many calibrations")
         if len(orbits)<>1:
-            sys.stderr.write("Warning none or many orbits")
-            sys.exit(1)
+            raise HermodError("-None or many orbits")
         self.calibration = calibrations[0]
         self.orbit = orbits[0]
         cur = self.openDB.cursor(MySQLdb.cursors.DictCursor)
@@ -59,9 +60,6 @@ class Level1b:
         status = cur.execute("""select * from Freqmodes where freqmode in %s""",(self.freqmodes,))
         self.transitions= [transitions.Transition(a,self) for a in cur]
         cur.close()
-                
-        
-        
         
     def getScans(self):
         scan=[]
@@ -149,7 +147,13 @@ class Level1b:
         to %s\n""" % (str(inst),self.origLOGfile,self.destLOGfile)
             sys.stderr.write(mesg)
             sys.excepthook(sys.exc_info()[0],sys.exc_info()[1],sys.exc_info()[2])
-        os.system("/home/odinop/bin/create_tp_ecmwf_rss2 " + self.destLOGfile)
+        f,h,g = os.popen3("/home/odinop/bin/create_tp_ecmwf_rss2 " + self.destLOGfile)
+        f.close()
+        h.close()
+        lines = g.readlines()
+        g.close()
+        if lines<>[]:
+            sys.stderr.writelines()
         try:
             os.remove(self.linkZPTfile)
         except OSError:
@@ -164,7 +168,7 @@ class Level1b:
             sys.excepthook(sys.exc_info()[0],sys.exc_info()[1],sys.exc_info()[2])
         for a in self.transitions:
             a.createDirectories()
-            a.moveCreateAndLink()
+            a.createLink()
             a.queue()
             
 def test(file):
@@ -179,10 +183,15 @@ def main():
     files=sys.argv[1:]
     #for every file in argumentlist
     for file in files:
-        x = Level1b(file,db)
+        print file
+        try:
+            x = Level1b(file,db)
+        except HermodError,inst:
+            print inst
+            continue
         x.cleanDatabase()
         x.addDataL1b()
-        x.moveCreateFiles
+        x.moveCreateFiles()
     db.close()
         
 
@@ -217,7 +226,7 @@ def mjdtoutc(mjdnr):
     ticks    = (dayfrac-int(dayfrac/60)*60.0)
     secs     = int(ticks)
     ticks    = ticks- secs
-    ret = str(year)+"-"+str(month)+"-"+str(day)+" "+str(hour)+":"+str(minute)+":"+str(secs+ticks)
+    ret = "%0.4i-%0.2i-%0.2i %0.2i:%0.2i:%f" %(year,month,day,hour,minute,secs+ticks)
     return ret
 
     

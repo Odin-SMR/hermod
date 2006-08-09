@@ -1,3 +1,8 @@
+2006-08-09 Bugfixes of last change <joakim.moller@chalmers.se>
+
+	* l1b/insertFiles.py,l1b/transitions.py: a lot of small bugs
+	corrected.
+
 2006-08-08 Objectorieted insertFiles<joakim.moller@chalmers.se>
 
 	* l1b/insertFiles.py: Total remake of structural design.

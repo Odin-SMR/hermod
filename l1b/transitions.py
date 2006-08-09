@@ -40,10 +40,12 @@ class Transition:
         self.linkLOGfile = "%s/V-%i/%s/%s%0.4X.LOG" % (SMRL1B_DIR,self.calibration,self.name,self.prefix,self.orbit)
 
         self.files = [self.linkHDFfile, self.linkLOGfile,]
+        print self.linkHDFfile
+        print self.linkLOGfile
 
     def createDirectories(self):
         for i in self.files:
-            directory = os.path.basename(i)
+            directory = os.path.dirname(i)
             if os.path.exists(directory):
                 pass
             else:
@@ -75,8 +77,8 @@ class Transition:
             os.remove(self.linkLOGfile)
         except OSError:
             pass
-         try:    
-            os.symlink(self.destLOFfile,self.linkLOGfile)
+        try:    
+            os.symlink(self.destLOGfile,self.linkLOGfile)
         except OSError,inst:
             mesg = """Errormessage: "%s"
     ...while symlinking %s
@@ -92,11 +94,10 @@ class Transition:
         cur.execute("""select * from Versions where freqmode=%s and fqid=%s and active""",(self.freqmode,self.fqid))
         for i in cur:
             startscript = '''#!/usr/bin/python
-#PBS -N %0.2i_%0.4X_%s
+#PBS -N id%0.2i.%0.4X.%s
 #PBS -l walltime=%s,nice=19
-#PBS -Z
-#PBS -V
-#PBS_O_WORKDIR /home/odinop/logs
+#PBS -q stratos
+#PBS -W QOS:normal
 
 import os,sys
 
@@ -116,10 +117,23 @@ end_tag
 stdin,stdout,stderr = os.popen3(matlab_command)
 sout = stdout.readlines()
 serr = stderr.readlines()
+stdout.close()
+stdin.close()
+stderr.close()
 sys.stdout.writelines(sout)
 sys.stderr.writelines(serr)
-command = 'ssh odinop@jet "/home/odinop/hermod/l2/readFreq.py %%0.4X %%i %%i %%i %%s' %% (%i,%i,%i,%i,'%s') 
-status=os.system(command)
-''' % (self.fqid,self.orbit,i['qsmr'],self.maxproctime,i['qsmr'],self.name,self.orbit,self.orbit,self.calibration,self.freqmode,self.fqid,i['qsmr'])
-            print startscript
+command = 'ssh odinop@jet "/home/odinop/hermod/l2/readFreq.py %%0.4X %%i %%i %%i %%s"' %% (%i,%i,%i,%i,'%s') 
+f,g,h=os.popen3(command)
+sout = g.readlines()
+serr = h.readlines()
+f.close()
+g.close()
+h.close()
+''' % (self.fqid,self.orbit,i['qsmr'],self.maxproctime,i['qsmr'].replace('-','_'),self.name,self.orbit,self.orbit,self.calibration,self.freqmode,self.fqid,i['qsmr'])
+            os.chdir('/home/odinop/logs/')
+            stdin,stdout = os.popen2("qsub")
+            stdin.write(startscript)
+            stdin.close()
+            print stdout.readlines()
+            stdout.close()
         cur.close()

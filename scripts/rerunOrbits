@@ -1,0 +1,99 @@
+#!/usr/bin/python
+
+import MySQLdb
+import sys
+import shutil
+import os
+import re
+import glob,commands
+
+from hermod import hermodBase
+from hermod.l2 import level2
+from hermod.l1b import level1b
+
+
+def usage():
+    print """
+    rerunOrbits restarts processing
+    
+    rerunOrbits orbit1 orbit2 modeid calibration threshold_ratio version
+       orbit1 - first orbit number (hex)
+       orbit2 - last orbit number
+       modeid - , mode id - 0 is used for all.
+       calibration - l1b calibration nr
+       threshold_ratio - rerun if ratio (processedscans/totalscans) < threshold_ratio
+       version - qsmr version
+       
+    examples:
+        ./rerunOrbits.py 4000 40FF 29 6 .5 2-0
+  
+    Executing this command would rerun all level1b files having modeid 29 (SM_AC2ab) in
+    calibration 6 which has more than 50% scans that are not processed in the
+    interval [4000,40FF]. If 2-0 is a valid processor for that particular
+    freqmode and calibration, jobs are sent to the queue.  """
+                 
+def main():
+    db=MySQLdb.connect(host="jet",user="odinuser",passwd="***REMOVED***",db="odin")
+    
+    #Checking for parameters
+    if len(sys.argv)!=7: #missing or extra parameters -> end
+        usage()
+        sys.exit(sys.argv[0]+" :Not correct number of parameters")
+
+    orbit1=int(sys.argv[1],16)
+    orbit2=int(sys.argv[2],16)
+    fqid=sys.argv[3]
+    cal=sys.argv[4]
+    min=sys.argv[5]
+    qsmr=sys.argv[6]
+
+    if float(min)>1.0001:
+        usage()
+        sys.exit(str(min)+" : The threshold ratio should be in [0..1]")
+
+    c=db.cursor(MySQLdb.cursors.DictCursor)
+    
+    if fqid=="0": #all freqmodes
+        status=c.execute("""select * from Freqmodes natural join Versions where qsmr=%s and calibration=%s""",(qsmr,cal))
+    else:
+        status=c.execute("""select * from Freqmodes natural join Versions where qsmr=%s and Freqmodes.fqid=%s and calibration=%s""",(qsmr,fqid,cal))
+    for mod in c:
+        print "Mode: " + mod['name']
+        cur = db.cursor(MySQLdb.cursors.SSDictCursor)
+        status=cur.execute("""create temporary table allscans 
+                                select orbit,freqmode,calibration,count(*) as cnt 
+                                from scans 
+                                where orbit<=%s and orbit>=%s 
+                                    and calibration=%s 
+                                    and freqmode=%s  
+                                group by orbit,freqmode,calibration""",(orbit2,orbit1,mod['calibration'],mod['freqmode']))
+        result=cur.fetchall()
+        status=cur.execute("""create temporary table procscans 
+                                select orbit,freqmode,calibration,version,fqid,count(*) as cnt 
+                                from scans natural join level2
+                                where orbit<=%s 
+                                    and orbit>=%s
+                                    and version=%s 
+                                    and calibration=%s 
+                                    and fqid=%s
+                                    and freqmode=%s
+                                group by orbit,freqmode,version,calibration,fqid""",(orbit2,orbit1,qsmr,mod['calibration'],mod['fqid'],mod['freqmode']))
+        result=cur.fetchall()
+        status=cur.execute("""select allscans.orbit as orbit,procscans.cnt/allscans.cnt as ratio 
+                            from allscans left join procscans using (orbit,freqmode,calibration)
+                            having (ratio<%s or ratio is null) and allscans.cnt>5""",(min,))
+
+        for o in cur: #loop over all orbits found in above selection
+            x = Level2(o['orbit'],mod['freqmode'],cal,mod['fqid'],qsmr,db)
+            x.dell2()
+            y = Level1b(x.destHDFfile)
+            y.createZPT()
+            z = Transition(mod,y)
+            z.queue('low')
+        cur.execute("""drop table allscans""")
+        cur.exccute("""drop table procscans""")
+        cur.close()
+    c.close()
+
+if __name__ == "__main__":
+    main()

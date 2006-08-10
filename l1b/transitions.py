@@ -1,4 +1,3 @@
-import insertFiles
 import MySQLdb
 import os
 import shutil
@@ -40,8 +39,6 @@ class Transition:
         self.linkLOGfile = "%s/V-%i/%s/%s%0.4X.LOG" % (SMRL1B_DIR,self.calibration,self.name,self.prefix,self.orbit)
 
         self.files = [self.linkHDFfile, self.linkLOGfile,]
-        print self.linkHDFfile
-        print self.linkLOGfile
 
     def createDirectories(self):
         for i in self.files:
@@ -86,7 +83,7 @@ class Transition:
             sys.stderr.write(mesg)
             sys.excepthook(sys.exc_info()[0],sys.exc_info()[1],sys.exc_info()[2])
             
-    def queue(self):
+    def queue(self,qos):
         """
         Creates a python PBS-script to send into queue
         """
@@ -97,7 +94,7 @@ class Transition:
 #PBS -N id%0.2i.%0.4X.%s
 #PBS -l walltime=%s,nice=19
 #PBS -q stratos
-#PBS -W QOS:normal
+#PBS -W QOS:%s
 
 import os,sys
 
@@ -129,7 +126,7 @@ serr = h.readlines()
 f.close()
 g.close()
 h.close()
-''' % (self.fqid,self.orbit,i['qsmr'],self.maxproctime,i['qsmr'].replace('-','_'),self.name,self.orbit,self.orbit,self.calibration,self.freqmode,self.fqid,i['qsmr'])
+''' % (self.fqid,self.orbit,i['qsmr'],self.maxproctime,qos,i['qsmr'].replace('-','_'),self.name,self.orbit,self.orbit,self.calibration,self.freqmode,self.fqid,i['qsmr'])
             os.chdir('/home/odinop/logs/')
             stdin,stdout = os.popen2("qsub")
             stdin.write(startscript)

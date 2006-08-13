@@ -6,7 +6,7 @@ import re
 
 from pyhdf.HDF import *
 from pyhdf.VS import *
-from hermod import hermodBase
+from hermod.hermodBase import *
 
 class Level2:
     
@@ -36,7 +36,6 @@ class Level2:
             self.inffile = "%s/SMRhdf/Qsmr-%s/%s/SCH_%s_%s%0.4X_%s.ERR" %(SMRL2_DIR,row['qsmr'],row['name'],row['midfreq'],row['l2prefix'],self.orbit,str(row['l2p']).zfill(3))
             self.matfile = "%s/SMRmat/Qsmr-%s/%s/%s%0.4X.mat" %(SMRL2_DIR,row['qsmr'],row['name'],row['prefix'],self.orbit)
             self.errfile = "%s/SMRmat/Qsmr-%s/%s/%s%0.4X.qsmr_error" %(SMRL2_DIR,row['qsmr'],row['name'],row['prefix'],self.orbit)
-            self.l1bfile = "%s/V-%i/%s/%0.2X/%s%0.4X.HDF" %(LEVEL1B_DIR,self.calibration,row['backend'],self.orbit>>8,row['prefix'],self.orbit)
             self.destHDFfile = "%s/V-%i/%s/%0.2X/%s%0.4X.HDF" %(LEVEL1B_DIR,self.calibration,row['backend'],self.orbit>>8,row['prefix'],self.orbit)
             self.destLOGfile = "%s/V-%i/%s/%0.2X/%s%0.4X.LOG" %(LEVEL1B_DIR,self.calibration,row['backend'],self.orbit>>8,row['prefix'],self.orbit)
             self.destZPTfile = "%s/V-%i/%s/%0.2X/%s%0.4X.ZPT" %(LEVEL1B_DIR,self.calibration,row['backend'],self.orbit>>8,row['prefix'],self.orbit)

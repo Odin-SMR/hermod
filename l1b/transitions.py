@@ -2,15 +2,7 @@ import MySQLdb
 import os
 import shutil
 import sys
-
-#Set path
-SPOOL_DIR= "/odin/smr/Data/spool"
-FAILURE_DIR="/odin/smr/Data/spool_failure"
-MISSING_LOG="/odin/smr/Data/spool_missing"
-LEVEL1B_DIR= "/odin/smr/Data/level1b"
-SMRL1B_DIR="/odin/smr/Data/SMRl1b"
-
-
+from hermod.hermodBase import *
 
 class Transition:
     
@@ -83,14 +75,8 @@ class Transition:
             sys.stderr.write(mesg)
             sys.excepthook(sys.exc_info()[0],sys.exc_info()[1],sys.exc_info()[2])
             
-    def queue(self,qos):
-        """
-        Creates a python PBS-script to send into queue
-        """
-        cur = self.openDB.cursor(MySQLdb.cursors.DictCursor)
-        cur.execute("""select * from Versions where freqmode=%s and fqid=%s and active""",(self.freqmode,self.fqid))
-        for i in cur:
-            startscript = '''#!/usr/bin/python
+    def genStartScript(self,qsmr,qos):
+        script = '''#!/usr/bin/python
 #PBS -N id%0.2i.%0.4X.%s
 #PBS -l walltime=%s,nice=19
 #PBS -q stratos
@@ -122,11 +108,23 @@ sys.stderr.writelines(serr)
 command = 'ssh odinop@jet "/home/odinop/hermod/l2/readFreq.py %%0.4X %%i %%i %%i %%s"' %% (%i,%i,%i,%i,'%s') 
 f,g,h=os.popen3(command)
 sout = g.readlines()
+sys.stdout.writelines(sout)
 serr = h.readlines()
+sys.stderr.writelines(serr)
 f.close()
 g.close()
 h.close()
-''' % (self.fqid,self.orbit,i['qsmr'],self.maxproctime,qos,i['qsmr'].replace('-','_'),self.name,self.orbit,self.orbit,self.calibration,self.freqmode,self.fqid,i['qsmr'])
+''' % (self.fqid,self.orbit,qsmr,self.maxproctime,qos,qsmr.replace('-','_'),self.name,self.orbit,self.orbit,self.calibration,self.freqmode,self.fqid,qsmr)
+        return script
+
+    def queue(self,qos):
+        """
+        Creates a python PBS-script to send into queue
+        """
+        cur = self.openDB.cursor(MySQLdb.cursors.DictCursor)
+        cur.execute("""select * from Versions where freqmode=%s and fqid=%s and active""",(self.freqmode,self.fqid))
+        for i in cur:
+            startscript = self.genStartScript(i['qsmr'],qos)
             os.chdir('/home/odinop/logs/')
             stdin,stdout = os.popen2("qsub")
             stdin.write(startscript)
@@ -134,3 +132,13 @@ h.close()
             print stdout.readlines()
             stdout.close()
         cur.close()
+
+    def forceQueue(self,qos,qsmr):
+        startscript = self.genStartScript(qsmr,qos)
+        os.chdir('/home/odinop/logs/')
+        stdin,stdout = os.popen2("qsub")
+        stdin.write(startscript)
+        stdin.close()
+        print stdout.readlines()
+        stdout.close()
+

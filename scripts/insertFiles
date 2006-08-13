@@ -1,8 +1,9 @@
 #!/usr/bin/python
 
 import MySQLdb
-from hermod.l1b import level1b
-from hermod import hermodBase
+import sys
+from hermod.l1b.level1b import *
+from hermod.hermodBase import *
 
 def main():
     db = MySQLdb.connect(host="jet",user="odinuser",passwd="***REMOVED***",db="odin")
@@ -20,5 +21,5 @@ def main():
         x.moveCreateFiles('normal')
     db.close()
 
-if __name__="__main__":
+if __name__=="__main__":
     main()

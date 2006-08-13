@@ -7,45 +7,48 @@ import os
 import re
 import glob,commands
 
-from hermod import hermodBase
-from hermod.l2 import level2
-from hermod.l1b import level1b
+from hermod.hermodBase import *
+from hermod.l2.level2 import *
+from hermod.l1b.level1b import *
+from hermod.l1b.transitions import *
 
 
 def usage():
     print """
     rerunOrbits restarts processing
     
-    rerunOrbits orbit1 orbit2 modeid calibration threshold_ratio version
+    rerunOrbits orbit1 orbit2 modeid calibration threshold_ratio version priority
        orbit1 - first orbit number (hex)
        orbit2 - last orbit number
        modeid - , mode id - 0 is used for all.
        calibration - l1b calibration nr
        threshold_ratio - rerun if ratio (processedscans/totalscans) < threshold_ratio
        version - qsmr version
+       priority - low,normal,high
        
     examples:
-        ./rerunOrbits.py 4000 40FF 29 6 .5 2-0
+        ./rerunOrbits.py 4000 40FF 29 6 .5 2-0 low
   
     Executing this command would rerun all level1b files having modeid 29 (SM_AC2ab) in
     calibration 6 which has more than 50% scans that are not processed in the
     interval [4000,40FF]. If 2-0 is a valid processor for that particular
-    freqmode and calibration, jobs are sent to the queue.  """
+    freqmode and calibration, jobs are sent to the queue. low gives a certain priority in queue """
                  
 def main():
     db=MySQLdb.connect(host="jet",user="odinuser",passwd="***REMOVED***",db="odin")
     
     #Checking for parameters
-    if len(sys.argv)!=7: #missing or extra parameters -> end
+    if len(sys.argv)!=8: #missing or extra parameters -> end
         usage()
         sys.exit(sys.argv[0]+" :Not correct number of parameters")
 
     orbit1=int(sys.argv[1],16)
     orbit2=int(sys.argv[2],16)
-    fqid=sys.argv[3]
-    cal=sys.argv[4]
-    min=sys.argv[5]
+    fqid=int(sys.argv[3])
+    cal=int(sys.argv[4])
+    min=float(sys.argv[5])
     qsmr=sys.argv[6]
+    qos=sys.argv[7]
 
     if float(min)>1.0001:
         usage()
@@ -59,7 +62,7 @@ def main():
         status=c.execute("""select * from Freqmodes natural join Versions where qsmr=%s and Freqmodes.fqid=%s and calibration=%s""",(qsmr,fqid,cal))
     for mod in c:
         print "Mode: " + mod['name']
-        cur = db.cursor(MySQLdb.cursors.SSDictCursor)
+        cur = db.cursor(MySQLdb.cursors.DictCursor)
         status=cur.execute("""create temporary table allscans 
                                 select orbit,freqmode,calibration,count(*) as cnt 
                                 from scans 
@@ -79,19 +82,16 @@ def main():
                                     and freqmode=%s
                                 group by orbit,freqmode,version,calibration,fqid""",(orbit2,orbit1,qsmr,mod['calibration'],mod['fqid'],mod['freqmode']))
         result=cur.fetchall()
-        status=cur.execute("""select allscans.orbit as orbit,procscans.cnt/allscans.cnt as ratio 
+        status=cur.execute("""select allscans.orbit as orbit,allscans.cnt,procscans.cnt/allscans.cnt as ratio 
                             from allscans left join procscans using (orbit,freqmode,calibration)
                             having (ratio<%s or ratio is null) and allscans.cnt>5""",(min,))
 
         for o in cur: #loop over all orbits found in above selection
-            x = Level2(o['orbit'],mod['freqmode'],cal,mod['fqid'],qsmr,db)
-            x.dell2()
-            y = Level1b(x.destHDFfile)
-            y.createZPT()
-            z = Transition(mod,y)
-            z.queue('low')
+            y = Level1bResolver(o['orbit'],cal,mod['freqmode'],mod['fqid'],db)
+            y.cleanDatabase()
+            y.createFiles(qos,qsmr)
         cur.execute("""drop table allscans""")
-        cur.exccute("""drop table procscans""")
+        cur.execute("""drop table procscans""")
         cur.close()
     c.close()
 

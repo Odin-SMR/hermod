@@ -24,7 +24,7 @@ import re
 
 from pyhdf.HDF import *
 from pyhdf.VS import *
-from hermod.l2 import level2
+from hermod.l2.level2 import *
 
 def usage():
     """

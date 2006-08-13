@@ -1,3 +1,11 @@
+2006-08-13 Bugfixes of last change <joakim.moller@chalmers.se>
+
+	* l1b/level1b.py, l1b/transitions. py,l2/level2.py: Fixed typos,
+	logical errors, referenses etc.
+
+	* scripts/insertFiles, scripts/readFreq, scripts/rerunOrbits: fixed
+	errors.
+
 2006-08-10 Classes and scripts - Hermod package <joakim.moller@chalmers.se>
 
 	* l2/level2.py, l1b/level1b.py, l1b/transitions.py: Classes providing

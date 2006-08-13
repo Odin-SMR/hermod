@@ -4,9 +4,9 @@ import MySQLdb
 import sys
 import shutil
 import os
-import re
-import glob,commands,ReadHDF,transitions
-from hermod import hermodBase
+from hermod.hermodBase import *
+from hermod.l1b import ReadHDF
+from hermod.l1b import transitions
 
 class Level1b:
     def __init__(self,file,openDatabase):
@@ -142,14 +142,14 @@ class Level1b:
             a.createLink()
             a.queue(qos)
  
-    def createZPT():
+    def createZPT(self):
         f,h,g = os.popen3("/home/odinop/bin/create_tp_ecmwf_rss2 " + self.destLOGfile)
         f.close()
         h.close()
         lines = g.readlines()
         g.close()
         if lines<>[]:
-            sys.stderr.writelines()
+            sys.stderr.writelines(lines)
         try:
             os.remove(self.linkZPTfile)
         except OSError:
@@ -163,7 +163,47 @@ class Level1b:
             sys.stderr.write(mesg)
             sys.excepthook(sys.exc_info()[0],sys.exc_info()[1],sys.exc_info()[2])
 
+class Level1bResolver(Level1b):
+    def __init__(self,orbitDecNr,calibration,freqmode,fqid,openDatabase):
+        self.freqmodes = [freqmode]
+        self.orbit = orbitDecNr
+        self.calibration = calibration
+        self.fqid = fqid
+        self.openDB = openDatabase
+        self.origHDFfile = ""
+        self.origLOGfile = ""
+        self.setNames()
 
+    def setNames(self):
+        cur = self.openDB.cursor(MySQLdb.cursors.DictCursor)
+        cur.execute("""select * from Freqmodes where freqmode=%s and fqid=%s""",(self.freqmodes[0],self.fqid))
+        for i in cur: # This is only supposed to run once
+            self.destHDFfile = "%s/V-%i/%s/%0.2X/%s%0.4X.HDF" %(LEVEL1B_DIR,self.calibration,i['backend'],self.orbit>>8,i['prefix'],self.orbit)
+            self.destLOGfile = "%s/V-%i/%s/%0.2X/%s%0.4X.LOG" %(LEVEL1B_DIR,self.calibration,i['backend'],self.orbit>>8,i['prefix'],self.orbit)
+            self.destZPTfile = "%s/V-%i/%s/%0.2X/%s%0.4X.ZPT" %(LEVEL1B_DIR,self.calibration,i['backend'],self.orbit>>8,i['prefix'],self.orbit)
+            self.linkZPTfile = "%s/V-%i/ECMWF/%s/%s%0.4X.ZPT" %(SMRL1B_DIR,self.calibration,i['backend'],i['prefix'],self.orbit)
+        self.transitions= [transitions.Transition(a,self) for a in cur]
+        cur.close()
+    
+    def cleanDatabase(self):
+        cur = self.openDB.cursor()
+        # Removing all scans from level2, level1b and scans tables from this new file
+        for freqmode in self.freqmodes:
+            l2status = cur.execute("""  delete level2
+                                from scans, level2
+                                where scans.id=level2.id 
+                                    and orbit=%s 
+                                    and freqmode = %s 
+                                    and calibration=%s """,(self.orbit,freqmode,self.calibration))
+
+        cur.close()
+        return l2status
+
+    def createFiles(self,qos,qsmr):
+        self.createZPT()
+        for a in self.transitions:
+            a.forceQueue(qos,qsmr)
+ 
            
 def test(file):
     db = MySQLdb.connect(host="jet",user="odinuser",passwd="***REMOVED***",db="odin")

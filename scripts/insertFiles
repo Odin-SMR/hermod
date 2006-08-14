@@ -1,4 +1,12 @@
 #!/usr/bin/python
+"""
+insertFiles - reads files given as an argument and inserts it into the odin
+database.
+
+Example:
+    insertFiles *.HDF
+    insertFiles /odin/smr/Data/spool/OB1B3535.HDF
+"""
 
 import MySQLdb
 import sys
@@ -6,6 +14,10 @@ from hermod.l1b.level1b import *
 from hermod.hermodBase import *
 
 def main():
+    if len(sys.argv)==1 or sys.argv[1][0]=='-':
+        print __doc__
+        sys.exit(0)
+
     db = MySQLdb.connect(host="jet",user="odinuser",passwd="***REMOVED***",db="odin")
     files=sys.argv[1:]
     #for every file in argumentlist

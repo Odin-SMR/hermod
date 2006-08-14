@@ -1,5 +1,25 @@
 #!/usr/bin/python
 
+"""rerunOrbits - restarts processing
+    
+rerunOrbits orbit1 orbit2 modeid calibration threshold_ratio version priority
+    orbit1 - first orbit number (hex)
+    orbit2 - last orbit number
+    modeid - , mode id - 0 is used for all.
+    calibration - l1b calibration nr
+    threshold_ratio - rerun if ratio (processedscans/totalscans) < threshold_ratio
+    version - qsmr version
+    priority - low,normal,high
+       
+examples:
+    ./rerunOrbits.py 4000 40FF 29 6 .5 2-0 low
+
+Executing this command would rerun all level1b files having modeid 29 (SM_AC2ab) in
+calibration 6 which has more than 50% scans that are not processed in the
+interval [4000,40FF]. If 2-0 is a valid processor for that particular
+freqmode and calibration, jobs are sent to the queue. low gives a certain priority in queue.
+"""
+
 import MySQLdb
 import sys
 import shutil
@@ -13,33 +33,12 @@ from hermod.l1b.level1b import *
 from hermod.l1b.transitions import *
 
 
-def usage():
-    print """
-    rerunOrbits restarts processing
-    
-    rerunOrbits orbit1 orbit2 modeid calibration threshold_ratio version priority
-       orbit1 - first orbit number (hex)
-       orbit2 - last orbit number
-       modeid - , mode id - 0 is used for all.
-       calibration - l1b calibration nr
-       threshold_ratio - rerun if ratio (processedscans/totalscans) < threshold_ratio
-       version - qsmr version
-       priority - low,normal,high
-       
-    examples:
-        ./rerunOrbits.py 4000 40FF 29 6 .5 2-0 low
-  
-    Executing this command would rerun all level1b files having modeid 29 (SM_AC2ab) in
-    calibration 6 which has more than 50% scans that are not processed in the
-    interval [4000,40FF]. If 2-0 is a valid processor for that particular
-    freqmode and calibration, jobs are sent to the queue. low gives a certain priority in queue """
-                 
 def main():
     db=MySQLdb.connect(host="jet",user="odinuser",passwd="***REMOVED***",db="odin")
     
     #Checking for parameters
     if len(sys.argv)!=8: #missing or extra parameters -> end
-        usage()
+        print __doc__
         sys.exit(sys.argv[0]+" :Not correct number of parameters")
 
     orbit1=int(sys.argv[1],16)

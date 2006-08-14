@@ -1,3 +1,9 @@
+2006-06-14 Release 1.0.0rc1 <joakim.moller@chalmers.se>
+
+	* l1b/levele1b.py, l1b/transitions.py, l2/level2.py,
+	scripts/rerunOrbits, scripts/readFreq, scripts/insertFiles, setup.py:
+	Are members of the 1.0.0rc1.
+
 2006-08-13 Bugfixes of last change <joakim.moller@chalmers.se>
 
 	* l1b/level1b.py, l1b/transitions. py,l2/level2.py: Fixed typos,

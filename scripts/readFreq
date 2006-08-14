@@ -8,8 +8,8 @@ information to the database.
   or preferably
 ./readFreq.py <orbit> <calibration> <freqmode> <fqid> <qsmr version>
 
-The latter is prefered because is one sql-question faster and more secure for
-future work. The first will be deprecated soon.
+The latter is prefered because it is one sql-question faster and also more
+secure for future work. The first will be deprecated soon.
 
 example:
     ./readFreq 5C52 4 SM_AC2ab 2-0
@@ -26,26 +26,6 @@ from pyhdf.HDF import *
 from pyhdf.VS import *
 from hermod.l2.level2 import *
 
-def usage():
-    """
-    Prints short manual
-    """
-    print """
-This script is called after processing of a l2p-file in ~/bin/odinrun. It adds 
-information to the database.
-
-./readFreq.py <hex orbit> <calibration> <modename> <qsmr version>
-  or preferably
-./readFreq.py <orbit> <calibration> <freqmode> <fqid> <qsmr version>
-
-The latter is prefered because it is one sql-question faster and more secure for
-future work. The first will be deprecated soon.
-
-example:
-    ./readFreq 5C52 4 SM_AC2ab 2-0
-    ./readFreq 5C52 4 1 29 2-0
-    """
-
 if __name__ == "__main__":
     db = MySQLdb.connect(host="jet",user="odinuser",passwd="***REMOVED***",db="odin")
     #get commandline parameters
@@ -57,7 +37,7 @@ if __name__ == "__main__":
             fqid=int(sys.argv[4])
             qsmr=sys.argv[5]
         except ValueError:
-            usage()
+            print __doc__
             sys.exit(sys.argv[0] +": Not valid parmeters")
     else:
         if len(sys.argv) == 5:
@@ -67,7 +47,7 @@ if __name__ == "__main__":
                 mode=sys.argv[3]
                 qsmr=sys.argv[4]
             except ValueError:
-                usage()
+                print __doc__
                 sys.exit(sys.argv[0] +": Not valid parmeters")
             c = db.cursor()
             status=c.execute("""select Freqmodes.fqid ,Freqmodes.freqmode from Freqmodes natural join Versions where name=%s and calibration=%s and qsmr=%s""" ,(mode,cal,qsmr))
@@ -77,7 +57,7 @@ if __name__ == "__main__":
             freq = r[1]
         else:
             if len(sys.argv) <> 6:
-                usage()
+                print __doc__
                 sys.exit(sys.argv[0] + ": Not correct number of parameters")
     l2p = Level2(orbit,freq,cal,fqid,qsmr,db)
 

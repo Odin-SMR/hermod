@@ -1,6 +1,6 @@
 from distutils.core import setup,Extension
 setup(name='hermod',
-        version='1.0.0rc1',
+        version='1.0.0rc1a',
         package_dir={'hermod': ''},
         packages=['hermod', 'hermod.l1b','hermod.l2'],
         description = 'Routines to simplify and improve speed of odinprocessing',

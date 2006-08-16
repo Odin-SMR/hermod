@@ -29,14 +29,18 @@ class Level1b:
 
     def setNames(self):
         #Reads sourcesfield and gives a list of freqmodes in the file
-        self.freqmodes = list(set([int(y['Source'].split('FM=')[1]) for y in self.SMR]))
-        self.freqmodes.append(0)
+        freqmodes = [0]
+        for y in self.SMR:
+            parts = y["Source"].split("FM=")
+            if len(parts)>1:
+                freqmodes.append(int(parts[1]))
+        self.freqmodes = list(set(freqmodes))
         calibrations = list(set([y['Level']&0xff for y in self.SMR]))
         orbits = list(set([int(y['Orbit']) for y in self.SMR]))
         if len(calibrations)<>1:
-            raise HermodError("-None or many calibrations")
+            raise HermodError("- None or many calibrations %s" % str(calibrations))
         if len(orbits)<>1:
-            raise HermodError("-None or many orbits")
+            raise HermodError("- None or many orbits %s" % str(orbits))
         self.calibration = calibrations[0]
         self.orbit = orbits[0]
         cur = self.openDB.cursor(MySQLdb.cursors.DictCursor)
@@ -108,7 +112,7 @@ class Level1b:
 
     def moveCreateFiles(self,qos):
         for i in [self.destHDFfile,self.destLOGfile,self.destZPTfile]:
-            directory = os.path.basename(i)
+            directory = os.path.dirname(i)
             if os.path.exists(directory):
                 pass
             else:

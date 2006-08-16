@@ -1,4 +1,10 @@
-2006-06-14 Release 1.0.0rc1 <joakim.moller@chalmers.se>
+2006-08-16 Release 1.0.1 <joakim.moller@chalmers.se>
+	* l1b/rerunOrbits.py, l1b/insertFiles.py, l2/readFreq.py: Removed, not
+	used any more.
+
+	* l1b/level1b.py: Creates directories in the right way.
+
+2006-08-14 Release 1.0.0rc1 <joakim.moller@chalmers.se>
 
 	* l1b/levele1b.py, l1b/transitions.py, l2/level2.py,
 	scripts/rerunOrbits, scripts/readFreq, scripts/insertFiles, setup.py:

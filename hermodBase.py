@@ -42,4 +42,13 @@ def mjdtoutc(mjdnr):
     ret = "%0.4i-%0.2i-%0.2i %0.2i:%0.2i:%f" %(year,month,day,hour,minute,secs+ticks)
     return ret
 
+class files:
+    from os import walk
+    def __init__(self):
+        self dir = SMRL2_DIR
 
+    def listOf(self):
+        self.list = []
+        for root,dirs,files in walk(self.dir):
+            self.list.extend([root+'/'+a for a in files])
+            

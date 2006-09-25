@@ -55,8 +55,8 @@ def main():
 
     c=db.cursor(MySQLdb.cursors.DictCursor)
     
-    if fqid=="0": #all freqmodes
-        status=c.execute("""select * from Freqmodes natural join Versions where qsmr=%s and calibration=%s""",(qsmr,cal))
+    if fqid==0: #all freqmodes
+        status=c.execute("""select * from Freqmodes natural join Versions where qsmr=%s and calibration=%s and active""",(qsmr,cal))
     else:
         status=c.execute("""select * from Freqmodes natural join Versions where qsmr=%s and Freqmodes.fqid=%s and calibration=%s""",(qsmr,fqid,cal))
     for mod in c:

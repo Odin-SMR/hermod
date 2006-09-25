@@ -1,3 +1,6 @@
+2006-09-25 Release 1.0.2 <joakim.moller@chalmers.se>
+	* scripts/rerunOrbits: Setting fqid=0 reruns all active modes.
+
 2006-08-16 Release 1.0.1 <joakim.moller@chalmers.se>
 	* l1b/rerunOrbits.py, l1b/insertFiles.py, l2/readFreq.py: Removed, not
 	used any more.

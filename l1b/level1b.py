@@ -35,13 +35,16 @@ class Level1b:
             if len(parts)>1:
                 freqmodes.append(int(parts[1]))
         self.freqmodes = list(set(freqmodes))
+        if len(self.freqmodes)<2:
+            raise HermodError("- Calibration 0")
         calibrations = list(set([y['Level']&0xff for y in self.SMR]))
         orbits = list(set([int(y['Orbit']) for y in self.SMR]))
         if len(calibrations)<>1:
-            raise HermodError("- None or many calibrations %s" % str(calibrations))
+            self.calibration = calibrations[1]
+        else:
+            self.calibration = calibrations[0]
         if len(orbits)<>1:
             raise HermodError("- None or many orbits %s" % str(orbits))
-        self.calibration = calibrations[0]
         self.orbit = orbits[0]
         cur = self.openDB.cursor(MySQLdb.cursors.DictCursor)
         status = cur.execute("""select distinct backend,prefix from Freqmodes where freqmode in %s""",(self.freqmodes,))

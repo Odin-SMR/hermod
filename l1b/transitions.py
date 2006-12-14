@@ -79,7 +79,7 @@ class Transition:
         script = '''#!/usr/bin/python
 #PBS -N id%0.2i.%0.4X.%s
 #PBS -l walltime=%s,nice=19
-#PBS -q stratos
+#PBS -q new
 #PBS -W QOS:%s
 
 import os,sys

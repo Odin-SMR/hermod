@@ -1,18 +1,21 @@
 from scipy import *
 from numpy import *
 
-
 from pyhdf.HDF import *
 from pyhdf.VS import *
 
-import pylab
+import pylab as p
+#import matplotlib.axes3d as p3
+import matplotlib.toolkits.basemap as bm
 
 import sys 
 import MySQLdb
 import glob
-
-HEIGHT_BINS = 50
-LAT_BINS = 45
+UPPER_LIMIT=80 #km
+LOWER_LIMIT=5 #km
+HEIGHT_BINS = 10
+LAT_BINS = 10
+LONG_BINS = 20
 class SMRLevel2:
    
     def __init__(self,files):
@@ -56,6 +59,7 @@ class SMRLevel2:
                 sys.stderr.write(mesg)
                 exit
 
+
             for a in r:
                 self.species.add( a['SpeciesNames']  )
                 prof = [ i for i in d if i['ID2']==a['ID2']]
@@ -71,21 +75,69 @@ class SMRLevel2:
     def zonalmean(self):
         for i in self.species:
             #bin profiles
-            map = empty((len(self.profiles[i]),LAT_BINS,HEIGHT_BINS))
-            map.fill(nan)
+            map = zeros((LAT_BINS,HEIGHT_BINS),dtype=float)
+            count = zeros((LAT_BINS,HEIGHT_BINS),dtype=int)
             lats = array([j.geo['Latitude'] for j in self.profiles[i]])
             bins = digitize(lats,linspace(-90,90,LAT_BINS))
-            for j,v in enumerate(bins):
-                map[j,v] = self.profiles[i][j].profile
-            print map.shape
-            print nansum(map,axis=0).shape
-            
-            pylab.axis([-90,90,5,100])
-            pylab.imshow(pylab.array(nansum(map,axis=0).tolist()))
 
-            pylab.title(i)
-            pylab.show()
-                    
+            # fill bins, count when a value is added to a bin
+            for j,v in enumerate(bins):
+                map[int(v),:]= map[int(v),:] + nan_to_num(self.profiles[i][j].profile)
+                count[int(v),:] = count[int(v),:] + where(isfinite(self.profiles[i][j].profile),ones(HEIGHT_BINS),zeros(HEIGHT_BINS))
+
+            # Calculate mean, Remove negative values
+            z = nan_to_num(map/count)
+            z[z<0] = 0.0
+            zonalmean = z
+
+            #draw plot
+            p.figure()
+            C = p.contourf(linspace(-90,90,LAT_BINS),linspace(LOWER_LIMIT,UPPER_LIMIT,HEIGHT_BINS),nan_to_num(zonalmean).transpose(),20)
+            p.colorbar()
+            p.title(i)
+            p.xlabel('latitude (deg)')
+            p.ylabel('altitude (km)')
+            figfile = '%s.png' % i.split()[0]
+            p.savefig(figfile)
+
+    def globalplot(self):
+        for i in self.species:
+            #bin profiles
+            maps = zeros((LAT_BINS,LONG_BINS,HEIGHT_BINS),dtype=float)
+            count = zeros((LAT_BINS,LONG_BINS,HEIGHT_BINS),dtype=int)
+            lats = array([j.geo['Latitude'] for j in self.profiles[i]])
+            longs = array([j.geo['Longitude'] for j in self.profiles[i]])
+            lat_bins = digitize(lats,linspace(-90,90,LAT_BINS))
+            long_bins = digitize(longs,linspace(-180,180,LONG_BINS))
+            
+            #fill bins
+            for j,v in enumerate(zip(lat_bins,long_bins)):
+                la,lo =map(int,v)
+                maps[la,lo,:] = maps[la,lo,:] + nan_to_num(self.profiles[i][j].profile)
+                count[la,lo,:] = count[la,lo,:] + where(isfinite(self.profiles[i][j].profile),ones(HEIGHT_BINS),zeros(HEIGHT_BINS))
+
+
+
+
+            # Calculate mean, Remove negative values
+            z = nan_to_num(maps/count)
+            z[z<0] = 0.0
+            globalmean = z
+            
+            #plot
+            fig = p.figure()
+            m = bm.Basemap(llcrnrlon=-180.,llcrnrlat=-90.,urcrnrlon=180.,urcrnrlat=90.,resolution='c',area_thresh=10000.,projection='cyl')
+            x,y = m(linspace(-180,180,LONG_BINS),linspace(-90,90,LAT_BINS))
+            m.drawcoastlines()
+            cs = m.contour(x,y,p.randn(LAT_BINS,LONG_BINS))
+            #p.imshow(nan_to_num(globalmean[:,:,5]).transpose(),extent=[-180,180,-90,90])
+            #p.colorbar()
+            #p.title(i)
+            #p.ylabel('altitude (km)')
+            figfile = '%s.png' % i.split()[0]
+            p.savefig(figfile)
+
+           
 
 
     def plot(self):
@@ -125,7 +177,7 @@ class profile:
         profiles = prof[mask]
         altitudes = alt[mask]
 
-        self.altitude = linspace(5,100,HEIGHT_BINS)
+        self.altitude = linspace(LOWER_LIMIT,UPPER_LIMIT,HEIGHT_BINS)
         if len(profiles)>2:
             pr = interpolate.interp1d(altitudes,profiles,bounds_error=0)
 
@@ -171,13 +223,11 @@ class verifyDatabaseAndDisk:
             return False
         return True
 
-
 def main():
-    files = glob.glob('*.L2P')
+    files = glob.glob('*54*.L2P')
     #files = ['SCH_5018_C54EB_021.L2P']
     x = SMRLevel2(files)
-    print len(x.profiles)
-    x.zonalmean()
-
+    #x.zonalmean()
+    x.globalplot()
 if __name__ == "__main__":
     main()

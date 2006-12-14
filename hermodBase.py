@@ -2,8 +2,8 @@
 SPOOL_DIR= "/odin/smr/Data/spool"
 LEVEL1B_DIR= "/odin/smr/Data/level1b"
 SMRL1B_DIR="/odin/smr/Data/SMRl1b"
-SMRL2_DIR = "/odin/smr/Data/SMRl2"
-
+SMRL2_DIR = "/odin/smr/Data/SMRl222"
+PDC_DIR = "/hsm/0/projects/esrange/odin/level1b/aero/submm"
 
 class HermodError(Exception):
     pass
@@ -45,7 +45,7 @@ def mjdtoutc(mjdnr):
 class files:
     from os import walk
     def __init__(self):
-        self dir = SMRL2_DIR
+        self.dir = SMRL2_DIR
 
     def listOf(self):
         self.list = []

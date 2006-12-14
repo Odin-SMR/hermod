@@ -83,7 +83,8 @@ def main():
         result=cur.fetchall()
         status=cur.execute("""select allscans.orbit as orbit,allscans.cnt,procscans.cnt/allscans.cnt as ratio 
                             from allscans left join procscans using (orbit,freqmode,calibration)
-                            having (ratio<%s or ratio is null) and allscans.cnt>5""",(min,))
+                            having (ratio<%s or ratio is null) and allscans.cnt>5
+                            order by orbit desc""",(min,))
 
         for o in cur: #loop over all orbits found in above selection
             y = Level1bResolver(o['orbit'],cal,mod['freqmode'],mod['fqid'],db)

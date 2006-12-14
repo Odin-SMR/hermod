@@ -1,3 +1,13 @@
+2006-12-13 Get PDCfiles <joakim.moller@chalmers.se>
+	* scripts/getL1b: Downloads files AC1/AC2 or both from PDC. Reads list
+	from stin
+
+2006-11-17 Back fixes <joakim.moller@chalmers.se>
+	* l2/transitions.py: Adapted to new queue configuration.
+	* l2/level2.py: Adds jobs to queue with sql keyword REVERSED
+	* pdc/pdcTools.py: Add tools to get files from PDC
+	* scripts/getL1bFiles: Downloads a range of files from PDC
+	
 2006-10-02 Testing plotting/filecheck <joakim.moller@chalmers.se>
 	* l2/smrlevel2.py: classes for quicklook and verification of database
 	added.

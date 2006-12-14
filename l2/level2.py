@@ -87,7 +87,22 @@ class Level2:
         c.close()
         return test
     
-    def dell2(self):
+    def readAuxFile():
+        data=[]
+        typelist = [int,float,float,str,int,float,int,float,float,float,float,float,float,float,float,int]
+        f = open(self.auxfile)
+        try:
+            head = f.readline()
+            header = head.split()[1:]
+            for line in f:
+                    fields = line.split()
+                    converted = [g(h) for g,h in zip(typelist,fields)]
+                    data.append(dict(zip(header,converted))) 
+        finally:
+            f.close()
+        self.aux = data
+
+def dell2(self):
         """
         Deletes an instance from the level2 table in the odin database
         """

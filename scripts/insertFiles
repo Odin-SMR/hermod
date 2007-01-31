@@ -30,7 +30,7 @@ def main():
             continue
         x.cleanDatabase()
         x.addDataL1b()
-        x.moveCreateFiles('normal')
+        x.moveCreateFiles('new')
     db.close()
 
 if __name__=="__main__":

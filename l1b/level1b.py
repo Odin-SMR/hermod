@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+"""
+This module aims to give a complet solution to the level1b koncept.
+"""
+
 import MySQLdb
 import sys
 import shutil
@@ -9,7 +13,14 @@ from hermod.l1b import ReadHDF
 from hermod.l1b import transitions
 
 class Level1b:
+    """
+    Main class, sets values read from the HDFfile.
+    """
+
     def __init__(self,file,openDatabase):
+        """
+        Initiates an instance from a HDFfile
+        """
         self.origHDFfile = file
         self.origLOGfile = os.path.splitext(file)[0] + ".LOG"
         self.openDB = openDatabase
@@ -18,16 +29,22 @@ class Level1b:
         self.getScans()
 
     def readL1b(self):
+        """
+        Reads HDF data from the ReadHDF module (external module written in C)
+        """
         name,extension, = os.path.splitext(self.origHDFfile)
         if extension==".HDF":
             lists = ReadHDF.read(self.origHDFfile)
             keys = ["Version","Level","MJD","Orbit","Source","Type","Latitude","Longitude","SunZD"]
             self.SMR = [ dict(zip(keys,d)) for d in lists ]
         else:
-            mesg = "%s: Not a valid extension: %s \n" % (file,extension)
+            mesg = "%s: Not a valid extension: %s \n" % (self.origHDFfile,extension)
             raise HermodError(mesg)
 
     def setNames(self):
+        """
+        Set all variables based on HDFfile information
+        """
         #Reads sourcesfield and gives a list of freqmodes in the file
         freqmodes = [0]
         for y in self.SMR:
@@ -36,16 +53,23 @@ class Level1b:
                 freqmodes.append(int(parts[1]))
         self.freqmodes = list(set(freqmodes))
         if len(self.freqmodes)<2:
-            raise HermodError("- Calibration 0")
+            mesg = "%s: Error: No freqmode information in 'source' string" % self.origHDFfile
+            raise HermodError(mesg)
+        #Extract calibration from Level field
         calibrations = list(set([y['Level']&0xff for y in self.SMR]))
-        orbits = list(set([int(y['Orbit']) for y in self.SMR]))
         if len(calibrations)<>1:
             self.calibration = calibrations[1]
         else:
             self.calibration = calibrations[0]
+
+        #orbits
+        orbits = list(set([int(y['Orbit']) for y in self.SMR]))
         if len(orbits)<>1:
-            raise HermodError("- None or many orbits %s" % str(orbits))
+            mesg = '%s: Error: File contain spectra from more than one orbit %s' %(self.origHDFfile,str(orbits))
+            raise HermodError(mesg)
         self.orbit = orbits[0]
+
+        #set name on related files
         cur = self.openDB.cursor(MySQLdb.cursors.DictCursor)
         status = cur.execute("""select distinct backend,prefix from Freqmodes where freqmode in %s""",(self.freqmodes,))
         for i in cur: # This is only supposed to run once
@@ -58,20 +82,28 @@ class Level1b:
         cur.close()
         
     def getScans(self):
+        """
+        Divide spectra into scans
+        """
         scan=[]
         reset = False
         for i,v in enumerate([y['Type'] for y in self.SMR]):
             if v==8:
+                ### signal spectrum
                 if reset:
                     scan.append(i)
                     reset=False
                 else:
                     pass
             elif v==3:
+                ### calibration spectrum
                 reset=True
         self.scans = [ self.SMR[i] for i in scan]
 
     def cleanDatabase(self):
+        """
+        Removes all occurrancies of this orbitfile in database
+        """
         cur = self.openDB.cursor()
         # Removing all scans from level2, level1b and scans tables from this new file
         for freqmode in self.freqmodes:
@@ -97,7 +129,9 @@ class Level1b:
         return (l2status,l1bstatus,scanstatus)
 
     def addDataL1b(self):
-        # Adding data from file
+        """
+        Add data to database
+        """
         c = self.openDB.cursor()
         scan_values = [(int(v['Orbit']),int(v['Source'].split('FM=')[1]),v['Level']&0xff,i+1) for i,v in enumerate(self.scans)]
         scan_status = c.executemany(""" insert scans 
@@ -113,7 +147,10 @@ class Level1b:
                                 and scans.scan=%s """,level1b_value)
         c.close()
 
-    def moveCreateFiles(self,qos):
+    def moveCreateFiles(self,queue):
+        """
+        Move files to its final position, create links and send to queue
+        """
         for i in [self.destHDFfile,self.destLOGfile,self.destZPTfile]:
             directory = os.path.dirname(i)
             if os.path.exists(directory):
@@ -147,9 +184,12 @@ class Level1b:
         for a in self.transitions:
             a.createDirectories()
             a.createLink()
-            a.queue(qos)
+            a.queue(queue)
  
     def createZPT(self):
+        """
+        Creates ZPT file
+        """
         f,h,g = os.popen3("/home/odinop/bin/create_tp_ecmwf_rss2 " + self.destLOGfile)
         f.close()
         h.close()
@@ -170,12 +210,14 @@ class Level1b:
             sys.stderr.write(mesg)
             sys.excepthook(sys.exc_info()[0],sys.exc_info()[1],sys.exc_info()[2])
 
+
 class Level1bResolver(Level1b):
-    def __init__(self,orbitDecNr,calibration,freqmode,fqid,openDatabase):
+    def __init__(self,orbitDecNr,calibration,freqmode,fqid,vers,openDatabase):
         self.freqmodes = [freqmode]
         self.orbit = orbitDecNr
         self.calibration = calibration
         self.fqid = fqid
+        self.qsmr = vers
         self.openDB = openDatabase
         self.origHDFfile = ""
         self.origLOGfile = ""
@@ -206,10 +248,10 @@ class Level1bResolver(Level1b):
         cur.close()
         return l2status
 
-    def createFiles(self,qos,qsmr):
+    def createFiles(self,queue,qsmr):
         self.createZPT()
         for a in self.transitions:
-            a.forceQueue(qos,qsmr)
+            a.forceQueue(queue,qsmr)
  
            
 def test(file):

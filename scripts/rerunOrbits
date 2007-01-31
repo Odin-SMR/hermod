@@ -2,22 +2,29 @@
 
 """rerunOrbits - restarts processing
     
-rerunOrbits orbit1 orbit2 modeid calibration threshold_ratio version priority
+rerunOrbits orbit1 orbit2 modeid calibration threshold_ratio version queue [list]
     orbit1 - first orbit number (hex)
     orbit2 - last orbit number
     modeid - , mode id - 0 is used for all.
     calibration - l1b calibration nr
-    threshold_ratio - rerun if ratio (processedscans/totalscans) < threshold_ratio
+    threshold_ratio - rerun if ratio (processedscans/totalscans) i less than threshold_ratio
     version - qsmr version
-    priority - low,normal,high
+    queue - rerun/new/batch
+    list - produce a list instead of reprocessing
        
 examples:
-    ./rerunOrbits.py 4000 40FF 29 6 .5 2-0 low
+    ./rerunOrbits.py 4000 40FF 29 6 .1 2-0 rerun
+    ./rerunOrbits.py 4000 40FF 29 6 .1 2-0 rerun list
 
-Executing this command would rerun all level1b files having modeid 29 (SM_AC2ab) in
-calibration 6 which has more than 50% scans that are not processed in the
-interval [4000,40FF]. If 2-0 is a valid processor for that particular
-freqmode and calibration, jobs are sent to the queue. low gives a certain priority in queue.
+Executing this command would rerun all level1b files having modeid 29
+(SM_AC2ab) in calibration 6 which has less than 10% processed scans  in the
+interval [4000,40FF]. If 2-0 is a valid processor for that particular freqmode
+and calibration, jobs are sent to the queue.  
+
+The difference between the first and second example is the list command. That
+produces a list of every mode that matches the search criteria. When ommiting
+the list keyword a filter removes every orbitfile with 4 or less spectra.
+
 """
 
 import MySQLdb
@@ -35,11 +42,18 @@ from hermod.l1b.transitions import *
 
 def main():
     db=MySQLdb.connect(host="jet",user="odinuser",passwd="***REMOVED***",db="odin")
-    
+    list=False
     #Checking for parameters
     if len(sys.argv)!=8: #missing or extra parameters -> end
-        print __doc__
-        sys.exit(sys.argv[0]+" :Not correct number of parameters")
+        if len(sys.argv)==9:
+            if sys.argv[8]=='list':
+                list = True
+            else:
+                print __doc__
+                sys.exit(sys.argv[0]+" :Not correct number of parameters")
+        else:
+            print __doc__
+            sys.exit(sys.argv[0]+" :Not correct number of parameters")
 
     orbit1=int(sys.argv[1],16)
     orbit2=int(sys.argv[2],16)
@@ -47,52 +61,35 @@ def main():
     cal=int(sys.argv[4])
     min=float(sys.argv[5])
     qsmr=sys.argv[6]
-    qos=sys.argv[7]
+    queue=sys.argv[7]
 
     if float(min)>1.0001:
         usage()
         sys.exit(str(min)+" : The threshold ratio should be in [0..1]")
 
     c=db.cursor(MySQLdb.cursors.DictCursor)
-    
+    # NOTE a filter scans>=4 is inserted...
     if fqid==0: #all freqmodes
-        status=c.execute("""select * from Freqmodes natural join Versions where qsmr=%s and calibration=%s and active""",(qsmr,cal))
-    else:
-        status=c.execute("""select * from Freqmodes natural join Versions where qsmr=%s and Freqmodes.fqid=%s and calibration=%s""",(qsmr,fqid,cal))
-    for mod in c:
-        print "Mode: " + mod['name']
-        cur = db.cursor(MySQLdb.cursors.DictCursor)
-        status=cur.execute("""create temporary table allscans 
-                                select orbit,freqmode,calibration,count(*) as cnt 
-                                from scans 
-                                where orbit<=%s and orbit>=%s 
-                                    and calibration=%s 
-                                    and freqmode=%s  
-                                group by orbit,freqmode,calibration""",(orbit2,orbit1,mod['calibration'],mod['freqmode']))
-        result=cur.fetchall()
-        status=cur.execute("""create temporary table procscans 
-                                select orbit,freqmode,calibration,version,fqid,count(*) as cnt 
-                                from scans natural join level2
-                                where orbit<=%s 
-                                    and orbit>=%s
-                                    and version=%s 
-                                    and calibration=%s 
-                                    and fqid=%s
-                                    and freqmode=%s
-                                group by orbit,freqmode,version,calibration,fqid""",(orbit2,orbit1,qsmr,mod['calibration'],mod['fqid'],mod['freqmode']))
-        result=cur.fetchall()
-        status=cur.execute("""select allscans.orbit as orbit,allscans.cnt,procscans.cnt/allscans.cnt as ratio 
-                            from allscans left join procscans using (orbit,freqmode,calibration)
-                            having (ratio<%s or ratio is null) and allscans.cnt>5
-                            order by orbit desc""",(min,))
+        status = c.execute("""select orbit,freqmode,fqid,calibration,qsmr,scans,processed,processed/scans as ratio from registered_orbits natural join Versions left join processed_orbits using (orbit,calibration,freqmode,fqid) where active and orbit>=%s and orbit<=%s and calibration=%s and qsmr=%s and scans>=4 having ratio<%s or ratio is null""",(orbit1,orbit2,cal,qsmr,min))
 
-        for o in cur: #loop over all orbits found in above selection
-            y = Level1bResolver(o['orbit'],cal,mod['freqmode'],mod['fqid'],db)
-            y.cleanDatabase()
-            y.createFiles(qos,qsmr)
-        cur.execute("""drop table allscans""")
-        cur.execute("""drop table procscans""")
-        cur.close()
+    else:
+        status = c.execute("""select orbit,freqmode,fqid,calibration,qsmr,scans,processed,processed/scans as ratio from registered_orbits natural join Versions left join processed_orbits using (orbit,calibration,freqmode,fqid) where active and orbit>=%s and orbit<=%s and fqid=%s and calibration=%s and qsmr=%s and scans>=4 having ratio<%s or ratio is null""",(orbit1,orbit2,fqid,cal,qsmr,min))
+
+    if list:
+        print "orb\tfreq\tfqid\tqsmr\tscans\tproc\tratio"
+        for mode in c:
+            line = "%0.4X\t%i\t%i\t%s\t%i\t%s\t%s" %(mode['orbit'],mode['freqmode'],mode['fqid'],mode['qsmr'],mode['scans'],str(mode['processed']),str(mode['ratio']))
+            print line
+    else:
+        print "orb\tfreq\tfqid\tqsmr\tscans\tproc\tratio"
+        for o in c: #loop over all orbits found in above selection
+            line = "%0.4X\t%i\t%i\t%s\t%i\t%s\t%s" %(o['orbit'],o['freqmode'],o['fqid'],o['qsmr'],o['scans'],str(o['processed']),str(o['ratio']))
+            y = Level1bResolver(o['orbit'],o['calibration'],o['freqmode'],o['fqid'],o['qsmr'],db)
+            # We don't want to do cleaning, reading l2b fix that.
+            # y.cleanDatabase()
+            line = "%0.4X\t%i\t%i\t%s\t%i\t%s\t%s" %(o['orbit'],o['freqmode'],o['fqid'],o['qsmr'],o['scans'],str(o['processed']),str(o['ratio']))
+            print line
+            y.createFiles(queue,o['qsmr'])
     c.close()
 
 if __name__ == "__main__":

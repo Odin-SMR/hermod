@@ -66,9 +66,14 @@ if __name__ == "__main__":
     Now looking for orbit %0.4X mode %i in calibration %i 
     in version %s and fqid %i
     """ % (orbit,freq,cal,qsmr,fqid)
-
     l2p.dell2()
-    l2p.readl2()
+    try:
+        l2p.readl2()
+    except HermodError,inst:
+        sys.stderr.write(str(inst))
+        l2p.cleanFiles()
+        db.close()
+        sys.exit(1)
     l2p.addData()
     l2p.cleanFiles()
     db.close()

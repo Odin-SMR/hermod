@@ -65,7 +65,7 @@ class Level2:
             f.close()                 # close the HDF file
         except HDF4Error:
             mesg = "error reading %s\n" % self.hdffile
-            sys.stderr.write(mesg)
+            raise HermodError(mesg)
 
     def addData(self):
         """
@@ -102,7 +102,7 @@ class Level2:
             f.close()
         self.aux = data
 
-def dell2(self):
+    def dell2(self):
         """
         Deletes an instance from the level2 table in the odin database
         """
@@ -120,4 +120,4 @@ def dell2(self):
             shutil.move(self.errfile,self.inffile)
         except IOError:
             mesg = "Couldn't move %s to $s\n" % (self.errfile,self.inffile)
-            sys.stderr.write(mesg)
+            raise HermodError(mesg)

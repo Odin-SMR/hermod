@@ -1,3 +1,9 @@
+2006-12-20 Release 1.1.0 <joakim.moller@chalmers.se>
+	* scrips/readFreq: obsolete, startscript in Level1b take care of
+	adding into dadabase.
+	* l2/level2.py,l1b/level1b.py,l1b/transitions.py: Adaptions to make
+	hermod more failsafe.
+
 2006-12-13 Get PDCfiles <joakim.moller@chalmers.se>
 	* scripts/getL1b: Downloads files AC1/AC2 or both from PDC. Reads list
 	from stin

@@ -1,12 +1,34 @@
-#Set path
-SPOOL_DIR= "/odin/smr/Data/spool"
-LEVEL1B_DIR= "/odin/smr/Data/level1b"
-SMRL1B_DIR="/odin/smr/Data/SMRl1b"
-SMRL2_DIR = "/odin/smr/Data/SMRl2"
-PDC_DIR = "/hsm/projects/esrange/odin/level1b/aero/submm"
+import ConfigParser as c
+import os,stat
 
 class HermodError(Exception):
     pass
+
+
+#Read configfiles
+config = c.ConfigParser()
+config_files = config.read(['/usr/lib/python2.4/site-packages/hermod/hermod.cfg.default',
+                            os.path.expanduser('~/.hermod.cfg'),
+                            os.path.expanduser('~/.hermod.cfg.secret')])
+if os.path.expanduser('~/.hermod.cfg.secret') not in config_files:
+    msg = "Make sure to create '~/hermod.cfg.secret' and add your passwords"
+    raise HermodError(mesg)
+else:
+    # check for permissions of secret config files
+    if stat.S_IMODE(os.stat(os.path.expanduser('~/.hermod.cfg.secret'))[stat.ST_MODE]) & stat.S_IRGRP:
+        mesg ="Set not readable for group on ~/.hermod.cfg.secret"
+        raise HermodError(mesg)
+    if stat.S_IMODE(os.stat(os.path.expanduser('~/.hermod.cfg.secret'))[stat.ST_MODE]) & stat.S_IROTH:
+        mesg ="set not readable for other on ~/.hermod.cfg.secret"
+        raise HermodError(mesg)
+    
+#Set paths
+SPOOL_DIR= config.get('GEM','SPOOL_DIR')
+LEVEL1B_DIR= config.get('GEM','LEVEL1B_DIR')
+SMRL1B_DIR= config.get('GEM','SMRL1B_DIR')
+SMRL2_DIR = config.get('GEM','SMRl2_DIR')
+PDC_DIR = config.get('PDC','PDC_DIR')
+
 
 def mjdtoutc(mjdnr):
     # Julian date

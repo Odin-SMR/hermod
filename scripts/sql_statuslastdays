@@ -12,8 +12,7 @@ if len(sys.argv)>1:
         msg = sys.argv[0] +" takes one integer as argument: number of days...\n"
         sys.stderr.write(msg)
         sys.exit(0)
-        
-db=MySQLdb.connect(host="jet",user="gem",db="odin")
+db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db=config.get('WRITE_SQL','db'))        
 c = db.cursor(MySQLdb.cursors.SSDictCursor)
 status=c.execute("""select orbit,processed,scans.freqmode,fqid,version,calibration,count(*)  
       as profiles from scans 
@@ -22,10 +21,12 @@ status=c.execute("""select orbit,processed,scans.freqmode,fqid,version,calibrati
       order  by processed""",(last,))
 
 row= c.fetchone()
-print " orb  fm  id cal    ver                 date  pr"
+rows = 0
+profiles = 0
 while row<>None:
     try:
-        print "%0.4X%4i%4i%4i%7s%21s%4i" % (row['orbit'],row['freqmode'],row['fqid'],row['calibration'],row['version'],row['processed'],row['profiles'])
+        rows = rows +1
+        profiles = profiles + row['profiles']
         row = c.fetchone()
     except KeyboardInterrupt:
         print "Break recieved"
@@ -34,7 +35,12 @@ while row<>None:
         print "other error: ",inst
         print "error: ",sys.exc_info()[0]
         break
+print """
+Total modes processed during %i days: %i
+Total profiles processed during %i days: %i
 
+That's %.2f modes (%.2f profiles) per hour
+""" % (last,rows,last,profiles,rows/last/24.0,profiles/last/24.0)
 sys.stderr.write("Closing cursor...\n")
 c.close()
 db.close()

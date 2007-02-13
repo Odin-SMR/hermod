@@ -7,14 +7,14 @@ rerunOrbits orbit1 orbit2 modeid calibration threshold_ratio version queue [list
     orbit2 - last orbit number
     modeid - , mode id - 0 is used for all.
     calibration - l1b calibration nr
-    threshold_ratio - rerun if ratio (processedscans/totalscans) i less than threshold_ratio
+    threshold_ratio - rerun if ratio (processedscans/totalscans) is less than threshold_ratio
     version - qsmr version
     queue - rerun/new/batch
     list - produce a list instead of reprocessing
        
 examples:
-    ./rerunOrbits.py 4000 40FF 29 6 .1 2-0 rerun
-    ./rerunOrbits.py 4000 40FF 29 6 .1 2-0 rerun list
+    rerunOrbits.py 4000 40FF 29 6 .1 2-0 rerun
+    rerunOrbits.py 4000 40FF 29 6 .1 2-0 rerun list
 
 Executing this command would rerun all level1b files having modeid 29
 (SM_AC2ab) in calibration 6 which has less than 10% processed scans  in the
@@ -41,7 +41,7 @@ from hermod.l1b.transitions import *
 
 
 def main():
-    db=MySQLdb.connect(host="jet",user="odinuser",passwd="***REMOVED***",db="odin")
+    db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db=config.get('WRITE_SQL','db'))
     list=False
     #Checking for parameters
     if len(sys.argv)!=8: #missing or extra parameters -> end

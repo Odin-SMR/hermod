@@ -204,7 +204,7 @@ class verifyDatabaseAndDisk:
         pass
 
     def verify(self):
-        db = MySQLdb.connect(host="jet",user="odinuser",passwd="***REMOVED***",db="odin")
+        db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db=config.get('WRITE_SQL','db'))
         c=db.cursor(MySQLdb.cursors.DictCursor)
         status=c.execute ("""select distinct orbit,scans.freqmode ,calibration,version,level2.fqid,name,midfreq,l2prefix from scans natural join level2 natural join Freqmodes""")
         for row in c:

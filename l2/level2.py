@@ -31,15 +31,15 @@ class Level2:
         status=c.execute ("""select * from Freqmodes natural join Versions where Freqmodes.freqmode=%s and calibration=%s and Freqmodes.fqid=%s and qsmr=%s""" ,(self.freqmode,self.calibration,self.fqid,self.version))
         if status==1:
             row = c.fetchone()
-            self.hdffile = "%s/SMRhdf/Qsmr-%s/%s/SCH_%s_%s%0.4X_%s.L2P" %(SMRL2_DIR,row['qsmr'],row['name'],row['midfreq'],row['l2prefix'],self.orbit,str(row['l2p']).zfill(3))
-            self.auxfile = "%s/SMRhdf/Qsmr-%s/%s/SCH_%s_%s%0.4X_%s.AUX" %(SMRL2_DIR,row['qsmr'],row['name'],row['midfreq'],row['l2prefix'],self.orbit,str(row['l2p']).zfill(3))
-            self.inffile = "%s/SMRhdf/Qsmr-%s/%s/SCH_%s_%s%0.4X_%s.ERR" %(SMRL2_DIR,row['qsmr'],row['name'],row['midfreq'],row['l2prefix'],self.orbit,str(row['l2p']).zfill(3))
-            self.matfile = "%s/SMRmat/Qsmr-%s/%s/%s%0.4X.mat" %(SMRL2_DIR,row['qsmr'],row['name'],row['prefix'],self.orbit)
-            self.errfile = "%s/SMRmat/Qsmr-%s/%s/%s%0.4X.qsmr_error" %(SMRL2_DIR,row['qsmr'],row['name'],row['prefix'],self.orbit)
-            self.destHDFfile = "%s/V-%i/%s/%0.2X/%s%0.4X.HDF" %(LEVEL1B_DIR,self.calibration,row['backend'],self.orbit>>8,row['prefix'],self.orbit)
-            self.destLOGfile = "%s/V-%i/%s/%0.2X/%s%0.4X.LOG" %(LEVEL1B_DIR,self.calibration,row['backend'],self.orbit>>8,row['prefix'],self.orbit)
-            self.destZPTfile = "%s/V-%i/%s/%0.2X/%s%0.4X.ZPT" %(LEVEL1B_DIR,self.calibration,row['backend'],self.orbit>>8,row['prefix'],self.orbit)
-            self.linkZPTfile = "%s/V-%i/ECMWF/%s/%s%0.4X.ZPT" %(SMRL1B_DIR,self.calibration,row['backend'],row['prefix'],self.orbit)
+            self.hdffile = "%sSMRhdf/Qsmr-%s/%s/SCH_%s_%s%0.4X_%s.L2P" %(SMRL2_DIR,row['qsmr'],row['name'],row['midfreq'],row['l2prefix'],self.orbit,str(row['l2p']).zfill(3))
+            self.auxfile = "%sSMRhdf/Qsmr-%s/%s/SCH_%s_%s%0.4X_%s.AUX" %(SMRL2_DIR,row['qsmr'],row['name'],row['midfreq'],row['l2prefix'],self.orbit,str(row['l2p']).zfill(3))
+            self.inffile = "%sSMRhdf/Qsmr-%s/%s/SCH_%s_%s%0.4X_%s.ERR" %(SMRL2_DIR,row['qsmr'],row['name'],row['midfreq'],row['l2prefix'],self.orbit,str(row['l2p']).zfill(3))
+            self.matfile = "%sSMRmat/Qsmr-%s/%s/%s%0.4X.mat" %(SMRL2_DIR,row['qsmr'],row['name'],row['prefix'],self.orbit)
+            self.errfile = "%sSMRmat/Qsmr-%s/%s/%s%0.4X.qsmr_error" %(SMRL2_DIR,row['qsmr'],row['name'],row['prefix'],self.orbit)
+            self.destHDFfile = "%sV-%i/%s/%0.2X/%s%0.4X.HDF" %(LEVEL1B_DIR,self.calibration,row['backend'],self.orbit>>8,row['prefix'],self.orbit)
+            self.destLOGfile = "%sV-%i/%s/%0.2X/%s%0.4X.LOG" %(LEVEL1B_DIR,self.calibration,row['backend'],self.orbit>>8,row['prefix'],self.orbit)
+            self.destZPTfile = "%sV-%i/%s/%0.2X/%s%0.4X.ZPT" %(LEVEL1B_DIR,self.calibration,row['backend'],self.orbit>>8,row['prefix'],self.orbit)
+            self.linkZPTfile = "%sV-%i/ECMWF/%s/%s%0.4X.ZPT" %(SMRL1B_DIR,self.calibration,row['backend'],row['prefix'],self.orbit)
                                                         
         else:
             if status>1:

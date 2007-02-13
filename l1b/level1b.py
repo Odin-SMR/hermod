@@ -73,10 +73,10 @@ class Level1b:
         cur = self.openDB.cursor(MySQLdb.cursors.DictCursor)
         status = cur.execute("""select distinct backend,prefix from Freqmodes where freqmode in %s""",(self.freqmodes,))
         for i in cur: # This is only supposed to run once
-            self.destHDFfile = "%s/V-%i/%s/%0.2X/%s%0.4X.HDF" %(LEVEL1B_DIR,self.calibration,i['backend'],self.orbit>>8,i['prefix'],self.orbit)
-            self.destLOGfile = "%s/V-%i/%s/%0.2X/%s%0.4X.LOG" %(LEVEL1B_DIR,self.calibration,i['backend'],self.orbit>>8,i['prefix'],self.orbit)
-            self.destZPTfile = "%s/V-%i/%s/%0.2X/%s%0.4X.ZPT" %(LEVEL1B_DIR,self.calibration,i['backend'],self.orbit>>8,i['prefix'],self.orbit)
-            self.linkZPTfile = "%s/V-%i/ECMWF/%s/%s%0.4X.ZPT" %(SMRL1B_DIR,self.calibration,i['backend'],i['prefix'],self.orbit)
+            self.destHDFfile = "%sV-%i/%s/%0.2X/%s%0.4X.HDF" %(LEVEL1B_DIR,self.calibration,i['backend'],self.orbit>>8,i['prefix'],self.orbit)
+            self.destLOGfile = "%sV-%i/%s/%0.2X/%s%0.4X.LOG" %(LEVEL1B_DIR,self.calibration,i['backend'],self.orbit>>8,i['prefix'],self.orbit)
+            self.destZPTfile = "%sV-%i/%s/%0.2X/%s%0.4X.ZPT" %(LEVEL1B_DIR,self.calibration,i['backend'],self.orbit>>8,i['prefix'],self.orbit)
+            self.linkZPTfile = "%sV-%i/ECMWF/%s/%s%0.4X.ZPT" %(SMRL1B_DIR,self.calibration,i['backend'],i['prefix'],self.orbit)
         status = cur.execute("""select * from Freqmodes where freqmode in %s""",(self.freqmodes,))
         self.transitions= [transitions.Transition(a,self) for a in cur]
         cur.close()
@@ -227,10 +227,10 @@ class Level1bResolver(Level1b):
         cur = self.openDB.cursor(MySQLdb.cursors.DictCursor)
         cur.execute("""select * from Freqmodes where freqmode=%s and fqid=%s""",(self.freqmodes[0],self.fqid))
         for i in cur: # This is only supposed to run once
-            self.destHDFfile = "%s/V-%i/%s/%0.2X/%s%0.4X.HDF" %(LEVEL1B_DIR,self.calibration,i['backend'],self.orbit>>8,i['prefix'],self.orbit)
-            self.destLOGfile = "%s/V-%i/%s/%0.2X/%s%0.4X.LOG" %(LEVEL1B_DIR,self.calibration,i['backend'],self.orbit>>8,i['prefix'],self.orbit)
-            self.destZPTfile = "%s/V-%i/%s/%0.2X/%s%0.4X.ZPT" %(LEVEL1B_DIR,self.calibration,i['backend'],self.orbit>>8,i['prefix'],self.orbit)
-            self.linkZPTfile = "%s/V-%i/ECMWF/%s/%s%0.4X.ZPT" %(SMRL1B_DIR,self.calibration,i['backend'],i['prefix'],self.orbit)
+            self.destHDFfile = "%sV-%i/%s/%0.2X/%s%0.4X.HDF" %(LEVEL1B_DIR,self.calibration,i['backend'],self.orbit>>8,i['prefix'],self.orbit)
+            self.destLOGfile = "%sV-%i/%s/%0.2X/%s%0.4X.LOG" %(LEVEL1B_DIR,self.calibration,i['backend'],self.orbit>>8,i['prefix'],self.orbit)
+            self.destZPTfile = "%sV-%i/%s/%0.2X/%s%0.4X.ZPT" %(LEVEL1B_DIR,self.calibration,i['backend'],self.orbit>>8,i['prefix'],self.orbit)
+            self.linkZPTfile = "%sV-%i/ECMWF/%s/%s%0.4X.ZPT" %(SMRL1B_DIR,self.calibration,i['backend'],i['prefix'],self.orbit)
         self.transitions= [transitions.Transition(a,self) for a in cur]
         cur.close()
     
@@ -255,7 +255,7 @@ class Level1bResolver(Level1b):
  
            
 def test(file):
-    db = MySQLdb.connect(host="jet",user="odinuser",passwd="***REMOVED***",db="odin")
+    db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db=config.get('WRITE_SQL','db'))
     x = Level1b(file,db)
     x.transitions[0].queue()
     db.close()

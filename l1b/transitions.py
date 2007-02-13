@@ -28,8 +28,8 @@ class Transition:
         self.createNames()
 
     def createNames(self):
-        self.linkHDFfile = "%s/V-%i/%s/%s%0.4X.HDF" % (SMRL1B_DIR,self.calibration,self.name,self.prefix,self.orbit)
-        self.linkLOGfile = "%s/V-%i/%s/%s%0.4X.LOG" % (SMRL1B_DIR,self.calibration,self.name,self.prefix,self.orbit)
+        self.linkHDFfile = "%sV-%i/%s/%s%0.4X.HDF" % (SMRL1B_DIR,self.calibration,self.name,self.prefix,self.orbit)
+        self.linkLOGfile = "%sV-%i/%s/%s%0.4X.LOG" % (SMRL1B_DIR,self.calibration,self.name,self.prefix,self.orbit)
 
         self.files = [self.linkHDFfile, self.linkLOGfile,]
 
@@ -85,6 +85,7 @@ class Transition:
 import os,sys
 import subprocess as s
 import MySQLdb as m
+import tempdir as t
 
 from hermod.l2.level2 import *
 
@@ -94,6 +95,7 @@ fqid=%i
 cal=%i
 qsmr="%s"
 name="%s"
+dir=t.mkdtemp()
 
 
 matlab = s.Popen(['matlab','-nojvm','-nosplash'],stdout=s.PIPE,stdin=s.PIPE,stderr=s.PIPE)
@@ -102,19 +104,28 @@ command = """cd /home/odinop/Matlab/Qsmr_%%s
 set(gcf,'Visible','off');
 path(path,'~');
 qsmr_startup;
-qsmr_inv_op('%%s','%%0.4X')
+qsmr_inv_op('%%s','%%0.4X','%%0.4X',%%s)
 close all
 clear all
 clear all
 quit
-""" %% (qsmr.replace('-','_'),name,orbit)
+""" %% (qsmr.replace('-','_'),name,orbit,orbit,dir)
 
 out = matlab.communicate(input=command)
 
 sys.stdout.write(out[0])
 sys.stderr.write(out[1])
 
-db = m.connect(host="jet",user="odinuser",passwd="***REMOVED***",db="odin")
+try:
+    retcode = call("rm -rf " + dir, shell=True)
+    if retcode < 0:
+        print >>sys.stderr, "Child was terminated by signal", -retcode
+    else:
+        print >>sys.stderr, "Child returned", retcode
+except OSError, e:
+    print >>sys.stderr, "Execution failed:", e
+
+db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db=config.get('WRITE_SQL','db'))
 
 l2p = Level2(orbit,freqmode,cal,fqid,qsmr,db)
 
@@ -127,11 +138,14 @@ l2p.dell2()
 try:
     l2p.readl2()
 except HermodError,inst:
-    sys.stderr.write(str(inst))
+    sys.stderr.write(inst)
     msg="Probably no L2P-file produced\\n"
     sys.stderr.write(msg)
-    print msg
-    l2p.cleanFiles()
+    print msg 
+    try:
+        l2p.cleanFiles()
+    except HermodError,inst:
+        sys.stderr.write(inst)
     db.close()
     sys.exit(1)
 l2p.addData()

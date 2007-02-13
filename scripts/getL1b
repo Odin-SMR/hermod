@@ -1,56 +1,14 @@
 #!/usr/bin/python
 from hermod.hermodBase import *
-import sys
-import os
+from hermod.pdc.pdc import *
 
 """
 getL1b - Get level1b files from PDC
 
-Give a list of orbits in hex on stdin and give optionally a parameter for a specific Autocorrelator.
-
-eg.
-  getL1b 1      # get only AC1 files
-  getL1b        # get all AC:s (AC1 and AC2)
-
-""" 
-
+"""
 def main():
-    ACs = {1:('AC1','OB1B'),2:('AC2','OC1B')}
-    if len(sys.argv)==1:
-        acs = [1,2]
-    elif len(sys.argv)>3 or sys.argv[1][0]=='-':
-        print __doc__
-        sys.exit(0)
-    else:
-        acs = [int(sys.argv[1])]
-
-
-    commands = ['donal\n','passive\n']
-    try:
-        while 1:
-            inp = int(raw_input(),16)
-            for f in ['HDF.gz','LOG']:
-                for a in [ACs[i] for i in acs]:
-                    cmd = "get %s/%s/%0.2X/%s%0.4X.%s %s/%s%0.4X.%s\n" % (PDC_DIR,a[0],inp>>8,a[1],inp,f,SPOOL_DIR,a[1],inp,f)
-                    commands.append(cmd)
- 
-    except EOFError:
-        print "end of file detected"
-        print commands
-    except KeyboardInterrupt:
-        print "aborted"
-    else:
-        print "clear exit not found"
-
-    i,oe = os.popen4('kftp esrange.pdc.kth.se')
-    i.writelines(commands)
-    i.close()
-    soe = oe.readlines()
-    oe.close()
-    for y in soe:
-        print y
-    cmd = 'gunzip -fq %s/*.gz' % SPOOL_DIR
-    os.system(cmd)
+   db = sql.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
+   a = Fetcher(db)
 
 if __name__=="__main__":
     main()

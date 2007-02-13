@@ -7,11 +7,11 @@ class HermodError(Exception):
 
 #Read configfiles
 config = c.ConfigParser()
-config_files = config.read(['/usr/lib/python2.4/site-packages/hermod/hermod.cfg.default',
+config_files = config.read(['/etc/hermod.cfg.default','/etc/hermod.cfg',
                             os.path.expanduser('~/.hermod.cfg'),
                             os.path.expanduser('~/.hermod.cfg.secret')])
 if os.path.expanduser('~/.hermod.cfg.secret') not in config_files:
-    msg = "Make sure to create '~/hermod.cfg.secret' and add your passwords"
+    mesg = "Make sure to create '~/.hermod.cfg.secret' and add your passwords"
     raise HermodError(mesg)
 else:
     # check for permissions of secret config files

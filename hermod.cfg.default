@@ -4,24 +4,31 @@
 [READ_SQL]
 user : gem
 db : odin
+host : jet.rss.chalmers.se
 
 [WRITE_SQL]
 user : odinuser
 passwd: secret
 db : odin
+host : jet.rss.chalmers.se
 
 [GEM]
-SPOOL_DIR: /odin/smr/Data/spool
-LEVEL1B_DIR: /odin/smr/Data/level1b
-SMRL1B_DIR : /odin/smr/Data/SMRL1b
-SMRL2_DIR : /odin/smr/Data/SMRl2
+SPOOL_DIR: /odin/smr/Data/spool/
+LEVEL1B_DIR: /odin/smr/Data/level1b/
+SMRL1B_DIR : /odin/smr/Data/SMRL1b/
+SMRL2_DIR : /odin/smr/Data/SMRl2/
 user : odinop
 passwd : secret
+host : jet.rss.chalmers.se
 
 [PDC]
 PDC_DIR : /data/odin/level1b/aero/submm/
 user : donal
 passwd: secret
+host : esrange.pdc.kth.se
 
 [NILU]
 NILU_DIR : .odin/
+user : murtagh
+passwd : secret
+host: zardoz.nilu.no

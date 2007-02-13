@@ -27,7 +27,7 @@ from pyhdf.VS import *
 from hermod.l2.level2 import *
 
 if __name__ == "__main__":
-    db = MySQLdb.connect(host="jet",user="odinuser",passwd="***REMOVED***",db="odin")
+    db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db=config.get('WRITE_SQL','db'))
     #get commandline parameters
     if len(sys.argv) == 6:
         try:

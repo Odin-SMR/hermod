@@ -85,7 +85,7 @@ class Transition:
 import os,sys
 import subprocess as s
 import MySQLdb as m
-import tempdir as t
+import tempfile as t
 
 from hermod.l2.level2 import *
 
@@ -95,8 +95,14 @@ fqid=%i
 cal=%i
 qsmr="%s"
 name="%s"
-dir=t.mkdtemp()
-
+dir=''
+try:
+    dir=t.mkdtemp()
+except EnvironmentError,e:
+    print >>sys.stderr "Hermod: errno", e.errno ,e.filname
+    print >>sys.stderr "Couldn't create tempdir, trying to free diskspace.."
+    status = os.command('find /tmp -user odinop -maxdepht 1 -name "Tmp*" -exec rm -f \{\}')
+    dir = t.mkdtemp()
 
 matlab = s.Popen(['matlab','-nojvm','-nosplash'],stdout=s.PIPE,stdin=s.PIPE,stderr=s.PIPE)
 
@@ -104,7 +110,7 @@ command = """cd /home/odinop/Matlab/Qsmr_%%s
 set(gcf,'Visible','off');
 path(path,'~');
 qsmr_startup;
-qsmr_inv_op('%%s','%%0.4X','%%0.4X',%%s)
+qsmr_inv_op('%%s','%%0.4X','%%0.4X','%%s')
 close all
 clear all
 clear all
@@ -117,11 +123,9 @@ sys.stdout.write(out[0])
 sys.stderr.write(out[1])
 
 try:
-    retcode = call("rm -rf " + dir, shell=True)
+    retcode = s.call("rm -rf " + dir, shell=True)
     if retcode < 0:
-        print >>sys.stderr, "Child was terminated by signal", -retcode
-    else:
-        print >>sys.stderr, "Child returned", retcode
+        print >>sys.stderr, "rm -rf returned", -retcode
 except OSError, e:
     print >>sys.stderr, "Execution failed:", e
 
@@ -138,14 +142,14 @@ l2p.dell2()
 try:
     l2p.readl2()
 except HermodError,inst:
-    sys.stderr.write(inst)
+    sys.stderr.write(str(inst))
     msg="Probably no L2P-file produced\\n"
     sys.stderr.write(msg)
     print msg 
     try:
         l2p.cleanFiles()
     except HermodError,inst:
-        sys.stderr.write(inst)
+        sys.stderr.write(str(inst))
     db.close()
     sys.exit(1)
 l2p.addData()

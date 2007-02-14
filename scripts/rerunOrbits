@@ -70,10 +70,10 @@ def main():
     c=db.cursor(MySQLdb.cursors.DictCursor)
     # NOTE a filter scans>=4 is inserted...
     if fqid==0: #all freqmodes
-        status = c.execute("""select orbit,freqmode,fqid,calibration,qsmr,scans,processed,processed/scans as ratio from registered_orbits natural join Versions left join processed_orbits using (orbit,calibration,freqmode,fqid) where active and orbit>=%s and orbit<=%s and calibration=%s and qsmr=%s and scans>=4 having ratio<%s or ratio is null""",(orbit1,orbit2,cal,qsmr,min))
+        status = c.execute("""select orbit,freqmode,fqid,calibration,qsmr,scans,processed,processed/scans as ratio from registered_orbits natural join Versions natural left join processed_orbits where active and orbit>=%s and orbit<=%s and calibration=%s and qsmr=%s and scans>=4 having ratio<%s or ratio is null""",(orbit1,orbit2,cal,qsmr,min))
 
     else:
-        status = c.execute("""select orbit,freqmode,fqid,calibration,qsmr,scans,processed,processed/scans as ratio from registered_orbits natural join Versions left join processed_orbits using (orbit,calibration,freqmode,fqid) where active and orbit>=%s and orbit<=%s and fqid=%s and calibration=%s and qsmr=%s and scans>=4 having ratio<%s or ratio is null""",(orbit1,orbit2,fqid,cal,qsmr,min))
+        status = c.execute("""select orbit,freqmode,fqid,calibration,qsmr,scans,processed,processed/scans as ratio from registered_orbits natural join Versions natural left join processed_orbits where active and orbit>=%s and orbit<=%s and fqid=%s and calibration=%s and qsmr=%s and scans>=4 having ratio<%s or ratio is null""",(orbit1,orbit2,fqid,cal,qsmr,min))
 
     if list:
         print "orb\tfreq\tfqid\tqsmr\tscans\tproc\tratio"

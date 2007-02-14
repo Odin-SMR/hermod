@@ -15,7 +15,7 @@ host : jet.rss.chalmers.se
 [GEM]
 SPOOL_DIR: /odin/smr/Data/spool/
 LEVEL1B_DIR: /odin/smr/Data/level1b/
-SMRL1B_DIR : /odin/smr/Data/SMRL1b/
+SMRL1B_DIR : /odin/smr/Data/SMRl1b/
 SMRL2_DIR : /odin/smr/Data/SMRl2/
 user : odinop
 passwd : secret

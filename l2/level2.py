@@ -119,5 +119,5 @@ class Level2:
         try:
             shutil.move(self.errfile,self.inffile)
         except IOError:
-            mesg = "Couldn't move %s to $s\n" % (self.errfile,self.inffile)
+            mesg = "Couldn't move %s to %s\n" % (self.errfile,self.inffile)
             raise HermodError(mesg)

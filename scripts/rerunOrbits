@@ -13,8 +13,8 @@ rerunOrbits orbit1 orbit2 modeid calibration threshold_ratio version queue [list
     list - produce a list instead of reprocessing
        
 examples:
-    rerunOrbits.py 4000 40FF 29 6 .1 2-0 rerun
-    rerunOrbits.py 4000 40FF 29 6 .1 2-0 rerun list
+    rerunOrbits 4000 40FF 29 6 .1 2-0 rerun
+    rerunOrbits 4000 40FF 29 6 .1 2-0 rerun list
 
 Executing this command would rerun all level1b files having modeid 29
 (SM_AC2ab) in calibration 6 which has less than 10% processed scans  in the
@@ -67,14 +67,18 @@ def main():
         usage()
         sys.exit(str(min)+" : The threshold ratio should be in [0..1]")
 
-    c=db.cursor(MySQLdb.cursors.DictCursor)
+    c=db.cursor(MySQLdb.cursors.SSDictCursor)
     # NOTE a filter scans>=4 is inserted...
-    if fqid==0: #all freqmodes
-        status = c.execute("""select orbit,freqmode,fqid,calibration,qsmr,scans,processed,processed/scans as ratio from registered_orbits natural join Versions natural left join processed_orbits where active and orbit>=%s and orbit<=%s and calibration=%s and qsmr=%s and scans>=4 having ratio<%s or ratio is null""",(orbit1,orbit2,cal,qsmr,min))
-
-    else:
-        status = c.execute("""select orbit,freqmode,fqid,calibration,qsmr,scans,processed,processed/scans as ratio from registered_orbits natural join Versions natural left join processed_orbits where active and orbit>=%s and orbit<=%s and fqid=%s and calibration=%s and qsmr=%s and scans>=4 having ratio<%s or ratio is null""",(orbit1,orbit2,fqid,cal,qsmr,min))
-
+    try:
+        if fqid==0: #all freqmodes
+            status = c.execute("""select orbit,freqmode,fqid,calibration,qsmr,scans,processed,processed/scans as ratio from registered_orbits natural join Versions natural join Freqmodes natural left join processed_orbits where active and orbit>=%s and orbit<=%s and calibration=%s and qsmr=%s and scans>=4 having ratio<%s or ratio is null""",(orbit1,orbit2,cal,qsmr,min))
+    
+        else:
+            status = c.execute("""select orbit,freqmode,fqid,calibration,qsmr,scans,processed,processed/scans as ratio from registered_orbits natural join Versions natural join Freqmodes natural left join processed_orbits where active and orbit>=%s and orbit<=%s and fqid=%s and calibration=%s and qsmr=%s and scans>=4 having ratio<%s or ratio is null""",(orbit1,orbit2,fqid,cal,qsmr,min))
+    except MySQLdb.MySQLError,e:
+        print >> sys.stderr, "Hermod:", str(e)
+    except MySQLdb.Warning,e:
+        print >> sys.stderr, "Hermod:", str(e)
     if list:
         print "orb\tfreq\tfqid\tqsmr\tscans\tproc\tratio"
         for mode in c:
@@ -90,6 +94,7 @@ def main():
             line = "%0.4X\t%i\t%i\t%s\t%i\t%s\t%s" %(o['orbit'],o['freqmode'],o['fqid'],o['qsmr'],o['scans'],str(o['processed']),str(o['ratio']))
             print line
             y.createFiles(queue,o['qsmr'])
+    except 
     c.close()
 
 if __name__ == "__main__":

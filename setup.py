@@ -3,7 +3,7 @@
           
 from distutils.core import setup,Extension
 setup(name='hermod',
-        version='1.2.1',
+        version='1.2.2,
         package_dir={'hermod': ''},
         packages=['hermod', 'hermod.l1b','hermod.l2','hermod.pdc'],
         description = 'Routines to simplify and improve speed of odinprocessing',

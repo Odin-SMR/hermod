@@ -99,9 +99,9 @@ dir=''
 try:
     dir=t.mkdtemp()
 except EnvironmentError,e:
-    print >>sys.stderr "Hermod: errno", e.errno ,e.filname
-    print >>sys.stderr "Couldn't create tempdir, trying to free diskspace.."
-    status = os.command('find /tmp -user odinop -maxdepht 1 -name "Tmp*" -exec rm -f \{\}')
+    print >>sys.stderr "Hermod error:", e.errno ,e.strerror,e.filname
+    print >>sys.stderr "              Couldn't create tempdir, trying to free diskspace.."
+    status = os.command('find /tmp -maxdepth 1 -user odinop -mmin +600 -name "Tmp*" -exec rm -rf \{\} \;')
     dir = t.mkdtemp()
 
 matlab = s.Popen(['matlab','-nojvm','-nosplash'],stdout=s.PIPE,stdin=s.PIPE,stderr=s.PIPE)
@@ -122,12 +122,14 @@ out = matlab.communicate(input=command)
 sys.stdout.write(out[0])
 sys.stderr.write(out[1])
 
+print "Hermod info: Matlab closed with statuscode:",matlab.returncode
+
 try:
     retcode = s.call("rm -rf " + dir, shell=True)
-    if retcode < 0:
-        print >>sys.stderr, "rm -rf returned", -retcode
+    if retcode != 0:
+        print >>sys.stderr, "Hermod error: rm -rf",dir,"returned:", retcode
 except OSError, e:
-    print >>sys.stderr, "Execution failed:", e
+    print >>sys.stderr,     "Hermod error:", e.errno, e.strerror, e.filename
 
 db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db=config.get('WRITE_SQL','db'))
 

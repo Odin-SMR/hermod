@@ -5,7 +5,7 @@
 rerunOrbits orbit1 orbit2 modeid calibration threshold_ratio version queue [list]
     orbit1 - first orbit number (hex)
     orbit2 - last orbit number
-    modeid - , mode id - 0 is used for all.
+    modeid - mode id 0 is used for all.
     calibration - l1b calibration nr
     threshold_ratio - rerun if ratio (processedscans/totalscans) is less than threshold_ratio
     version - qsmr version
@@ -72,29 +72,33 @@ def main():
     try:
         if fqid==0: #all freqmodes
             status = c.execute("""select orbit,freqmode,fqid,calibration,qsmr,scans,processed,processed/scans as ratio from registered_orbits natural join Versions natural join Freqmodes natural left join processed_orbits where active and orbit>=%s and orbit<=%s and calibration=%s and qsmr=%s and scans>=4 having ratio<%s or ratio is null""",(orbit1,orbit2,cal,qsmr,min))
-    
         else:
             status = c.execute("""select orbit,freqmode,fqid,calibration,qsmr,scans,processed,processed/scans as ratio from registered_orbits natural join Versions natural join Freqmodes natural left join processed_orbits where active and orbit>=%s and orbit<=%s and fqid=%s and calibration=%s and qsmr=%s and scans>=4 having ratio<%s or ratio is null""",(orbit1,orbit2,fqid,cal,qsmr,min))
     except MySQLdb.MySQLError,e:
         print >> sys.stderr, "Hermod:", str(e)
     except MySQLdb.Warning,e:
         print >> sys.stderr, "Hermod:", str(e)
-    if list:
-        print "orb\tfreq\tfqid\tqsmr\tscans\tproc\tratio"
-        for mode in c:
-            line = "%0.4X\t%i\t%i\t%s\t%i\t%s\t%s" %(mode['orbit'],mode['freqmode'],mode['fqid'],mode['qsmr'],mode['scans'],str(mode['processed']),str(mode['ratio']))
-            print line
+    except KeyboardInterupt:
+        print >> sys.stderr, "Hermod: KeyboardInterrupt, closing database..."
+        c.close()
     else:
         print "orb\tfreq\tfqid\tqsmr\tscans\tproc\tratio"
-        for o in c: #loop over all orbits found in above selection
-            line = "%0.4X\t%i\t%i\t%s\t%i\t%s\t%s" %(o['orbit'],o['freqmode'],o['fqid'],o['qsmr'],o['scans'],str(o['processed']),str(o['ratio']))
-            y = Level1bResolver(o['orbit'],o['calibration'],o['freqmode'],o['fqid'],o['qsmr'],db)
-            # We don't want to do cleaning, reading l2b fix that.
-            # y.cleanDatabase()
-            line = "%0.4X\t%i\t%i\t%s\t%i\t%s\t%s" %(o['orbit'],o['freqmode'],o['fqid'],o['qsmr'],o['scans'],str(o['processed']),str(o['ratio']))
-            print line
-            y.createFiles(queue,o['qsmr'])
-    except 
+        if list:
+            for mode in c:
+                print "%0.4X\t%i\t%i\t%s\t%i\t%s\t%s" %(mode['orbit'],mode['freqmode'],mode['fqid'],mode['qsmr'],mode['scans'],str(mode['processed']),str(mode['ratio']))
+        else:
+            for o in c: #loop over all orbits found in above selection
+                try:
+                    y = Level1bResolver(o['orbit'],o['calibration'],o['freqmode'],o['fqid'],o['qsmr'],db)
+                except HermodError,e:
+                    print >> sys.stderr, "Hermod:",e
+                # We don't want to do cleaning, reading l2b fix that.
+                # y.cleanDatabase()
+                print "%0.4X\t%i\t%i\t%s\t%i\t%s\t%s" %(o['orbit'],o['freqmode'],o['fqid'],o['qsmr'],o['scans'],str(o['processed']),str(o['ratio']))
+                try:
+                    y.createFiles(queue,o['qsmr'])
+                except HermodError,e:
+                    print >> sys.stderr, "Hermod:",e
     c.close()
 
 if __name__ == "__main__":

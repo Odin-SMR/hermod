@@ -99,8 +99,8 @@ dir=''
 try:
     dir=t.mkdtemp()
 except EnvironmentError,e:
-    print >>sys.stderr "Hermod error:", e.errno ,e.strerror,e.filname
-    print >>sys.stderr "              Couldn't create tempdir, trying to free diskspace.."
+    print >>sys.stderr, "Hermod error:", e.errno ,e.strerror,e.filname
+    print >>sys.stderr, "              Couldn't create tempdir, trying to free diskspace.."
     status = os.command('find /tmp -maxdepth 1 -user odinop -mmin +600 -name "Tmp*" -exec rm -rf \{\} \;')
     dir = t.mkdtemp()
 

@@ -1,7 +1,9 @@
 __init__.py
+ecmwf.py
 hermodBase.py
-hermod.cfg.default
+nilumod.py
 setup.py
+verifyDB.py
 l1b/__init__.py
 l1b/level1b.py
 l1b/readhdfmodule.c
@@ -14,5 +16,7 @@ pdc/__init__.py
 pdc/pdc.py
 scripts/getL1b
 scripts/insertFiles
+scripts/orbitslastdays
 scripts/readFreq
 scripts/rerunOrbits
+scripts/statuslastdays

@@ -104,112 +104,127 @@ class Level1b:
         """
         Removes all occurrancies of this orbitfile in database
         """
-        cur = self.openDB.cursor()
-        # Removing all scans from level2, level1b and scans tables from this new file
-        for freqmode in self.freqmodes:
-            l2status = cur.execute("""  delete level2
-                                from scans, level2
-                                where scans.id=level2.id 
-                                    and orbit=%s 
-                                    and freqmode = %s 
-                                    and calibration=%s """,(self.orbit,freqmode,self.calibration))
-
-            l1bstatus = cur.execute("""  delete level1b
-                                from scans ,level1b
-                                where scans.id=level1b.id 
-                                    and orbit=%s
-                                    and freqmode = %s
-                                    and calibration=%s """,(self.orbit,freqmode,self.calibration))
-
-            scanstatus = cur.execute("""  delete from scans
-                                where orbit=%s
-                                    and freqmode = %s
-                                    and calibration=%s """,(self.orbit,freqmode,self.calibration))
-        cur.close()
+        if not config.getboolean('DEFAULT','debug'):
+            cur = self.openDB.cursor()
+            # Removing all scans from level2, level1b and scans tables from this new file
+            for freqmode in self.freqmodes:
+                l2status = cur.execute("""  delete level2
+                                    from scans, level2
+                                    where scans.id=level2.id 
+                                        and orbit=%s 
+                                        and freqmode = %s 
+                                        and calibration=%s """,(self.orbit,freqmode,self.calibration))
+    
+                l1bstatus = cur.execute("""  delete level1b
+                                    from scans ,level1b
+                                    where scans.id=level1b.id 
+                                        and orbit=%s
+                                        and freqmode = %s
+                                        and calibration=%s """,(self.orbit,freqmode,self.calibration))
+    
+                scanstatus = cur.execute("""  delete from scans
+                                    where orbit=%s
+                                        and freqmode = %s
+                                        and calibration=%s """,(self.orbit,freqmode,self.calibration))
+            cur.close()
+        else:
+            pass
+            # do nothing
         return (l2status,l1bstatus,scanstatus)
 
     def addDataL1b(self):
         """
         Add data to database
         """
-        c = self.openDB.cursor()
-        scan_values = [(int(v['Orbit']),int(v['Source'].split('FM=')[1]),v['Level']&0xff,i+1) for i,v in enumerate(self.scans)]
-        scan_status = c.executemany(""" insert scans 
-                            (orbit,freqmode,calibration,scan) 
-                            values (%s,%s,%s,%s) """,scan_values)
-        level1b_values = [(v['Version']>>8,v['Version']&0xFF,v['Level']>>8,v['MJD'],mjdtoutc(v['MJD']),v['Latitude'],v['Longitude'],int(v['Orbit']),int(v['Source'].split('FM=')[1]),v['Level']&0xff,i+1) for i,v in enumerate(self.scans)]
-        for level1b_value in level1b_values:
-            c.execute(""" insert level1b
-                            (id,formatMajor,formatMinor,attitudeVersion,mjd,date,latitude,longitude,rssdate)
-                            select id,%s,%s,%s,%s,%s,%s,%s,now()
-                            from scans
-                            where scans.orbit=%s and scans.freqmode=%s and scans.calibration=%s 
-                                and scans.scan=%s """,level1b_value)
-        c.close()
+        if not config.getboolean('DEFAULT','debug'):
+            c = self.openDB.cursor()
+            scan_values = [(int(v['Orbit']),int(v['Source'].split('FM=')[1]),v['Level']&0xff,i+1) for i,v in enumerate(self.scans)]
+            scan_status = c.executemany(""" insert scans 
+                                (orbit,freqmode,calibration,scan) 
+                                values (%s,%s,%s,%s) """,scan_values)
+            level1b_values = [(v['Version']>>8,v['Version']&0xFF,v['Level']>>8,v['MJD'],mjdtoutc(v['MJD']),v['Latitude'],v['Longitude'],int(v['Orbit']),int(v['Source'].split('FM=')[1]),v['Level']&0xff,i+1) for i,v in enumerate(self.scans)]
+            for level1b_value in level1b_values:
+                c.execute(""" insert level1b
+                                (id,formatMajor,formatMinor,attitudeVersion,mjd,date,latitude,longitude,rssdate)
+                                select id,%s,%s,%s,%s,%s,%s,%s,now()
+                                from scans
+                                where scans.orbit=%s and scans.freqmode=%s and scans.calibration=%s 
+                                    and scans.scan=%s """,level1b_value)
+            c.close()
+        else:
+            pass
+            # Do nothing debug is active
 
     def moveCreateFiles(self,queue):
         """
         Move files to its final position, create links and send to queue
         """
-        for i in [self.destHDFfile,self.destLOGfile,self.destZPTfile]:
-            directory = os.path.dirname(i)
-            if os.path.exists(directory):
-                pass
-            else:
-                try:
-                    os.makedirs(directory)
-                except IOError,inst:
-                    mesg = """Errormessage: "%s" 
+        if not config.getboolean('DEFAULT','debug'):
+            for i in [self.destHDFfile,self.destLOGfile,self.destZPTfile]:
+                directory = os.path.dirname(i)
+                if os.path.exists(directory):
+                    pass
+                else:
+                    try:
+                        os.makedirs(directory)
+                    except IOError,inst:
+                        mesg = """Errormessage: "%s" 
     ...while makeing directory %s\n""" % (str(inst),directory)
-                    sys.stderr.write(mesg)
-                    sys.excepthook(sys.exc_info()[0],sys.exc_info()[1],sys.exc_info()[2])
-                
-        try:
-            shutil.move(self.origHDFfile,self.destHDFfile)
-        except IOError,inst:
-            mesg = """Errormessage: "%s"
+                        sys.stderr.write(mesg)
+                        sys.excepthook(sys.exc_info()[0],sys.exc_info()[1],sys.exc_info()[2])
+                    
+            try:
+                shutil.move(self.origHDFfile,self.destHDFfile)
+            except IOError,inst:
+                mesg = """Errormessage: "%s"
     ...while moving %s 
-        to %s\n""" % (str(inst),self.origHDFfile,self.destHDFfile)
-            sys.stderr.write(mesg)
-            sys.excepthook(sys.exc_info()[0],sys.exc_info()[1],sys.exc_info()[2])
-        try:
-            shutil.move(self.origLOGfile,self.destLOGfile)
-        except IOError,inst:
-            mesg = """Errormessage: "%s" 
+            to %s\n""" % (str(inst),self.origHDFfile,self.destHDFfile)
+                sys.stderr.write(mesg)
+                sys.excepthook(sys.exc_info()[0],sys.exc_info()[1],sys.exc_info()[2])
+            try:
+                shutil.move(self.origLOGfile,self.destLOGfile)
+            except IOError,inst:
+                mesg = """Errormessage: "%s" 
     ...while moving %s 
-        to %s\n""" % (str(inst),self.origLOGfile,self.destLOGfile)
-            sys.stderr.write(mesg)
-            sys.excepthook(sys.exc_info()[0],sys.exc_info()[1],sys.exc_info()[2])
-        self.createZPT()
-        for a in self.transitions:
-            a.createDirectories()
-            a.createLink()
-            a.queue(queue)
+            to %s\n""" % (str(inst),self.origLOGfile,self.destLOGfile)
+                sys.stderr.write(mesg)
+                sys.excepthook(sys.exc_info()[0],sys.exc_info()[1],sys.exc_info()[2])
+            self.createZPT()
+            for a in self.transitions:
+                a.createDirectories()
+                a.createLink()
+                a.queue(queue)
+        else:
+            pass
+            #Do nothing debug is active
  
     def createZPT(self):
         """
         Creates ZPT file
         """
-        f,h,g = os.popen3("/home/odinop/bin/create_tp_ecmwf_rss2 " + self.destLOGfile)
-        f.close()
-        h.close()
-        lines = g.readlines()
-        g.close()
-        if lines<>[]:
-            sys.stderr.writelines(lines)
-        try:
-            os.remove(self.linkZPTfile)
-        except OSError:
-            pass
-        try:
-            os.symlink(self.destZPTfile,self.linkZPTfile)
-        except OSError,inst:
-            mesg = """Errormessage: "%s" 
+        if not config.getboolean('DEFAULT','debug'):
+            f,h,g = os.popen3("/home/odinop/bin/create_tp_ecmwf_rss2 " + self.destLOGfile)
+            f.close()
+            h.close()
+            lines = g.readlines()
+            g.close()
+            if lines<>[]:
+                sys.stderr.writelines(lines)
+            try:
+                os.remove(self.linkZPTfile)
+            except OSError:
+                pass
+            try:
+                os.symlink(self.destZPTfile,self.linkZPTfile)
+            except OSError,inst:
+                mesg = """Errormessage: "%s" 
     ...while symlinking %s 
-        to %s\n""" % (str(inst),self.destZPTfile,self.linkZPTfile)
-            sys.stderr.write(mesg)
-            sys.excepthook(sys.exc_info()[0],sys.exc_info()[1],sys.exc_info()[2])
-
+            to %s\n""" % (str(inst),self.destZPTfile,self.linkZPTfile)
+                sys.stderr.write(mesg)
+                sys.excepthook(sys.exc_info()[0],sys.exc_info()[1],sys.exc_info()[2])
+        else:
+            pass
+            #Do nothing debug is active
 
 class Level1bResolver(Level1b):
     def __init__(self,orbitDecNr,calibration,freqmode,fqid,vers,openDatabase):
@@ -235,23 +250,31 @@ class Level1bResolver(Level1b):
         cur.close()
     
     def cleanDatabase(self):
-        cur = self.openDB.cursor()
-        # Removing all scans from level2, level1b and scans tables from this new file
-        for freqmode in self.freqmodes:
-            l2status = cur.execute("""  delete level2
-                                from scans, level2
-                                where scans.id=level2.id 
-                                    and orbit=%s 
-                                    and freqmode = %s 
-                                    and calibration=%s """,(self.orbit,freqmode,self.calibration))
-
-        cur.close()
-        return l2status
+        if not config.getboolean('DEFAULT','debug'):
+            cur = self.openDB.cursor()
+            # Removing all scans from level2, level1b and scans tables from this new file
+            for freqmode in self.freqmodes:
+                l2status = cur.execute("""  delete level2
+                                    from scans, level2
+                                    where scans.id=level2.id 
+                                        and orbit=%s 
+                                        and freqmode = %s 
+                                        and calibration=%s """,(self.orbit,freqmode,self.calibration))
+    
+            cur.close()
+            return l2status
+        else:
+            pass
+            #Do nothing debug is active
 
     def createFiles(self,queue,qsmr):
-        self.createZPT()
-        for a in self.transitions:
-            a.forceQueue(queue,qsmr)
+        if not config.getboolean('DEFAULT','debug'):
+            self.createZPT()
+            for a in self.transitions:
+                a.forceQueue(queue,qsmr)
+        else:
+            pass
+            # Do nothing debug is active
  
            
 def test(file):

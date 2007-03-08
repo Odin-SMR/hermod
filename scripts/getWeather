@@ -1,0 +1,23 @@
+#!/usr/bin/python
+from hermod.hermodBase import *
+from hermod.ecmwf import *
+
+"""
+getWeather - Get weather data from Nilu
+
+"""
+def main():
+   db = sql.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
+    t=weathercontrol(db,'T')
+    t.find()
+    t.generate()
+    z=weathercontrol(db,'Z')
+    z.find()
+    z.generate()
+    pv=weathercontrol(db,'PV')
+    pv.find()
+    pv.generate()
+    db.close()
+
+if __name__=="__main__":
+    main()

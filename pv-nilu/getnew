@@ -1,8 +1,0 @@
-#!/bin/bash
-cd ~/hermod/pv-nilu/
-ssh murtagh@zardoz.nilu.no "/nadir/home/murtagh/.odin-pv/genfiles"
-printf "get files-pv\nbye\n" |lftp zardoz.nilu.no
-if [ -s files-pv ] ; then 
-    ./makedir files-pv | sh -C
-    gawk -F"/" -f getfiles.awk files-pv | lftp
-fi

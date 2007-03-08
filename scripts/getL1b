@@ -1,14 +1,20 @@
 #!/usr/bin/python
 from hermod.hermodBase import *
 from hermod.pdc.pdc import *
+import sys
 
 """
 getL1b - Get level1b files from PDC
 
 """
 def main():
-   db = sql.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
-   a = Fetcher(db)
+    db = sql.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
+    try:
+        a = Fetcher(db)
+    except HermodError,mesg:
+        print >> sys.stderr, mesg
+    finally:
+        db.close()
 
 if __name__=="__main__":
     main()

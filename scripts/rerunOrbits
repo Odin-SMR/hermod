@@ -67,7 +67,7 @@ def main():
         usage()
         sys.exit(str(min)+" : The threshold ratio should be in [0..1]")
 
-    c=db.cursor(MySQLdb.cursors.SSDictCursor)
+    c=db.cursor(MySQLdb.cursors.DictCursor)
     # NOTE a filter scans>=4 is inserted...
     try:
         if fqid==0: #all freqmodes

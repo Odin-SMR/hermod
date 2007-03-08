@@ -1,3 +1,0 @@
-#!/bin/bash
-cut -d/ -f6 $1 |cut -c6-9 |sort -u | gawk '{print "mkdir -p /odin/pv/" $0}' 
-

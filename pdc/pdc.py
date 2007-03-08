@@ -2,6 +2,7 @@ import MySQLdb as sql
 import pexpect as p
 import os
 import os.path as o
+import sys
 
 from hermod.hermodBase import *
 
@@ -13,9 +14,7 @@ class Fetcher:
     def __init__(self,db):
         self.db = db
         cur = self.db.cursor(sql.cursors.DictCursor)
-        cur.execute('''SELECT distinct id,filename FROM not_downloaded_gem
-left join level1 using (id) union SELECT distinct id,logname FROM not_downloaded_gem
-left join level1 using (id) order by id''')
+        cur.execute('''SELECT distinct id,filename FROM not_downloaded_gem natural join level1 natural join status where status union SELECT distinct id,logname FROM not_downloaded_gem natural join level1 natural join status where status order by id''')
         self.download_list = list(cur.fetchall())
         cur.close()
         command0 = 'kftp -p %s' % config.get('PDC','host')
@@ -45,18 +44,19 @@ left join level1 using (id) order by id''')
                     status = os.system(command2)
                     if status == 0:
                         c.execute('''insert level1b_gem (id,filename) values (%s,%s)
-                                on duplicate key update date=now()''',(i['id'],i['filename']))
+                                on duplicate key update date=now()''',(i['id'],o.splitext(i['filename'])[0]))
                         c.execute('''delete from not_downloaded_gem where id=%s''',(i['id']))
                         #create zptfile?
                         #launch job?
                     else:
                         #what to do if the file  contained an error?
-                        pass
+                        print >> sys.stderr, "Problems while gunzipping file:",i['filename']
                 else:
                     c.execute('''insert level1b_gem (id,filename) values (%s,%s)
-                            on duplicate key update date=now()''',(i['id'],i['filename']))
+                            on duplicate key update date=now()''',(i['id'],o.splitext(i['filename'])[0]))
             else:
-                print "Could not download: %s " % pdcfile
+                print >> sys.stderr, "Could not download this PDC-file: %s " % pdcfile
+                # in future insert a failure messeage into smr.status
         self.pdcsess.sendline('bye')
             
                 
@@ -64,10 +64,12 @@ left join level1 using (id) order by id''')
 def test():
     db = sql.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
     a = Fetcher(db)
+    db.close()
 
 
 if __name__ == "__main__":
-    test()
+    pass
+    #test()
 
 
 

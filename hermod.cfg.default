@@ -1,5 +1,9 @@
 [DEFAULT]
-
+batchcommand: /usr/bin/qsub
+# if debug set to True no files will be create,moved,deleted or inserted into 
+# database or queued for processing.
+debug: False
+filearea: /odin/smr/Data/
 
 [READ_SQL]
 user : gem
@@ -13,10 +17,11 @@ db : odin
 host : jet.rss.chalmers.se
 
 [GEM]
-SPOOL_DIR: /odin/smr/Data/spool/
-LEVEL1B_DIR: /odin/smr/Data/level1b/
-SMRL1B_DIR : /odin/smr/Data/SMRl1b/
-SMRL2_DIR : /odin/smr/Data/SMRl2/
+SPOOL_DIR: %(filearea)sspool/
+LEVEL1B_DIR: %(filearea)slevel1b/
+SMRL1B_DIR : %(filearea)sSMRl1b/
+SMRL2_DIR :  %(filearea)sSMRl2/
+ECMWF_DIR : /odin/extdata/ecmwf/
 user : odinop
 passwd : secret
 host : jet.rss.chalmers.se

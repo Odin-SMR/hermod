@@ -26,7 +26,7 @@ def main():
         try:
             x = Level1b(file,db)
         except HermodError,inst:
-            print >> sys.sdterr, inst
+            print >> sys.stderr, inst
             continue
         x.cleanDatabase()
         x.addDataL1b()

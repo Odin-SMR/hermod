@@ -36,7 +36,7 @@ class weatherfile:
         if not os.path.exists(os.path.dirname(self.localname)):
             try:
                 os.makedirs(os.path.dirname(self.localname))
-            except EnvironmentError,isnt:
+            except EnvironmentError,inst:
                 print >> sys.stderr, inst.errno, inst.strerror, inst.filename
                 sys.exit(1)
         status = f.retrbinary('RETR %s'%self.filename, open(self.localname, 'wb').write)
@@ -62,10 +62,25 @@ class weathercontrol:
 
     def generate(self):
         for i in self.dates:
-            c = weatherfile(self.db,self.mode,i)
+            if self.mode=="PV":
+                c = weatherfile_PV(self.db,self.mode,i)
+            else:
+                c = weatherfile(self.db,self.mode,i)
             c.generate()
-            c.download()
-            c.addDb()
+            if not c.filename=='':
+                c.download()
+                c.addDb()
+
+class weatherfile_PV(weatherfile):
+    def download(self):
+        weatherfile.download(self)
+        self.gen_lait()
+
+    def gen_lait(self):
+        q = subprocess.Popen(['/home/odinop/tmp/convert_pv_to_mat_day',self.date.strftime('%Y'),self.date.strftime('%m'),self.date.strftime('%d'),config.get('GEM','ECMWF_DIR')+'pv/'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,close_fds=True,cwd='/home/odinop/tmp')
+        stdout,stderr = q.communicate()
+        print "stdout:\n",stdout
+        print "stderr:\n",stderr
     
 
 def getallexisting(top,db):

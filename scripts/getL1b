@@ -13,8 +13,7 @@ def main():
         a = Fetcher(db)
     except HermodError,mesg:
         print >> sys.stderr, mesg
-    finally:
-        db.close()
+    db.close()
 
 if __name__=="__main__":
     main()

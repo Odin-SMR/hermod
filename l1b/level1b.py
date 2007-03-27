@@ -11,6 +11,9 @@ import os
 from hermod.hermodBase import *
 from hermod.l1b import ReadHDF
 from hermod.l1b import transitions
+import re
+
+PATORB = re.compile("^.*O[ABC]1B([A-Z0-9]{4})\.HDF$")
 
 class Level1b:
     """
@@ -63,11 +66,20 @@ class Level1b:
             self.calibration = calibrations[0]
 
         #orbits
-        orbits = list(set([int(y['Orbit']) for y in self.SMR]))
-        if len(orbits)<>1:
-            mesg = '%s: Error: File contain spectra from more than one orbit %s' %(self.origHDFfile,str(orbits))
+        #
+        #orbits = [y['Orbit'] for y in self.SMR]
+        #orbit = int(orbits[len(orbits)/2])
+        #self.orbit = orbit
+        #print hex(orbit)
+        #
+        #Trust filename. Treat all scans as if they belong to the orbit the filename tells us.
+        orb = PATORB.search(self.origHDFfile)
+        if orb is not None:
+            self.orbit= int(orb.group(1),16)
+        else:
+            mesg = "%s: Error: Can not decide what orbit data comes from" % self.origfile
             raise HermodError(mesg)
-        self.orbit = orbits[0]
+
 
         #set name on related files
         cur = self.openDB.cursor(MySQLdb.cursors.DictCursor)
@@ -102,7 +114,7 @@ class Level1b:
 
     def cleanDatabase(self):
         """
-        Removes all occurrancies of this orbitfile in database
+        Removes all occurrencies of this orbitfile in database
         """
         if not config.getboolean('DEFAULT','debug'):
             cur = self.openDB.cursor()
@@ -126,9 +138,10 @@ class Level1b:
                                     where orbit=%s
                                         and freqmode = %s
                                         and calibration=%s """,(self.orbit,freqmode,self.calibration))
+                print l2status,l1bstatus,scanstatus
             cur.close()
         else:
-            pass
+            print >> sys.stderr, "debugging mode"
             # do nothing
         return (l2status,l1bstatus,scanstatus)
 
@@ -138,11 +151,15 @@ class Level1b:
         """
         if not config.getboolean('DEFAULT','debug'):
             c = self.openDB.cursor()
-            scan_values = [(int(v['Orbit']),int(v['Source'].split('FM=')[1]),v['Level']&0xff,i+1) for i,v in enumerate(self.scans)]
+            #scan_values = [(int(v['Orbit']),int(v['Source'].split('FM=')[1]),v['Level']&0xff,i+1) for i,v in enumerate(self.scans) if v['Orbit']==self.orbit]
+            # Force data to belong to the orbit the filename says
+            scan_values = [(self.orbit,int(v['Source'].split('FM=')[1]),v['Level']&0xff,i+1) for i,v in enumerate(self.scans)]
             scan_status = c.executemany(""" insert scans 
                                 (orbit,freqmode,calibration,scan) 
                                 values (%s,%s,%s,%s) """,scan_values)
-            level1b_values = [(v['Version']>>8,v['Version']&0xFF,v['Level']>>8,v['MJD'],mjdtoutc(v['MJD']),v['Latitude'],v['Longitude'],int(v['Orbit']),int(v['Source'].split('FM=')[1]),v['Level']&0xff,i+1) for i,v in enumerate(self.scans)]
+            # level1b_values = [(v['Version']>>8,v['Version']&0xFF,v['Level']>>8,v['MJD'],mjdtoutc(v['MJD']),v['Latitude'],v['Longitude'],int(v['Orbit']),int(v['Source'].split('FM=')[1]),v['Level']&0xff,i+1) for i,v in enumerate(self.scans) if v['Orbit']==self.orbit]
+            # Force orbitnumber
+            level1b_values = [(v['Version']>>8,v['Version']&0xFF,v['Level']>>8,v['MJD'],mjdtoutc(v['MJD']),v['Latitude'],v['Longitude'],self.orbit,int(v['Source'].split('FM=')[1]),v['Level']&0xff,i+1) for i,v in enumerate(self.scans)]
             for level1b_value in level1b_values:
                 c.execute(""" insert level1b
                                 (id,formatMajor,formatMinor,attitudeVersion,mjd,date,latitude,longitude,rssdate)

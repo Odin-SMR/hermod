@@ -1,6 +1,7 @@
 __init__.py
 ecmwf.py
 hermodBase.py
+hermod.cfg.default
 nilumod.py
 setup.py
 verifyDB.py
@@ -19,4 +20,5 @@ scripts/insertFiles
 scripts/orbitslastdays
 scripts/readFreq
 scripts/rerunOrbits
+scripts/getWeather
 scripts/statuslastdays

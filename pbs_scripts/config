@@ -1,0 +1,12 @@
+$configversion 7
+$loglevel 3
+$log_file_max_size 1024
+$log_file_roll_depth 8
+$pbsserver opal
+$down_on_error true
+$restricted *.rss.chalmers.se
+size[fs=/tmp]
+$usecp *.rss.chalmers.se:/home /home
+$node_check_script /usr/bin/healthcheck
+$node_check_interval 1
+

@@ -1,4 +1,5 @@
 from hermod.hermodBase import *
+from hermod.session import *
 import datetime
 import os
 import os.path
@@ -77,10 +78,10 @@ class weatherfile_PV(weatherfile):
         self.gen_lait()
 
     def gen_lait(self):
-        q = subprocess.Popen(['/home/odinop/tmp/convert_pv_to_mat_day',self.date.strftime('%Y'),self.date.strftime('%m'),self.date.strftime('%d'),config.get('GEM','ECMWF_DIR')+'pv/'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,close_fds=True,cwd='/home/odinop/tmp')
-        stdout,stderr = q.communicate()
-        print "stdout:\n",stdout
-        print "stderr:\n",stderr
+        lait = matlab(outputFile=open(os.path.expanduser('~/tmp/lait.log'),'w'),cwd=os.path.expanduser('~/Matlab/Odin_tools/'))
+        lait.command("Odin_tools_startup")
+        lait.command("convert_pv_to_mat_day(%s,'%s',1)"% (self.date.strftime('%Y,%m,%d'),os.path.join(config.get('GEM','ECMWF_DIR'),'pv/')))
+        lait.close()
     
 
 def getallexisting(top,db):

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 from hermod.hermodBase import *
-from hermod.pdc.pdc import *
+from hermod.pdc import *
 import sys
 
 """

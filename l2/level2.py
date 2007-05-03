@@ -20,7 +20,6 @@ class Level2:
         self.fqid = fqid
         self.version = version
         self.db = db
-        self.setFileNames()
 
     def setFileNames(self):
         """
@@ -43,10 +42,10 @@ class Level2:
                                                         
         else:
             if status>1:
-                mesg = sys.argv[0] + ": two or more modes matches CRITICAL WARNING this is a design error\n"
+                mesg = "Two or more modes matches CRITICAL WARNING this is a design error"
                 raise HermodError(mesg)
-            mesg = sys.argv[0] + ": error resolving freqmode and calibration\n"
-            sys.stderr.write(mesg)
+            mesg = "Error resolving freqmode and calibration"
+            raise HermodError(mesg)
         c.close()
        
     def readl2(self):
@@ -64,7 +63,7 @@ class Level2:
             vs.end()                  # terminate the vdata interface
             f.close()                 # close the HDF file
         except HDF4Error:
-            mesg = "error reading %s\n" % self.hdffile
+            mesg = "error reading %s" % self.hdffile
             raise HermodError(mesg)
 
     def addData(self):
@@ -119,5 +118,5 @@ class Level2:
         try:
             shutil.move(self.errfile,self.inffile)
         except IOError:
-            mesg = "Couldn't move %s to %s\n" % (self.errfile,self.inffile)
+            mesg = "Couldn't move %s to %s" % (self.errfile,self.inffile)
             raise HermodError(mesg)

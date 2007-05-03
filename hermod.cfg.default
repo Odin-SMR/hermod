@@ -31,6 +31,7 @@ PDC_DIR : /data/odin/level1b/aero/submm/
 user : donal
 passwd: secret
 host : esrange.pdc.kth.se
+principal : NADA.KTH.SE
 
 [NILU]
 NILU_DIR : .odin/

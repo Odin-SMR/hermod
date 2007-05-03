@@ -15,5 +15,21 @@ for i in sys.argv:
   print "###",i
 
 print "###"
-
+try:
+    top = '/tmp/tmp%s' % os.environ['PBS_JOBID']
+except KeyError,inst:
+    print >> sys.stderr, "Can't find environment variable", inst
+    sys.exit(1)
+try:
+    for root, dirs, files in os.walk(top, topdown=False):
+            for name in files:
+                    os.remove(os.path.join(root, name))
+            for name in dirs:
+                os.rmdir(os.path.join(root, name))
+    os.rmdir(top)
+except EnvironmentError,inst:
+    print >> sys.stderr, "Can't delete tempdir:",inst.errno,inst.strerror,inst.filename
+    sys.exit(2)
+print "### Deleted tempdir",top
+print "###"
 sys.exit(0)

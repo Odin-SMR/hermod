@@ -4,6 +4,8 @@ import os,stat
 class HermodError(Exception):
     pass
 
+class HermodWarning(Exception):
+    pass
 
 #Read configfiles
 config = c.ConfigParser()

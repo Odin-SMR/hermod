@@ -1,6 +1,8 @@
 #!/usr/bin/python
 import sys,os,datetime
 
+error = False
+
 print "### Hermod system information:"
 print "###"
 print "###",str(datetime.datetime.now())
@@ -16,9 +18,9 @@ for i in sys.argv:
 
 print "###"
 try:
-    top = '/tmp/tmp%s' % os.environ['PBS_JOBID']
-except KeyError,inst:
-    print >> sys.stderr, "Can't find environment variable", inst
+    top = '/tmp/tmp%s' % (sys.argv[1].split('.')[0])
+except IndexError,inst:
+    print >> sys.stderr, "Can't find argument with jobid", inst
     sys.exit(1)
 try:
     for root, dirs, files in os.walk(top, topdown=False):
@@ -28,8 +30,14 @@ try:
                 os.rmdir(os.path.join(root, name))
     os.rmdir(top)
 except EnvironmentError,inst:
-    print >> sys.stderr, "Can't delete tempdir:",inst.errno,inst.strerror,inst.filename
-    sys.exit(2)
-print "### Deleted tempdir",top
+    if inst.errno==2:
+        print "###",'Tempdir %s already deleted' % (inst.filename)
+        error = True
+    else:
+        print >> sys.stderr, "Can't delete tempdir:",inst.errno,inst.strerror,inst.filename
+        print "Can't delete tempdir:"
+        sys.exit(2)
+if not error:
+    print "### Deleted tempdir",top
 print "###"
 sys.exit(0)

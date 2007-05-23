@@ -83,19 +83,19 @@ class Transition:
         cur = self.openDB.cursor(MySQLdb.cursors.DictCursor)
         cur.execute("""select * from Versions where freqmode=%s and fqid=%s and active""",(self.freqmode,self.fqid))
         for i in cur:
-            x = s.Popen(['qsub','-N id%0.2i.%0.4X.%s' %(self.fqid,self.orbit,i['qsmr']),'-l walltime=%s,nice=19' % (self.maxproctime),'-q %s' %(queue),'-v ORBIT=%i,FREQMODE=%i,CALIBRATION=%i,FQID=%i,NAME=%s,QSMR=%s'%(self.orbit,self.freqmode,self.calibration,self.fqid,self.name,i['qsmr']),'/usr/bin/hermodrunjob'],stdin=s.PIPE,stdout=s.PIPE,stderr=s.PIPE,cwd='/home/odinop/logs/',close_fds=True)
+            name = 'id%0.2i.%0.4X.%s' %(self.fqid,self.orbit,i['qsmr'])
+            launch =['/usr/bin/qsub','-N%s' %(name),'-lwalltime=%s,nice=19' % (self.maxproctime),'-q%s' %(queue),'-vORBIT=%i,FREQMODE=%i,CALIBRATION=%i,FQID=%i,NAME=%s,QSMR=%s'%(self.orbit,self.freqmode,self.calibration,self.fqid,self.name,i['qsmr']),'-e%s%s.err'%(config.get('GEM','logs'),name),'-o%s%s.out'%(config.get('GEM','logs'),name),'/usr/bin/hermodrunjob']
+            x = s.Popen(launch,stdin=s.PIPE,stdout=s.PIPE,stderr=s.PIPE)
+            x.stdin.close()
             status = x.wait()
-            for i in x.stderr.readlines():
-                print >>sys.stderr, i,
-            for i in x.stdout.readlines():
-                print >> sys.stdout, i,
+            print 'exit status:',status
         cur.close()
 
     def forceQueue(self,queue,qsmr):
-        x = s.Popen(['qsub','-N id%0.2i.%0.4X.%s' %(self.fqid,self.orbit,qsmr),'-l walltime=%s,nice=19' % (self.maxproctime),'-q %s' %(queue),'-v ORBIT=%i,FREQMODE=%i,CALIBRATION=%i,FQID=%i,NAME=%s,QSMR=%s'%(self.orbit,self.freqmode,self.calibration,self.fqid,self.name,qsmr),'/usr/bin/hermodrunjob'],stdin=s.PIPE,stdout=s.PIPE,stderr=s.PIPE,cwd='/home/odinop/logs/',close_fds=True)
+        name = 'id%0.2i.%0.4X.%s' %(self.fqid,self.orbit,qsmr)
+        launch =['/usr/bin/qsub','-N%s' %(name),'-lwalltime=%s,nice=19' % (self.maxproctime),'-q%s' %(queue),'-vORBIT=%i,FREQMODE=%i,CALIBRATION=%i,FQID=%i,NAME=%s,QSMR=%s'%(self.orbit,self.freqmode,self.calibration,self.fqid,self.name,qsmr),'-e%s%s.err'%(config.get('GEM','logs'),name),'-o%s%s.out'%(config.get('GEM','logs'),name),'/usr/bin/hermodrunjob']
+        x = s.Popen(launch,stdin=s.PIPE,stdout=s.PIPE,stderr=s.PIPE)
+        x.stdin.close()
         status = x.wait()
-        for i in x.stderr.readlines():
-            print >>sys.stderr, i,
-        for i in x.stdout.readlines():
-            print >> sys.stdout, i,
+        print 'exit status:',status
 

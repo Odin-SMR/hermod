@@ -15,16 +15,15 @@ for i in sys.argv:
   print "###",i
 
 print "###"
-
 try:
-    os.mkdir('/tmp/tmp%s' %(os.environ['PBS_JOBID']))
-except KeyError,inst:
-    print >> sys.stderr , "Could not find environment variable",inst
+    os.mkdir('/tmp/tmp%s' %(sys.argv[1].split('.')[0]))
+except IndexError,inst:
+    print >> sys.stderr , "Could not find jobid argument",inst
     sys.exit(2)
 except EnvironmentError,inst:
     print >> sys.stderr , "Error creating tempdir:", inst.errno, inst.strerror, inst.filename
     sys.exit(1)
 
-print "### Created tempdir", "/tmp/tmp%s" %(os.environ['PBS_JOBID'])
+print "### Created tempdir", "/tmp/tmp%s" %(sys.argv[1].split('.')[0])
 print "###"
 sys.exit(0)

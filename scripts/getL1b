@@ -1,19 +1,36 @@
 #!/usr/bin/python
 from hermod.hermodBase import *
-from hermod.pdc import *
-import sys
+from hermod.level1b import *
+from sys import exit,stderr
+import MySQLdb
 
 """
 getL1b - Get level1b files from PDC
 
 """
 def main():
-    db = sql.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
+    db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
+    cursor = db.cursor(MySQLdb.cursors.DictCursor)
+    status = cursor.execute('''SELECT distinct * FROM test  natural join level1 natural join status''')
     try:
-        a = Fetcher(db)
-    except HermodError,mesg:
-        print >> sys.stderr, mesg
+        level1objects = [level1Factory(i,db) for i in cursor]
+    except HermodError,inst:
+        sys.exit("HermodError: %s\n" % (inst))
+    cursor.close()
+    for i in level1objects:
+        if i is not None:
+            try:
+                i.download()
+                i.filesystem()
+                i.database()
+                i.createAux()
+                i.linkandmove()
+                i.queue()
+            except HermodError,inst:
+                stderr.write('HermodError: %s\n'%(inst)) 
+                break
     db.close()
+
 
 if __name__=="__main__":
     main()

@@ -1,5 +1,5 @@
 import os,subprocess,fcntl,sys,os.path,tempfile,MySQLdb
-from hermod.l2.level2 import *
+from hermod.level2 import *
 from hermod.hermodBase import *
 
 '''
@@ -106,13 +106,20 @@ class matlab_nonblockread(matlab):
                     raise IOError(inst)
             if queue == self.prompt:
                 break
+def pbsFactory(orbit,freqmode,calibration,fqid,name,qsmr,db):
+    if qsmr=='2-1':
+        return pbs_21(orbit,freqmode,calibration,fqid,name,qsmr,db)
+    elif qsmr=='2-0':
+        return pbs_20(orbit,freqmode,calibration,fqid,name,qsmr,db)
+    else:
+        return None
 
 class pbs:
     '''
     Generic class for running inversions, specialised classes can be base by
     this by inheritance, se this class as a abstract class
     '''
-    def __init__(self,orbit,freqmode,calibration,fqid,name,qsmr):
+    def __init__(self,orbit,freqmode,calibration,fqid,name,qsmr,db):
         self.orbit = int(orbit)
         self.fqid = int(fqid)
         self.freqmode = int(freqmode)
@@ -120,13 +127,24 @@ class pbs:
         self.calibration = int(calibration)
         self.qsmr = qsmr
         self.dir=''
+        self.db = db
+        try:
+            self.l2p = level2Factory(self.orbit,self.freqmode,self.calibration,self.fqid,self.qsmr,db)
+        except HermodError,inst:
+            raise HermodError('Error initiating level2: %s' %(inst))
 
     def prepare(self):
+        if self.l2p is not None:
+            l2p.setFileNames()
+            l2p.preClean()
         try:
-            self.dir = '/tmp/tmp%s' % os.environ['PBS_JOBID']
-        except:
+            #prologue.user created the /tmp/tmp{jobid} directory.
+            self.dir = '/tmp/tmp%s' % os.environ['PBS_JOBID'].split('.')[0]
+            print "assigned tempdir",self.dir
+        except :
             try:
                 self.dir=tempfile.mkdtemp()
+                print >> sys.stderr,"Hermod Warning: created random tempdir",self.dir
             except EnvironmentError,e:
                 raise HermodError("Error while creating tempdir: %i, %s, %s" %(e.errno,e.strerror,e,filename))
 
@@ -140,28 +158,22 @@ class pbs:
         pass
 
     def write(self):
-        db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db=config.get('WRITE_SQL','db'))
-        
-        l2p = Level2(self.orbit,self.freqmode,self.calibration,self.fqid,self.qsmr,db)
         try:
-            l2p.setFileNames()
+            if l2p is not None:
+                l2p.readData()
+                l2p.addData()
+                l2p.cleanFiles()
         except HermodError,inst:
-            sys.stderr.write("HermodError: %s"%(str(inst)))
-        status = os.system('rm -f '+l2p.matfile)
-        l2p.dell2()
-        try:
-            l2p.readl2()
-            l2p.addData()
-        except HermodError,inst:
-            sys.stderr.write('HermodError: %s\n' %(str(inst)))
-        try:
-            l2p.cleanFiles()
-        except HermodError,inst:
-            sys.stderr.write('HermodError: %s\n' %(inst))
-        db.close()
+            raise HermodError('write l2data: %s' %(inst))
 
     def upload(self):
         pass
+
+class pbs_20(pbs):
+    def run(self):
+        mat = matlab(args=['-nojvm','-nosplash'],cwd='/home/odinop/Matlab/Qsmr_%s'%(self.qsmr.replace('-','_')))
+        mat.commands(["display 'this i a special class designed for qsmr-2-1'","set(gcf,'Visible','off')","qsmr_startup","qsmr_inv_op('%s','%0.4X','%0.4X','%s')"%(self.name,self.orbit,self.orbit,self.dir),"close all","clear all","clear all"])
+        mat.close()
 
 class pbs_21(pbs):
     def run(self):

@@ -7,6 +7,7 @@ import re
 import MySQLdb
 import subprocess
 import sys
+import StringIO
 from ftplib import FTP
 
 ecmwfpat = re.compile('^.*([0-9]{6})\.([\d]{1,2})([A-Z]{1,2})\.gz')
@@ -83,6 +84,39 @@ class weatherfile_PV(weatherfile):
         lait.command("convert_pv_to_mat_day(%s,'%s',1)"% (self.date.strftime('%Y,%m,%d'),os.path.join(config.get('GEM','ECMWF_DIR'),'pv/')))
         lait.close()
     
+class ZPTfile:
+    def __init__(self,opendb):
+        self.db = opendb
+        self.row = []
+        pass
+
+    def getNonExisting(self):
+        cursor = self.db.cursor()
+        cursor.execute('''SELECT id,filename from level1b_gem as l where not exists (select * from level1b_gem as m where m.id=l.id and m.filename regexp '.*ZPT' and  m.date>=l.date) and 
+        filename regexp ".*LOG"''')
+        self.row = [i for i in cursor]
+        cursor.close()
+
+    def genZPT(self,logfilepair):
+        stringout = StringIO.StringIO()
+        stringerr = StringIO.StringIO()
+        x = matlab(cwd='/odin/extdata/ecmwf/tz',outputFile=stringout,errorFile=stringerr)
+        x.command("create_tp_ecmwf_rss2('%s%s')"%(config.get('GEM','LEVEL1B_DIR'),logfilepair[1]))
+        if stringerr.getvalue()<>'':
+            sys.stderr.write(stringerr.getvalue())
+        else:
+            self.add(logfilepair)
+        x.close()
+
+    def genZPTs(self):
+        for a in self.row:
+            self.genZPT(a)
+
+    def add(self,logfilepair):
+        filepair = (logfilepair[0],logfilepair[1].replace('LOG','ZPT'))
+        cursor = self.db.cursor()
+        status = cursor.execute('''insert level1b_gem (id,filename) values (%s,%s) on duplicate key update date=now()''',filepair)
+        cursor.close()
 
 def getallexisting(top,db):
     c  = db.cursor()
@@ -119,7 +153,7 @@ def fillcalendar():
         date = date + day
     db.close()
 
-if __name__=='__main__':
+def rungetfilesfromnilu():
     db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
     t=weathercontrol(db,'T')
     t.find()
@@ -130,4 +164,11 @@ if __name__=='__main__':
     pv=weathercontrol(db,'PV')
     pv.find()
     pv.generate()
+    db.close()
+
+if __name__=='__main__':
+    db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
+    x = ZPTfile(db)
+    x.getNonExisting()
+    x.genZPTs()
     db.close()

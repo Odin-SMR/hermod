@@ -11,6 +11,7 @@ import os
 from hermod.hermodBase import *
 from hermod.l1b import ReadHDF
 from hermod.l1b import transitions
+from hermod.session import matlab
 import re
 
 PATORB = re.compile("^.*O[ABC]1B([A-Z0-9]{4})\.HDF$")
@@ -220,13 +221,9 @@ class Level1b:
         Creates ZPT file
         """
         if not config.getboolean('DEFAULT','debug'):
-            f,h,g = os.popen3("/home/odinop/bin/create_tp_ecmwf_rss2 " + self.destLOGfile)
-            f.close()
-            h.close()
-            lines = g.readlines()
-            g.close()
-            if lines<>[]:
-                sys.stderr.writelines(lines)
+            a = matlab(cwd='/odin/extdata/ecmwf/tz')
+            a.command("create_tp_ecmwf_rss2('%s')"%(self.destLOGfile))
+            a.close()
             try:
                 os.remove(self.linkZPTfile)
             except OSError:

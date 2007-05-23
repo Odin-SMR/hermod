@@ -60,6 +60,7 @@ if __name__ == "__main__":
                 print __doc__
                 sys.exit(sys.argv[0] + ": Not correct number of parameters")
     l2p = Level2(orbit,freq,cal,fqid,qsmr,db)
+    l2p.setFileNames()
 
     print """
     This is readfreq trying to add profiles to the database

@@ -22,6 +22,7 @@ LEVEL1B_DIR: %(filearea)slevel1b/
 SMRL1B_DIR : %(filearea)sSMRl1b/
 SMRL2_DIR :  %(filearea)sSMRl2/
 ECMWF_DIR : /odin/extdata/ecmwf/
+logs : /home/odinop/logs/
 user : odinop
 passwd : secret
 host : jet.rss.chalmers.se

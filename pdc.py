@@ -75,7 +75,7 @@ class connection:
                 raise HermodError('Could not destroy tickets')
 
             #create a new ticket
-            ticket = p.spawn('kinit -f --afslog --renewable -l 10m %s@%s'%(config.get('PDC','user'),config.get('PDC','principal')))
+            ticket = p.spawn('kinit -f --afslog --renewable -l 1h %s@%s'%(config.get('PDC','user'),config.get('PDC','principal')))
             ticket.expect('Password:')
             ticket.sendline(config.get('PDC','passwd'))
             ticket.expect(p.EOF)
@@ -125,11 +125,11 @@ class connection:
                 pdcsess.sendline('get %s %s'%pair)
                 index = pdcsess.expect(['Transfer complete.','Permission denied','No such file or directory','Is a directory',p.EOF,p.TIMEOUT],timeout=7)
                 if index == 0:
-                    print "OK"
+                    pass
                 elif index == 1:
                     print "Permission error"
                 elif index == 2:
-                    print "No such file"
+                    print "No such file: %s" %pair[0]
                 elif index == 3:
                     print "target is a directory"
                 elif index == 4:

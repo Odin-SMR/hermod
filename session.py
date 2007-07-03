@@ -47,8 +47,10 @@ class matlab:
         self.errorFile.writelines(error)
         if self.matlab.returncode==0:
             self.outputFile.write('HermodInfo: Matlab exited normally\n')
+            self.ok = True
         else:
-            self.errorFile.write('HermodError: Matlab exited with errors, exitcode: %i'%(self.matlab.returncode))
+            self.errorFile.write('HermodError: Matlab exited with errors, exitcode: %i\n'%(self.matlab.returncode))
+            self.ok = False
 
     def listen(self):
         '''
@@ -135,8 +137,8 @@ class pbs:
 
     def prepare(self):
         if self.l2p is not None:
-            l2p.setFileNames()
-            l2p.preClean()
+            self.l2p.setFileNames()
+            self.l2p.preClean()
         try:
             #prologue.user created the /tmp/tmp{jobid} directory.
             self.dir = '/tmp/tmp%s' % os.environ['PBS_JOBID'].split('.')[0]
@@ -159,15 +161,16 @@ class pbs:
 
     def write(self):
         try:
-            if l2p is not None:
-                l2p.readData()
-                l2p.addData()
-                l2p.cleanFiles()
+            if self.l2p is not None:
+                self.l2p.readAuxFile()
+                self.l2p.readData()
+                self.l2p.addData()
+                self.l2p.cleanFiles()
         except HermodError,inst:
             raise HermodError('write l2data: %s' %(inst))
 
     def upload(self):
-        pass
+        self.l2p.upload()
 
 class pbs_20(pbs):
     def run(self):

@@ -11,7 +11,7 @@ getL1b - Get level1b files from PDC
 def main():
     db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
-    status = cursor.execute('''SELECT distinct * FROM test  natural join level1 natural join status''')
+    status = cursor.execute('''SELECT distinct * FROM not_downloaded_gem natural join level1 natural join status''')
     try:
         level1objects = [level1Factory(i,db) for i in cursor]
     except HermodError,inst:
@@ -28,7 +28,7 @@ def main():
                 i.queue()
             except HermodError,inst:
                 stderr.write('HermodError: %s\n'%(inst)) 
-                break
+                continue
     db.close()
 
 

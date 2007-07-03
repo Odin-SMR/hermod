@@ -49,18 +49,21 @@ class l1b:
 
     def download(self):
         pdc = connection()
-        pdc.downloads(
-                [
-                    (
-                        os.path.join(config.get('PDC','PDC_DIR'),self.l1['filename']),
-                        os.path.join(config.get('GEM','LEVEL1B_DIR'),self.l1['filename'])
-                        ),
-                    (
-                        os.path.join(config.get('PDC','PDC_DIR'),self.l1['logname']),
-                        os.path.join(config.get('GEM','LEVEL1B_DIR'),self.l1['logname'])
-                        )
-                    ]
-                )
+        try:
+            pdc.downloads(
+                    [
+                        (
+                            os.path.join(config.get('PDC','PDC_DIR'),self.l1['filename']),
+                            os.path.join(config.get('GEM','LEVEL1B_DIR'),self.l1['filename'])
+                            ),
+                        (
+                            os.path.join(config.get('PDC','PDC_DIR'),self.l1['logname']),
+                            os.path.join(config.get('GEM','LEVEL1B_DIR'),self.l1['logname'])
+                            )
+                        ]
+                    )
+        except HermodError, inst:
+            raise HermodError("Couln't fetch files from PDC: %s" %(inst))
 
     def filesystem(self):
         retcode = subprocess.call(['/bin/gunzip','-f',os.path.join(config.get('GEM','LEVEL1B_DIR'),self.l1['filename'])])
@@ -74,7 +77,7 @@ class l1b:
             status = cursor.execute('''delete from level1b_gem where id=%(id)s''',(self.l1))
             status=cursor.execute('''insert level1b_gem (id,filename) values (%(id)s,%(filename)s)''',(self.l1))
             status = cursor.execute('''insert level1b_gem (id,filename) values (%(id)s,%(logname)s)''',(self.l1))
-            #cursor.execute('''delete from not_downloaded_gem where id=%(id)s''',(self.l1))
+            cursor.execute('''delete from not_downloaded_gem where id=%(id)s''',(self.l1))
 
     def createAux(self):
         x = ZPTfile(self.db)
@@ -109,11 +112,11 @@ class l1b_v6(l1b):
             log = os.path.join(config.get('GEM','LEVEL1B_DIR'),l1copy['logname'])
             dir = os.path.join(config.get('GEM','SMRL1B_DIR'),'V-%(calibration)i','%(name)s') %(l1copy)
             zpt = os.path.join(config.get('GEM','SMRL1B_DIR'),'V-%(calibration)i','ECMWF','%(backend)s') %(l1copy)
-            x = subprocess.Popen(['/usr/bin/mkdir','-p',dir],stderr=subprocess.PIPE,stdout=subprocess.PIPE)
+            x = subprocess.Popen(['/bin/mkdir','-p',dir],stderr=subprocess.PIPE,stdout=subprocess.PIPE)
             status = x.wait()
-            x = subprocess.Popen(['/usr/bin/ln','-s','-t%s'%(dir),file,log],stderr=subprocess.PIPE,stdout=subprocess.PIPE)
+            x = subprocess.Popen(['/bin/ln','-s','-t%s'%(dir),file,log],stderr=subprocess.PIPE,stdout=subprocess.PIPE)
             status = x.wait()
-            x = subprocess.Popen(['/usr/bin/ln','-s','-t%s'%(zpt),file.replace('HDF','ZPT')],stderr=subprocess.PIPE,stdout=subprocess.PIPE)
+            x = subprocess.Popen(['/bin/ln','-s','-t%s'%(zpt),file.replace('HDF','ZPT')],stderr=subprocess.PIPE,stdout=subprocess.PIPE)
             status = x.wait()
 
 

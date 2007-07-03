@@ -1,0 +1,42 @@
+#!/usr/bin/python
+
+'''
+This script runs on a computing node, it starts Matlab and parses its output.
+
+The follow in environment variables are mandatory input to this program: ORBIT,
+FREQMODE, CALIBRATION, FQID, NAME, QSMR.
+'''
+
+from os import environ
+from sys import exit
+from hermod.session import pbsFactory
+from hermod.hermodBase import *
+import MySQLdb
+
+def main():
+    try:
+        orbit = environ['ORBIT']
+        freqmode = environ['FREQMODE']
+        calibration = environ['CALIBRATION']
+        fqid = environ['FQID']
+        name = environ['NAME']
+        qsmr = environ['QSMR']
+    except KeyError,inst:
+        print __doc__
+        exit('Error: No environment varible named: %s\n' %(inst))
+    db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
+    try:
+        job = pbsFactory(orbit,freqmode,calibration,fqid,name,qsmr,db)
+        if job is not None:
+            job.prepare()
+            job.run()
+            job.write()
+            job.upload()
+            job.clean()
+    except HermodError,inst:
+        db.close()
+        exit('Hermod Error: %s\n' %(inst))
+    db.close()
+
+if __name__=='__main__':
+    main()

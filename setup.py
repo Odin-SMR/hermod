@@ -19,14 +19,14 @@ class install_data(_install_data):
 
 setup(cmdclass={'install_data': install_data},
         name='hermod',
-        version='2.0.0.rc4',
+        version='2.0.0.rc8',
         package_dir={'hermod': ''},
         packages=['hermod'],
         description = 'Routines to simplify and improve speed of odinprocessing',
         author='Joakim Möller',
         author_email='joakim.moller@chalmers.se',
         url='http://odin.rss.chalmers.se',
-        scripts=['scripts/insertFiles','scripts/readFreq','scripts/rerunOrbits','scripts/getL1b','scripts/statuslastdays','scripts/orbitslastdays','scripts/getWeather','pbs_scripts/healthcheck','scripts/hermodrunjob'],
+        scripts=['scripts/rerunOrbits','scripts/getL1b','scripts/orbitslastdays','scripts/getWeather','pbs_scripts/healthcheck','scripts/hermodrunjob'],
         data_files=[('/etc',['hermod.cfg.default']),('/var/spool/PBS',['pbs_scripts/torque.cfg','pbs_scripts/server_name']),('/var/spool/PBS/mom_priv',['pbs_scripts/config','pbs_scripts/epilogue.precancel','pbs_scripts/epilogue','pbs_scripts/prologue','pbs_scripts/epilogue.user','pbs_scripts/prologue.user','pbs_scripts/healthcheck'])]
 #        ,ext_modules = [
 #        Extension('hermod.l1b.ReadHDF', 

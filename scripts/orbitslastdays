@@ -13,28 +13,12 @@ if len(sys.argv)>1:
         msg = sys.argv[0] +" takes one integer as argument: number of days...\n"
         sys.stderr.write(msg)
         sys.exit(0)
-db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db=config.get('WRITE_SQL','db'))
-c = db.cursor(MySQLdb.cursors.SSDictCursor)
-status=c.execute("""select orbit,processed,scans.freqmode,fqid,version,calibration,count(*)  
-      as profiles from scans 
-      natural join level2 where processed > now() - interval %s day 
-      group by orbit,freqmode,calibration,version 
-      order  by processed""",(last,))
+db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
+c = db.cursor(MySQLdb.cursors.DictCursor)
+status=c.execute("""select l2.processed,start_utc,orbit,freqmode,fqid,version,l1.nscans,l2.nscans,l2.nscans/l1.nscans as proc,verstr,hdfname from level1 as l1 join level2files as l2 using (id) where l2.processed> now() - interval %s day;""",(last,))
 
-row= c.fetchone()
-print " orb  fm  id cal    ver                 date  pr"
-while row<>None:
-    try:
-        print "%0.4X%4i%4i%4i%7s%21s%4i" % (row['orbit'],row['freqmode'],row['fqid'],row['calibration'],row['version'],row['processed'],row['profiles'])
-        row = c.fetchone()
-    except KeyboardInterrupt:
-        print "Break recieved"
-        break
-    except Exception,inst:
-        print "other error: ",inst
-        print "error: ",sys.exc_info()[0]
-        break
-
-sys.stderr.write("Closing cursor...\n")
+print "date       time      orbit  measurment date         fm  fqid  ver  ps  ts  %   verstr              logfile"
+for row in c:
+    print "%(processed)s%(orbit)7.4X%(start_utc)21s%(freqmode)8s%(fqid)4.2i%(version)6s%(l2.nscans)4i%(nscans)4i%(proc)5.1f%(verstr)12s%(hdfname)55s" % row
 c.close()
 db.close()

@@ -7,13 +7,13 @@ filearea: /odin/smr/Data/
 
 [READ_SQL]
 user : gem
-db : odin
+db : smr
 host : jet.rss.chalmers.se
 
 [WRITE_SQL]
 user : odinuser
 passwd: secret
-db : odin
+db : smr
 host : jet.rss.chalmers.se
 
 [GEM]
@@ -33,7 +33,7 @@ user : donal
 passwd: secret
 host : esrange.pdc.kth.se
 principal : NADA.KTH.SE
-
+smrl2_dir : /data/odin/level2/submm/
 [NILU]
 NILU_DIR : .odin/
 user : murtagh

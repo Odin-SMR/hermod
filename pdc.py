@@ -98,11 +98,11 @@ class connection:
                 pdcsess.sendline('put %s %s'%pair)
                 index = pdcsess.expect(['Transfer complete.','Permission denied','No such file or directory','Is a directory',p.EOF,p.TIMEOUT],timeout=7)
                 if index == 0:
-                    print "OK"
+                    pass
                 elif index == 1:
                     print "Permission error"
                 elif index == 2:
-                    print "No such file"
+                    raise HermodError("No such file")
                 elif index == 3:
                     print "target is a directory"
                 elif index == 4:
@@ -129,7 +129,7 @@ class connection:
                 elif index == 1:
                     print "Permission error"
                 elif index == 2:
-                    print "No such file: %s" %pair[0]
+                    raise HermodError("No such file: %s" %(pair[0]))
                 elif index == 3:
                     print "target is a directory"
                 elif index == 4:

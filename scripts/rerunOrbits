@@ -1,6 +1,12 @@
 #!/usr/bin/python
+from hermod.hermodBase import *
+from hermod.level1b import *
+from sys import exit,stderr
+import sys
+import MySQLdb
 
-"""rerunOrbits - restarts processing
+"""
+rerunOrbits - restarts processing
     
 rerunOrbits orbit1 orbit2 modeid calibration threshold_ratio version queue [list]
     orbit1 - first orbit number (hex)
@@ -27,23 +33,10 @@ the list keyword a filter removes every orbitfile with 4 or less spectra.
 
 """
 
-import MySQLdb
-import sys
-import shutil
-import os
-import re
-import glob,commands
-
-from hermod.hermodBase import *
-from hermod.l2.level2 import *
-from hermod.l1b.level1b import *
-from hermod.l1b.transitions import *
-
-
 def main():
-    db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db=config.get('WRITE_SQL','db'))
-    list=False
+    db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
     #Checking for parameters
+    list = False
     if len(sys.argv)!=8: #missing or extra parameters -> end
         if len(sys.argv)==9:
             if sys.argv[8]=='list':
@@ -54,52 +47,73 @@ def main():
         else:
             print __doc__
             sys.exit(sys.argv[0]+" :Not correct number of parameters")
+    parameters = dict()
+    parameters['minorbit']=int(sys.argv[1],16)
+    parameters['maxorbit']=int(sys.argv[2],16)
+    parameters['fqid']=[int(i) for i in sys.argv[3].split(',')]
+    parameters['cal']=int(sys.argv[4])
+    parameters['threshold']=float(sys.argv[5])
+    parameters['qsmr']=sys.argv[6]
+    parameters['queue']=sys.argv[7]
+    #add dummy values
+    parameters['fqid'].append(127)
+    parameters['fqid'].append(128)
 
-    orbit1=int(sys.argv[1],16)
-    orbit2=int(sys.argv[2],16)
-    fqid=int(sys.argv[3])
-    cal=int(sys.argv[4])
-    min=float(sys.argv[5])
-    qsmr=sys.argv[6]
-    queue=sys.argv[7]
+    if not parameters['queue'] in ['new','batch','rerun']:
+        print __doc__
+        sys.exit("queue not valid, try new/batch/rerun")
 
-    if float(min)>1.0001:
-        usage()
+    if float(parameters['threshold'])>1.0001:
+        print __doc__
         sys.exit(str(min)+" : The threshold ratio should be in [0..1]")
 
-    c=db.cursor(MySQLdb.cursors.DictCursor)
-    # NOTE a filter scans>=4 is inserted...
+    fcur = db.cursor()
+    status = fcur.execute('''select freqmode from odin.Freqmodes where fqid in %(fqid)s''',parameters)
+    parameters['freqmodes'] = [ i[0] for i in fcur]
+    #add dummy values
+    parameters['freqmodes'].append(127)
+    parameters['freqmodes'].append(128)
+    fcur.close()
+
+    print parameters
+    cursor = db.cursor(MySQLdb.cursors.DictCursor)
     try:
-        if fqid==0: #all freqmodes
-            status = c.execute("""select orbit,freqmode,fqid,calibration,qsmr,scans,processed,processed/scans as ratio from registered_orbits natural join Versions natural join Freqmodes natural left join processed_orbits where active and orbit>=%s and orbit<=%s and calibration=%s and qsmr=%s and scans>=4 having ratio<%s or ratio is null""",(orbit1,orbit2,cal,qsmr,min))
-        else:
-            status = c.execute("""select orbit,freqmode,fqid,calibration,qsmr,scans,processed,processed/scans as ratio from registered_orbits natural join Versions natural join Freqmodes natural left join processed_orbits where active and orbit>=%s and orbit<=%s and fqid=%s and calibration=%s and qsmr=%s and scans>=4 having ratio<%s or ratio is null""",(orbit1,orbit2,fqid,cal,qsmr,min))
+        status = cursor.execute('''select level1.* from level1 
+left join level2files using (id) 
+where ( level2files.nscans/level1.nscans<%(threshold)s or level2files.processed is null ) 
+and orbit>=%(minorbit)s 
+and orbit<=%(maxorbit)s 
+and freqmode in %(freqmodes)s''',parameters)
     except MySQLdb.MySQLError,e:
         print >> sys.stderr, "Hermod:", str(e)
     except MySQLdb.Warning,e:
         print >> sys.stderr, "Hermod:", str(e)
     except KeyboardInterupt:
         print >> sys.stderr, "Hermod: KeyboardInterrupt, closing database..."
-        c.close()
-    else:
-        print "orb\tfreq\tfqid\tqsmr\tscans\tproc\tratio"
-        if list:
-            for mode in c:
-                print "%0.4X\t%i\t%i\t%s\t%i\t%s\t%s" %(mode['orbit'],mode['freqmode'],mode['fqid'],mode['qsmr'],mode['scans'],str(mode['processed']),str(mode['ratio']))
-        else:
-            for o in c: #loop over all orbits found in above selection
-                try:
-                    y = Level1bResolver(o['orbit'],o['calibration'],o['freqmode'],o['fqid'],o['qsmr'],db)
-                except HermodError,e:
-                    print >> sys.stderr, "Hermod:",e
-                # We don't want to do cleaning, reading l2b fix that.
-                # y.cleanDatabase()
-                print "%0.4X\t%i\t%i\t%s\t%i\t%s\t%s" %(o['orbit'],o['freqmode'],o['fqid'],o['qsmr'],o['scans'],str(o['processed']),str(o['ratio']))
-                try:
-                    y.createFiles(queue,o['qsmr'])
-                except HermodError,e:
-                    print >> sys.stderr, "Hermod:",e
-    c.close()
+    try:
+        level1objects = [level1Factory(i,db) for i in cursor]
+    except HermodError,inst:
+        sys.exit("HermodError: %s\n" % (inst))
+    cursor.close()
+    for i in level1objects:
+        if i is not None:
+            #remove fqids from launchlist
+            i.launch = [j for j in i.launch if j['fqid'] in parameters['fqid'] ]
+            try:
+                if list:
+                    print "orb    fqid  fm   ver cal name"
+                    for v in i.launch:
+                        print"%(orbit)0.4X" % (i.l1),
+                        print"%(fqid)5i%(freqmode)4i%(qsmr)7s%(calibration)3i %(name)-9s" % v
+                else:
+                    print i.l1
+                    i.queue(queue=parameters['queue'])
+            except HermodError,inst:
+                stderr.write('HermodError: %s\n'%(inst)) 
+                continue
+    db.close()
 
-if __name__ == "__main__":
+
+if __name__=="__main__":
     main()
+

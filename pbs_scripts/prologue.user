@@ -16,6 +16,7 @@ for i in sys.argv:
 
 print "###"
 try:
+    os.system('rm -rf /tmp/tmp%s' %(sys.argv[1].split('.')[0]))
     os.mkdir('/tmp/tmp%s' %(sys.argv[1].split('.')[0]))
 except IndexError,inst:
     print >> sys.stderr , "Could not find jobid argument",inst

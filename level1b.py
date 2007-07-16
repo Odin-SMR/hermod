@@ -1,8 +1,8 @@
-
 #!/usr/bin/python
 
-"""
-level1 downloads files from pdc and launches them into the cluster.
+"""Level1b tools
+
+Level1b file and processing handling. Downloads files from PDC and launches them into the cluster.
 """
 
 import MySQLdb
@@ -12,22 +12,28 @@ from hermod.pdc import connection
 from hermod.ecmwf import ZPTfile
 import subprocess
 
-def level1Factory(level1tuple,db):
+def level1Factory(level1tuple,db,rerun=False,qsmr='2-1'):
+    """Level1b factory function.
+
+    Returns a suitable level1b object.
+    """
     cal = level1tuple['calversion']
     if cal==6:
-        return l1b_v6(level1tuple,db)
+        return l1b_v6(level1tuple,db,rerun=rerun,qsmr=qsmr)
     elif cal==7:
         return None
-        #return l1b_v7(level1tuple,db)
+        #return l1b_v7(level1tuple,db,rerun=rerun,qsmr=qsmr)
     else:
         return None
 
 
 class l1b:
     '''
+    Download,prepare and launch L1b-files.
+
     Find files not yet downloaded, prepare all auxilary files and launch into the cluster
     '''
-    def __init__(self,l1tuple,db):
+    def __init__(self,l1tuple,db,rerun=False,qsmr='2-1'):
         '''
         A l1tuple contains every field in level1 and status table:
         id, orbit, backend, freqmode, nscans, nspectra, calversion, attversion,
@@ -38,9 +44,15 @@ class l1b:
         self.l1['freqmode'] = [int(i) for i in self.l1['freqmode'].split(',')]
         self.l1['freqmode'].append(199)
         self.l1['calibration'] = int(self.l1['calversion'])
+        self.l1['qsmr']=qsmr
         self.db = db
         cursor = db.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('''select * from odin.Versions natural join odin.Freqmodes 
+        if rerun:
+            cursor.execute('''select * from odin.Versions natural join odin.Freqmodes 
+                where freqmode in %(freqmode)s and qsmr=%(qsmr)s and calibration=%(calibration)s''',
+                (self.l1))
+        else:
+            cursor.execute('''select * from odin.Versions natural join odin.Freqmodes 
                 where freqmode in %(freqmode)s and active and calibration=%(calibration)s''',
                 (self.l1))
         self.l1['freqmode'].remove(199)

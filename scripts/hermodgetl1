@@ -1,0 +1,92 @@
+#!/usr/bin/python
+"""Download L1b-files from PDC.
+
+This script downloads files from PDC that exists in the "not_downloaded_gem"
+table to a local disk area at GEM's server. Odinop is the only user allowed to
+use this script.
+
+Ex. /usr/bin/hermodgetl1b
+    hermodgetl1b --help
+"""
+
+from hermod.hermodBase import *
+from hermod.level1b import *
+from sys import exit,stderr
+from optparse import OptionParser
+from os import environ
+import MySQLdb
+
+def main():
+    """Main program.
+
+    Executing the file will start this function.
+    """
+    # OptionParser helps reading options from command line
+    parser = OptionParser(
+            version="%%prog, Hermod %s" % (config.get('DEFAULT','version')),
+            description="Download new files from PDC and launch them into the processing system."
+            )
+    parser.set_defaults(quiet=False)
+    parser.add_option('-q','--quiet',action='store_true',dest='quiet',help='no information to stdout')
+    (options, args) = parser.parse_args()
+    try:
+        user = environ['USER']
+    except KeyError,inst:
+        parser.error("No, user environment found")
+    if user<>'odinop':
+        parser.error("User %s in not allowed to run this program" % user)
+    
+    # Initiate a database connection
+    try:
+        db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
+    except Warning,inst:
+        print >> stderr, "Warning: %s" % inst
+    except Error,inst:
+        print >> stderr, "Error: %s" % inst
+        exit(1)
+
+    cursor = db.cursor(MySQLdb.cursors.DictCursor)
+
+    # Retrieve info from database
+    try:
+        status = cursor.execute('''SELECT distinct * FROM not_downloaded_gem natural join level1 natural join status''')
+    except Warning,inst:
+        print >> stderr, "Warning: %s" % inst
+    except Error,inst:
+        print >> stderr, "Error: %s" % inst
+        exit(1)
+
+
+    if status==0 and not options.quiet:
+        print "There are no new files to download"
+        exit(0)
+
+    # Create a list of level1objects from retrieved result from database
+    try:
+        level1objects = [level1Factory(i,db) for i in cursor]
+    except HermodError,inst:
+        cursor.close()
+        sys.exit("HermodError: %s\n" % (inst))
+    cursor.close()
+
+    # do things on every object. This is where everything happens...
+    for i in level1objects:
+        if i is not None:
+            try:
+                if not options.quiet:
+                    print 'Feching %(id)-6i: %(filename)-50s' % i.l1
+                i.download()
+                i.filesystem()
+                i.database()
+                i.createAux()
+                i.linkandmove()
+                i.queue()
+            except HermodError,inst:
+                stderr.write('HermodError: %s\n'%(inst)) 
+                continue
+    
+    db.close()
+
+#Starts the program if it is started from a shell.
+if __name__=="__main__":
+    main()

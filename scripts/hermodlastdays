@@ -111,7 +111,7 @@ def main():
 
     # Retrieve info from database
     try:
-        status=c.execute("""select l2.processed,start_utc,orbit,freqmode,fqid,version,l1.nscans,l2.nscans,l2.nscans/l1.nscans as proc,verstr,hdfname from level1 as l1 join level2files as l2 using (id) where l2.processed>=%s and l2.processed<=%s and orbit>=%s and orbit<=%s and fqid in %s and l1.nscans<>0 order by l2.processed;""",(options.datestart,options.dateend,options.orbitstart,options.orbitend,options.fqid))
+        status=c.execute("""select l2.processed,start_utc,orbit,freqmode,fqid,version,l1.nscans,l2.nscans,l2.nscans/l1.nscans as proc,verstr,hdfname,id from level1 as l1 join level2files as l2 using (id) where l2.processed>=%s and l2.processed<=%s and orbit>=%s and orbit<=%s and fqid in %s and l1.nscans<>0 order by l2.processed;""",(options.datestart,options.dateend,options.orbitstart,options.orbitend,options.fqid))
     except Warning,inst:
         print >> stderr, "Warning: %s" % inst
     except StandardError,inst:
@@ -120,15 +120,15 @@ def main():
 
     # Print
     if options.verbose:
-        print "%-19s%7s%21s%8s%4s%6s%4s%4s%5s%12s%55s" % ('processed','orb','start_utc','fm','fq','ver','ps','ts','%','verstr','file')
+        print "%-19s%10s%7s%21s%8s%4s%6s%4s%4s%5s%12s%55s" % ('processed','dbid','orb','start_utc','fm','fq','ver','ps','ts','%','verstr','file')
     else:
-        print "%-19s%7s%8s%4s%6s%4s%4s%5s%12s" % ('processed','orb','fm','fq','ver','ps','ts','%','verstr')
+        print "%-19s%10s%7s%8s%4s%6s%4s%4s%5s%12s" % ('processed','dbid','orb','fm','fq','ver','ps','ts','%','verstr')
 
     for row in c:
         if options.verbose:
-            print "%(processed)s%(orbit)7.4X%(start_utc)21s%(freqmode)8s%(fqid)4.2i%(version)6s%(l2.nscans)4i%(nscans)4i%(proc)5.1f%(verstr)12s%(hdfname)55s" % row
+            print "%(processed)s%(id)10i%(orbit)7.4X%(start_utc)21s%(freqmode)8s%(fqid)4.2i%(version)6s%(l2.nscans)4i%(nscans)4i%(proc)5.1f%(verstr)12s%(hdfname)55s" % row
         else:
-            print "%(processed)s%(orbit)7.4X%(freqmode)8s%(fqid)4.2i%(version)6s%(l2.nscans)4i%(nscans)4i%(proc)5.1f%(verstr)12s" % row
+            print "%(processed)s%(id)10i%(orbit)7.4X%(freqmode)8s%(fqid)4.2i%(version)6s%(l2.nscans)4i%(nscans)4i%(proc)5.1f%(verstr)12s" % row
             
     c.close()
     db.close()

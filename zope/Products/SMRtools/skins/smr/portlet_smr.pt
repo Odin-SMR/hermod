@@ -1,0 +1,34 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="plone">
+
+<body>
+
+<!-- The level1b box -->
+
+<div metal:define-macro="portlet">
+     
+    <div class="portlet" id="portlet-smr">
+
+        <h5>L1 Files in DB</h5>
+
+        <div class="portletBody">
+            <div class="portletContent even">
+                this is content
+            	<div class="portletDetails" >
+	            portlet detail
+            	</div>
+
+                <a href="http://odin.rss.chalmers.se/" class="portletMore">More...</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

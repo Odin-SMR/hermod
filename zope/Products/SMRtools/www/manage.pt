@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+    lang="en"
+    metal:use-macro="here/main_template/macros/master"
+    i18n:domain="plone">
+    <body>
+        <div metal:fill-slot="main">
+            <div>
+                <ul>
+                    <li>
+                        <a href="/odin/smrstatus/statusPage">In queue</a>
+                    </li>
+
+                    <li>
+                        <a href="/odin/smrstatus/lastPage">Hermod 'last' information</a>
+                    </li>
+
+                    <li>
+                        <a href="/odin/smrstatus/dataPage">Picture</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>

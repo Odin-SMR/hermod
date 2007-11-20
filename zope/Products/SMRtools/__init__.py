@@ -2,6 +2,7 @@
 from Products.Archetypes.atapi import process_types, listTypes
 from Products.CMFCore import utils
 from Products.CMFCore.DirectoryView import registerDirectory
+from Products.CMFQuickInstallerTool.QuickInstallerTool import QuickInstallerTool
 
 # Product imports
 from config import PROJECTNAME, SKINS_DIR, GLOBALS

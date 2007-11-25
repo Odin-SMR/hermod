@@ -24,7 +24,8 @@ import numpy
 from datetime import datetime,timedelta
 
 from config import *
-class SMRstatus(UniqueObject,Folder,ActionProviderBase):
+#class SMRstatus(UniqueObject,Folder,ActionProviderBase):
+class SMRstatus(UniqueObject,SimpleItemWithProperties):
     """prints some stats"""
     meta_type = PROJECTNAME
     id= 'smrstatus'
@@ -49,10 +50,10 @@ class SMRstatus(UniqueObject,Folder,ActionProviderBase):
     security.declareProtected('View Status','managePage')
     managePage =   PageTemplateFile('www/manage.pt',GLOBALS)
     
-    #manage_options = ( {'label':'output','action':'outputPage'})+ ActionProviderBase.manage_options 
-    manage_options = ( {'label':'output','action':'outputPage'},)+ ActionProviderBase.manage_options+Folder.manage_options
+#    manage_options = ( {'label':'output','action':'outputPage'})+ ActionProviderBase.manage_options 
+#    manage_options = ( {'label':'output','action':'outputPage'},)+ ActionProviderBase.manage_options+Folder.manage_options
 #    manage_options = Folder.manage_options + ActionProviderBase.manage_options 
-    _properties = Folder._properties + ( {'id':'at_mask','type':'string','mode':'w',},)
+#    _properties = Folder._properties + ( {'id':'at_mask','type':'string','mode':'w',},)
     security.declareProtected('View', 'getNumber')
 
     def getNumber(self):

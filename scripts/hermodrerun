@@ -107,6 +107,9 @@ def main():
             action='store',dest='threshold',type='float',
             metavar='THRESHOLD',help='choose files with a THRESHOLD value less than the fraction processed scans and available scans'
             )
+    parser.add_option('-p','--plot',action='store_true',dest='plot',
+            help='plot threshold diagram'
+            )
     (options, args) = parser.parse_args()
 
     # manipulate som values
@@ -144,6 +147,33 @@ def main():
     fm.append(128)
     setattr(parser.values,'freqmode',fm)
     fcur.close()
+
+    if options.plot:
+        from pylab import hist,show
+        from numpy import array,nan_to_num
+        cursor = db.cursor()
+        cursor.execute('''
+            select level2files.nscans/level1.nscans
+            from level1
+            left join level2files using (id)
+            where 
+                orbit>=%s and orbit<=%s and
+                (start_utc>=%s or start_utc=0) and
+                (stop_utc<=%s or stop_utc=0) and
+                freqmode in %s and calversion in %s
+            ''',
+            (options.orbitstart,options.orbitend,options.datestart,options.dateend,
+                options.freqmode,options.cal)
+            )
+        data = cursor.fetchall()
+        adata = array(data,dtype='float32')
+        adata[adata>1]=1
+        cursor.close()
+        db.close()
+        a = hist(nan_to_num(adata),bins=20)
+        show()
+        exit(0)
+
 
     #find orbitfiles to run
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
@@ -197,7 +227,6 @@ and freqmode in %s and calversion in %s ''',(options.threshold,options.orbitstar
                 print >> stderr,'HermodError: %s'%inst 
                 continue
     db.close()
-
 
 if __name__=="__main__":
     main()

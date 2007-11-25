@@ -101,7 +101,10 @@ class Level2:
         c.execute('''delete from level2files where id=%(id)s and version=%(version)s and fqid=%(fqid)s''',self.info)
         c.execute('''delete from level2 where id=%(id)s and version2=%(version)s and fqid=%(fqid)s''',self.info)
         c.execute('''INSERT level2files (id,fqid,version,nscans,verstr,hdfname,pdcname,processed) values (%s,%s,%s,%s,%s,%s,%s,now())''',(self.info['id'],self.fqid,self.version,self.pscans,self.verstr,self.hdffile.split(config.get('GEM','smrl2_dir'))[1],self.pdcfile.split(config.get('PDC','smrl2_dir'))[1]))
-        test = c.executemany("""INSERT level2 (id,version2,latitude,longitude,mjd,date,sunZD,fqid,quality,p_offs,f_shift,chi2,chi2_y,chi2_x,marq_start,marq_stop,marq_min,n_iter,scanno) values (%(id)s,%(version)s,%(Latitude)s,%(Longitude)s,%(MJD)s,%(date)s,%(SunZD)s,%(fqid)s,%(Quality)s,%(P_Offs)s,%(F_Shift)s,%(Chi2)s,%(Chi2_y)s,%(Chi2_x)s,%(Marq_Start)s,%(Marq_Stop)s,%(Marq_Min)s,%(N_Iter)s,%(ScanNo)s)""", self.geolocation)
+	for i in self.geolocation:
+	   test = c.execute ("""INSERT level2 (id,version2,latitude,longitude,mjd,date,sunZD,fqid,quality,p_offs,f_shift,chi2,chi2_y,chi2_x,marq_start,marq_stop,marq_min,n_iter,scanno) values (%(id)s,%(version)s,%(Latitude)s,%(Longitude)s,%(MJD)s,%(date)s,%(SunZD)s,%(fqid)s,%(Quality)s,%(P_Offs)s,%(F_Shift)s,%(Chi2)s,%(Chi2_y)s,%(Chi2_x)s,%(Marq_Start)s,%(Marq_Stop)s,%(Marq_Min)s,%(N_Iter)s,%(ScanNo)s)""", i)
+
+#        test = c.executemany("""INSERT level2 (id,version2,latitude,longitude,mjd,date,sunZD,fqid,quality,p_offs,f_shift,chi2,chi2_y,chi2_x,marq_start,marq_stop,marq_min,n_iter,scanno) values (%(id)s,%(version)s,%(Latitude)s,%(Longitude)s,%(MJD)s,%(date)s,%(SunZD)s,%(fqid)s,%(Quality)s,%(P_Offs)s,%(F_Shift)s,%(Chi2)s,%(Chi2_y)s,%(Chi2_x)s,%(Marq_Start)s,%(Marq_Stop)s,%(Marq_Min)s,%(N_Iter)s,%(ScanNo)s)""", self.geolocation)
         c.close()
         return test
     

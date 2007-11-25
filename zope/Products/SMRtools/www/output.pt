@@ -2,7 +2,7 @@
 <body>
 <span tal:replace="structure here/manage_tabs" />
  
-<p>SMR data Statistics </p>
+<p>SMR data Statistics version 1</p>
  
 <h3>Level1 files</h3>
 <span tal:define="numbers here/getNumber">

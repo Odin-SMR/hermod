@@ -18,7 +18,7 @@ class TestTool(UniqueObject,SimpleItemWithProperties):
     security = ClassSecurityInfo()
     security.declareObjectProtected('View')
 
-    ## Defining a Pagtemplate found in www
+    ## Defining a Pagetemplate found in www
     security.declareProtected('View', 'helloPage')
     helloPage = PageTemplateFile('www/hello.pt',globals())
 

@@ -4,69 +4,69 @@ from OFS.Folder import Folder
 from Products.CMFCore.utils import UniqueObject,SimpleItemWithProperties
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 
+from threading import Thread
+from transaction import commit,abort
+
 from sys import stderr,exit
 from os import fork, kill
 from time import ctime, sleep
 from StringIO import StringIO
-class DaemonTool(UniqueObject,SimpleItemWithProperties,Folder):
+
+class DaemonTool2(UniqueObject,SimpleItemWithProperties,Folder):
     """A class in testtoolsuite.
     
     addable in ZMI testtool Class
-    callable from ./daemontool
+    callable from ./daemontool2
+
+    This class provides the possibility to run jobs in the background using
+    threads
+
     """
-    meta_type = 'Daemontool Class'
-    id= 'daemontool'
+    meta_type = 'Daemontool2 Class'
+    id= 'daemontool2'
     
-    childpid = 0
-    at_mask = '(at)'
+    manage_options = Folder.manage_options
     security = ClassSecurityInfo()
     security.declareObjectProtected('View')
 
-    security.declareProtected('View','test')
-    def rundaemon(self):
-        """ A demo daemon main routine, write a datestamp to 
-            /tmp/daemon-log every 10 seconds.
-        """
-	s = StringIO()
-	print >> s, "Creating a report"
-	if not hasattr(self,'forkreport'):
-	    print >> stderr, "no folder named forkreport"
-	    self.manage_addFolder('forkreport')
-	print >>stderr, "sleep 5 secs"
-	sleep(10)
-	folder = getattr(self,'forkreport')
-	print folder
-	folder.manage_addDocument('report',title='Fork Report',file=s)
-	print >>stderr, self
-	exit(0)
+    security.declareProtected('View','startPage')
+    startPage = PageTemplateFile('www/start.pt',globals())
 
-    security.declareProtected('View','test')
-    def stopdaemon(self):
-        """If the self.childpid is not 0 kill that process.
-        """
-	if self.childpid:
-    	    print self.childpid
-	    kill(self.childpid,15) 
-
-
-    security.declareProtected('View','test')
+    security.declareProtected('View','startdaemon')
     def startdaemon(self):
 	"""run code in the background.
 	"""
-        try: 
-            pid = fork() 
-            if pid ==0:
-		print >>stderr,"child %s" % self
-		self.rundaemon()
-                exit(0) 
-	    else:
-		self.childpid=pid
-        except OSError, e: 
-            print >>stderr, "fork #1 failed: %d (%s)" % (e.errno, e.strerror) 
-	print >> stderr,"Parent %s" % self
-   	return "Child %i started" % self.childpid 
+        _a = Daemon()
+        _a.setDaemon(True)
+        _a.start()
+        return "Started, yes"
 
-InitializeClass(DaemonTool)
+class Daemon(Thread):
+    """A Thread.
+    """
+    def __init__(self):
+        Thread.__init__(self)
+
+    def run(self):
+        try:
+            from transaction import begin,commit,Transaction
+            from Zope2 import DB
+            conn = DB.open()
+            root = conn.root()
+            app = root['Application']
+            sleep(15)
+            if not hasattr(app,'testiparent'):
+                app.manage_addDocument('testiparent')
+                print >>stderr,"ok,done: adding..."
+                commit()
+            else:
+                print >>stderr,"ok,done: not adding ..."
+                abort()
+            conn.close()
+        except Exception,text:
+            print >>stderr,"rundaemon: %s"%text
+
+InitializeClass(DaemonTool2)
 
 if __name__=="__main__":
     # if the script runs from commandline

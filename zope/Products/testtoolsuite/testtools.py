@@ -29,7 +29,24 @@ class TestTool(UniqueObject,SimpleItemWithProperties):
         callable function from /testtool/test
         """
         return 'hello world'
-    
+
+    security.declareProtected('View','tester')
+    def tester(self):
+        """Simple streaming response
+
+        callable function from /testtool/tester
+        """
+        from time import sleep
+        response = self.REQUEST.RESPONSE
+        response.setHeader('Pragma','no-cache') 
+        response.setHeader('Content-Type','text/plain') 
+        for i in range(5):
+            sleep(1)
+            response.write(str(i)+'\n')
+            response.flush()
+
+
+
 InitializeClass(TestTool)
 
 if __name__=="__main__":

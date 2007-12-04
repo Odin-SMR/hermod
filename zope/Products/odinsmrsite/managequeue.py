@@ -1,10 +1,10 @@
 from Globals import InitializeClass
 from AccessControl import ClassSecurityInfo
-from Products.CMFCore.utils import UniqueObject
+from Products.CMFCore.utils import UniqueObject,SimpleItemWithProperties
 
 from permissions import MANAGE
 
-class ManageQueue(UniqueObject):
+class ManageQueue(UniqueObject,SimpleItemWithProperties):
     """Manages the processing queue.
 
     Provides a interface to the user to run, rerun, delete processes in the

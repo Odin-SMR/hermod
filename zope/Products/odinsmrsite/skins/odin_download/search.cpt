@@ -1,0 +1,459 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    metal:use-macro="here/main_template/macros/master"
+    >
+    <body>
+
+
+        <div metal:fill-slot="main" tal:define="errors options/state/getErrors;
+            result options/state/kwargs;" >
+
+            <h1> Find data processed by GEM@RSS </h1>
+
+            <div > Instructions goes here </div>
+
+            <form method="post" tal:attributes="action template/id;">
+
+                <!-- Time -->
+
+                <fieldset>
+                    <legend class="legend">Find orbits</legend>
+                    <div class="formHelp">Select a suitable time filter</div>
+                    <label for="form.select_time"> Time filter </label>
+                    <select class="context" name="form.select_time" tal:define="selected result/form.select_time|nothing">
+                        <option value="none" tal:attributes="selected python:test(selected=='none','selected',default)">
+                        No filter
+                        </option>                        <option value="utc" tal:attributes="selected python:test(selected=='utc','selected',default)">
+                        Date and Time in UTC
+                        </option>
+                        <option value="mjd" tal:attributes="selected python:test(selected=='mjd','selected',default)">
+                        Modified Julian Date 
+                        </option>
+                        <option value="orb" tal:attributes="selected python:test(selected=='orb','selected',default)">
+                        Decimal orbit number
+                        </option>
+                        <option value="hex" tal:attributes="selected python:test(selected=='hex','selected',default)">
+                        Hexadecimal orbit number
+                        </option>
+                    </select>
+                    <input class="context" type="submit" tabindex=""
+                    name="form.button.Time" value="Select Filter"
+                    tal:attributes="tabindex tabindex/next;" />
+
+                    <div tal:define="render result/form.select_time|nothing">
+
+
+                        <!-- time:utc -->
+                        
+                        <fieldset  tal:condition="python:render=='utc'">
+                            <legend class="legend"> Time filter</legend>
+
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div tal:define="error_start_utc errors/start_utc|nothing"
+                                            tal:attributes="class python:test(error_start_utc, 'field error', 'field')"
+                                            >
+                                            <label for="form.start_utc">
+                                                Starting date and time
+                                            </label>
+                                            <span class="fieldRequired" title="Required">
+                                                (Required)
+                                            </span>
+                                            <div class="formHelp">
+                                                This is a good text
+                                            </div>
+                                            <div tal:condition="error_start_utc" 
+                                                tal:content="error_start_utc">
+                                                Error message start_utc
+                                            </div>
+                                            <input type="text" name="form.start_utc"
+                                            tal:define="start_utc result/form.start_utc|string:2005-02-1 00:00:00" 
+                                            tal:attributes="tabindex tabindex/next; value start_utc" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div tal:define="error_stop_utc errors/stop_utc|nothing"
+                                            tal:attributes="class python:test(error_stop_utc, 'field error', 'field')"
+                                            >
+                                            <label for="form.stop_utc">
+                                                Ending date and time
+                                            </label>
+                                            <span class="fieldRequired" title="Required">
+                                                (Required)
+                                            </span>
+                                            <div class="formHelp">
+                                                Input date and time that ends the timeframe you are interested in.
+                                            </div>
+                                            <div tal:condition="error_stop_utc"
+                                                tal:content="error_stop_utc">
+                                                Error message form.stop_utc
+                                            </div>
+                                            <input type="text" name="form.stop_utc" 
+                                            tal:define="stop_utc result/form.stop_utc|string:2005-2-31 0:0:0" 
+                                            tal:attributes="tabindex tabindex/next; value stop_utc" /> 
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+
+                        <!-- Time:mjd -->
+
+                        <fieldset tal:condition="python:render=='mjd'">
+                            <legend class="legend"> Filter on Modified Julian Date</legend>
+
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div tal:define="error_start_mjd errors/start_mjd|nothing"
+                                            tal:attributes="class python:test(error_start_mjd, 'field error', 'field')"
+                                            >
+                                            <label for="form.start_mjd">
+                                                Starting date and time
+                                            </label>
+                                            <span class="fieldRequired" title="Required">
+                                                (Required)
+                                            </span>
+                                            <div class="formHelp">
+                                                This is a good text
+                                            </div>
+                                            <div tal:condition="error_start_mjd" 
+                                                tal:content="error_start_mjd">
+                                                Error message start_mjd
+                                            </div>
+                                            <input type="text" name="form.start_mjd"
+                                            tal:define="start_mjd result/form.start_mjd|string:2005-02-1 00:00:00" 
+                                            tal:attributes="tabindex tabindex/next; value start_mjd" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div tal:define="error_stop_mjd errors/stop_mjd|nothing"
+                                            tal:attributes="class python:test(error_stop_mjd, 'field error', 'field')"
+                                            >
+                                            <label for="form.stop_mjd">
+                                                Ending date and time
+                                            </label>
+                                            <span class="fieldRequired" title="Required">
+                                                (Required)
+                                            </span>
+                                            <div class="formHelp">
+                                                Input date and time that ends the timeframe you are interested in.
+                                            </div>
+                                            <div tal:condition="error_stop_mjd"
+                                                tal:content="error_stop_mjd">
+                                                Error message form.stop_mjd
+                                            </div>
+                                            <input type="text" name="form.stop_mjd" 
+                                            tal:define="stop_mjd result/form.stop_mjd|string:2005-2-31 0:0:0" 
+                                            tal:attributes="tabindex tabindex/next; value stop_mjd" /> 
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+
+                        <!-- Time:orb -->
+
+                        <fieldset tal:condition="python:render=='orb'">
+                            <legend class="legend"> Filter on decimal Orbit number</legend>
+
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div tal:define="error_start_orb errors/start_orb|nothing"
+                                            tal:attributes="class python:test(error_start_orb, 'field error', 'field')"
+                                            >
+                                            <label for="form.start_orb">
+                                                Orbit filter
+                                            </label>
+                                            <span class="fieldRequired" title="Required">
+                                                (Required)
+                                            </span>
+                                            <div class="formHelp">
+                                                Start orbit i decimal nubers.
+                                            </div>
+                                            <div tal:condition="error_start_orb" 
+                                                tal:content="error_start_orb">
+                                                Error message start_orb
+                                            </div>
+                                            <input type="text" name="form.start_orb"
+                                            tal:define="start_orb result/form.start_orb|string:2005-02-1 00:00:00" 
+                                            tal:attributes="tabindex tabindex/next; value start_orb" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div tal:define="error_stop_orb errors/stop_orb|nothing"
+                                            tal:attributes="class python:test(error_stop_orb, 'field error', 'field')"
+                                            >
+                                            <label for="form.stop_orb">
+                                                End orbit   
+                                            </label>
+                                            <span class="fieldRequired" title="Required">
+                                                (Required)
+                                            </span>
+                                            <div class="formHelp">
+                                                Input orbit that ends the timeframe you are interested in.
+                                            </div>
+                                            <div tal:condition="error_stop_orb"
+                                                tal:content="error_stop_orb">
+                                                Error message form.stop_orb
+                                            </div>
+                                            <input type="text" name="form.stop_orb" 
+                                            tal:define="stop_orb result/form.stop_orb|string:2005-2-31 0:0:0" 
+                                            tal:attributes="tabindex tabindex/next; value stop_orb" /> 
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+
+                        <!-- Time:hex -->
+
+                        <fieldset tal:condition="python:render=='hex'">
+                            <legend class="legend"> Filter on Hexadecimal Orbit number</legend>
+
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div tal:define="error_start_hex errors/start_hex|nothing"
+                                            tal:attributes="class python:test(error_start_hex, 'field error', 'field')"
+                                            >
+                                            <label for="form.start_hex">
+                                                Orbit filter
+                                            </label>
+                                            <span class="fieldRequired" title="Required">
+                                                (Required)
+                                            </span>
+                                            <div class="formHelp">
+                                                Start orbit i Hexadecimal nubers.
+                                            </div>
+                                            <div tal:condition="error_start_hex" 
+                                                tal:content="error_start_hex">
+                                                Error message start_hex
+                                            </div>
+                                            <input type="text" name="form.start_hex"
+                                            tal:define="start_hex result/form.start_hex|string:2005-02-1 00:00:00" 
+                                            tal:attributes="tabindex tabindex/next; value start_hex" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div tal:define="error_stop_hex errors/stop_hex|nothing"
+                                            tal:attributes="class python:test(error_stop_hex, 'field error', 'field')"
+                                            >
+                                            <label for="form.stop_hex">
+                                                End hexit   
+                                            </label>
+                                            <span class="fieldRequired" title="Required">
+                                                (Required)
+                                            </span>
+                                            <div class="formHelp">
+                                                Input hexit that ends the timeframe you are interested in.
+                                            </div>
+                                            <div tal:condition="error_stop_hex"
+                                                tal:content="error_stop_hex">
+                                                Error message form.stop_hex
+                                            </div>
+                                            <input type="text" name="form.stop_hex" 
+                                            tal:define="stop_hex result/form.stop_hex|string:2005-2-31 0:0:0" 
+                                            tal:attributes="tabindex tabindex/next; value stop_hex" /> 
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="formHelp">Select a location filter</div>
+                    <label for="form.select_location"> Location filter </label>
+                    <select class="context" name="form.select_location" tal:define="selected result/form.select_location|nothing">
+                        <option value="none" tal:attributes="selected python:test(selected=='none','selected',default)">
+                        No filter
+                        </option>
+                        <option value="rad" tal:attributes="selected python:test(selected=='rad','selected',default)">
+                        Coordinate an radius
+                        </option>
+                    </select>
+                    <input class="context" type="submit" tabindex=""
+                    name="form.button.Location" value="Select Filter"
+                    tal:attributes="tabindex tabindex/next;" />
+
+                    <div tal:define="render result/form.select_location|nothing">
+
+                        <!-- Location:radius -->
+
+                        <fieldset  tal:condition="python:render=='rad'">
+                            <legend class="legend"> Coordinate and surrounding circle area</legend>
+
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div tal:define="error_lat errors/lat|nothing"
+                                            tal:attributes="class python:test(error_lat, 'field error', 'field')"
+                                            >
+                                            <label for="form.lat">
+                                                Latitude
+                                            </label>
+                                            <span class="fieldRequired" title="Required">
+                                                (Required)
+                                            </span>
+                                            <div class="formHelp">
+                                                This is a good text
+                                            </div>
+                                            <div tal:condition="error_lat" 
+                                                tal:content="error_lat">
+                                                Error message lat
+                                            </div>
+                                            <input type="text" name="form.lat"
+                                            tal:define="lat result/form.lat|string:2005-02-1 00:00:00" 
+                                            tal:attributes="tabindex tabindex/next; value lat" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div tal:define="error_lon errors/lon|nothing"
+                                            tal:attributes="class python:test(error_lon, 'field error', 'field')"
+                                            >
+                                            <label for="form.lon">
+                                                Longitude
+                                            </label>
+                                            <span class="fieldRequired" title="Required">
+                                                (Required)
+                                            </span>
+                                            <div class="formHelp">
+                                                help on lat
+                                            </div>
+                                            <div tal:condition="error_lon"
+                                                tal:content="error_lon">
+                                                Error message form.lon
+                                            </div>
+                                            <input type="text" name="form.lon" 
+                                            tal:define="lon result/form.lon|string:2005-2-31 0:0:0" 
+                                            tal:attributes="tabindex tabindex/next; value lon" /> 
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div tal:define="error_radius errors/radius|nothing"
+                                            tal:attributes="class python:test(error_radius, 'field error', 'field')"
+                                            >
+                                            <label for="form.radius">
+                                                Radius
+                                            </label>
+                                            <span class="fieldRequired" title="Required">
+                                                (Required)
+                                            </span>
+                                            <div class="formHelp">
+                                                radius help
+                                            </div>
+                                            <div tal:condition="error_radius"
+                                                tal:content="error_radius">
+                                                Error message form.radius
+                                            </div>
+                                            <input type="text" name="form.radius" 
+                                            tal:define="radius result/form.radius|string:2005-2-31 0:0:0" 
+                                            tal:attributes="tabindex tabindex/next; value radius" /> 
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                    </div>
+
+                    <!-- Species -->
+
+                    <div class="formHelp">Select a Species filter</div>
+                    <label for="form.select_species"> Species filter </label>
+                    <select class="context" name="form.select_species" tal:define="selected result/form.select_species|nothing">
+                        <option value="none" tal:attributes="selected python:test(selected=='none','selected',default)">
+                        No filter
+                        </option>
+                        <option value="short" tal:attributes="selected python:test(selected=='short','selected',default)">
+                        Species Names
+                        </option>
+                    </select>
+                    <input class="context" type="submit" tabindex=""
+                    name="form.button.Species" value="Select Filter"
+                    tal:attributes="tabindex tabindex/next;" />
+
+                    <div tal:define="render result/form.select_species|nothing">
+                        
+                        <!-- Species:list of names rendered from a function -->
+
+                        <fieldset  tal:condition="python:render=='short'"
+                        tal:define="error errors/species|nothing"
+                        tal:attributes="class python:test(error, 'field error', 'field')"
+                            >
+                            <legend class="legend"> Species names</legend>
+                        <div tal:condition="error">
+                            <span content="error">Error message fq</span>
+                        </div>
+                        <div class="formHelp">Mark what species you are intrested in</div>
+                        
+                        <!-- call function here -->
+                            <div tal:define="species python:[('form.A','species name A'),('form.B','species name B')]" tal:repeat="i species">
+                                <span
+                                tal:define="name python:i[0]; text python:i[1]; checked path:result/?name|nothing"
+                                >
+
+                                <input type="checkbox"
+                                tal:attributes="name name; checked checked">
+                                <span tal:content="text">description of speceies</span>
+                            </span>
+                            </div>
+
+                        </fieldset>
+                    </div>
+
+                    <!-- Processors -->
+
+                    <div class="formHelp">Select processors version</div>
+                    <label for="form.select_species"> Processor </label>
+                    <select class="context" name="form.select_processors" tal:define="selected result/form.select_processors|nothing">
+                        <option value="none" tal:attributes="selected python:test(selected=='none','selected',default)">
+                        No filter
+                        </option>
+                        <option value="vers" tal:attributes="selected python:test(selected=='vers','selected',default)">
+                        Versions
+                        </option>
+                    </select>
+                    <input class="context" type="submit" tabindex=""
+                    name="form.button.Processor" value="Select Filter"
+                    tal:attributes="tabindex tabindex/next;" />
+
+                    <div tal:define="render result/form.select_processors|nothing">
+
+                        <!-- Processor:list of version rendered from a function -->
+
+                        <fieldset  tal:condition="python:render=='vers'"
+                        tal:define="error errors/processors|nothing"
+                        tal:attributes="class python:test(error, 'field error', 'field')"
+                            >
+                            <legend class="legend"> Species names</legend>
+                        <div tal:condition="error">
+                            <span content="error">Error message fq</span>
+                        </div>
+                        <div class="formHelp">Mark what processors you are intrested in</div>
+
+                        <!-- call function here -->
+                            <div tal:define="processors python:[('form.processors1','1-2'),('form.processors2','2-1')]" tal:repeat="i processors">
+                                <span
+                                tal:define="name python:i[0]; text python:i[1]; checked path:result/?name|nothing"
+                                >
+
+                                <input type="checkbox"
+                                tal:attributes="name name; checked checked">
+                                <span tal:content="text">description of processors</span>
+                            </span>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                </fieldset>
+                <input type="hidden" name="form.submitted" value="1" />
+                <label for="Search"> Lauch db query</label>
+                <input type="submit" name="form.button.Search" value="Search">
+            </form>
+        </div>
+
+    </body>
+</html>

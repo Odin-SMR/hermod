@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    metal:use-macro="here/main_template/macros/master"
+    >
+    <body>
+
+
+        <div metal:fill-slot="main" tal:define="errors options/state/getErrors;
+            result options/state/kwargs;" >
+
+            <h1> data processed by GEM@RSS </h1>
+
+            <div > Instructions goes here </div>
+
+            <div tal:condition="result/data|nothing" tal:repeat="row result/data">
+                <span tal:content="row">data here</span> 
+            </div>
+        </div>
+    </body>
+
+</html>

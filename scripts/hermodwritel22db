@@ -1,12 +1,18 @@
 #!/usr/bin/python
+"""
+Interprets the logfiles name to find info in the database.
+
+With this module you can start 'actions' by grepping the output or errorfiles
+from l1-to-l2 processing system.
+
+"""
 
 import MySQLdb
 import re
 
-
-
 from hermod.hermodBase import *
 from hermod.level2 import level2Factory
+from hermod.level1b import level1Factory
 from sys import exit,stderr
 from optparse import OptionParser
 from os import environ
@@ -61,7 +67,7 @@ def main():
         exit(1)
 
     files =args
-    pattern = "id(.{1,6})\.(.{4})\.(.{6,10})\.err"
+    pattern = ".*id(.{1,6})\.(.{4})\.(.M_(AC.).{1,2})\.(err|out)"
     pat = re.compile(pattern)
     if files==[]:
         cursor = db.cursor(MySQLdb.cursors.DictCursor)
@@ -71,8 +77,20 @@ def main():
                 id = result.group(1)
                 orbit = int(result.group(2),16)
                 name = result.group(3)
-                status = cursor.execute('select freqmode,fqid,max(qsmr) as qsmr, calibration  from odin.Freqmodes natural join odin.Versions natural join (select freqmode ,fqid,max(active) as active from odin.Freqmodes natural join odin.Versions group by freqmode,fqid) as t where name=%s group by freqmode,fqid',(name,))
+		backend = result.group(4)
                 if options.info:
+                    status = cursor.execute('''
+		        select freqmode,fqid,max(qsmr) as qsmr, calibration  
+			from odin.Freqmodes natural join odin.Versions 
+			    natural join 
+			        (select freqmode ,fqid,max(active) as active 
+				from odin.Freqmodes 
+				    natural join odin.Versions 
+				group by freqmode,fqid) as t 
+			where name=%s 
+			group by freqmode,fqid
+			''', 
+			(name,))
                     for i in cursor:
                         try:
                             x = level2Factory(orbit,i['freqmode'],i['calibration'],i['fqid'],i['qsmr'],db)
@@ -82,19 +100,36 @@ def main():
                             print >> stderr, inst
                             continue
                 elif options.launch:
+                    status = cursor.execute('''
+		        select *
+			from level1 
+			    natural join status
+			where id=%s
+			''',
+			(id,))
                     for i in cursor:
                         try:
-                            job = pbsFactory(orbit,i['freqmode'],i['calibration'],i['fqid'],name,i['qsmr'],db)
+                            job = level1Factory(i,db)
                             if job is not None:
-                                job.prepare()
-                                job.run()
-                                job.write()
-                                job.upload()
-                                job.clean()
+				print 'relaunching %(orbit)X, fm:%(freqmode)s' % job.l1
+				job.queue()
                         except HermodError,inst:
                             print >> stderr, inst
                             continue
                 elif options.read:
+                    status = cursor.execute('''
+		    	select freqmode,fqid,max(qsmr) as qsmr, calibration  
+			from odin.Freqmodes 
+			    natural join odin.Versions 
+			    natural join 
+			        (select freqmode ,fqid,max(active) as active 
+				from odin.Freqmodes 
+				    natural join odin.Versions 
+				group by freqmode,fqid) as t 
+			where name=%s 
+			group by freqmode,fqid
+			''',
+			(name,))
                     for i in cursor:
                         try:
                             job = level2Factory(orbit,i['freqmode'],i['calibration'],i['fqid'],i['qsmr'],db)
@@ -117,19 +152,6 @@ def main():
                 break
     cursor.close()
     db.close()
-#    x.readAuxFile()
-#    x.readData()
-#    x.addData()
-#    x.upload()
-#    #find what freqmodes to launch
-#    fcur = db.cursor()
-#    status = fcur.execute('''select freqmode from odin.Freqmodes where fqid in %s''',(options.fqid,))
-#    fm = [ i[0] for i in fcur]
-#    #add dummy values
-#    fm.append(127) 
-#    fm.append(128)
-#    setattr(parser.values,'freqmode',fm)
-#    fcur.close()
 
 if __name__=="__main__":
     main()

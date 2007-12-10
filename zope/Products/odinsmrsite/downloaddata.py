@@ -9,14 +9,14 @@ class DataBaseInterface:
 
     place for unittests?
     """
-    def searchL2(**SeachParameters):
+    def searchL2(self,**SearchParameters):
         """Make a search with arbitrary kewords.
 
         Input: a dictionary with searchparameters
         Output: a list of dictinaries with results. 
 
         >>> a = DataBaseInterface()
-        >>> a.search({'start_orbit':0x8000,'stop_orbit':0x8FFF,'fqid':29'}
+        >>> a.searchL2({'start_orbit':0x8000,'stop_orbit':0x8FFF,'fqid':29'}
         ... [{'orbit':0x801F,'species':'ClO, O_3, N_2O','version':'2-1'},{'orbit':0x8020,'species':'ClO, O_3, N_2O','version':'2-1'}]
 
         """
@@ -37,6 +37,11 @@ class DataBaseInterface:
         """
         pass
 
+    def status(self,typ):
+        """ print status"""
+        print type(typ)
+        print typ
+
 class SearchAndDownload(DataBaseInterface,UniqueObject,SimpleItemWithProperties):
     """Search and download l1 and l2 data.
 
@@ -53,5 +58,13 @@ class SearchAndDownload(DataBaseInterface,UniqueObject,SimpleItemWithProperties)
     #set up security for inherited functions
     security.declareProtected(DOWNLOAD,'searchL2')
     security.declareProtected(DOWNLOAD,'downloadL2')
+    security.declareProtected(DOWNLOAD,'form')
+    def form(self):
+        """Validates a form.
+        """
+        print self.REQUEST.get('name',None)
+        pt = self.getParentNode()
+        print pt.id
+        return pt.search(name='test')
 
 InitializeClass(SearchAndDownload)

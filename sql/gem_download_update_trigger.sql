@@ -1,11 +1,7 @@
-create trigger gem_download_insert after insert on smr.status
+delimiter |
+create trigger gem_download_update after update on smr.level1
 for each row 
-begin
-    if new.status then
+    if new.uploaded>old.uploaded then
         insert not_downloaded_gem set id = new.id;
-    else 
-        delete from not_downloaded_gem where id = new.id;
     end if;
-end;
-
-
+|

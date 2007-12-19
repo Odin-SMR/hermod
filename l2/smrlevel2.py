@@ -1,4 +1,4 @@
-from scipy import *
+#from scipy import *
 from numpy import *
 
 from pyhdf.HDF import *

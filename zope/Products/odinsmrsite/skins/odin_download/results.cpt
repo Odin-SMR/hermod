@@ -13,7 +13,7 @@
             <div > Instructions goes here </div>
 
             <div tal:condition="result/data|nothing" tal:repeat="row result/data">
-                <span tal:content="row">data here</span> 
+                <div tal:content="row">data here</div> 
             </div>
         </div>
     </body>

@@ -32,7 +32,7 @@ def install(self):
     if atool.getActionObject('portal_tabs/data_tab') is None:
         atool.addAction('data_tab','data','string:$portal_url/search','python:member is not None','View','portal_tabs')
     if atool.getActionObject('portal_tabs/pict_tab') is None:
-        atool.addAction('pict_tab','data','string:$portal_url/chooser','python:member is not None','View','portal_tabs')
+        atool.addAction('pict_tab','pictures','string:$portal_url/chooser','python:member is not None','View','portal_tabs')
     if atool.getActionObject('portal_tabs/admin_tab') is None:
         atool.addAction('admin_tab','admin','string:$portal_url/display','python:member is not None','View','portal_tabs')
     print >>out, "  Added %s in portal_tabs" %('all tabs')

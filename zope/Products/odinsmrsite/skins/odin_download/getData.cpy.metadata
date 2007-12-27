@@ -1,2 +1,2 @@
 [actions]
-action.success = traverse_to:string:results
+action.success = traverse_to:string:results.tar.gz

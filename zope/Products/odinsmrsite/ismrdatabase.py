@@ -17,10 +17,10 @@ class ISMRDataBase:
         raise NotImplementedError, "Subclasses must implement searchData"
 
 
-    def downloadData(self,downLoadList):
+    def downloadData(self,**downLoadList):
         """Make a gzip-tarball and return to RESPONSE-object.
 
-        Input: Same kind of list of dictionaries created by search(...) .
+        Input: list of filenames to download
 
         Result is written to self.REQUEST.Response object.
         creates a gzip-tarball and send it to the client.

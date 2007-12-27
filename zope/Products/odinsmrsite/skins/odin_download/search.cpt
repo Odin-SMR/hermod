@@ -367,8 +367,14 @@
                         <option value="none" tal:attributes="selected python:test(selected=='none','selected',default)">
                         No filter
                         </option>
+                        <option value="fqid" tal:attributes="selected python:test(selected=='fqid','selected',default)">
+                        fqid
+                        </option>
+                        <option value="fm" tal:attributes="selected python:test(selected=='fm','selected',default)">
+                        frequency mode
+                        </option>
                         <option value="short" tal:attributes="selected python:test(selected=='short','selected',default)">
-                        Species Names
+                         name
                         </option>
                     </select>
                     <input class="context" type="submit" tabindex=""
@@ -377,6 +383,56 @@
 
                     <div tal:define="render result/form.select_species|nothing">
                         
+                        <!-- fqid:list of names rendered from a function -->
+
+                        <fieldset  tal:condition="python:render=='fqid'"
+                        tal:define="error errors/species|nothing"
+                        tal:attributes="class python:test(error, 'field error', 'field')"
+                            >
+                            <legend class="legend"> fqid</legend>
+                        <div tal:condition="error">
+                            <span content="error">Error message fq</span>
+                        </div>
+                        <div class="formHelp">Mark what fqid you are intrested in</div>
+                        
+                        <!-- call function here -->
+                            <div tal:define="species python:context.data_download.getAvailFqids" tal:repeat="i species">
+                                <span
+                                tal:define="name python:i[0]; text python:i[1]; checked path:result/?name|nothing"
+                                >
+
+                                <input type="checkbox"
+                                tal:attributes="name name; checked checked">
+                                <span tal:content="text">description of speceies</span>
+                            </span>
+                            </div>
+
+                        </fieldset>
+                        <!-- Species:list of names rendered from a function -->
+
+                        <fieldset  tal:condition="python:render=='fm'"
+                        tal:define="error errors/species|nothing"
+                        tal:attributes="class python:test(error, 'field error', 'field')"
+                            >
+                            <legend class="legend"> Freqmodes</legend>
+                        <div tal:condition="error">
+                            <span content="error">Error message fq</span>
+                        </div>
+                        <div class="formHelp">Mark what FMs you are intrested in</div>
+                        
+                        <!-- call function here -->
+                            <div tal:define="species python:context.data_download.getAvailFms" tal:repeat="i species">
+                                <span
+                                tal:define="name python:i[0]; text python:i[1]; checked path:result/?name|nothing"
+                                >
+
+                                <input type="checkbox"
+                                tal:attributes="name name; checked checked">
+                                <span tal:content="text">description of speceies</span>
+                            </span>
+                            </div>
+
+                        </fieldset>
                         <!-- Species:list of names rendered from a function -->
 
                         <fieldset  tal:condition="python:render=='short'"
@@ -390,7 +446,7 @@
                         <div class="formHelp">Mark what species you are intrested in</div>
                         
                         <!-- call function here -->
-                            <div tal:define="species python:[('form.A','species name A'),('form.B','species name B')]" tal:repeat="i species">
+                            <div tal:define="species python:context.data_download.getAvailNames" tal:repeat="i species">
                                 <span
                                 tal:define="name python:i[0]; text python:i[1]; checked path:result/?name|nothing"
                                 >
@@ -435,7 +491,7 @@
                         <div class="formHelp">Mark what processors you are intrested in</div>
 
                         <!-- call function here -->
-                            <div tal:define="processors python:[('form.processors1','1-2'),('form.processors2','2-1')]" tal:repeat="i processors">
+                            <div tal:define="processors python:context.data_download.getAvailProcessors" tal:repeat="i processors">
                                 <span
                                 tal:define="name python:i[0]; text python:i[1]; checked path:result/?name|nothing"
                                 >

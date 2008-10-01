@@ -1,0 +1,4 @@
+[actions]
+action.success..pics = traverse_to:string:getPictures
+action.success..movs = traverse_to:string:getMovie
+

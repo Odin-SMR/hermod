@@ -1,9 +1,9 @@
 #CMF imports
 from Products.CMFCore.permissions import setDefaultRoles
 
-BROWSE = 'SMR_Browse_Pictures'
-DOWNLOAD = 'SMR_Download_Data'
-MANAGE = 'SMR_Manage_Queue'
+BROWSE = 'odinsmrsite: Browse Pictures'
+DOWNLOAD = 'odinsmrsite: Download Files'
+MANAGE = 'odinsmrsite: Manage System'
 
 setDefaultRoles(BROWSE,('Owner','Manager'))
 setDefaultRoles(DOWNLOAD,('Owner','Manager'))

@@ -1,0 +1,803 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    metal:use-macro="here/main_template/macros/master"
+    >
+    <body>
+
+
+        <div metal:fill-slot="main" tal:define="errors options/state/getErrors;
+            result options/state/kwargs;" >
+
+            <h1> Find pictures processed by GEM@RSS </h1>
+
+            <div > Instructions goes here:  Pictures are available from 2001-10-01 to ... </div>
+
+            <form method="post" tal:attributes="action template/id;">
+
+                <!-- Pictures -->
+
+                <fieldset>
+                    <legend class="legend">Get pictures</legend>
+                    <div class="formHelp">Select species. There are pictures of O3 studied in both 501.8 GHz and 544.6 GHz.</div>
+                    <select class="context" name="form.select_species" tal:define="selected result/form.select_species|nothing">
+                        <option value="H2O" tal:attributes="selected python:test(selected=='H2O','selected',default)">
+                        H2O
+                        </option>                        
+                        <option value="N2O" tal:attributes="selected python:test(selected=='N2O','selected',default)">
+                        N2O
+                        </option>
+                        <option value="O3_501" tal:attributes="selected python:test(selected=='O3_501','selected',default)">
+                        O3, 501.8 GHz 
+                        </option>
+                        <option value="O3_544" tal:attributes="selected python:test(selected=='O3_544','selected',default)">
+                        O3, 544.6 GHz
+                        </option>
+                    </select>
+                      
+					<BR><BR>             
+                  
+                    <div class="formHelp">Select starting date.</div>
+                    
+                    <select class="context" name="form.select_start_year" tal:define="selected result/form.select_start_year|nothing">
+                        <option value="2001" tal:attributes="selected python:test(selected=='2001','selected',default)">
+                        2001
+                        </option>                        
+                        <option value="2002" tal:attributes="selected python:test(selected=='2002','selected',default)">
+                        2002
+                        </option>
+                        <option value="2003" tal:attributes="selected python:test(selected=='2003','selected',default)">
+                        2003 
+                        </option>
+                        <option value="2004" tal:attributes="selected python:test(selected=='2004','selected',default)">
+                        2004
+                        </option>
+                        <option value="2005" tal:attributes="selected python:test(selected=='2005','selected',default)">
+                        2005
+                        </option>
+                        <option value="2006" tal:attributes="selected python:test(selected=='2006','selected',default)">
+                        2006
+                        </option>
+                        <option value="2007" tal:attributes="selected python:test(selected=='2007','selected',default)">
+                        2007
+                        </option>
+                        <option value="2008" tal:attributes="selected python:test(selected=='2008','selected',default)">
+                        2008
+                        </option>
+                    </select>
+                       
+                    <select class="context" name="form.select_start_month" tal:define="selected result/form.select_start_month|nothing">
+                        <option value="1" tal:attributes="selected python:test(selected=='1','selected',default)">
+                        January
+                        </option>                        
+                        <option value="2" tal:attributes="selected python:test(selected=='2','selected',default)">
+                        February
+                        </option>
+                        <option value="3" tal:attributes="selected python:test(selected=='3','selected',default)">
+                        March
+                        </option>
+                        <option value="4" tal:attributes="selected python:test(selected=='4','selected',default)">
+                        April
+                        </option>
+                        <option value="5" tal:attributes="selected python:test(selected=='5','selected',default)">
+                        May
+                        </option>
+                        <option value="6" tal:attributes="selected python:test(selected=='6','selected',default)">
+                        June
+                        </option>
+                        <option value="7" tal:attributes="selected python:test(selected=='7','selected',default)">
+                        July
+                        </option>
+                        <option value="8" tal:attributes="selected python:test(selected=='8','selected',default)">
+                        August
+                        </option>
+                        <option value="9" tal:attributes="selected python:test(selected=='9','selected',default)">
+                        September
+                        </option>
+                        <option value="10" tal:attributes="selected python:test(selected=='10','selected',default)">
+                        October
+                        </option>
+                        <option value="11" tal:attributes="selected python:test(selected=='11','selected',default)">
+                        November
+                        </option>
+                        <option value="12" tal:attributes="selected python:test(selected=='12','selected',default)">
+                        December
+                        </option>
+                    </select>
+                        
+					<select class="context" name="form.select_start_day" tal:define="selected result/form.select_start_day|nothing">
+                        <option value="1" tal:attributes="selected python:test(selected=='1','selected',default)">
+                        1
+                        </option>                        
+                        <option value="2" tal:attributes="selected python:test(selected=='2','selected',default)">
+                        2
+                        </option>
+                        <option value="3" tal:attributes="selected python:test(selected=='3','selected',default)">
+                        3
+                        </option>
+                        <option value="4" tal:attributes="selected python:test(selected=='4','selected',default)">
+                        4
+                        </option>
+                        <option value="5" tal:attributes="selected python:test(selected=='5','selected',default)">
+                        5
+                        </option>
+                        <option value="6" tal:attributes="selected python:test(selected=='6','selected',default)">
+                        6
+                        </option>
+                        <option value="7" tal:attributes="selected python:test(selected=='7','selected',default)">
+                        7
+                        </option>
+                        <option value="8" tal:attributes="selected python:test(selected=='8','selected',default)">
+                        8
+                        </option>
+                        <option value="9" tal:attributes="selected python:test(selected=='9','selected',default)">
+                        9
+                        </option>
+                        <option value="10" tal:attributes="selected python:test(selected=='10','selected',default)">
+                        10
+                        </option>
+                        <option value="11" tal:attributes="selected python:test(selected=='11','selected',default)">
+                        11
+                        </option>
+                        <option value="12" tal:attributes="selected python:test(selected=='12','selected',default)">
+                        12
+                        </option>
+                        <option value="13" tal:attributes="selected python:test(selected=='13','selected',default)">
+                        13
+                        </option>
+                        <option value="14" tal:attributes="selected python:test(selected=='14','selected',default)">
+                        14
+                        </option>
+                        <option value="15" tal:attributes="selected python:test(selected=='15','selected',default)">
+                        15
+                        </option>
+                        <option value="16" tal:attributes="selected python:test(selected=='16','selected',default)">
+                        16
+                        </option>
+                        <option value="17" tal:attributes="selected python:test(selected=='17','selected',default)">
+                        17
+                        </option>
+                        <option value="18" tal:attributes="selected python:test(selected=='18','selected',default)">
+                        18
+                        </option>
+                        <option value="19" tal:attributes="selected python:test(selected=='19','selected',default)">
+                        19
+                        </option>
+                        <option value="20" tal:attributes="selected python:test(selected=='20','selected',default)">
+                        20
+                        </option>
+                        <option value="21" tal:attributes="selected python:test(selected=='21','selected',default)">
+                        21
+                        </option>
+                        <option value="22" tal:attributes="selected python:test(selected=='22','selected',default)">
+                        22
+                        </option>
+                        <option value="23" tal:attributes="selected python:test(selected=='23','selected',default)">
+                        23
+                        </option>
+                        <option value="24" tal:attributes="selected python:test(selected=='24','selected',default)">
+                        24
+                        </option>
+                        <option value="25" tal:attributes="selected python:test(selected=='25','selected',default)">
+                        25
+                        </option>
+                        <option value="26" tal:attributes="selected python:test(selected=='26','selected',default)">
+                        26
+                        </option>
+                        <option value="27" tal:attributes="selected python:test(selected=='27','selected',default)">
+                        27
+                        </option>
+                        <option value="28" tal:attributes="selected python:test(selected=='28','selected',default)">
+                        28
+                        </option>
+                        <option value="29" tal:attributes="selected python:test(selected=='29','selected',default)">
+                        29
+                        </option>
+                        <option value="30" tal:attributes="selected python:test(selected=='30','selected',default)">
+                        30
+                        </option>
+                        <option value="31" tal:attributes="selected python:test(selected=='31','selected',default)">
+                        31
+                        </option>
+                    </select>
+                    
+                    <BR><BR>
+                    
+                    <div class="formHelp">Select ending date.</div>
+                    
+                    <select class="context" name="form.select_end_year" tal:define="selected result/form.select_end_year|nothing">
+                        <option value="2001" tal:attributes="selected python:test(selected=='2001','selected',default)">
+                        2001
+                        </option>                        
+                        <option value="2002" tal:attributes="selected python:test(selected=='2002','selected',default)">
+                        2002
+                        </option>
+                        <option value="2003" tal:attributes="selected python:test(selected=='2003','selected',default)">
+                        2003 
+                        </option>
+                        <option value="2004" tal:attributes="selected python:test(selected=='2004','selected',default)">
+                        2004
+                        </option>
+                        <option value="2005" tal:attributes="selected python:test(selected=='2005','selected',default)">
+                        2005
+                        </option>
+                        <option value="2006" tal:attributes="selected python:test(selected=='2006','selected',default)">
+                        2006
+                        </option>
+                        <option value="2007" tal:attributes="selected python:test(selected=='2007','selected',default)">
+                        2007
+                        </option>
+                        <option value="2008" tal:attributes="selected python:test(selected=='2008','selected',default)">
+                        2008
+                        </option>
+                    </select>
+                       
+                    <select class="context" name="form.select_end_month" tal:define="selected result/form.select_end_month|nothing">
+                        <option value="1" tal:attributes="selected python:test(selected=='1','selected',default)">
+                        January
+                        </option>                        
+                        <option value="2" tal:attributes="selected python:test(selected=='2','selected',default)">
+                        February
+                        </option>
+                        <option value="3" tal:attributes="selected python:test(selected=='3','selected',default)">
+                        March
+                        </option>
+                        <option value="4" tal:attributes="selected python:test(selected=='4','selected',default)">
+                        April
+                        </option>
+                        <option value="5" tal:attributes="selected python:test(selected=='5','selected',default)">
+                        May
+                        </option>
+                        <option value="6" tal:attributes="selected python:test(selected=='6','selected',default)">
+                        June
+                        </option>
+                        <option value="7" tal:attributes="selected python:test(selected=='7','selected',default)">
+                        July
+                        </option>
+                        <option value="8" tal:attributes="selected python:test(selected=='8','selected',default)">
+                        August
+                        </option>
+                        <option value="9" tal:attributes="selected python:test(selected=='9','selected',default)">
+                        September
+                        </option>
+                        <option value="10" tal:attributes="selected python:test(selected=='10','selected',default)">
+                        October
+                        </option>
+                        <option value="11" tal:attributes="selected python:test(selected=='11','selected',default)">
+                        November
+                        </option>
+                        <option value="12" tal:attributes="selected python:test(selected=='12','selected',default)">
+                        December
+                        </option>
+
+                    </select>
+                        
+					<select class="context" name="form.select_end_day" tal:define="selected result/form.select_end_day|nothing">
+                        <option value="1" tal:attributes="selected python:test(selected=='1','selected',default)">
+                        1
+                        </option>                        
+                        <option value="2" tal:attributes="selected python:test(selected=='2','selected',default)">
+                        2
+                        </option>
+                        <option value="3" tal:attributes="selected python:test(selected=='3','selected',default)">
+                        3
+                        </option>
+                        <option value="4" tal:attributes="selected python:test(selected=='4','selected',default)">
+                        4
+                        </option>
+                        <option value="5" tal:attributes="selected python:test(selected=='5','selected',default)">
+                        5
+                        </option>
+                        <option value="6" tal:attributes="selected python:test(selected=='6','selected',default)">
+                        6
+                        </option>
+                        <option value="7" tal:attributes="selected python:test(selected=='7','selected',default)">
+                        7
+                        </option>
+                        <option value="8" tal:attributes="selected python:test(selected=='8','selected',default)">
+                        8
+                        </option>
+                        <option value="9" tal:attributes="selected python:test(selected=='9','selected',default)">
+                        9
+                        </option>
+                        <option value="10" tal:attributes="selected python:test(selected=='10','selected',default)">
+                        10
+                        </option>
+                        <option value="11" tal:attributes="selected python:test(selected=='11','selected',default)">
+                        11
+                        </option>
+                        <option value="12" tal:attributes="selected python:test(selected=='12','selected',default)">
+                        12
+                        </option>
+                        <option value="13" tal:attributes="selected python:test(selected=='13','selected',default)">
+                        13
+                        </option>
+                        <option value="14" tal:attributes="selected python:test(selected=='14','selected',default)">
+                        14
+                        </option>
+                        <option value="15" tal:attributes="selected python:test(selected=='15','selected',default)">
+                        15
+                        </option>
+                        <option value="16" tal:attributes="selected python:test(selected=='16','selected',default)">
+                        16
+                        </option>
+                        <option value="17" tal:attributes="selected python:test(selected=='17','selected',default)">
+                        17
+                        </option>
+                        <option value="18" tal:attributes="selected python:test(selected=='18','selected',default)">
+                        18
+                        </option>
+                        <option value="19" tal:attributes="selected python:test(selected=='19','selected',default)">
+                        19
+                        </option>
+                        <option value="20" tal:attributes="selected python:test(selected=='20','selected',default)">
+                        20
+                        </option>
+                        <option value="21" tal:attributes="selected python:test(selected=='21','selected',default)">
+                        21
+                        </option>
+                        <option value="22" tal:attributes="selected python:test(selected=='22','selected',default)">
+                        22
+                        </option>
+                        <option value="23" tal:attributes="selected python:test(selected=='23','selected',default)">
+                        23
+                        </option>
+                        <option value="24" tal:attributes="selected python:test(selected=='24','selected',default)">
+                        24
+                        </option>
+                        <option value="25" tal:attributes="selected python:test(selected=='25','selected',default)">
+                        25
+                        </option>
+                        <option value="26" tal:attributes="selected python:test(selected=='26','selected',default)">
+                        26
+                        </option>
+                        <option value="27" tal:attributes="selected python:test(selected=='27','selected',default)">
+                        27
+                        </option>
+                        <option value="28" tal:attributes="selected python:test(selected=='28','selected',default)">
+                        28
+                        </option>
+                        <option value="29" tal:attributes="selected python:test(selected=='29','selected',default)">
+                        29
+                        </option>
+                        <option value="30" tal:attributes="selected python:test(selected=='30','selected',default)">
+                        30
+                        </option>
+                        <option value="31" tal:attributes="selected python:test(selected=='31','selected',default)">
+                        31
+                        </option>
+                    </select>
+                    
+                    <BR><BR>
+                    
+                    <div class="formHelp">Select potential temperature level.</div>
+                    
+                    <select class="context" name="form.select_level" tal:define="selected result/form.select_level|nothing">
+                        <option value="475" tal:attributes="selected python:test(selected=='475','selected',default)">
+                        475 K
+                        </option>                        
+                        <option value="525" tal:attributes="selected python:test(selected=='525','selected',default)">
+                        525 K
+                        </option>
+                        <option value="575" tal:attributes="selected python:test(selected=='575','selected',default)">
+                        575 K
+                        </option>
+                        <option value="625" tal:attributes="selected python:test(selected=='625','selected',default)">
+                        625 K
+                        </option>
+                    </select>
+                    
+                    <BR><BR>
+                    
+            		<div>
+                    <input class="context" type="submit" tabindex=""
+                    name="form.button.pics" value="Submit"
+                    tal:attributes="tabindex tabindex/next;"
+                    onclick=click />
+                    </div>
+				</fieldset>
+            
+             
+			<!-- Movies -->
+				
+				<fieldset>
+                    <legend class="legend">Get movies</legend>
+                    <div class="formHelp">Select species. There are pictures of O3 studied in both 501.8 GHz and 544.6 GHz.</div>
+                    
+                    <select class="context" name="form.select_species" tal:define="selected result/form.select_species|nothing">
+                        <option value="H2O" tal:attributes="selected python:test(selected=='H2O','selected',default)">
+                        H2O
+                        </option>                        
+                        <option value="N2O" tal:attributes="selected python:test(selected=='N2O','selected',default)">
+                        N2O
+                        </option>
+                        <option value="O3_501" tal:attributes="selected python:test(selected=='O3_501','selected',default)">
+                        O3, 501.8 GHz 
+                        </option>
+                        <option value="O3_544" tal:attributes="selected python:test(selected=='O3_544','selected',default)">
+                        O3, 544.6 GHz
+                        </option>
+                    </select>
+                    
+                    <BR><BR>                
+                  
+                    <div class="formHelp">Select starting date.</div>
+                    
+                    <select class="context" name="form.select_start_year" tal:define="selected result/form.select_start_year|nothing">
+                        <option value="2001" tal:attributes="selected python:test(selected=='2001','selected',default)">
+                        2001
+                        </option>                        
+                        <option value="2002" tal:attributes="selected python:test(selected=='2002','selected',default)">
+                        2002
+                        </option>
+                        <option value="2003" tal:attributes="selected python:test(selected=='2003','selected',default)">
+                        2003 
+                        </option>
+                        <option value="2004" tal:attributes="selected python:test(selected=='2004','selected',default)">
+                        2004
+                        </option>
+                        <option value="2005" tal:attributes="selected python:test(selected=='2005','selected',default)">
+                        2005
+                        </option>
+                        <option value="2006" tal:attributes="selected python:test(selected=='2006','selected',default)">
+                        2006
+                        </option>
+                        <option value="2007" tal:attributes="selected python:test(selected=='2007','selected',default)">
+                        2007
+                        </option>
+                        <option value="2008" tal:attributes="selected python:test(selected=='2008','selected',default)">
+                        2008
+                        </option>
+                    </select>
+                       
+                    <select class="context" name="form.select_start_month" tal:define="selected result/form.select_start_month|nothing">
+                        <option value="1" tal:attributes="selected python:test(selected=='1','selected',default)">
+                        January
+                        </option>                        
+                        <option value="2" tal:attributes="selected python:test(selected=='2','selected',default)">
+                        February
+                        </option>
+                        <option value="3" tal:attributes="selected python:test(selected=='3','selected',default)">
+                        March
+                        </option>
+                        <option value="4" tal:attributes="selected python:test(selected=='4','selected',default)">
+                        April
+                        </option>
+                        <option value="5" tal:attributes="selected python:test(selected=='5','selected',default)">
+                        May
+                        </option>
+                        <option value="6" tal:attributes="selected python:test(selected=='6','selected',default)">
+                        June
+                        </option>
+                        <option value="7" tal:attributes="selected python:test(selected=='7','selected',default)">
+                        July
+                        </option>
+                        <option value="8" tal:attributes="selected python:test(selected=='8','selected',default)">
+                        August
+                        </option>
+                        <option value="9" tal:attributes="selected python:test(selected=='9','selected',default)">
+                        September
+                        </option>
+                        <option value="10" tal:attributes="selected python:test(selected=='10','selected',default)">
+                        October
+                        </option>
+                        <option value="11" tal:attributes="selected python:test(selected=='11','selected',default)">
+                        November
+                        </option>
+                        <option value="12" tal:attributes="selected python:test(selected=='12','selected',default)">
+                        December
+                        </option>
+                    </select>
+                        
+					<select class="context" name="form.select_start_day" tal:define="selected result/form.select_start_day|nothing">
+                        <option value="1" tal:attributes="selected python:test(selected=='1','selected',default)">
+                        1
+                        </option>                        
+                        <option value="2" tal:attributes="selected python:test(selected=='2','selected',default)">
+                        2
+                        </option>
+                        <option value="3" tal:attributes="selected python:test(selected=='3','selected',default)">
+                        3
+                        </option>
+                        <option value="4" tal:attributes="selected python:test(selected=='4','selected',default)">
+                        4
+                        </option>
+                        <option value="5" tal:attributes="selected python:test(selected=='5','selected',default)">
+                        5
+                        </option>
+                        <option value="6" tal:attributes="selected python:test(selected=='6','selected',default)">
+                        6
+                        </option>
+                        <option value="7" tal:attributes="selected python:test(selected=='7','selected',default)">
+                        7
+                        </option>
+                        <option value="8" tal:attributes="selected python:test(selected=='8','selected',default)">
+                        8
+                        </option>
+                        <option value="9" tal:attributes="selected python:test(selected=='9','selected',default)">
+                        9
+                        </option>
+                        <option value="10" tal:attributes="selected python:test(selected=='10','selected',default)">
+                        10
+                        </option>
+                        <option value="11" tal:attributes="selected python:test(selected=='11','selected',default)">
+                        11
+                        </option>
+                        <option value="12" tal:attributes="selected python:test(selected=='12','selected',default)">
+                        12
+                        </option>
+                        <option value="13" tal:attributes="selected python:test(selected=='13','selected',default)">
+                        13
+                        </option>
+                        <option value="14" tal:attributes="selected python:test(selected=='14','selected',default)">
+                        14
+                        </option>
+                        <option value="15" tal:attributes="selected python:test(selected=='15','selected',default)">
+                        15
+                        </option>
+                        <option value="16" tal:attributes="selected python:test(selected=='16','selected',default)">
+                        16
+                        </option>
+                        <option value="17" tal:attributes="selected python:test(selected=='17','selected',default)">
+                        17
+                        </option>
+                        <option value="18" tal:attributes="selected python:test(selected=='18','selected',default)">
+                        18
+                        </option>
+                        <option value="19" tal:attributes="selected python:test(selected=='19','selected',default)">
+                        19
+                        </option>
+                        <option value="20" tal:attributes="selected python:test(selected=='20','selected',default)">
+                        20
+                        </option>
+                        <option value="21" tal:attributes="selected python:test(selected=='21','selected',default)">
+                        21
+                        </option>
+                        <option value="22" tal:attributes="selected python:test(selected=='22','selected',default)">
+                        22
+                        </option>
+                        <option value="23" tal:attributes="selected python:test(selected=='23','selected',default)">
+                        23
+                        </option>
+                        <option value="24" tal:attributes="selected python:test(selected=='24','selected',default)">
+                        24
+                        </option>
+                        <option value="25" tal:attributes="selected python:test(selected=='25','selected',default)">
+                        25
+                        </option>
+                        <option value="26" tal:attributes="selected python:test(selected=='26','selected',default)">
+                        26
+                        </option>
+                        <option value="27" tal:attributes="selected python:test(selected=='27','selected',default)">
+                        27
+                        </option>
+                        <option value="28" tal:attributes="selected python:test(selected=='28','selected',default)">
+                        28
+                        </option>
+                        <option value="29" tal:attributes="selected python:test(selected=='29','selected',default)">
+                        29
+                        </option>
+                        <option value="30" tal:attributes="selected python:test(selected=='30','selected',default)">
+                        30
+                        </option>
+                        <option value="31" tal:attributes="selected python:test(selected=='31','selected',default)">
+                        31
+                        </option>
+                    </select>
+                    
+                    <BR><BR>
+                    
+                    <div class="formHelp">Select ending date.</div>
+                    
+                    <select class="context" name="form.select_end_year" tal:define="selected result/form.select_end_year|nothing">
+                        <option value="2001" tal:attributes="selected python:test(selected=='2001','selected',default)">
+                        2001
+                        </option>                        
+                        <option value="2002" tal:attributes="selected python:test(selected=='2002','selected',default)">
+                        2002
+                        </option>
+                        <option value="2003" tal:attributes="selected python:test(selected=='2003','selected',default)">
+                        2003 
+                        </option>
+                        <option value="2004" tal:attributes="selected python:test(selected=='2004','selected',default)">
+                        2004
+                        </option>
+                        <option value="2005" tal:attributes="selected python:test(selected=='2005','selected',default)">
+                        2005
+                        </option>
+                        <option value="2006" tal:attributes="selected python:test(selected=='2006','selected',default)">
+                        2006
+                        </option>
+                        <option value="2007" tal:attributes="selected python:test(selected=='2007','selected',default)">
+                        2007
+                        </option>
+                        <option value="2008" tal:attributes="selected python:test(selected=='2008','selected',default)">
+                        2008
+                        </option>
+                    </select>
+                       
+                    <select class="context" name="form.select_end_month" tal:define="selected result/form.select_end_month|nothing">
+                        <option value="1" tal:attributes="selected python:test(selected=='1','selected',default)">
+                        January
+                        </option>                        
+                        <option value="2" tal:attributes="selected python:test(selected=='2','selected',default)">
+                        February
+                        </option>
+                        <option value="3" tal:attributes="selected python:test(selected=='3','selected',default)">
+                        March
+                        </option>
+                        <option value="4" tal:attributes="selected python:test(selected=='4','selected',default)">
+                        April
+                        </option>
+                        <option value="5" tal:attributes="selected python:test(selected=='5','selected',default)">
+                        May
+                        </option>
+                        <option value="6" tal:attributes="selected python:test(selected=='6','selected',default)">
+                        June
+                        </option>
+                        <option value="7" tal:attributes="selected python:test(selected=='7','selected',default)">
+                        July
+                        </option>
+                        <option value="8" tal:attributes="selected python:test(selected=='8','selected',default)">
+                        August
+                        </option>
+                        <option value="9" tal:attributes="selected python:test(selected=='9','selected',default)">
+                        September
+                        </option>
+                        <option value="10" tal:attributes="selected python:test(selected=='10','selected',default)">
+                        October
+                        </option>
+                        <option value="11" tal:attributes="selected python:test(selected=='11','selected',default)">
+                        November
+                        </option>
+                        <option value="12" tal:attributes="selected python:test(selected=='12','selected',default)">
+                        December
+                        </option>
+                    </select>
+                        
+					<select class="context" name="form.select_end_day" tal:define="selected result/form.select_end_day|nothing">
+                        <option value="1" tal:attributes="selected python:test(selected=='1','selected',default)">
+                        1
+                        </option>                        
+                        <option value="2" tal:attributes="selected python:test(selected=='2','selected',default)">
+                        2
+                        </option>
+                        <option value="3" tal:attributes="selected python:test(selected=='3','selected',default)">
+                        3
+                        </option>
+                        <option value="4" tal:attributes="selected python:test(selected=='4','selected',default)">
+                        4
+                        </option>
+                        <option value="5" tal:attributes="selected python:test(selected=='5','selected',default)">
+                        5
+                        </option>
+                        <option value="6" tal:attributes="selected python:test(selected=='6','selected',default)">
+                        6
+                        </option>
+                        <option value="7" tal:attributes="selected python:test(selected=='7','selected',default)">
+                        7
+                        </option>
+                        <option value="8" tal:attributes="selected python:test(selected=='8','selected',default)">
+                        8
+                        </option>
+                        <option value="9" tal:attributes="selected python:test(selected=='9','selected',default)">
+                        9
+                        </option>
+                        <option value="10" tal:attributes="selected python:test(selected=='10','selected',default)">
+                        10
+                        </option>
+                        <option value="11" tal:attributes="selected python:test(selected=='11','selected',default)">
+                        11
+                        </option>
+                        <option value="12" tal:attributes="selected python:test(selected=='12','selected',default)">
+                        12
+                        </option>
+                        <option value="13" tal:attributes="selected python:test(selected=='13','selected',default)">
+                        13
+                        </option>
+                        <option value="14" tal:attributes="selected python:test(selected=='14','selected',default)">
+                        14
+                        </option>
+                        <option value="15" tal:attributes="selected python:test(selected=='15','selected',default)">
+                        15
+                        </option>
+                        <option value="16" tal:attributes="selected python:test(selected=='16','selected',default)">
+                        16
+                        </option>
+                        <option value="17" tal:attributes="selected python:test(selected=='17','selected',default)">
+                        17
+                        </option>
+                        <option value="18" tal:attributes="selected python:test(selected=='18','selected',default)">
+                        18
+                        </option>
+                        <option value="19" tal:attributes="selected python:test(selected=='19','selected',default)">
+                        19
+                        </option>
+                        <option value="20" tal:attributes="selected python:test(selected=='20','selected',default)">
+                        20
+                        </option>
+                        <option value="21" tal:attributes="selected python:test(selected=='21','selected',default)">
+                        21
+                        </option>
+                        <option value="22" tal:attributes="selected python:test(selected=='22','selected',default)">
+                        22
+                        </option>
+                        <option value="23" tal:attributes="selected python:test(selected=='23','selected',default)">
+                        23
+                        </option>
+                        <option value="24" tal:attributes="selected python:test(selected=='24','selected',default)">
+                        24
+                        </option>
+                        <option value="25" tal:attributes="selected python:test(selected=='25','selected',default)">
+                        25
+                        </option>
+                        <option value="26" tal:attributes="selected python:test(selected=='26','selected',default)">
+                        26
+                        </option>
+                        <option value="27" tal:attributes="selected python:test(selected=='27','selected',default)">
+                        27
+                        </option>
+                        <option value="28" tal:attributes="selected python:test(selected=='28','selected',default)">
+                        28
+                        </option>
+                        <option value="29" tal:attributes="selected python:test(selected=='29','selected',default)">
+                        29
+                        </option>
+                        <option value="30" tal:attributes="selected python:test(selected=='30','selected',default)">
+                        30
+                        </option>
+                        <option value="31" tal:attributes="selected python:test(selected=='31','selected',default)">
+                        31
+                        </option>
+                    </select>
+                    
+                    <BR><BR>
+                    
+                    <div class="formHelp">Select potential temperature level.</div>
+                    
+                    <select class="context" name="form.select_level" tal:define="selected result/form.select_level|nothing">
+                        <option value="475" tal:attributes="selected python:test(selected=='475','selected',default)">
+                        475 K
+                        </option>                        
+                        <option value="525" tal:attributes="selected python:test(selected=='525','selected',default)">
+                        525 K
+                        </option>
+                        <option value="575" tal:attributes="selected python:test(selected=='575','selected',default)">
+                        575 K
+                        </option>
+                        <option value="625" tal:attributes="selected python:test(selected=='625','selected',default)">
+                        625 K
+                        </option>
+                    </select>
+                    
+                    <BR><BR>
+                    
+                    <div class="formHelp"> Select the number of frames per second for the movie. </div>
+                    <input type="text" name="form.select_fps"
+                    tal:define="select_fps result/form.select_fps|string:2005-02-1 00:00:00" 
+                    tal:attributes="tabindex tabindex/next; value start_utc" />
+                    <span class="fieldRequired" title="Required"> (Required) </span>
+                    
+                    <BR><BR>
+                    
+                    <div class="formHelp">Movie alternatives.</div>
+                    
+                    <select class="context" name="form.select_movie_alt" tal:define="selected result/form.select_movie_alt|nothing">
+                        <option value="watch" tal:attributes="selected python:test(selected=='watch','selected',default)">
+                        Watch movie
+                        </option>                        
+                        <option value="save" tal:attributes="selected python:test(selected=='save','selected',default)">
+                        Save movie
+                        </option>
+                    </select>
+                    
+                    <BR><BR>
+                    
+                    <div>
+                    <input class="context" type="submit" tabindex=""
+                    name="form.button.movs" value="Submit"
+                    tal:attributes="tabindex tabindex/next;" />
+                    </div>
+                    </div>
+                    
+    </body>
+</html>

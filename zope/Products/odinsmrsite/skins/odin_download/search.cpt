@@ -396,7 +396,7 @@
                         <div class="formHelp">Mark what fqid you are intrested in</div>
                         
                         <!-- call function here -->
-                            <div tal:define="species python:context.data_download.getAvailFqids" tal:repeat="i species">
+                            <div tal:define="species python:context.odinsmrsite_download.getAvailFqids" tal:repeat="i species">
                                 <span
                                 tal:define="name python:i[0]; text python:i[1]; checked path:result/?name|nothing"
                                 >
@@ -421,7 +421,7 @@
                         <div class="formHelp">Mark what FMs you are intrested in</div>
                         
                         <!-- call function here -->
-                            <div tal:define="species python:context.data_download.getAvailFms" tal:repeat="i species">
+                            <div tal:define="species python:context.odinsmrsite_download.getAvailFms" tal:repeat="i species">
                                 <span
                                 tal:define="name python:i[0]; text python:i[1]; checked path:result/?name|nothing"
                                 >
@@ -446,7 +446,7 @@
                         <div class="formHelp">Mark what species you are intrested in</div>
                         
                         <!-- call function here -->
-                            <div tal:define="species python:context.data_download.getAvailNames" tal:repeat="i species">
+                            <div tal:define="species python:context.odinsmrsite_download.getAvailNames" tal:repeat="i species">
                                 <span
                                 tal:define="name python:i[0]; text python:i[1]; checked path:result/?name|nothing"
                                 >
@@ -491,7 +491,7 @@
                         <div class="formHelp">Mark what processors you are intrested in</div>
 
                         <!-- call function here -->
-                            <div tal:define="processors python:context.data_download.getAvailProcessors" tal:repeat="i processors">
+                            <div tal:define="processors python:context.odinsmrsite_download.getAvailProcessors" tal:repeat="i processors">
                                 <span
                                 tal:define="name python:i[0]; text python:i[1]; checked path:result/?name|nothing"
                                 >

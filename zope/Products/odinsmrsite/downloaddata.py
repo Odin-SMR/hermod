@@ -6,14 +6,14 @@ from permissions import DOWNLOAD
 from ismrdatabase import ISMRDataBase
 
 
-class SearchAndDownload(ISMRDataBase,UniqueObject,SimpleItemWithProperties):
+class SearchAndDownload(ISMRDataBase,SimpleItemWithProperties):
     """Search and download l1 and l2 data.
 
     Tool to provide the search and download data from the web
 
     """
     meta_type = 'Search and download data'
-    id = 'data_download'
+#    id = 'data_download'
 
     #set up security
     security = ClassSecurityInfo()

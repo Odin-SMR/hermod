@@ -4,7 +4,7 @@ from Products.CMFCore.utils import UniqueObject,SimpleItemWithProperties
 
 from permissions import MANAGE
 
-class ManageQueue(UniqueObject,SimpleItemWithProperties):
+class ManageQueue(SimpleItemWithProperties):
     """Manages the processing queue.
 
     Provides a interface to the user to run, rerun, delete processes in the
@@ -13,7 +13,7 @@ class ManageQueue(UniqueObject,SimpleItemWithProperties):
     """
 
     meta_type = 'Manage processing queue'
-    id = 'manage_queue'
+#    id = 'manage_queue'
 
     #set up security
     security = ClassSecurityInfo()

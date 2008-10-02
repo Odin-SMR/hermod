@@ -10,7 +10,7 @@
 
             <h1> Find pictures processed by GEM@RSS </h1>
 
-            <div > Instructions goes here:  Pictures are available from 2001-10-01 to ... </div>
+            <div> Instructions goes here:  Pictures are available from 2001-10-01 to ... </div>
 
             <form method="post" tal:attributes="action template/id;">
 
@@ -268,7 +268,6 @@
                         <option value="12" tal:attributes="selected python:test(selected=='12','selected',default)">
                         December
                         </option>
-
                     </select>
                         
 					<select class="context" name="form.select_end_day" tal:define="selected result/form.select_end_day|nothing">
@@ -774,7 +773,7 @@
                     <div class="formHelp"> Select the number of frames per second for the movie. </div>
                     <input type="text" name="form.select_fps"
                     tal:define="select_fps result/form.select_fps|string:2005-02-1 00:00:00" 
-                    tal:attributes="tabindex tabindex/next; value start_utc" />
+                    tal:attributes="tabindex tabindex/next; value select_fps" />
                     <span class="fieldRequired" title="Required"> (Required) </span>
                     
                     <BR><BR>
@@ -795,9 +794,11 @@
                     <div>
                     <input class="context" type="submit" tabindex=""
                     name="form.button.movs" value="Submit"
-                    tal:attributes="tabindex tabindex/next;" />
-                    </div>
-                    </div>
+                    tal:attributes="tabindex tabindex/next;" /></div>
+                </fieldset>
+            </form>
+                   
+        </div>
                     
     </body>
 </html>

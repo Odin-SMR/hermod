@@ -2,10 +2,8 @@
 <tool-setup>
  <required tool_id="odinsmrsite_download"
            class="Products.odinsmrsite.downloaddata.SearchAndDownload"/>
- <required tool_id="odinsmrsite_movie"
-           class="Products.odinsmrsite.pics.pictures.movie"/>
  <required tool_id="odinsmrsite_pictures"
-           class="Products.odinsmrsite.pics.pictures.save_fig"/>
+           class="Products.odinsmrsite.pics.pictures"/>
  <required tool_id="odinsmrsite_manage"
            class="Products.odinsmrsite.managequeue.ManageQueue"/>
 </tool-setup>

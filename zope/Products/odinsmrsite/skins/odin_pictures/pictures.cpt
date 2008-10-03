@@ -772,7 +772,7 @@
                     
                     <div class="formHelp"> Select the number of frames per second for the movie. </div>
                     <input type="text" name="form.select_fps"
-                    tal:define="select_fps result/form.select_fps|string:2005-02-1 00:00:00" 
+                    tal:define="select_fps result/form.select_fps|nothing" 
                     tal:attributes="tabindex tabindex/next; value select_fps" />
                     <span class="fieldRequired" title="Required"> (Required) </span>
                     

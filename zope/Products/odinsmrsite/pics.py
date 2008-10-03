@@ -44,11 +44,12 @@ class pictures(SimpleItemWithProperties):
 		os.system("mencoder 'mf://@" + filename + "' -mf type=png:fps=" + set_fps + " -ovc lavc -lavcopts vcodec=wmv2 -oac copy -o /home/marjan/test/animation1.avi")
 		os.remove(filename)
 		
+        
         security.declareProtected(BROWSE,'save_fig')
 	def save_fig(self,**params):
 		import os
 		import convert_date as c
-		
+		os.system('mkdir /tmp/hejhej/')
 		webparams = dict(**params)
 		species = webparams['form.select_species']
 		date_start = (int(webparams['form.select_start_year']),int(webparams['form.select_start_month']),int(webparams['form.select_start_day']))
@@ -69,7 +70,7 @@ class pictures(SimpleItemWithProperties):
 		
 		for i in range(date_start_mjd,date_end_mjd+1,1):
 			year,month,day,hour,minute,secs,ticks = c.mjd2utc(i)
-			os.system('cp /odin/extdata/PICTURES/' + species + '/' + str(year) + '/' + str(month) + '/' + species + '_' + str(level_num) + '_' + str(i) + '.png' + ' ' + '/home/marjan/test/' + species + '_' + str(level) + '_' + str(year) + '%02d%02d.png' %(month,day))
+			os.system('cp /odin/extdata/PICTURES/' + species + '/' + str(year) + '/' + str(month) + '/' + species + '_' + str(level_num) + '_' + str(i) + '.png' + ' ' + '/tmp/' + species + '_' + str(level) + '_' + str(year) + '%02d%02d.png' %(month,day))
 			
 
 InitializeClass(pictures)

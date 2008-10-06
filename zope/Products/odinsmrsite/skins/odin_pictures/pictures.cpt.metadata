@@ -2,13 +2,10 @@
 [validators]
 validators..pics = validPics
 validators..movs = validMovs
-validators..type = validType
-validators..select_type_p = validType
 validators = redraw
 [actions]
 action.success = traverse_to:string:pictures
 action.success..pics = traverse_to:string:getPictures
 action.success..movs = traverse_to:string:getMovie
-action.success..type = traverse_to:string:pictures
-action.success..select_type_p = traverse_to:string:pictures
+
 

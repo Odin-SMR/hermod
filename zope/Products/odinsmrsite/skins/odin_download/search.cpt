@@ -66,7 +66,7 @@
                                                 Error message start_utc
                                             </div>
                                             <input type="text" name="form.start_utc"
-                                            tal:define="start_utc result/form.start_utc|string:2005-02-1 00:00:00" 
+                                            tal:define="start_utc result/form.start_utc|string:YYYY-MM-DD HH:MM:SS" 
                                             tal:attributes="tabindex tabindex/next; value start_utc" />
                                         </div>
                                     </td>
@@ -88,7 +88,7 @@
                                                 Error message form.stop_utc
                                             </div>
                                             <input type="text" name="form.stop_utc" 
-                                            tal:define="stop_utc result/form.stop_utc|string:2005-2-31 0:0:0" 
+                                            tal:define="stop_utc result/form.stop_utc|string:YYYY-MM-DD HH:MM:SS" 
                                             tal:attributes="tabindex tabindex/next; value stop_utc" /> 
                                         </div>
                                     </td>
@@ -121,7 +121,7 @@
                                                 Error message start_mjd
                                             </div>
                                             <input type="text" name="form.start_mjd"
-                                            tal:define="start_mjd result/form.start_mjd|string:2005-02-1 00:00:00" 
+                                            tal:define="start_mjd result/form.start_mjd|string:" 
                                             tal:attributes="tabindex tabindex/next; value start_mjd" />
                                         </div>
                                     </td>
@@ -143,7 +143,7 @@
                                                 Error message form.stop_mjd
                                             </div>
                                             <input type="text" name="form.stop_mjd" 
-                                            tal:define="stop_mjd result/form.stop_mjd|string:2005-2-31 0:0:0" 
+                                            tal:define="stop_mjd result/form.stop_mjd|string:" 
                                             tal:attributes="tabindex tabindex/next; value stop_mjd" /> 
                                         </div>
                                     </td>
@@ -169,14 +169,14 @@
                                                 (Required)
                                             </span>
                                             <div class="formHelp">
-                                                Start orbit i decimal nubers.
+                                                Start orbit in decimal numbers.
                                             </div>
                                             <div tal:condition="error_start_orb" 
                                                 tal:content="error_start_orb">
                                                 Error message start_orb
                                             </div>
                                             <input type="text" name="form.start_orb"
-                                            tal:define="start_orb result/form.start_orb|string:2005-02-1 00:00:00" 
+                                            tal:define="start_orb result/form.start_orb|string:" 
                                             tal:attributes="tabindex tabindex/next; value start_orb" />
                                         </div>
                                     </td>
@@ -198,7 +198,7 @@
                                                 Error message form.stop_orb
                                             </div>
                                             <input type="text" name="form.stop_orb" 
-                                            tal:define="stop_orb result/form.stop_orb|string:2005-2-31 0:0:0" 
+                                            tal:define="stop_orb result/form.stop_orb|string:" 
                                             tal:attributes="tabindex tabindex/next; value stop_orb" /> 
                                         </div>
                                     </td>
@@ -209,7 +209,7 @@
                         <!-- Time:hex -->
 
                         <fieldset tal:condition="python:render=='hex'">
-                            <legend class="legend"> Filter on Hexadecimal Orbit number</legend>
+                            <legend class="legend"> Filter on hexadecimal orbit number</legend>
 
                             <table>
                                 <tr>
@@ -224,14 +224,14 @@
                                                 (Required)
                                             </span>
                                             <div class="formHelp">
-                                                Start orbit i Hexadecimal nubers.
+                                                Start orbit in hexadecimal numbers.
                                             </div>
                                             <div tal:condition="error_start_hex" 
                                                 tal:content="error_start_hex">
                                                 Error message start_hex
                                             </div>
                                             <input type="text" name="form.start_hex"
-                                            tal:define="start_hex result/form.start_hex|string:2005-02-1 00:00:00" 
+                                            tal:define="start_hex result/form.start_hex|string:" 
                                             tal:attributes="tabindex tabindex/next; value start_hex" />
                                         </div>
                                     </td>
@@ -240,20 +240,20 @@
                                             tal:attributes="class python:test(error_stop_hex, 'field error', 'field')"
                                             >
                                             <label for="form.stop_hex">
-                                                End hexit   
+                                                End orbit   
                                             </label>
                                             <span class="fieldRequired" title="Required">
                                                 (Required)
                                             </span>
                                             <div class="formHelp">
-                                                Input hexit that ends the timeframe you are interested in.
+                                                Input orbit that ends the timeframe you are interested in.
                                             </div>
                                             <div tal:condition="error_stop_hex"
                                                 tal:content="error_stop_hex">
                                                 Error message form.stop_hex
                                             </div>
                                             <input type="text" name="form.stop_hex" 
-                                            tal:define="stop_hex result/form.stop_hex|string:2005-2-31 0:0:0" 
+                                            tal:define="stop_hex result/form.stop_hex|string:" 
                                             tal:attributes="tabindex tabindex/next; value stop_hex" /> 
                                         </div>
                                     </td>
@@ -270,7 +270,7 @@
                         No filter
                         </option>
                         <option value="rad" tal:attributes="selected python:test(selected=='rad','selected',default)">
-                        Coordinate an radius
+                        Coordinate and radius
                         </option>
                     </select>
                     
@@ -301,7 +301,7 @@
                                                 Error message lat
                                             </div>
                                             <input type="text" name="form.lat"
-                                            tal:define="lat result/form.lat|string:2005-02-1 00:00:00" 
+                                            tal:define="lat result/form.lat|string:" 
                                             tal:attributes="tabindex tabindex/next; value lat" />
                                         </div>
                                     </td>
@@ -316,14 +316,14 @@
                                                 (Required)
                                             </span>
                                             <div class="formHelp">
-                                                help on lat
+                                                help on long
                                             </div>
                                             <div tal:condition="error_lon"
                                                 tal:content="error_lon">
                                                 Error message form.lon
                                             </div>
                                             <input type="text" name="form.lon" 
-                                            tal:define="lon result/form.lon|string:2005-2-31 0:0:0" 
+                                            tal:define="lon result/form.lon|string:" 
                                             tal:attributes="tabindex tabindex/next; value lon" /> 
                                         </div>
                                     </td>
@@ -345,7 +345,7 @@
                                                 Error message form.radius
                                             </div>
                                             <input type="text" name="form.radius" 
-                                            tal:define="radius result/form.radius|string:2005-2-31 0:0:0" 
+                                            tal:define="radius result/form.radius|string:" 
                                             tal:attributes="tabindex tabindex/next; value radius" /> 
                                         </div>
                                     </td>
@@ -356,7 +356,7 @@
 
                     <!-- Species -->
 
-                    <div class="formHelp">Select a Species filter</div>
+                    <div class="formHelp">Select a species filter</div>
                     <label for="form.select_species"> Species filter </label>
                     <select class="context" name="form.select_species" tal:define="selected result/form.select_species|nothing" onchange="submit()">
                         <option value="none" tal:attributes="selected python:test(selected=='none','selected',default)">
@@ -396,7 +396,7 @@
 
                                 <input type="checkbox"
                                 tal:attributes="name name; checked checked">
-                                <span tal:content="text">description of speceies</span>
+                                <span tal:content="text">description of species</span>
                             </span>
                             </div>
 
@@ -421,7 +421,7 @@
 
                                 <input type="checkbox"
                                 tal:attributes="name name; checked checked">
-                                <span tal:content="text">description of speceies</span>
+                                <span tal:content="text">description of species</span>
                             </span>
                             </div>
 
@@ -436,7 +436,7 @@
                         <div tal:condition="error">
                             <span content="error">Error message fq</span>
                         </div>
-                        <div class="formHelp">Mark what species you are intrested in</div>
+                        <div class="formHelp">Mark what species you are interested in</div>
                         
                         <!-- call function here -->
                             <div tal:define="species python:context.odinsmrsite_download.getAvailNames" tal:repeat="i species">
@@ -446,7 +446,7 @@
 
                                 <input type="checkbox"
                                 tal:attributes="name name; checked checked">
-                                <span tal:content="text">description of speceies</span>
+                                <span tal:content="text">description of species</span>
                             </span>
                             </div>
 
@@ -497,7 +497,7 @@
                     </div>
                 </fieldset>
                 <input type="hidden" name="form.submitted" value="1" />
-                <label for="Search"> Lauch db query</label>
+                <label for="Search"> Launch db query</label>
                 <input type="submit" name="form.button.Search" value="Search">
             </form>
         </div>

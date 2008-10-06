@@ -1,2 +1,2 @@
 [actions]
-action.success = traverse_to:string:searchdata
+action.success = traverse_to:string:search

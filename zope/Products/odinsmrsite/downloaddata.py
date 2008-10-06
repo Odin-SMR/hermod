@@ -175,5 +175,4 @@ class SearchAndDownload(ISMRDataBase,SimpleItemWithProperties):
         db.close()
         return [("form.name_"+str(x[0]),str(x[0])) for x in rows]
 
-
 InitializeClass(SearchAndDownload)

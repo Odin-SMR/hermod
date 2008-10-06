@@ -18,5 +18,4 @@ class ManageQueue(SimpleItemWithProperties):
     #set up security
     security = ClassSecurityInfo()
     security.declareObjectProtected(MANAGE)
-
 InitializeClass(ManageQueue)

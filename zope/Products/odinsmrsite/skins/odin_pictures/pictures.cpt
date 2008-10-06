@@ -15,6 +15,7 @@
             <form method="post" tal:attributes="action template/id;">
 				<fieldset>
                 <!-- Pictures -->
+                <legend class="legend">Get pictures</legend>
 					<div class="formHelp">Select plot type. If the polar plot is chosen O3, N2O and H2O are shown in the same image.</div>
                     
                     <select class="context" name="form.select_type_p" tal:define="selected result/form.select_type_p|nothing" onchange="submit()">

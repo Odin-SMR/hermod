@@ -19,7 +19,7 @@
                 <fieldset>
                     <legend class="legend">Get pictures</legend>
                     <div class="formHelp">Select species. There are pictures of O3 studied in both 501.8 GHz and 544.6 GHz.</div>
-                    <select class="context" name="form.select_species" tal:define="selected result/form.select_species|nothing">
+                    <select class="context" name="form.select_species_p" tal:define="selected result/form.select_species_p|nothing">
                         <option value="H2O" tal:attributes="selected python:test(selected=='H2O','selected',default)">
                         H2O
                         </option>                        
@@ -38,7 +38,7 @@
                   
                     <div class="formHelp">Select starting date.</div>
                     
-                    <select class="context" name="form.select_start_year" tal:define="selected result/form.select_start_year|nothing">
+                    <select class="context" name="form.select_start_year_p" tal:define="selected result/form.select_start_year_p|nothing">
                         <option value="2001" tal:attributes="selected python:test(selected=='2001','selected',default)">
                         2001
                         </option>                        
@@ -65,7 +65,7 @@
                         </option>
                     </select>
                        
-                    <select class="context" name="form.select_start_month" tal:define="selected result/form.select_start_month|nothing">
+                    <select class="context" name="form.select_start_month_p" tal:define="selected result/form.select_start_month_p|nothing">
                         <option value="1" tal:attributes="selected python:test(selected=='1','selected',default)">
                         January
                         </option>                        
@@ -104,7 +104,7 @@
                         </option>
                     </select>
                         
-					<select class="context" name="form.select_start_day" tal:define="selected result/form.select_start_day|nothing">
+					<select class="context" name="form.select_start_day_p" tal:define="selected result/form.select_start_day_p|nothing">
                         <option value="1" tal:attributes="selected python:test(selected=='1','selected',default)">
                         1
                         </option>                        
@@ -204,7 +204,7 @@
                     
                     <div class="formHelp">Select ending date.</div>
                     
-                    <select class="context" name="form.select_end_year" tal:define="selected result/form.select_end_year|nothing">
+                    <select class="context" name="form.select_end_year_p" tal:define="selected result/form.select_end_year_p|nothing">
                         <option value="2001" tal:attributes="selected python:test(selected=='2001','selected',default)">
                         2001
                         </option>                        
@@ -231,7 +231,7 @@
                         </option>
                     </select>
                        
-                    <select class="context" name="form.select_end_month" tal:define="selected result/form.select_end_month|nothing">
+                    <select class="context" name="form.select_end_month_p" tal:define="selected result/form.select_end_month_p|nothing">
                         <option value="1" tal:attributes="selected python:test(selected=='1','selected',default)">
                         January
                         </option>                        
@@ -270,7 +270,7 @@
                         </option>
                     </select>
                         
-					<select class="context" name="form.select_end_day" tal:define="selected result/form.select_end_day|nothing">
+					<select class="context" name="form.select_end_day_p" tal:define="selected result/form.select_end_day_p|nothing">
                         <option value="1" tal:attributes="selected python:test(selected=='1','selected',default)">
                         1
                         </option>                        
@@ -370,7 +370,7 @@
                     
                     <div class="formHelp">Select potential temperature level.</div>
                     
-                    <select class="context" name="form.select_level" tal:define="selected result/form.select_level|nothing">
+                    <select class="context" name="form.select_level_p" tal:define="selected result/form.select_level_p|nothing">
                         <option value="475" tal:attributes="selected python:test(selected=='475','selected',default)">
                         475 K
                         </option>                        
@@ -388,11 +388,13 @@
                     <BR><BR>
                     
             		<div>
+            		
                     <input class="context" type="submit" tabindex=""
                     name="form.button.pics" value="Submit"
                     tal:attributes="tabindex tabindex/next;"
                     onclick=click />
-                    </div>
+                    </div> 
+                                    
 				</fieldset>
             
              
@@ -402,7 +404,7 @@
                     <legend class="legend">Get movies</legend>
                     <div class="formHelp">Select species. There are pictures of O3 studied in both 501.8 GHz and 544.6 GHz.</div>
                     
-                    <select class="context" name="form.select_species" tal:define="selected result/form.select_species|nothing">
+                    <select class="context" name="form.select_species_m" tal:define="selected result/form.select_species_m|nothing">
                         <option value="H2O" tal:attributes="selected python:test(selected=='H2O','selected',default)">
                         H2O
                         </option>                        
@@ -421,7 +423,7 @@
                   
                     <div class="formHelp">Select starting date.</div>
                     
-                    <select class="context" name="form.select_start_year" tal:define="selected result/form.select_start_year|nothing">
+                    <select class="context" name="form.select_start_year_m" tal:define="selected result/form.select_start_year_m|nothing">
                         <option value="2001" tal:attributes="selected python:test(selected=='2001','selected',default)">
                         2001
                         </option>                        
@@ -448,7 +450,7 @@
                         </option>
                     </select>
                        
-                    <select class="context" name="form.select_start_month" tal:define="selected result/form.select_start_month|nothing">
+                    <select class="context" name="form.select_start_month_m" tal:define="selected result/form.select_start_month_m|nothing">
                         <option value="1" tal:attributes="selected python:test(selected=='1','selected',default)">
                         January
                         </option>                        
@@ -487,7 +489,7 @@
                         </option>
                     </select>
                         
-					<select class="context" name="form.select_start_day" tal:define="selected result/form.select_start_day|nothing">
+					<select class="context" name="form.select_start_day_m" tal:define="selected result/form.select_start_day_m|nothing">
                         <option value="1" tal:attributes="selected python:test(selected=='1','selected',default)">
                         1
                         </option>                        
@@ -587,7 +589,7 @@
                     
                     <div class="formHelp">Select ending date.</div>
                     
-                    <select class="context" name="form.select_end_year" tal:define="selected result/form.select_end_year|nothing">
+                    <select class="context" name="form.select_end_year_m" tal:define="selected result/form.select_end_year_m|nothing">
                         <option value="2001" tal:attributes="selected python:test(selected=='2001','selected',default)">
                         2001
                         </option>                        
@@ -614,7 +616,7 @@
                         </option>
                     </select>
                        
-                    <select class="context" name="form.select_end_month" tal:define="selected result/form.select_end_month|nothing">
+                    <select class="context" name="form.select_end_month_m" tal:define="selected result/form.select_end_month_m|nothing">
                         <option value="1" tal:attributes="selected python:test(selected=='1','selected',default)">
                         January
                         </option>                        
@@ -653,7 +655,7 @@
                         </option>
                     </select>
                         
-					<select class="context" name="form.select_end_day" tal:define="selected result/form.select_end_day|nothing">
+					<select class="context" name="form.select_end_day_m" tal:define="selected result/form.select_end_day_m|nothing">
                         <option value="1" tal:attributes="selected python:test(selected=='1','selected',default)">
                         1
                         </option>                        
@@ -753,8 +755,8 @@
                     
                     <div class="formHelp">Select potential temperature level.</div>
                     
-                    <select class="context" name="form.select_level" tal:define="selected result/form.select_level|nothing">
-                        <option value="475" tal:attributes="selected python:test(selected=='475','selected',default)">
+                    <select class="context" name="form.select_level_m" tal:define="selected result/form.select_level_m|nothing">
+                    	<option value="475" tal:attributes="selected python:test(selected=='475','selected',default)">
                         475 K
                         </option>                        
                         <option value="525" tal:attributes="selected python:test(selected=='525','selected',default)">
@@ -777,25 +779,13 @@
                     <span class="fieldRequired" title="Required"> (Required) </span>
                     
                     <BR><BR>
-                    
-                    <div class="formHelp">Movie alternatives.</div>
-                    
-                    <select class="context" name="form.select_movie_alt" tal:define="selected result/form.select_movie_alt|nothing">
-                        <option value="watch" tal:attributes="selected python:test(selected=='watch','selected',default)">
-                        Watch movie
-                        </option>                        
-                        <option value="save" tal:attributes="selected python:test(selected=='save','selected',default)">
-                        Save movie
-                        </option>
-                    </select>
-                    
-                    <BR><BR>
-                    
+                                                          
                     <div>
                     <input class="context" type="submit" tabindex=""
                     name="form.button.movs" value="Submit"
                     tal:attributes="tabindex tabindex/next;" /></div>
                 </fieldset>
+                <input type="hidden" name="form.submitted" value="1" />
             </form>
                    
         </div>

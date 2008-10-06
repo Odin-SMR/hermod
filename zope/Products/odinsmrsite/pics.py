@@ -16,12 +16,14 @@ class pictures(SimpleItemWithProperties):
 		import tempfile
 		import convert_date as c
 		
+		os.system('touch /tmp/foobar')
 		webparams = dict(**params)
-		species = webparams['form.select_species']
-		date_start = (int(webparams['form.select_start_year']),int(webparams['form.select_start_month']),int(webparams['form.select_start_day']))
-		date_end = (int(webparams['form.select_end_year']),int(webparams['form.select_end_month']),int(webparams['form.select_end_day']))
-		level = int(webparams['form.select_level'])
+		species = webparams['form.select_species_m']
+		date_start = (int(webparams['form.select_start_year_m']),int(webparams['form.select_start_month_m']),int(webparams['form.select_start_day_m']))
+		date_end = (int(webparams['form.select_end_year_m']),int(webparams['form.select_end_month_m']),int(webparams['form.select_end_day_m']))
+		level = int(webparams['form.select_level_m'])
 		set_fps = webparams['form.select_fps']
+		
 		
 		if level == 475:
 			level_num = 0
@@ -41,20 +43,20 @@ class pictures(SimpleItemWithProperties):
 			year,month,day,hour,minute,secs,ticks = c.mjd2utc(i)
 			temp.write('/odin/extdata/PICTURES/' + species + '/' + str(year) + '/' + str(month) + '/' + species + '_' + str(level_num) + '_' + str(i) + '.png\n')
 		temp.close()
-		os.system("mencoder 'mf://@" + filename + "' -mf type=png:fps=" + set_fps + " -ovc lavc -lavcopts vcodec=wmv2 -oac copy -o /home/marjan/test/animation1.avi")
+		os.system("mencoder 'mf://@" + filename + "' -mf type=png:fps=" + set_fps + " -ovc lavc -lavcopts vcodec=wmv2 -oac copy -o -")
 		os.remove(filename)
 		
-        
         security.declareProtected(BROWSE,'save_fig')
 	def save_fig(self,**params):
 		import os
 		import convert_date as c
-		os.system('mkdir /tmp/hejhej/')
+		
 		webparams = dict(**params)
-		species = webparams['form.select_species']
-		date_start = (int(webparams['form.select_start_year']),int(webparams['form.select_start_month']),int(webparams['form.select_start_day']))
-		date_end = (int(webparams['form.select_end_year']),int(webparams['form.select_end_month']),int(webparams['form.select_end_day']))
-		level = int(webparams['form.select_level'])
+		os.system('touch /tmp/foobar')
+		species = webparams['form.select_species_p']
+		date_start = (int(webparams['form.select_start_year_p']),int(webparams['form.select_start_month_p']),int(webparams['form.select_start_day_p']))
+		date_end = (int(webparams['form.select_end_year_p']),int(webparams['form.select_end_month_p']),int(webparams['form.select_end_day_p']))
+		level = int(webparams['form.select_level_p'])
 				
 		date_start_mjd = c.utc2mjd(date_start[0],date_start[1],date_start[2])
 		date_end_mjd = c.utc2mjd(date_end[0],date_end[1],date_end[2])

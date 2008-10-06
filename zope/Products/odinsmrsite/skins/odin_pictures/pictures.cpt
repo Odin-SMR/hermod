@@ -13,29 +13,45 @@
             <div> Instructions goes here:  Pictures are available from 2001-10-01 to ... </div>
 
             <form method="post" tal:attributes="action template/id;">
-
+				<fieldset>
                 <!-- Pictures -->
-
-                <fieldset>
-                    <legend class="legend">Get pictures</legend>
-                    <div class="formHelp">Select species. There are pictures of O3 studied in both 501.8 GHz and 544.6 GHz.</div>
-                    <select class="context" name="form.select_species_p" tal:define="selected result/form.select_species_p|nothing">
-                        <option value="H2O" tal:attributes="selected python:test(selected=='H2O','selected',default)">
-                        H2O
+					<div class="formHelp">Select plot type. If the polar plot is chosen O3, N2O and H2O are shown in the same image.</div>
+                    
+                    <select class="context" name="form.select_type_p" tal:define="selected result/form.select_type_p|nothing" onchange="submit()">
+                        <option value="polar" tal:attributes="selected python:test(selected=='polar','selected',default)">
+                        Polar plot
                         </option>                        
-                        <option value="N2O" tal:attributes="selected python:test(selected=='N2O','selected',default)">
-                        N2O
-                        </option>
-                        <option value="O3_501" tal:attributes="selected python:test(selected=='O3_501','selected',default)">
-                        O3, 501.8 GHz 
-                        </option>
-                        <option value="O3_544" tal:attributes="selected python:test(selected=='O3_544','selected',default)">
-                        O3, 544.6 GHz
+                        <option value="global" tal:attributes="selected python:test(selected=='global','selected',default)">
+                        Global plot
                         </option>
                     </select>
-                      
-					<BR><BR>             
-                  
+  		
+                    <div tal:define="render result/form.select_type_p|nothing">
+
+                        <!-- type:global -->
+                        
+                        <div tal:condition="python:render=='global'">
+                      		<BR>
+                      		<div class="formHelp">Select species. There are pictures of O3 studied in both 501.8 GHz and 544.6 GHz.</div>
+                    		<select class="context" name="form.select_species_p" tal:define="selected result/form.select_species_p|nothing">
+                        		<option value="H2O" tal:attributes="selected python:test(selected=='H2O','selected',default)">
+                        		H2O
+                        		</option>                        
+                        		<option value="N2O" tal:attributes="selected python:test(selected=='N2O','selected',default)">
+                        		N2O
+                        		</option>
+                        		<option value="O3_501" tal:attributes="selected python:test(selected=='O3_501','selected',default)">
+                        		O3, 501.8 GHz 
+                        		</option>
+                        		<option value="O3_544" tal:attributes="selected python:test(selected=='O3_544','selected',default)">
+                        		O3, 544.6 GHz
+                        		</option>
+                    		</select>
+                        </div>                 
+					</div>
+
+					<BR>
+					                 
                     <div class="formHelp">Select starting date.</div>
                     
                     <select class="context" name="form.select_start_year_p" tal:define="selected result/form.select_start_year_p|nothing">

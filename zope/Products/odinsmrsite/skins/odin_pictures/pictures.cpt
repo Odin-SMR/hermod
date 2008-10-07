@@ -409,7 +409,7 @@
                     <input class="context" type="submit" tabindex=""
                     name="form.button.pics" value="Submit"
                     tal:attributes="tabindex tabindex/next;"
-                    onclick=click />
+                    onclick="click" />
                     </div> 
                                     
 				</fieldset>

@@ -1,4 +1,3 @@
-
 [validators]
 validators..pics = validPics
 validators..movs = validMovs

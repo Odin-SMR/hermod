@@ -1,2 +1,2 @@
-[action]
+[actions]
 action.success = traverse_to:string:movie.avi

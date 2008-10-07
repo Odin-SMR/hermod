@@ -59,14 +59,14 @@
                                                 (Required)
                                             </span>
                                             <div class="formHelp">
-                                                This is a good text
+                                                Format: YYYY-MM-DD HH:MM:SS.
                                             </div>
                                             <div tal:condition="error_start_utc" 
                                                 tal:content="error_start_utc">
                                                 Error message start_utc
                                             </div>
                                             <input type="text" name="form.start_utc"
-                                            tal:define="start_utc result/form.start_utc|string:YYYY-MM-DD HH:MM:SS" 
+                                            tal:define="start_utc result/form.start_utc|string:" 
                                             tal:attributes="tabindex tabindex/next; value start_utc" />
                                         </div>
                                     </td>
@@ -81,14 +81,14 @@
                                                 (Required)
                                             </span>
                                             <div class="formHelp">
-                                                Input date and time that ends the timeframe you are interested in.
+                                                Input date and time that ends the timeframe you are interested in. Format: YYYY-MM-DD HH:MM:SS.
                                             </div>
                                             <div tal:condition="error_stop_utc"
                                                 tal:content="error_stop_utc">
                                                 Error message form.stop_utc
                                             </div>
                                             <input type="text" name="form.stop_utc" 
-                                            tal:define="stop_utc result/form.stop_utc|string:YYYY-MM-DD HH:MM:SS" 
+                                            tal:define="stop_utc result/form.stop_utc|string:" 
                                             tal:attributes="tabindex tabindex/next; value stop_utc" /> 
                                         </div>
                                     </td>

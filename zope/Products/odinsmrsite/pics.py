@@ -22,7 +22,7 @@ class pictures(SimpleItemWithProperties):
                 response = self.REQUEST.RESPONSE
                 response.setHeader('Pragma','no-cache')
                 response.setHeader('content-coding','video/x-msvideo')
-		
+		response.setHeader('Content-Disposition','Attachment;Filename=movie.avi')
 		webparams = dict(**params)
 
                 species = webparams['form.select_species_m']
@@ -76,7 +76,7 @@ class pictures(SimpleItemWithProperties):
                 response = self.REQUEST.RESPONSE
                 response.setHeader('Pragma','no-cache')
                 response.setHeader('content-coding','gzip')
-		
+		response.setHeader('Content-Disposition','Attachment;Filename=pictures.tar.gz')
 		webparams = dict(**params)
 		species = webparams['form.select_species_p']
 		date_start = (int(webparams['form.select_start_year_p']),int(webparams['form.select_start_month_p']),int(webparams['form.select_start_day_p']))

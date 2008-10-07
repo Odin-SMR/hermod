@@ -1,3 +1,2 @@
-
-[action]
+[actions]
 action.success = traverse_to:string:pictures.tar.gz

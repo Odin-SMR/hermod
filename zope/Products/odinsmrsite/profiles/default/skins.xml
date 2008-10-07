@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <object name="portal_skins">
-    <object name="odinsmrsite_download" meta_type="Filesystem Directory View" directory="Products.odinsmrsite:skins/odin_download" />
+    <object name="odinsmrsite_search" meta_type="Filesystem Directory View" directory="Products.odinsmrsite:skins/odin_download" />
     <object name="odinsmrsite_picture" meta_type="Filesystem Directory View" directory="Products.odinsmrsite:skins/odin_pictures" />
     <object name="odinsmrsite_manage" meta_type="Filesystem Directory View" directory="Products.odinsmrsite:skins/odin_queue" />
      <object name="odinsmrsite_controller" meta_type="Filesystem Directory View"
              directory="Products.odinsmrsite:skins/odin_control"/>
 <skin-path name="*">
-    <layer name="odinsmrsite_download" insert-after="custom"/>
+    <layer name="odinsmrsite_search" insert-after="custom"/>
     <layer name="odinsmrsite_picture" insert-after="custom"/>
     <layer name="odinsmrsite_manage" insert-after="custom"/>
     <layer name="odinsmrsite_controller" insert-after="custom"/>

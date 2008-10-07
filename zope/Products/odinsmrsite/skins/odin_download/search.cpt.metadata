@@ -1,9 +1,6 @@
 
 [validators]
-validators..Time = validTime
-validators..Location = validLocation
-validators..Species = validSpeciment
-validators..Processors = validProcessor
+validators..Search = validLocation,validTime,validSpeciment,validProcessor
 validators = redraw
 [actions]
 action.success..Search = traverse_to:string:getData

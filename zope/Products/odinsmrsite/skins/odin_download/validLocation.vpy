@@ -1,6 +1,7 @@
 form = context.REQUEST.form
 #insert checks here
-state.setError('start_utc','Not a valid date',new_status='failure')
 state.setKwargs(form)
-state.set(portal_status_message=('Please correct the errors.'))
+if form['form.lon']=="":
+    state.setError('lon','Not a valid longitude',new_status='failure')
+    state.set(portal_status_message=('Please correct the errors.'))
 return state

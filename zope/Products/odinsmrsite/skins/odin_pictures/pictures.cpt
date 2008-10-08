@@ -220,7 +220,7 @@
                     </select>
                     <div tal:condition="error_select_start_year_p" tal:content="error_select_start_year_p"> Error message form.select_start_year_p </div>
                     </div>
-                    <BR>
+                    
                     
                     <div class="formHelp">Select ending date.</div>
                     <div tal:define="error_select_end_year_p errors/select_end_year_p|nothing" tal:attributes="class python:test(error_select_end_year_p, 'field error', 'field')">
@@ -387,7 +387,7 @@
                     </select>
                     <div tal:condition="error_select_end_year_p" tal:content="error_select_end_year_p"> Error message form.select_end_year_p </div>
                     </div>
-                    <BR>
+                    
                     
                     <div class="formHelp">Select potential temperature level.</div>
                     
@@ -440,7 +440,7 @@
                         </option>
                     </select>
                     
-                    <BR><BR>                
+                    <BR><BR>               
                   
                     <div class="formHelp">Select starting date.</div>
                     <div tal:define="error_select_start_year_m errors/select_start_year_m|nothing" tal:attributes="class python:test(error_select_start_year_m, 'field error', 'field')">
@@ -607,7 +607,7 @@
                     </select>
                     <div tal:condition="error_select_start_year_m" tal:content="error_select_start_year_m"> Error message form.select_start_year_m </div>
                     </div>
-                    <BR>
+                    
                     
                     <div class="formHelp">Select ending date.</div>
                     <div tal:define="error_select_end_year_m errors/select_end_year_m|nothing" tal:attributes="class python:test(error_select_end_year_m, 'field error', 'field')">
@@ -774,7 +774,7 @@
                     </select>
                     <div tal:condition="error_select_end_year_m" tal:content="error_select_end_year_m"> Error message form.select_end_year_m </div>
                     </div>
-                    <BR>
+                    
                     
                     <div class="formHelp">Select potential temperature level.</div>
                     
@@ -798,13 +798,14 @@
                     <div class="formHelp"> Select the number of frames per second for the movie. </div>
                     <div tal:define="error_select_fps errors/select_fps|nothing" tal:attributes="class python:test(error_select_fps, 'field error', 'field')">
                     <input type="text" name="form.select_fps"
-                    tal:define="select_fps result/form.select_fps|nothing" 
+                    tal:define="select_fps result/form.select_fps|string:4" 
                     tal:attributes="tabindex tabindex/next; value select_fps" />
                     <span class="fieldRequired" title="Required"> (Required) </span>
                     <div tal:condition="error_select_fps" tal:content="error_select_fps"> Error message form.select_fps </div>
                     </div>
+                    
                     <BR>
-                                                          
+                                                                              
                     <div>
                     <input class="context" type="submit" tabindex=""
                     name="form.button.movs" value="Submit"

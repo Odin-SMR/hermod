@@ -82,7 +82,7 @@ class pictures(SimpleItemWithProperties):
 		date_start = (int(webparams['form.select_start_year_p']),int(webparams['form.select_start_month_p']),int(webparams['form.select_start_day_p']))
 		date_end = (int(webparams['form.select_end_year_p']),int(webparams['form.select_end_month_p']),int(webparams['form.select_end_day_p']))
 		level = int(webparams['form.select_level_p'])
-				
+		fig_alt = webparams['form.select_type_p']		
 		date_start_mjd = c.utc2mjd(date_start[0],date_start[1],date_start[2])
 		date_end_mjd = c.utc2mjd(date_end[0],date_end[1],date_end[2])
 		
@@ -100,7 +100,10 @@ class pictures(SimpleItemWithProperties):
                 base = '/odin/extdata/PICTURES/'
 		for i in range(date_start_mjd,date_end_mjd+1,1):
 			year,month,day,hour,minute,secs,ticks = c.mjd2utc(i)
-                        filelist.append(join(species,str(year),'%i'%month,'%s_%i_%s.png'%(species,level_num,i)))
+			if fig_alt == 'global':
+				filelist.append(join(species,str(year),'%i'%month,'%s_%i_%s.png'%(species,level_num,i)))
+			elif fig_alt == 'polar':
+				filelist.append(join('Polar',str(year),'%i'%month,'Polar_%i_%s.png'%(level_num,i)))
 			#os.system('cp /odin/extdata/PICTURES/' + species + '/' + str(year) + '/' + str(month) + '/' + species + '_' + str(level_num) + '_' + str(i) + '.png' + ' ' + '/tmp/' + species + '_' + str(level) + '_' + str(year) + '%02d%02d.png' %(month,day))
 
                 #create a pipe: " tar -c file1 file2 ... | gzip --fast > response object"

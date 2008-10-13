@@ -5,15 +5,15 @@
       <role name="Tester"/>
   </roles>
   <permissions>
-    <permission name="Odin SMR Site: Browse Pictures" acquire="True">
+    <permission name="OdinSMR: Browse Pictures" acquire="True">
       <role name="Manager"/>
       <role name="Owner"/>
       <role name="Tester"/>
     </permission>
-    <permission name="Odin SMR Site: Download Files" acquire="True">
+    <permission name="OdinSMR: Download Files" acquire="True">
       <role name="Manager"/>
     </permission>
-    <permission name="Odin SMR Site: Manage System" acquire="True">
+    <permission name="OdinSMR: Manage System" acquire="True">
       <role name="Manager"/>
     </permission>
   </permissions>

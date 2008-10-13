@@ -1,5 +1,5 @@
 from Products.Archetypes.public import DisplayList
 
-PRODUCT_NAME = 'Odin SMR Site'
+PRODUCT_NAME = 'OdinSMR'
 GLOBALS = globals()
 SKINS_DIR = 'skins'

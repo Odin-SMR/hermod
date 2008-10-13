@@ -10,14 +10,15 @@
 
             <h1> Find data processed by GEM@RSS </h1>
 
-            <div > Instructions goes here </div>
+            <div > Search our database to find level2 productfiles. Delimit your search by selecting from one or many filters below. </div>
 
             <form method="post" tal:attributes="action template/id;">
 
-                <!-- Time -->
 
                 <fieldset>
                     <legend class="legend">Find orbits</legend>
+                    
+                    <!-- Time -->
                     <div class="formHelp">Select a suitable time filter</div>
                     <label for="form.select_time"> Time filter </label>
                     <select class="context" name="form.select_time" tal:define="selected result/form.select_time|nothing" onchange="submit()">
@@ -44,7 +45,7 @@
                         <!-- time:utc -->
                         
                         <fieldset  tal:condition="python:render=='utc'">
-                            <legend class="legend"> Time filter</legend>
+                            <legend class="legend"> Filter on UTC-date.</legend>
 
                             <table>
                                 <tr>
@@ -53,13 +54,13 @@
                                             tal:attributes="class python:test(error_start_utc, 'field error', 'field')"
                                             >
                                             <label for="form.start_utc">
-                                                Starting date and time
+                                                Starting date.
                                             </label>
                                             <span class="fieldRequired" title="Required">
                                                 (Required)
                                             </span>
                                             <div class="formHelp">
-                                                Format: YYYY-MM-DD HH:MM:SS.
+                                                Type start UTC-date for the period you are intrested in. Format: YYYY-MM-DD.
                                             </div>
                                             <div tal:condition="error_start_utc" 
                                                 tal:content="error_start_utc">
@@ -75,13 +76,13 @@
                                             tal:attributes="class python:test(error_stop_utc, 'field error', 'field')"
                                             >
                                             <label for="form.stop_utc">
-                                                Ending date and time
+                                                Ending date. 
                                             </label>
                                             <span class="fieldRequired" title="Required">
                                                 (Required)
                                             </span>
                                             <div class="formHelp">
-                                                Input date and time that ends the timeframe you are interested in. Format: YYYY-MM-DD HH:MM:SS.
+                                                Input UTC-date that ends the timeframe you are interested in. Format: YYYY-MM-DD.
                                             </div>
                                             <div tal:condition="error_stop_utc"
                                                 tal:content="error_stop_utc">
@@ -108,13 +109,13 @@
                                             tal:attributes="class python:test(error_start_mjd, 'field error', 'field')"
                                             >
                                             <label for="form.start_mjd">
-                                                Starting date and time
+                                                Starting MJD-date.
                                             </label>
                                             <span class="fieldRequired" title="Required">
                                                 (Required)
                                             </span>
                                             <div class="formHelp">
-                                                This is a good text
+                                                Input a MJD-date that start your period of interest. 
                                             </div>
                                             <div tal:condition="error_start_mjd" 
                                                 tal:content="error_start_mjd">
@@ -130,13 +131,13 @@
                                             tal:attributes="class python:test(error_stop_mjd, 'field error', 'field')"
                                             >
                                             <label for="form.stop_mjd">
-                                                Ending date and time
+                                                Ending MJD-date.
                                             </label>
                                             <span class="fieldRequired" title="Required">
                                                 (Required)
                                             </span>
                                             <div class="formHelp">
-                                                Input date and time that ends the timeframe you are interested in.
+                                                Input the MJD-date that ends the timeframe you are interested in.
                                             </div>
                                             <div tal:condition="error_stop_mjd"
                                                 tal:content="error_stop_mjd">
@@ -154,7 +155,7 @@
                         <!-- Time:orb -->
 
                         <fieldset tal:condition="python:render=='orb'">
-                            <legend class="legend"> Filter on decimal Orbit number</legend>
+                            <legend class="legend"> Filter on decimal orbit number</legend>
 
                             <table>
                                 <tr>
@@ -163,7 +164,7 @@
                                             tal:attributes="class python:test(error_start_orb, 'field error', 'field')"
                                             >
                                             <label for="form.start_orb">
-                                                Orbit filter
+                                                Start orbit.
                                             </label>
                                             <span class="fieldRequired" title="Required">
                                                 (Required)
@@ -185,7 +186,7 @@
                                             tal:attributes="class python:test(error_stop_orb, 'field error', 'field')"
                                             >
                                             <label for="form.stop_orb">
-                                                End orbit   
+                                                End orbit.   
                                             </label>
                                             <span class="fieldRequired" title="Required">
                                                 (Required)
@@ -218,7 +219,7 @@
                                             tal:attributes="class python:test(error_start_hex, 'field error', 'field')"
                                             >
                                             <label for="form.start_hex">
-                                                Orbit filter
+                                                Start orbit.
                                             </label>
                                             <span class="fieldRequired" title="Required">
                                                 (Required)
@@ -240,13 +241,13 @@
                                             tal:attributes="class python:test(error_stop_hex, 'field error', 'field')"
                                             >
                                             <label for="form.stop_hex">
-                                                End orbit   
+                                                End orbit.
                                             </label>
                                             <span class="fieldRequired" title="Required">
                                                 (Required)
                                             </span>
                                             <div class="formHelp">
-                                                Input orbit that ends the timeframe you are interested in.
+                                                Input hexadecimal orbit that ends the timeframe you are interested in.
                                             </div>
                                             <div tal:condition="error_stop_hex"
                                                 tal:content="error_stop_hex">

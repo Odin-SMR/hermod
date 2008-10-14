@@ -51,7 +51,7 @@ class pictures(SimpleItemWithProperties):
 		for i in range(date_start_mjd,date_end_mjd+1,1):
 			year,month,day,hour,minute,secs,ticks = c.mjd2utc(i)
                         #creating filelist in a tempfile
-			temp.write('/odin/extdata/PICTURES/' + species + '/' + str(year) + '/' + str(month) + '/' + species + '_' + str(level_num) + '_' + str(i) + '.png\n')
+			temp.write('/odin/smr/Data/SMRl3/PICTURES/' + species + '/' + str(year) + '/' + str(month) + '/' + species + '_' + str(level_num) + '_' + str(i) + '.png\n')
 
                 #start over at top of file
                 temp.seek(0)
@@ -97,7 +97,7 @@ class pictures(SimpleItemWithProperties):
 
                 #generate a list of all file matching the search criteria
 		filelist = []
-                base = '/odin/extdata/PICTURES/'
+                base = '/odin/smr/Data/SMRl3/PICTURES/'
 		for i in range(date_start_mjd,date_end_mjd+1,1):
 			year,month,day,hour,minute,secs,ticks = c.mjd2utc(i)
 			if fig_alt == 'global':

@@ -37,9 +37,9 @@ class pictures(SimpleItemWithProperties):
 		elif level == 525:
 			level_num = 1
 		elif level == 575:
-			level_num = 2
+			level_num = 4
 		elif level == 625:
-			level_num = 3
+			level_num = 5
 		
 		date_start_mjd = c.utc2mjd(date_start[0],date_start[1],date_start[2])
 		date_end_mjd = c.utc2mjd(date_end[0],date_end[1],date_end[2])

@@ -19,7 +19,7 @@ class weatherdata:
         self.files = []
         for i in dates:
             try:
-                a =t.strptime(i,'%y%m%d')
+                a =t.strptime(i,'%y%m%d%H')
             except ValueError:
                 pass
             else:

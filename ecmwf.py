@@ -17,17 +17,21 @@ ecmwf interacts with nilumod to get weather data files from nilu
 
 class weatherfile:
     '''
-    calls nilumod at zardoz.nilu.no to create the specified file. dowloads the file and adds a line in the ecmwf table
+    calls nilumod at zardoz.nilu.no to create the specified file. downloads the file and adds a line in the ecmwf table
     '''
     def __init__(self,openDb,type,date):
-        modes = {'T':'tz','Z':'tz','PV':'pv'}
+        modes = {'T':'tz','Z':'tz','PV':'pv','U':'tzuv','V':'tzuv'}
         self.db = openDb
         self.type = type
         self.date = date
         self.filename =''
-        self.hour = 0
-        self.localname = os.path.join(config.get('GEM','ECMWF_DIR'),modes[type],date.strftime('%y%m'),date.strftime('ecmwf%y%m%d.0%%s.gz')%type)
-
+        self.hour = date.strftime('%H') ### M&E
+        ### M&E
+        if (self.type == 'U') or (self.type == 'V'):
+        	self.localname = os.path.join(config.get('GEM','ECMWF_DIR'),modes[type],date.strftime('%y%m'),date.strftime('ecmwf%y%m%d.%%s.-1.%H.gz')%type)
+        else:
+        	self.localname = os.path.join(config.get('GEM','ECMWF_DIR'),modes[type],date.strftime('%y%m'),date.strftime('ecmwf%y%m%d.0%%s.gz')%type)
+		### M&E #####################################################
     def generate(self):
         p = subprocess.Popen(['/usr/bin/ssh','murtagh@zardoz.nilu.no','/usr/sfw/bin/python','.odin/gen_%s.py'%self.type,self.date.strftime('%y%m%d')],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,close_fds=True)
         stdout,stderr, = p.communicate()

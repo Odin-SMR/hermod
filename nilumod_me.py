@@ -87,7 +87,7 @@ class weatherdata_PV(weatherdata):
         command_template = '/nadir/bin/met-mars %y %m %d %H -180 180 90 -90 1.125 th -1 %%s -'
         weatherdata.create(self,template=command_template,mode='PV')
         
-#######################################################################
+### M&E
 class weatherdata_U(weatherdata):
     '''
     Special case for creating the U files
@@ -109,7 +109,7 @@ class weatherdata_V(weatherdata):
         '''
         command_template = '/nadir/bin/met-mars %y %m %d %H -180 180 90 -90 1.125 th -1 %%s -'
         weatherdata.create(self,template=command_template,mode='V')
-#######################################################################
+### M&E
 
 
 def main():
@@ -128,8 +128,9 @@ def main():
     t = weatherdata_T(dates)
     z = weatherdata_Z(dates)
     pv = weatherdata_PV(dates)
+    ### M&E
     u = weatherdata_U(dates)
     v = weatherdata_V(dates)
-
+    ### M&E
 if __name__=='__main__':
     main()

@@ -39,7 +39,7 @@ def main():
         print >> stderr, "Error: %s" % inst
         exit(1)
 
-    # generate,download,find T,Z and PV
+    # generate,download,find T,Z,U,V and PV
     t=weathercontrol(db,'T')
     t.find()
     t.generate()
@@ -49,7 +49,12 @@ def main():
     pv=weathercontrol(db,'PV')
     pv.find()
     pv.generate()
-
+    u=weathercontrol(db,'U')
+    u.find()
+    u.generate()
+	v=weathercontrol(db,'V')
+    v.find()
+    v.generate(
     db.close()
 
 if __name__=="__main__":

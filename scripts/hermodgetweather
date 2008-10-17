@@ -49,12 +49,14 @@ def main():
     pv=weathercontrol(db,'PV')
     pv.find()
     pv.generate()
+    ### M&E
     u=weathercontrol(db,'U')
     u.find()
     u.generate()
 	v=weathercontrol(db,'V')
     v.find()
-    v.generate(
+    v.generate()
+    ### M&E
     db.close()
 
 if __name__=="__main__":

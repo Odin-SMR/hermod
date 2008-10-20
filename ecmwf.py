@@ -28,11 +28,12 @@ class weatherfile:
         self.hour = date.strftime('%H') ### M&E
         ### M&E
         if (self.type == 'U') or (self.type == 'V'):
-        	self.localname = os.path.join(config.get('GEM','ECMWF_DIR'),modes[type],date.strftime('%y%m'),date.strftime('ecmwf%y%m%d.%%s.-1.%H.gz')%type)
+        	#self.localname = os.path.join(config.get('GEM','ECMWF_DIR'),modes[type],date.strftime('%y%m'),date.strftime('ecmwf%y%m%d.%%s.-1.%H.gz')%type)
+        	self.localname = ~/.odin/gen_U/
         else:
-        	self.localname = os.path.join(config.get('GEM','ECMWF_DIR'),modes[type],date.strftime('%y%m'),date.strftime('ecmwf%y%m%d.0%%s.gz')%type)
-		### M&E #####################################################
-    def generate(self):
+        	#self.localname = os.path.join(config.get('GEM','ECMWF_DIR'),modes[type],date.strftime('%y%m'),date.strftime('ecmwf%y%m%d.0%%s.gz')%type)
+		### M&E 
+    def generate(self): ### Prata med Joakim om gen.py-filer
         p = subprocess.Popen(['/usr/bin/ssh','murtagh@zardoz.nilu.no','/usr/sfw/bin/python','.odin/gen_%s.py'%self.type,self.date.strftime('%y%m%d')],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,close_fds=True)
         stdout,stderr, = p.communicate()
         self.filename =  stdout.rstrip()
@@ -49,7 +50,8 @@ class weatherfile:
 
     def addDb(self):
         c = self.db.cursor()
-        c.execute('''insert ecmwf (date,type,hour,filename) values (%s,%s,%s,%s) on duplicate key update downloaded=now(),filename=%s''',(self.date,self.type,self.hour,self.localname[len(config.get('GEM','ECMWF_DIR')):],self.localname[len(config.get('GEM','ECMWF_DIR')):]))
+        date_new = datetime.date(int(self.date.strftime('%Y')),int(self.date.strftime('%m')),int(self.date.strftime('%d'))) ### M&E
+        c.execute('''insert ecmwf (date,type,hour,filename) values (%s,%s,%s,%s) on duplicate key update downloaded=now(),filename=%s''',(date_new,self.type,self.hour,self.localname[len(config.get('GEM','ECMWF_DIR')):],self.localname[len(config.get('GEM','ECMWF_DIR')):]))
         c.close()
 
 class weathercontrol:
@@ -60,9 +62,10 @@ class weathercontrol:
         self.db = openDB
         self.mode = mode
 
-    def find(self):
+    def find(self): 
         c = self.db.cursor()
-        c.execute('''SELECT date FROM reference_calendar as r where not exists (select * from ecmwf as e where r.date=e.date and type=%s) and date<now() order by date''',(self.mode,))
+        c.execute('''SELECT cast(date as datetime) FROM reference_calendar as r where not exists (select * from ecmwf as e where r.date=e.date and type='U') and date<now() and date>'2008-10-15' order by date''')
+        #c.execute('''SELECT cast(date as datetime) FROM reference_calendar as r where not exists (select * from ecmwf as e where r.date=e.date and type=%s) and date<now() and date>now()-3 order by date''',(self.mode,))
         self.dates = [i[0] for i in c]
         c.close()
 
@@ -134,7 +137,7 @@ def getallexisting(top,db):
                 type = mtch.group(3)
                 mtime  = datetime.datetime.fromtimestamp(os.path.getmtime(filename))
                 download = mtime.isoformat(' ')
-                c.execute('''insert ignore ecmwf values (%s,%s,%s,%s,%s)''', (date,type,hour,download,filename[len(config.get('GEM','ECMWF_DIR')):]))
+                c.execute('''insert ignore ecmwf values (%s,%s,%s,%s,%s)''', (date_new,type,hour,download,filename[len(config.get('GEM','ECMWF_DIR')):]))
 
 def filldatabase_tz():
     db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
@@ -169,7 +172,13 @@ def rungetfilesfromnilu():
     pv.find()
     pv.generate()
     db.close()
-
+ 	u=weathercontrol(db,'U')
+    u.find()
+    u.generate()
+    v=weathercontrol(db,'V')
+    v.find()
+    v.generate()
+    
 if __name__=='__main__':
     db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
     x = ZPTfile(db)

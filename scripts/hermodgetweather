@@ -27,7 +27,7 @@ def main():
         user = environ['USER']
     except KeyError,inst:
         parser.error("No, user environment found")
-    if user<>'odinop':
+    if user<>'marjan':
         parser.error("User %s in not allowed to run this program" % user)
 
     #Initiate the database
@@ -53,7 +53,7 @@ def main():
     u=weathercontrol(db,'U')
     u.find()
     u.generate()
-	v=weathercontrol(db,'V')
+    v=weathercontrol(db,'V')
     v.find()
     v.generate()
     ### M&E

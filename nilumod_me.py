@@ -125,12 +125,12 @@ def main():
             except EOFError:
                 break
     #start pv,t,z,u,v file creation
-    t = weatherdata_T(dates)
-    z = weatherdata_Z(dates)
-    pv = weatherdata_PV(dates)
+    #t = weatherdata_T(dates)
+    #z = weatherdata_Z(dates)
+    #pv = weatherdata_PV(dates)
     ### M&E
     u = weatherdata_U(dates)
-    v = weatherdata_V(dates)
+    #v = weatherdata_V(dates)
     ### M&E
 if __name__=='__main__':
     main()

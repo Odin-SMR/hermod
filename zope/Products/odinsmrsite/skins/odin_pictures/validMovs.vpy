@@ -2,6 +2,17 @@ form = context.REQUEST.form
 #insert checks here
 state.setKwargs(form)
 
+# No plot type selected
+if (form['form.select_type_m']=='no_type'):
+    state.setError('select_type_m','Please select type',new_status='failure')
+    state.set(portal_status_message=('Please correct the errors.'))
+
+# No species selected
+if (form['form.select_type_m']!='no_type'):
+    if (form['form.select_species_m']=='no_species'):
+        state.setError('select_species_m','Please select species',new_status='failure')
+        state.set(portal_status_message=('Please correct the errors.'))
+
 # Date earlier than the first date with values
 if (form['form.select_start_year_m']=="2001") & (int(form['form.select_start_month_m'])<10):
     state.setError('select_start_year_m','Not a valid start date',new_status='failure')

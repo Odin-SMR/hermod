@@ -31,16 +31,41 @@ class pictures(SimpleItemWithProperties):
 		level = int(webparams['form.select_level_m'])
 		set_fps = int(webparams['form.select_fps'])
 		
-		
-		if level == 475:
-			level_num = 0
-		elif level == 525:
-			level_num = 1
-		elif level == 575:
-			level_num = 4
-		elif level == 625:
-			level_num = 5
-		
+		if species == 'O3_501' or species == 'O3_544' or species == 'N2O':
+			if level == 475:
+				level_num = 0
+			elif level == 525:
+				level_num = 1
+			elif level == 575:
+				level_num = 2
+			elif level == 625:
+				level_num = 3
+		elif species == 'H2O':
+			if level == 400:
+				level_num = 0
+			elif level == 425:
+				level_num = 1
+			elif level == 450:
+				level_num = 2
+			elif level == 475:
+				level_num = 3
+			elif level == 500:
+				level_num = 4
+			elif level == 525:
+				level_num = 5
+		elif species == 'HNO3':
+			if level == 475:
+				level_num = 0
+			elif level == 525:
+				level_num = 1
+			elif level == 575:
+				level_num = 2
+			elif level == 625:
+				level_num = 3
+			elif level == 675:
+				level_num = 4
+			elif level == 725:
+				level_num = 5
 		date_start_mjd = c.utc2mjd(date_start[0],date_start[1],date_start[2])
 		date_end_mjd = c.utc2mjd(date_end[0],date_end[1],date_end[2])
 		
@@ -86,14 +111,41 @@ class pictures(SimpleItemWithProperties):
 		date_start_mjd = c.utc2mjd(date_start[0],date_start[1],date_start[2])
 		date_end_mjd = c.utc2mjd(date_end[0],date_end[1],date_end[2])
 		
-		if level == 475:
-			level_num = 0
-		elif level == 525:
-			level_num = 1
-		elif level == 575:
-			level_num = 2
-		elif level == 625:
-			level_num = 3
+		if species == 'O3_501' or species == 'O3_544' or species == 'N2O':
+			if level == 475:
+				level_num = 0
+			elif level == 525:
+				level_num = 1
+			elif level == 575:
+				level_num = 2
+			elif level == 625:
+				level_num = 3
+		elif species == 'H2O':
+			if level == 400:
+				level_num = 0
+			elif level == 425:
+				level_num = 1
+			elif level == 450:
+				level_num = 2
+			elif level == 475:
+				level_num = 3
+			elif level == 500:
+				level_num = 4
+			elif level == 525:
+				level_num = 5
+		elif species == 'HNO3':
+			if level == 475:
+				level_num = 0
+			elif level == 525:
+				level_num = 1
+			elif level == 575:
+				level_num = 2
+			elif level == 625:
+				level_num = 3
+			elif level == 675:
+				level_num = 4
+			elif level == 725:
+				level_num = 5
 
                 #generate a list of all file matching the search criteria
 		filelist = []

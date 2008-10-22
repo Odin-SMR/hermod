@@ -10,23 +10,23 @@ import gzip
 class weatherdata:
     '''
     Identifies if its possible to download data from a specific day. Generates 
-    files if possible. Print filnames to stdout
+    files if possible. Print filenames to stdout
     '''
-
+	
     def __init__(self,dates):
         self.dates =[]
         self.okdates = []
         self.files = []
+        #self.hour = []
         for i in dates:
             try:
-                a =t.strptime(i,'%y%m%d%H')
+                a =t.strptime(i,'%y%m%d')
             except ValueError:
                 pass
             else:
                 self.dates.append(a)
         self.exists() 
         self.create()
-
     def exists(self):
         '''
         Check if nilu has the t106 data needed to extract our data.
@@ -36,7 +36,7 @@ class weatherdata:
             file = top + t.strftime('%Y/%m/nilut106.%y%m%d%H',date)
             if p.isfile(file):
                 self.okdates.append(date)
-
+            ### M&E print date, file, self.okdates, 'hej' = (2008, 10, 18, 0, 0, 0, 5, 292, -1) /nadir/t106/2008/10/nilut106.08101800 [(2008, 10, 18, 0, 0, 0, 5, 292, -1)] hej
     def create(self,template="%%s",mode=''):
         '''
         run met-mars command to create files
@@ -45,7 +45,7 @@ class weatherdata:
          '''
         for date in self.okdates:
             command = t.strftime(template,date) % mode
-            file = p.join(p.expanduser('~'),'tmp',t.strftime('ecmwf%y%m%d.0%%s.gz',date)%mode)
+            file = p.join(p.expanduser('~'),'tmp',t.strftime('ecmwf%y%m%d%H.0%%s.gz',date)%mode) ### %H M&E
             if p.exists(file):
                 os.remove(file)
             sess = s.Popen3(command,True)
@@ -93,9 +93,10 @@ class weatherdata_U(weatherdata):
     Special case for creating the U files
     '''
     def create(self):
-        '''
+    	'''
         run met-mars command to create files
         '''
+        #print self.hour
         command_template = '/nadir/bin/met-mars %y %m %d %H -180 180 90 -90 1.125 th -1 %%s -'
         weatherdata.create(self,template=command_template,mode='U')
 
@@ -132,5 +133,6 @@ def main():
     u = weatherdata_U(dates)
     #v = weatherdata_V(dates)
     ### M&E
+
 if __name__=='__main__':
     main()

@@ -5,7 +5,7 @@ Generate and download weather data from Nilu. Processing is done at zardoz.nilu.
 """
 
 from hermod.hermodBase import *
-from hermod.ecmwf import *
+from ecmwf_me import *
 import MySQLdb as sql
 from sys import exit,stderr
 from optparse import OptionParser
@@ -40,22 +40,22 @@ def main():
         exit(1)
 
     # generate,download,find T,Z,U,V and PV
-    t=weathercontrol(db,'T')
-    t.find()
-    t.generate()
-    z=weathercontrol(db,'Z')
-    z.find()
-    z.generate()
-    pv=weathercontrol(db,'PV')
-    pv.find()
-    pv.generate()
+    #t=weathercontrol(db,'T')
+    #t.find()
+    #t.generate()
+    #z=weathercontrol(db,'Z')
+    #z.find()
+    #z.generate()
+    #pv=weathercontrol(db,'PV')
+    #pv.find()
+    #pv.generate()
     ### M&E
     u=weathercontrol(db,'U')
     u.find()
     u.generate()
-    v=weathercontrol(db,'V')
-    v.find()
-    v.generate()
+    #v=weathercontrol(db,'V')
+    #v.find()
+    #v.generate()
     ### M&E
     db.close()
 

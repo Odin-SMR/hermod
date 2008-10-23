@@ -3,13 +3,20 @@ from numpy.random import rand
 import os
 from sys import argv
 import gzip
+from tempfile import TemporaryFile,NamedTemporaryFile
 
 
 def readecmwf(filename):
     if filename[-2:]=='gz' :
-        f=gzip.open(filename,'rb')
+        f = NamedTemporaryFile()
+        command= 'gunzip -c '+filename+' > ' + f.name
+        print command
+        os.system(command)
+        f=file(f.name)
     else:
         f=file(filename,'r')
+        
+    print f
     a=f.readline().split()
     print a
     for i in range(int(a[0])-1) :

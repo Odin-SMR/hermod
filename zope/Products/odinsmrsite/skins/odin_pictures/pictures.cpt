@@ -418,9 +418,10 @@
                     </div>
                     <!-- -->
                     
+                    <div tal:define="render result/form.select_type_p|nothing">
+                    <div tal:condition="python:render=='global_p'">
                     <div tal:define="render result/form.select_species_p|nothing">
-
-                        <div tal:condition="python:render=='H2O'">
+						<div tal:condition="python:render=='H2O'">
                       		<div class="formHelp">Select potential temperature level.</div>
                     
                             <select class="context" name="form.select_level_p" tal:define="selected result/form.select_level_p|nothing">
@@ -528,7 +529,8 @@
                     		</select>
                         </div>
 					</div>
-                    
+                    </div>
+                    </div>
                     <BR><BR>
                     
             		<div>
@@ -943,7 +945,8 @@
                         </div>           
                     </div>
                     <!-- -->
-                    
+                    <div tal:define="render result/form.select_type_m|nothing">
+                    <div tal:condition="python:render=='global_m'">
                     <div tal:define="render result/form.select_species_m|nothing">
 
                         <div tal:condition="python:render=='H2O'">
@@ -1055,7 +1058,8 @@
                     		
                         </div>
                     </div>
-               
+               		</div>
+               		</div>
                     <BR>
                     
                     <div class="formHelp"> Select the number of frames per second for the movie. </div>

@@ -2,21 +2,16 @@ import numpy as n
 from numpy.random import rand 
 import os
 from sys import argv
+import gzip
 
 
 def readecmwf(filename):
-    tempfile=0
     if filename[-2:]=='gz' :
-        tempfile='/tmp/ecmwf'+str(rand())
-        command= 'gunzip -c '+filename+' > ' + tempfile
-        print command
-        os.system(command)
-        filename=tempfile
-        tempfile=1
-                
-    f=file(filename,'r')
-    print 'reading from ' + filename
+        f=gzip.open(filename,'rb')
+    else:
+        f=file(filename,'r')
     a=f.readline().split()
+    print a
     for i in range(int(a[0])-1) :
       f.readline()
 
@@ -33,8 +28,6 @@ def readecmwf(filename):
     level=level[0:i-1]
     data=data[0:i-1,:,:]
     f.close()
-    if tempfile :
-        os.system('rm '+filename)
     return level,data
 
 if __name__=="__main__":

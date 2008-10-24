@@ -19,30 +19,28 @@ class weatherfile:
     '''
     calls nilumod at zardoz.nilu.no to create the specified file. downloads the file and adds a line in the ecmwf table
     '''
-    def __init__(self,openDb,type,date):
+    def __init__(self,openDb,type,hour,date):
         modes = {'T':'tz','Z':'tz','PV':'pv','U':'tzuv','V':'tzuv'}
         self.db = openDb
         self.type = type
         self.date = date
         self.filename =''
-        self.hour = date.strftime('%H') ### M&E
-        ### M&E
+        self.hour = '%02d' %hour
         if (self.type == 'U') or (self.type == 'V'):
-        	#self.localname = os.path.join(config.get('GEM','ECMWF_DIR'),modes[type],date.strftime('%y%m'),date.strftime('ecmwf%y%m%d.%%s.-1.%H.gz')%type)
-        	self.localname = ~/.odin/gen_U/
-        else:
-        	#self.localname = os.path.join(config.get('GEM','ECMWF_DIR'),modes[type],date.strftime('%y%m'),date.strftime('ecmwf%y%m%d.0%%s.gz')%type)
-		### M&E 
-    def generate(self): ### Prata med Joakim om gen.py-filer
-        p = subprocess.Popen(['/usr/bin/ssh','murtagh@zardoz.nilu.no','/usr/sfw/bin/python','.odin/gen_%s.py'%self.type,self.date.strftime('%y%m%d')],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,close_fds=True)
+        	self.localname = os.path.join(config.get('GEM','ECMWF_DIR'),modes[type],date.strftime('%y%m'),date.strftime('ecmwf%y%m%d.%%s.-1.%H.gz')%type)
+        elif (self.type == 'T') or (self.type == 'Z') or (self.type == 'PV'):
+            self.localname = os.path.join(config.get('GEM','ECMWF_DIR'),modes[type],date.strftime('%y%m'),date.strftime('ecmwf%y%m%d.0%%s.gz')%type)
+					
+    def generate(self): 
+        p = subprocess.Popen(['/usr/bin/ssh','murtagh@zardoz.nilu.no','/usr/sfw/bin/python','.odin/gen_%s.py'%self.type,self.date.strftime('%y%m%d'),self.hour],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,close_fds=True)
         stdout,stderr, = p.communicate()
         self.filename =  stdout.rstrip()
-
+                
     def download(self):
         f = FTP(config.get('NILU','host'),config.get('NILU','user'),config.get('NILU','passwd'))
         if not os.path.exists(os.path.dirname(self.localname)):
             try:
-                os.makedirs(os.path.dirname(self.localname))
+            	os.makedirs(os.path.dirname(self.localname))
             except EnvironmentError,inst:
                 print >> sys.stderr, inst.errno, inst.strerror, inst.filename
                 sys.exit(1)
@@ -50,7 +48,7 @@ class weatherfile:
 
     def addDb(self):
         c = self.db.cursor()
-        date_new = datetime.date(int(self.date.strftime('%Y')),int(self.date.strftime('%m')),int(self.date.strftime('%d'))) ### M&E
+        date_new = datetime.date(int(self.date.strftime('%Y')),int(self.date.strftime('%m')),int(self.date.strftime('%d')))
         c.execute('''insert ecmwf (date,type,hour,filename) values (%s,%s,%s,%s) on duplicate key update downloaded=now(),filename=%s''',(date_new,self.type,self.hour,self.localname[len(config.get('GEM','ECMWF_DIR')):],self.localname[len(config.get('GEM','ECMWF_DIR')):]))
         c.close()
 
@@ -64,19 +62,27 @@ class weathercontrol:
 
     def find(self): 
         c = self.db.cursor()
-        c.execute('''SELECT cast(date as datetime) FROM reference_calendar as r where not exists (select * from ecmwf as e where r.date=e.date and type='U') and date<now() and date>'2008-10-15' order by date''')
-        #c.execute('''SELECT cast(date as datetime) FROM reference_calendar as r where not exists (select * from ecmwf as e where r.date=e.date and type=%s) and date<now() and date>now()-3 order by date''',(self.mode,))
-        self.dates = [i[0] for i in c]
+        if self.mode == 'U' or self.mode == 'V':
+            c.execute('''SELECT date,time FROM reference_calendar,reference_time where not exists (select date,hour from ecmwf where reference_calendar.date=ecmwf.date and reference_time.time=ecmwf.hour and type=%s) and date<'2008-10-3' and date>'2008-10-1' order by date''',(self.mode,))
+            self.dates = [i[0] for i in c]
+            self.hour = [i[1] for i in c]
+        elif self.mode == 'T' or self.mode == 'Z' or self.mode == 'PV':	
+            c.execute('''SELECT date FROM reference_calendar as r where not exists (select * from ecmwf as e where r.date=e.date and type=%s) and date<now() and date>'2008-10-20' order by date''',(self.mode,))
+            self.dates = [i[0] for i in c]
+            self.hour = [0 for i in c] # If wind-files should be downloaded for 0,6,12,18 hours instead of just 0, the if-statement is unnecessary and c.execute, self.dates and self.hour should be defined as in the case of U and V for all the modes.
         c.close()
 
     def generate(self):
+    	j = 0
         for i in self.dates:
+            hour = self.hour[j]
+            j = j+1
             if self.mode=="PV":
-                c = weatherfile_PV(self.db,self.mode,i)
+                c = weatherfile_PV(self.db,self.mode,hour,i)
             else:
-                c = weatherfile(self.db,self.mode,i)
-            c.generate()
-            if not c.filename=='':
+                c = weatherfile(self.db,self.mode,hour,i)
+                c.generate()
+            if not c.filename =='':
                 c.download()
                 c.addDb()
 
@@ -171,14 +177,13 @@ def rungetfilesfromnilu():
     pv=weathercontrol(db,'PV')
     pv.find()
     pv.generate()
-    db.close()
- 	u=weathercontrol(db,'U')
+    u=weathercontrol(db,'U')
     u.find()
     u.generate()
     v=weathercontrol(db,'V')
     v.find()
     v.generate()
-    
+    db.close()
 if __name__=='__main__':
     db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
     x = ZPTfile(db)

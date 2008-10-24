@@ -7,6 +7,7 @@ Level1b file and processing handling. Downloads files from PDC and launches them
 
 import MySQLdb
 import os.path
+from os import mkdir
 from hermod.hermodBase import *
 from hermod.pdc import connection
 from hermod.ecmwf import ZPTfile
@@ -21,8 +22,9 @@ def level1Factory(level1tuple,db,rerun=False,qsmr='2-1'):
     if cal==6:
         return l1b_v6(level1tuple,db,rerun=rerun,qsmr=qsmr)
     elif cal==7:
-        return None
-        #return l1b_v7(level1tuple,db,rerun=rerun,qsmr=qsmr)
+        return l1b_v7(level1tuple,db,rerun=rerun,qsmr=qsmr)
+    elif cal==1:
+        return l1b_FBA(level1tuple,db,rerun=rerun,qsmr=qsmr)
     else:
         return None
 
@@ -41,7 +43,10 @@ class l1b:
         errmesg
         '''
         self.l1 = dict(l1tuple)
-        self.l1['freqmode'] = [int(i) for i in self.l1['freqmode'].split(',')]
+        if self.l1['freqmode']!="":
+            self.l1['freqmode'] = [int(i) for i in self.l1['freqmode'].split(',')]
+        else:
+            raise HermodError('Freqmode field is empty id: %i' %self.l1['id'])
         self.l1['freqmode'].append(199)
         self.l1['calibration'] = int(self.l1['calversion'])
         self.l1['qsmr']=qsmr
@@ -61,6 +66,9 @@ class l1b:
 
     def download(self):
         pdc = connection()
+        dirname = os.path.dirname(os.path.join(config.get('GEM','LEVEL1B_DIR'),self.l1['filename']))
+        if not os.path.lexists(dirname):
+            mkdir(dirname)
         try:
             pdc.downloads(
                     [
@@ -104,7 +112,7 @@ class l1b:
             l1copy = dict(self.l1)
             l1copy.update(i)
             name = 'id%(id)0.2i.%(orbit)0.4X.%(name)s' %(l1copy)
-            launch =['/usr/bin/qsub','-N%s' %(name),'-lwalltime=%(maxproctime)s,nice=19' % (l1copy),'-q%s' %(queue),'-vORBIT=%(orbit)i,FREQMODE=%(freqmode)i,CALIBRATION=%(calversion)i,FQID=%(fqid)i,NAME=%(name)s,QSMR=%(qsmr)s'%(l1copy),'-e%s%s.err'%(config.get('GEM','logs'),name),'-o%s%s.out'%(config.get('GEM','logs'),name),'/usr/bin/hermodrunjob']
+            launch =['/usr/bin/qsub','-N%s' %(name),'-lwalltime=%(maxproctime)s,nice=19,nodes=1:hermod:node' % (l1copy),'-q%s' %(queue),'-vORBIT=%(orbit)i,FREQMODE=%(freqmode)i,CALIBRATION=%(calversion)i,FQID=%(fqid)i,NAME=%(name)s,QSMR=%(qsmr)s'%(l1copy),'-e%s%s.err'%(config.get('GEM','logs'),name),'-o%s%s.out'%(config.get('GEM','logs'),name),'/usr/bin/hermodrunjob']
             x = subprocess.Popen(launch,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
             x.stdin.close()
             status = x.wait()
@@ -114,6 +122,27 @@ class l1b:
 
 class l1b_v7(l1b):
     pass
+
+class l1b_FBA(l1b):
+    def __init__(self,l1tuple,db,rerun=False,qsmr='2-1'):
+        '''
+        A l1tuple contains every field in level1 and status table:
+        id, orbit, backend, freqmode, nscans, nspectra, calversion, attversion,
+        processed, uploaded, filename, logname, start_utc, stop_utc, sucess,
+        errmesg
+        '''
+        self.l1 = dict(l1tuple)
+        self.l1['freqmode'] = [int(i) for i in self.l1['freqmode'].split(',')]
+        self.l1['freqmode'].append(199)
+        self.l1['calibration'] = int(self.l1['calversion'])
+        self.l1['qsmr']=qsmr
+        self.db = db
+
+    def queue(self,queue='new'):
+        pass # not to process here!
+
+    def createAux(self):
+        pass
 
 class l1b_v6(l1b):
     def linkandmove(self):

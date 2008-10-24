@@ -6,8 +6,8 @@ import re
 
 from datetime import datetime
 
-from pyhdf.HDF import *
-from pyhdf.VS import *
+from pyhdf.HDF import HDF,HDF4Error
+#from pyhdf.VS import *
 
 from hermod.pdc import connection
 from hermod.hermodBase import *

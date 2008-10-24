@@ -15,6 +15,7 @@ from sys import exit,stderr
 from optparse import OptionParser
 from os import environ
 import MySQLdb
+from MySQLdb import Error
 
 def main():
     """Main program.
@@ -49,7 +50,7 @@ def main():
 
     # Retrieve info from database
     try:
-        status = cursor.execute('''SELECT distinct * FROM not_downloaded_gem natural join level1 natural join status''')
+        status = cursor.execute('''SELECT distinct * FROM not_downloaded_gem natural join level1 natural join status where status order by calversion,rand() limit 2000''')
     except Warning,inst:
         print >> stderr, "Warning: %s" % inst
     except Error,inst:
@@ -62,11 +63,13 @@ def main():
         exit(0)
 
     # Create a list of level1objects from retrieved result from database
-    try:
-        level1objects = [level1Factory(i,db) for i in cursor]
-    except HermodError,inst:
-        cursor.close()
-        sys.exit("HermodError: %s\n" % (inst))
+    level1objects = []
+    for i in cursor:
+        try:
+            level1objects.append(level1Factory(i,db))
+        except HermodError,inst:
+            print "HermodError: %s\n" % (inst)
+            continue
     cursor.close()
 
     # do things on every object. This is where everything happens...

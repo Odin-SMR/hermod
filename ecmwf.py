@@ -1,3 +1,4 @@
+import hermod.hermodBase as hrm
 from hermod.hermodBase import *
 from hermod.session import *
 import datetime
@@ -63,11 +64,11 @@ class weathercontrol:
     def find(self): 
         c = self.db.cursor()
         if self.mode == 'U' or self.mode == 'V':
-            c.execute('''SELECT date,time FROM reference_calendar,reference_time where not exists (select date,hour from ecmwf where reference_calendar.date=ecmwf.date and reference_time.time=ecmwf.hour and type=%s) and date<'2008-10-3' and date>'2008-10-1' order by date''',(self.mode,))
+            c.execute('''SELECT date,time FROM reference_calendar,reference_time where not exists (select date,hour from ecmwf where reference_calendar.date=ecmwf.date and reference_time.time=ecmwf.hour and type=%s) order by date limit 10''',(self.mode,))
             self.dates = [i[0] for i in c]
             self.hour = [i[1] for i in c]
         elif self.mode == 'T' or self.mode == 'Z' or self.mode == 'PV':	
-            c.execute('''SELECT date FROM reference_calendar as r where not exists (select * from ecmwf as e where r.date=e.date and type=%s) and date<now() and date>'2008-10-20' order by date''',(self.mode,))
+            c.execute('''SELECT date FROM reference_calendar as r where not exists (select * from ecmwf as e where r.date=e.date and type=%s) and date<now() order by date''',(self.mode,))
             self.dates = [i[0] for i in c]
             self.hour = [0 for i in c] # If wind-files should be downloaded for 0,6,12,18 hours instead of just 0, the if-statement is unnecessary and c.execute, self.dates and self.hour should be defined as in the case of U and V for all the modes.
         c.close()
@@ -190,3 +191,4 @@ if __name__=='__main__':
     x.getNonExisting()
     x.genZPTs()
     db.close()
+

@@ -31,7 +31,7 @@ class matlab:
         self.outputFile = outputFile
         self.errorFile = errorFile
         self.echo = echo
-        program = ['matlab']
+        program = ['/usr/local/bin/matlab']
         program.extend(args)
         self.matlab = subprocess.Popen(program,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,cwd=cwd)
         self.listen()

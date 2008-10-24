@@ -11,7 +11,12 @@ from optparse import OptionParser
 from os import environ
 from datetime import datetime,timedelta
 from time import strptime,mktime
+from os.path import join,splitext,exists
 import MySQLdb
+
+from sys import path
+print path
+
 
 def parsetime(option,opt_str,value,parser):
     '''Parse time string in YYYYMMDD HH:MM format to time.
@@ -44,8 +49,8 @@ def main():
     # OptionParser helps reading options from command line
     parser = OptionParser(
             usage='%prog [options]',
-            version="%%prog, Hermod %s" % (config.get('DEFAULT','version')),
-            description="Display information about processed and unprocessed files in order to decide if the have to be launched again."
+            version="%%prog, Hermod release %s" % (config.get('DEFAULT','version')),
+            description="list l2 files"
             )
     parser.set_defaults(datestart=datetime(1999,1,1),
             dateend = datetime.today(),
@@ -91,24 +96,9 @@ def main():
     parser.add_option('-l','--launch',action='store_true',dest='launch',
             help='launch jobs into processing system'
             )
-    parser.add_option('-c','--calibration',
-            action='append',dest='cal',type='float',
-            metavar='CAL',help='calibration version'
-            )
-    parser.add_option('--queue',
-            action='store',choices=['new','rerun','batch'],dest='queue',type='choice',
-            metavar='QUEUE',help='default queue is rerun [rerun | new | batch]'
-            )
     parser.add_option('-Q','--qsmr',
             action='store',type='string',dest='qsmr',
             metavar='QSMR',help='Qsmr version, format "2-1"'
-            )
-    parser.add_option('-t','--threshold',
-            action='store',dest='threshold',type='float',
-            metavar='THRESHOLD',help='choose files with a THRESHOLD value less than the fraction processed scans and available scans'
-            )
-    parser.add_option('-p','--plot',action='store_true',dest='plot',
-            help='plot threshold diagram'
             )
     (options, args) = parser.parse_args()
 
@@ -121,14 +111,6 @@ def main():
         n = range(50)
         setattr(parser.values,'fqid',n)
 
-    if options.launch:
-        try:
-            user = environ['USER']
-        except KeyError,inst:
-            parser.error("No, user environment found, hermod can not identify user")
-        if user<>'odinop':
-            parser.error("User %s in not allowed to run this program with the '--launch' option" % user)
-
     # Initiate a database connection
     try:
         db = MySQLdb.connect(host=config.get('READ_SQL','host'), user=config.get('READ_SQL','user'), db='smr')
@@ -138,53 +120,20 @@ def main():
         print >> stderr, "Error: %s" % inst
         exit(1)
 
-    #find what freqmodes to launch
-    fcur = db.cursor()
-    status = fcur.execute('''select freqmode from odin.Freqmodes where fqid in %s''',(options.fqid,))
-    fm = [ i[0] for i in fcur]
-    #add dummy values
-    fm.append(127) 
-    fm.append(128)
-    setattr(parser.values,'freqmode',fm)
-    fcur.close()
-
-    if options.plot:
-        from pylab import hist,show
-        from numpy import array,nan_to_num
-        cursor = db.cursor()
-        cursor.execute('''
-            select level2files.nscans/level1.nscans
-            from level1
-            left join level2files using (id)
-            where 
-                orbit>=%s and orbit<=%s and
-                (start_utc>=%s or start_utc=0) and
-                (stop_utc<=%s or stop_utc=0) and
-                freqmode in %s and calversion in %s
-            ''',
-            (options.orbitstart,options.orbitend,options.datestart,options.dateend,
-                options.freqmode,options.cal)
-            )
-        data = cursor.fetchall()
-        adata = array(data,dtype='float32')
-        adata[adata>1]=1
-        cursor.close()
-        db.close()
-        a = hist(nan_to_num(adata),bins=20)
-        show()
-        exit(0)
-
-
     #find orbitfiles to run
     cursor = db.cursor(MySQLdb.cursors.DictCursor)
     try:
-        status = cursor.execute('''select level1.* from level1 
-left join level2files using (id) 
-where ( level2files.nscans/level1.nscans<%s or level2files.processed is null ) 
-and orbit>=%s and (start_utc>=%s or start_utc=0)
-and orbit<=%s and (stop_utc<=%s or stop_utc=0)
-and (version=%s or version is null)
-and freqmode in %s and calversion in %s ''',(options.threshold,options.orbitstart,options.datestart,options.orbitend,options.dateend,options.qsmr,options.freqmode,options.cal))
+        status = cursor.execute('''select * from level1 
+                                   left join level2files using (id) 
+                                   where 1 
+                                   and orbit>=%s 
+                                   and start_utc>=%s 
+                                   and orbit<=%s 
+                                   and stop_utc<=%s 
+                                   and version=%s
+                                   and fqid in %s
+                                   order by orbit,fqid''',
+                                   (options.orbitstart,options.datestart,options.orbitend,options.dateend,options.qsmr,options.fqid))
     except StandardError,e:
         print >> stderr, "Hermod:", str(e)
         exit(3)
@@ -196,37 +145,17 @@ and freqmode in %s and calversion in %s ''',(options.threshold,options.orbitstar
         db.close()
         exit(2)
 
-    #convert from database rows to level1object
-    try:
-        level1objects = [level1Factory(i,db,qsmr=options.qsmr,rerun=True) for i in cursor]
-    except HermodError,inst:
-        exit("HermodError: %s\n" % (inst))
-    cursor.close()
-
     # do desired action on every object
-    if not status==0:
-        if options.launch:
-            print "           ",
-        print "%-4s %5s%4s%7s%4s %-9s" % ('orb','id','fm','ver','cal','name')
-    for i in level1objects:
-        if i is not None:
-            #remove unwanted fqids from launchlist
-            i.launch = [j for j in i.launch if j['fqid'] in options.fqid ]
+    for i in cursor:
             try:
-                #list or launch...
-                if not options.launch:
-                    for v in i.launch:
-                        print"%(orbit)4.4X" % (i.l1),
-                        print"%(fqid)5i%(freqmode)4i%(qsmr)7s%(calibration)4i %(name)-9s" % v
-                else:
-                    if options.verbose:
-                        for v in i.launch:
-                            print"launching: ","%(orbit)0.4X" % (i.l1),
-                            print"%(fqid)5i%(freqmode)4i%(qsmr)7s%(calibration)3i %(name)-9s" % v
-                    i.queue(queue=options.queue)
+                if not (i['hdfname'] is None):
+                    file = join(config.get('GEM','SMRL2_DIR'),i['hdfname'])
+                    if exists(file):
+                        print file             
             except HermodError,inst:
                 print >> stderr,'HermodError: %s'%inst 
                 continue
+    cursor.close()
     db.close()
 
 if __name__=="__main__":

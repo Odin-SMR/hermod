@@ -27,24 +27,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.77064723"
-     inkscape:cx="480.62107"
+     inkscape:cx="292.46754"
      inkscape:cy="337.99871"
      inkscape:current-layer="layer1"
      id="namedview2429"
      showgrid="true"
      inkscape:snap-global="true"
      inkscape:snap-bbox="true"
-     inkscape:window-width="1270"
-     inkscape:window-height="949"
+     inkscape:window-width="1279"
+     inkscape:window-height="999"
      inkscape:window-x="0"
-     inkscape:window-y="21">
-    <inkscape:grid
-       type="xygrid"
-       id="grid2436"
-       units="cm"
-       visible="true"
-       enabled="true" />
-  </sodipodi:namedview>
+     inkscape:window-y="0" />
   <metadata
      id="metadata2431">
     <rdf:RDF>
@@ -53,14 +46,52 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Odin Processing System</dc:title>
+        <dc:date>2008-10-22</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Joakim Möller</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>The processing system used at Chalmers University of Technology to process data from the Odin satellite</dc:description>
+        <dc:language>en-GB</dc:language>
+        <dc:source>http://svn.rss.chalmers.se/svn/odinsmr/hermod/trunk/Documentation/odinprocessingsystem.svg</dc:source>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by-sa/3.0/" />
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>Chalmers tekniska högskola AB</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Chalmers tekniska högskola AB</dc:title>
+          </cc:Agent>
+        </dc:publisher>
       </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by-sa/3.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Notice" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Attribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#ShareAlike" />
+      </cc:License>
     </rdf:RDF>
   </metadata>
   <g
      inkscape:label="Puzzle"
      inkscape:groupmode="layer"
      id="layer1"
-     style="opacity:0.83620689;display:inline">
+     style="opacity:0.83620689;display:inline"
+     sodipodi:insensitive="true">
     <path
        style="fill:#803300;stroke:#000000;stroke-width:0.99921262;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 6.6505433,6.7428223 L 6.6505433,172.18032 L 6.6505433,193.43032 L 6.6505433,331.64907 L 166.08805,331.64907 L 166.08805,237.74282 C 157.40213,237.60604 148.31993,241.36678 141.8693,246.83657 C 131.48848,256.39204 112.63383,256.47434 104.3068,244.36782 C 97.390975,231.84926 98.257555,216.58755 99.963045,202.80532 C 100.40014,190.94346 110.34004,180.17287 122.3693,180.11782 C 126.51922,179.95195 130.6698,180.82858 134.3693,182.71157 C 142.85555,186.01376 145.58517,196.45739 153.96305,199.61782 C 157.74321,200.35887 161.91932,201.36671 166.08805,201.83657 L 166.08805,193.43032 L 166.08805,172.18032 L 166.08805,109.43032 C 169.25804,109.47738 172.40042,109.75875 175.52555,110.21157 C 178.77373,110.72336 182.07316,111.25693 185.1193,112.39907 C 186.90909,113.06735 188.57461,114.02841 189.9318,115.24282 C 193.05809,117.93431 195.14108,121.32383 197.90055,124.27407 C 200.09556,126.62676 202.7928,128.67586 205.9943,129.93032 C 209.25965,131.23008 213.03741,131.65323 216.5568,130.99282 C 220.45526,130.27805 223.98415,128.29476 226.46305,125.61782 C 228.81988,123.0859 230.18416,119.93776 230.90055,116.77407 C 231.71917,112.8638 232.03843,108.88724 232.40055,104.93032 C 233.25494,96.624861 232.52278,88.215131 230.40055,80.086572 C 229.48755,76.523352 227.39257,73.073572 224.02555,70.805322 C 218.80641,67.302312 211.34775,66.623852 205.33805,68.961572 C 201.24598,70.609592 197.94692,73.326512 194.4943,75.774072 C 188.45468,80.291732 180.72869,83.146061 172.7443,83.555321 C 170.53324,83.688601 168.28402,83.575731 166.08805,83.274071 L 166.08805,6.7428223 L 6.6505433,6.7428223 z"
@@ -94,7 +125,8 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="sym+"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <text
        xml:space="preserve"
        style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans"
@@ -108,7 +140,7 @@
          y="96.776733">Command line </tspan><tspan
          sodipodi:role="line"
          x="16.388845"
-         y="119.27674"
+         y="119.27673"
          id="tspan3462">interface</tspan></text>
     <text
        xml:space="preserve"
@@ -153,7 +185,7 @@
          id="tspan3444">Database server</tspan><tspan
          sodipodi:role="line"
          x="456.53577"
-         y="255.24812"
+         y="255.24814"
          id="tspan3466">(MySQL)</tspan></text>
     <text
        xml:space="preserve"

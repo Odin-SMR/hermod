@@ -28,11 +28,11 @@ class weatherfile:
         self.filename =''
         self.hour = '%02d' %hour
         if (self.type == 'U') or (self.type == 'V'):
-        	self.localname = os.path.join(config.get('GEM','ECMWF_DIR'),modes[type],date.strftime('%y%m'),date.strftime('ecmwf%y%m%d.%%s.-1.%%s.gz')%type,self.hour)
+        	self.localname = os.path.join(config.get('GEM','ECMWF_DIR'),modes[type],date.strftime('%y%m'),date.strftime('ecmwf%y%m%d.%%s.-1.%%s.gz')%(type,self.hour))
         elif (self.type == 'T') or (self.type == 'Z') or (self.type == 'PV'):
             self.localname = os.path.join(config.get('GEM','ECMWF_DIR'),modes[type],date.strftime('%y%m'),date.strftime('ecmwf%y%m%d.0%%s.gz')%type)
 					
-    def generate(self): 
+    def generate(self):
         p = subprocess.Popen(['/usr/bin/ssh','murtagh@zardoz.nilu.no','/usr/sfw/bin/python','.odin/gen_%s.py'%self.type,self.date.strftime('%y%m%d'),self.hour],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,close_fds=True)
         stdout,stderr, = p.communicate()
         self.filename =  stdout.rstrip()
@@ -64,7 +64,7 @@ class weathercontrol:
     def find(self): 
         c = self.db.cursor()
         if self.mode == 'U' or self.mode == 'V':
-            c.execute('''SELECT date,time FROM reference_calendar,reference_time where not exists (select date,hour from ecmwf where reference_calendar.date=ecmwf.date and reference_time.time=ecmwf.hour and type=%s) order by date limit 10''',(self.mode,))
+            c.execute('''SELECT date,time FROM reference_calendar,reference_time where not exists (select date,hour from ecmwf where reference_calendar.date=ecmwf.date and reference_time.time=ecmwf.hour and type=%s) and date<now() order by date desc limit 10''',(self.mode,))
             self.dates = [i[0] for i in c]
             self.hour = [i[1] for i in c]
         elif self.mode == 'T' or self.mode == 'Z' or self.mode == 'PV':	
@@ -74,18 +74,16 @@ class weathercontrol:
         c.close()
 
     def generate(self):
-    	j = 0
-        for i in self.dates:
-            hour = self.hour[j]
-            j = j+1
+        for date,hour in zip(self.dates,self.hour):
             if self.mode=="PV":
-                c = weatherfile_PV(self.db,self.mode,hour,i)
+                c = weatherfile_PV(self.db,self.mode,hour,date)
             else:
-                c = weatherfile(self.db,self.mode,hour,i)
-                c.generate()
+                c = weatherfile(self.db,self.mode,hour,date)
+            c.generate()
             if not c.filename =='':
                 c.download()
                 c.addDb()
+            print self.mode,hour,date
 
 class weatherfile_PV(weatherfile):
     def download(self):
@@ -191,4 +189,5 @@ if __name__=='__main__':
     x.getNonExisting()
     x.genZPTs()
     db.close()
+
 

@@ -5,7 +5,7 @@ Generate and download weather data from Nilu. Processing is done at zardoz.nilu.
 """
 
 from hermod.hermodBase import *
-from ecmwf_me import *
+from ecmwf import *
 import MySQLdb as sql
 from sys import exit,stderr
 from optparse import OptionParser

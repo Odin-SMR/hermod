@@ -28,7 +28,7 @@ class weatherfile:
         self.filename =''
         self.hour = '%02d' %hour
         if (self.type == 'U') or (self.type == 'V'):
-        	self.localname = os.path.join(config.get('GEM','ECMWF_DIR'),modes[type],date.strftime('%y%m'),date.strftime('ecmwf%y%m%d.%%s.-1.%H.gz')%type)
+        	self.localname = os.path.join(config.get('GEM','ECMWF_DIR'),modes[type],date.strftime('%y%m'),date.strftime('ecmwf%y%m%d.%%s.-1.%%s.gz')%type,self.hour)
         elif (self.type == 'T') or (self.type == 'Z') or (self.type == 'PV'):
             self.localname = os.path.join(config.get('GEM','ECMWF_DIR'),modes[type],date.strftime('%y%m'),date.strftime('ecmwf%y%m%d.0%%s.gz')%type)
 					

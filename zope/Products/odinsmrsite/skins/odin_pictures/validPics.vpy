@@ -8,7 +8,7 @@ if (form['form.select_type_p']=='no_type'):
     state.set(portal_status_message=('Please correct the errors.'))
 
 # No species selected
-if (form['form.select_type_p']!='no_type'):
+if (form['form.select_type_p']=='global_p'):
     if (form['form.select_species_p']=='no_species'):
         state.setError('select_species_p','Please select species',new_status='failure')
         state.set(portal_status_message=('Please correct the errors.'))

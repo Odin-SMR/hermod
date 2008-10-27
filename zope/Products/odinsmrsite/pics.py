@@ -17,7 +17,8 @@ class pictures(SimpleItemWithProperties):
 		import convert_date as c
                 from subprocess import Popen,PIPE
                 from tempfile import NamedTemporaryFile
-		
+		from os.path import join
+
                 ## grabbing Response-object and set useful headers
                 response = self.REQUEST.RESPONSE
                 response.setHeader('Pragma','no-cache')
@@ -25,8 +26,9 @@ class pictures(SimpleItemWithProperties):
 		response.setHeader('Content-Disposition','Attachment;Filename=movie.avi')
 		webparams = dict(**params)
 
-                species = webparams['form.select_species_m']
 		alt = webparams['form.select_type_m']
+		if alt == 'global_m':
+			species = webparams['form.select_species_m']
 		date_start = (int(webparams['form.select_start_year_m']),int(webparams['form.select_start_month_m']),int(webparams['form.select_start_day_m']))
 		date_end = (int(webparams['form.select_end_year_m']),int(webparams['form.select_end_month_m']),int(webparams['form.select_end_day_m']))
 		level = int(webparams['form.select_level_m'])
@@ -77,20 +79,17 @@ class pictures(SimpleItemWithProperties):
 
 		date_start_mjd = c.utc2mjd(date_start[0],date_start[1],date_start[2])
 		date_end_mjd = c.utc2mjd(date_end[0],date_end[1],date_end[2])
-		
+				
 		#temporary files in /tmp dir
 		temp = NamedTemporaryFile()
-		mov = NamedTemporaryFile()
-	                
+		mov = NamedTemporaryFile()	                
 		for i in range(date_start_mjd,date_end_mjd+1,1):
 			year,month,day,hour,minute,secs,ticks = c.mjd2utc(i)
 			#creating filelist in a tempfile
 			if alt == 'global_m':
-				filelist.append(join(species,str(year),'%i'%month,'%s_%i_%s.png'%(species,level_num,i)))
+				temp.write('/odin/smr/Data/SMRl3/PICTURES/' + species + '/' + str(year) + '/' + str(month) + '/' + species + '_' + str(level_num) + '_' + str(i) + '.png\n')
 			elif alt == 'polar_m':
-                                filelist.append(join('Polar',str(year),'%i'%month,'Polar_%i_%s.png'%(level_num,i)))
-			
-#temp.write('/odin/smr/Data/SMRl3/PICTURES/' + species + '/' + str(year) + '/' + str(month) + '/' + species + '_' + str(level_num) + '_' + str(i) + '.png\n')
+                                temp.write('/odin/smr/Data/SMRl3/PICTURES/Polar/' + str(year) + '/' + str(month) + '/Polar_' + str(level_num) + '_' + str(i) + '.png\n')
 	
 		#start over at top of file
 		temp.seek(0)
@@ -118,11 +117,13 @@ class pictures(SimpleItemWithProperties):
                 response.setHeader('content-coding','gzip')
 		response.setHeader('Content-Disposition','Attachment;Filename=pictures.tar.gz')
 		webparams = dict(**params)
-		species = webparams['form.select_species_p']
+		
+		alt = webparams['form.select_type_p']
+		if alt == 'global_p':
+			species = webparams['form.select_species_p']
 		date_start = (int(webparams['form.select_start_year_p']),int(webparams['form.select_start_month_p']),int(webparams['form.select_start_day_p']))
 		date_end = (int(webparams['form.select_end_year_p']),int(webparams['form.select_end_month_p']),int(webparams['form.select_end_day_p']))
-		level = int(webparams['form.select_level_p'])
-		alt = webparams['form.select_type_p']		
+		level = int(webparams['form.select_level_p'])		
 		date_start_mjd = c.utc2mjd(date_start[0],date_start[1],date_start[2])
 		date_end_mjd = c.utc2mjd(date_end[0],date_end[1],date_end[2])
 		if alt == 'global_p':

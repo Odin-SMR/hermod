@@ -26,71 +26,86 @@ class pictures(SimpleItemWithProperties):
 		webparams = dict(**params)
 
                 species = webparams['form.select_species_m']
+		alt = webparams['form.select_type_m']
 		date_start = (int(webparams['form.select_start_year_m']),int(webparams['form.select_start_month_m']),int(webparams['form.select_start_day_m']))
 		date_end = (int(webparams['form.select_end_year_m']),int(webparams['form.select_end_month_m']),int(webparams['form.select_end_day_m']))
 		level = int(webparams['form.select_level_m'])
 		set_fps = int(webparams['form.select_fps'])
 		
-		if species == 'O3_501' or species == 'O3_544' or species == 'N2O':
+		if alt == 'global_m':
+			if species == 'O3_501' or species == 'O3_544' or species == 'N2O':
+				if level == 475:
+					level_num = 0
+				elif level == 525:
+					level_num = 1
+				elif level == 575:
+					level_num = 2
+				elif level == 625:
+					level_num = 3
+			elif species == 'H2O':
+				if level == 400:
+					level_num = 0
+				elif level == 425:
+					level_num = 1
+				elif level == 450:
+					level_num = 2
+				elif level == 475:
+					level_num = 3
+				elif level == 500:
+					level_num = 4
+				elif level == 525:
+					level_num = 5
+			elif species == 'HNO3':
+				if level == 475:
+					level_num = 0
+				elif level == 525:
+					level_num = 1
+				elif level == 575:
+					level_num = 2
+				elif level == 625:
+					level_num = 3
+				elif level == 675:
+					level_num = 4
+				elif level == 725:
+					level_num = 5
+			
+		if alt == 'polar_m':
 			if level == 475:
 				level_num = 0
 			elif level == 525:
 				level_num = 1
-			elif level == 575:
-				level_num = 2
-			elif level == 625:
-				level_num = 3
-		elif species == 'H2O':
-			if level == 400:
-				level_num = 0
-			elif level == 425:
-				level_num = 1
-			elif level == 450:
-				level_num = 2
-			elif level == 475:
-				level_num = 3
-			elif level == 500:
-				level_num = 4
-			elif level == 525:
-				level_num = 5
-		elif species == 'HNO3':
-			if level == 475:
-				level_num = 0
-			elif level == 525:
-				level_num = 1
-			elif level == 575:
-				level_num = 2
-			elif level == 625:
-				level_num = 3
-			elif level == 675:
-				level_num = 4
-			elif level == 725:
-				level_num = 5
+
 		date_start_mjd = c.utc2mjd(date_start[0],date_start[1],date_start[2])
 		date_end_mjd = c.utc2mjd(date_end[0],date_end[1],date_end[2])
 		
-                #temporary files in /tmp dir
+		#temporary files in /tmp dir
 		temp = NamedTemporaryFile()
-                mov = NamedTemporaryFile()
-                
+		mov = NamedTemporaryFile()
+	                
 		for i in range(date_start_mjd,date_end_mjd+1,1):
 			year,month,day,hour,minute,secs,ticks = c.mjd2utc(i)
-                        #creating filelist in a tempfile
-			temp.write('/odin/smr/Data/SMRl3/PICTURES/' + species + '/' + str(year) + '/' + str(month) + '/' + species + '_' + str(level_num) + '_' + str(i) + '.png\n')
-
-                #start over at top of file
-                temp.seek(0)
+			#creating filelist in a tempfile
+			if alt == 'global_m':
+				filelist.append(join(species,str(year),'%i'%month,'%s_%i_%s.png'%(species,level_num,i)))
+			elif alt == 'polar_m':
+                                filelist.append(join('Polar',str(year),'%i'%month,'Polar_%i_%s.png'%(level_num,i)))
+			
+#temp.write('/odin/smr/Data/SMRl3/PICTURES/' + species + '/' + str(year) + '/' + str(month) + '/' + species + '_' + str(level_num) + '_' + str(i) + '.png\n')
+	
+		#start over at top of file
+		temp.seek(0)
 		os.system("mencoder mf://@%s -mf type=png:fps=%i -ovc lavc -lavcopts vcodec=wmv2 -oac copy -o %s" %(temp.name,set_fps,mov.name))
-                #reset filepointer
-                mov.seek(0)
-                #stream movie contents to response-object
-                while True:
-                    data = mov.read(1024)
-                    if data=='':
-                        break
-                    else:
-                        response.write(data)
+		#reset filepointer
+		mov.seek(0)
+		#stream movie contents to response-object
+		while True:
+			data = mov.read(1024)
+			if data=='':
+				break
+			else:
+				response.write(data)
 		
+
         security.declareProtected(BROWSE,'save_fig')
 	def save_fig(self,**params):
 		import os
@@ -107,54 +122,59 @@ class pictures(SimpleItemWithProperties):
 		date_start = (int(webparams['form.select_start_year_p']),int(webparams['form.select_start_month_p']),int(webparams['form.select_start_day_p']))
 		date_end = (int(webparams['form.select_end_year_p']),int(webparams['form.select_end_month_p']),int(webparams['form.select_end_day_p']))
 		level = int(webparams['form.select_level_p'])
-		fig_alt = webparams['form.select_type_p']		
+		alt = webparams['form.select_type_p']		
 		date_start_mjd = c.utc2mjd(date_start[0],date_start[1],date_start[2])
 		date_end_mjd = c.utc2mjd(date_end[0],date_end[1],date_end[2])
-		
-		if species == 'O3_501' or species == 'O3_544' or species == 'N2O':
+		if alt == 'global_p':
+			if species == 'O3_501' or species == 'O3_544' or species == 'N2O':
+				if level == 475:
+					level_num = 0
+				elif level == 525:
+					level_num = 1
+				elif level == 575:
+					level_num = 2
+				elif level == 625:
+					level_num = 3
+			elif species == 'H2O':
+				if level == 400:
+					level_num = 0
+				elif level == 425:
+					level_num = 1
+				elif level == 450:
+					level_num = 2
+				elif level == 475:
+					level_num = 3
+				elif level == 500:
+					level_num = 4
+				elif level == 525:
+					level_num = 5
+			elif species == 'HNO3':
+				if level == 475:
+					level_num = 0
+				elif level == 525:
+					level_num = 1
+				elif level == 575:
+					level_num = 2
+				elif level == 625:
+					level_num = 3
+				elif level == 675:
+					level_num = 4
+				elif level == 725:
+					level_num = 5
+		if alt == 'polar_p':
 			if level == 475:
 				level_num = 0
 			elif level == 525:
 				level_num = 1
-			elif level == 575:
-				level_num = 2
-			elif level == 625:
-				level_num = 3
-		elif species == 'H2O':
-			if level == 400:
-				level_num = 0
-			elif level == 425:
-				level_num = 1
-			elif level == 450:
-				level_num = 2
-			elif level == 475:
-				level_num = 3
-			elif level == 500:
-				level_num = 4
-			elif level == 525:
-				level_num = 5
-		elif species == 'HNO3':
-			if level == 475:
-				level_num = 0
-			elif level == 525:
-				level_num = 1
-			elif level == 575:
-				level_num = 2
-			elif level == 625:
-				level_num = 3
-			elif level == 675:
-				level_num = 4
-			elif level == 725:
-				level_num = 5
 
                 #generate a list of all file matching the search criteria
 		filelist = []
                 base = '/odin/smr/Data/SMRl3/PICTURES/'
 		for i in range(date_start_mjd,date_end_mjd+1,1):
 			year,month,day,hour,minute,secs,ticks = c.mjd2utc(i)
-			if fig_alt == 'global':
+			if alt == 'global_p':
 				filelist.append(join(species,str(year),'%i'%month,'%s_%i_%s.png'%(species,level_num,i)))
-			elif fig_alt == 'polar':
+			elif alt == 'polar_p':
 				filelist.append(join('Polar',str(year),'%i'%month,'Polar_%i_%s.png'%(level_num,i)))
 			#os.system('cp /odin/extdata/PICTURES/' + species + '/' + str(year) + '/' + str(month) + '/' + species + '_' + str(level_num) + '_' + str(i) + '.png' + ' ' + '/tmp/' + species + '_' + str(level) + '_' + str(year) + '%02d%02d.png' %(month,day))
 

@@ -83,7 +83,6 @@ class weathercontrol:
             if not c.filename =='':
                 c.download()
                 c.addDb()
-            print self.mode,hour,date
 
 class weatherfile_PV(weatherfile):
     def download(self):

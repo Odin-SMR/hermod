@@ -1,0 +1,27 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:gs="http://namespaces.zope.org/genericsetup">
+
+  <gs:registerProfile
+      name="default"
+      title="Odin SMR Site"
+      directory="profiles/default"
+      description="Odin SMR site setups, skins, tools etc."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      />
+
+  <permission
+    id="Products.odinsmrsite.browse"
+    title="odinsmrsite: Browse pictures"
+    />
+  <permission
+    id="Products.odinsmrsite.download"
+    title="odinsmrsite: Download files"
+    />
+  <permission
+    id="Products.odinsmrsite.manage"
+    title="odinsmrsite: Manage system"
+    />
+</configure>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<rolemap>
+  <roles>
+      <role name="Manager"/>
+      <role name="Tester"/>
+  </roles>
+  <permissions>
+    <permission name="OdinSMR: Browse Pictures" acquire="True">
+      <role name="Manager"/>
+      <role name="Owner"/>
+      <role name="Tester"/>
+    </permission>
+    <permission name="OdinSMR: Download Files" acquire="True">
+      <role name="Manager"/>
+    </permission>
+    <permission name="OdinSMR: Manage System" acquire="True">
+      <role name="Manager"/>
+    </permission>
+  </permissions>
+</rolemap>

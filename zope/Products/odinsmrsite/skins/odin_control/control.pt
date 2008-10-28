@@ -1,0 +1,23 @@
+<html metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone" >
+<body>
+
+    <div metal:fill-slot="main">
+
+        <h1 tal:content="context/Title"
+             >
+          Title
+        </h1>
+
+        <p tal:content="structure here/getBody" />          
+
+        <div class="documentByLine">
+          Message by <span tal:content="context/Creator" /> 
+          -
+          <span tal:replace="python:here.toLocalizedTime(context.CreationDate(),long_format=1)" />
+        </div>
+    
+</div>
+
+</body>
+</html>

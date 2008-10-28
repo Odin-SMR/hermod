@@ -1,0 +1,66 @@
+# vim: set fileencoding=utf-8 :
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="plone">
+
+<body>
+
+<!-- The level1b box -->
+
+<div metal:define-macro="portlet">
+     
+    <div class="portlet" id="portlet-smr">
+
+        <div class="portletHeader">
+            <div class="tile">
+                smr
+            </div>
+        </div>
+
+        <div class="portletBody">
+            <div class="portletContent">
+                this is content
+            	<div class="portletDetails" >
+	            portlet detail
+            	</div>
+            </div>
+
+        </div>
+        <div class="portletFooter">
+                <a class="tile" href="http://odin.rss.chalmers.se/" >More...</a>
+            <span class="portletBottomLeft"></span>
+            <span class="portletBottomRight"></span>
+        </div>
+    </div>
+
+</div>
+
+<div metal:define-macro="maps">
+    <dl class="portlet" id="portlet-map">
+         <dt class="portletHeader">
+            <div class="tile">
+                Weather
+            </div>
+        </dt>
+
+        <div class='portletBody' style='width: 160px; height: 600px; background-image: url( http://vortex.accuweather.com/adcbin/netweather_v2/backgrounds/lhtblue_160x600_bg.jpg ); background-repeat: no-repeat; background-color: #3BA6C9;' >
+            <div style='height: 585px;' >
+                <script src='http://netweather.accuweather.com/adcbin/netweather_v2/netweatherV2.asp?partner=netweather&tStyle=whteYell&logo=1&zipcode=EUR|SE|SW021|Grabo|&lang=uke&size=15&theme=&metric=1&target=_self'>
+                </script>
+            </div>
+            <div style='text-align: center; font-family: arial, helvetica, verdana, sans-serif; font-size: 10px; line-height: 15px; color: FFFFFF;' >
+                <a style='color: #FFFFFF' href='http://www.accuweather.com/index-forecast.asp?partner=netweather&traveler=0&zipcode=EUR|SE|SW021|Grabo|' >Weather Forecast</a> | 
+                <a style='color: #FFFFFF' href='http://www.accuweather.com/maps-satellite.asp?partner=netweather' >Weather Maps</a>
+            </div>
+        </div>
+        <dd class="portletFooter">
+            <span class="portletBottomLeft"></span>
+                <a class="tile" href="http://odin.rss.chalmers.se/" >More...</a>
+            <span class="portletBottomRight"></span>
+        </dd>
+    </dl>
+
+</div>
+</body>
+
+</html>

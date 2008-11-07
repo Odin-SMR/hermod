@@ -1,0 +1,32 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="custom_i18n_domain">
+
+	 <!-- Eriks Colophon -->
+    <browser:viewlet
+        name="plone.colophon"
+        for="*"
+        manager="plone.app.layout.viewlets.interfaces.IPortalFooter"
+        template="colophon.pt"
+        permission="zope.Public"
+        layer=".interfaces.IThemeSpecific"
+        />
+
+    <include package="plone.app.portlets" />
+
+   <interface
+   interface=".interfaces.IThemeSpecific"
+   type="zope.publisher.interfaces.browser.IBrowserSkinType"
+   name="odinsmrsite_skin"
+   />
+
+   <plone:portletRenderer
+   portlet="plone.app.portlets.portlets.news.INewsPortlet"
+   template="mytheme_news.pt"       
+   layer=".interfaces.IThemeSpecific"
+   />
+
+</configure>
+

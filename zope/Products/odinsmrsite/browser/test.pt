@@ -1,0 +1,24 @@
+<html metal:use-macro="here/main_template/macros/master"
+    i18n:domain="plone" >
+    <body>
+
+        <div metal:fill-slot="main">
+
+            <h1 tal:content="context/Title">
+                Title
+            </h1>
+
+            <div class="documentByLine">
+                Joakim testar villt!!!
+                <span tal:content="context/Creator">
+                    - 
+                </span> 
+                -
+                <span tal:replace="python:here.toLocalizedTime(context.CreationDate(),long_format=1)">
+                </span>
+            </div>
+    
+        </div>
+
+    </body>
+</html>

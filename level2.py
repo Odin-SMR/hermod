@@ -17,8 +17,11 @@ def level2Factory(orbitNrDec,freqMode,calibration,fqid,version,db):
         return Level2(orbitNrDec,freqMode,calibration,fqid,version,db)
     elif version == '2-0':
         return Level2(orbitNrDec,freqMode,calibration,fqid,version,db)
+    elif version == '1-2':
+        return Level2_12(orbitNrDec,freqMode,calibration,fqid,version,db)
     else:
         return None
+
 
 class Level2:
     
@@ -80,7 +83,10 @@ class Level2:
                     data.update(dict(zip(index,i)))
                 except StopIteration:
                     pass
-                data['date']= datetime(data.pop('Year'),data.pop('Month'),data.pop('Day'),data.pop('Hour'),data.pop('Min'),data.pop('Secs'),int(1000000*data.pop('Ticks')))
+                m = int(data.pop('Ticks')*1000000)
+                if m>999999:
+                    m=999999
+                data['date']= datetime(data.pop('Year'),data.pop('Month'),data.pop('Day'),data.pop('Hour'),data.pop('Min'),data.pop('Secs'),m)
                 data.update(self.info)
                 info.append(data)
                 
@@ -171,6 +177,27 @@ class Level2:
         else:
             pass
         c.close()
+
+class Level2_12(Level2):
+    def readAuxFile(self):
+        #dummy list of dictionaries with sufficient length to overcome the length of scans
+        self.aux = [dict() for i in range(200)]
+        self.verstr = None
+
+    def addData(self):
+        """
+        Adds data into the odin database
+        """
+        c = self.db.cursor()
+        c.execute('''delete from level2files where id=%(id)s and version=%(version)s and fqid=%(fqid)s''',self.info)
+        c.execute('''delete from level2 where id=%(id)s and version2=%(version)s and fqid=%(fqid)s''',self.info)
+        c.execute('''INSERT level2files (id,fqid,version,nscans,verstr,hdfname,pdcname,processed) values (%s,%s,%s,%s,%s,%s,%s,now())''',(self.info['id'],self.fqid,self.version,self.pscans,self.verstr,self.hdffile.split(config.get('GEM','smrl2_dir'))[1],self.pdcfile.split(config.get('PDC','smrl2_dir'))[1]))
+	for i in self.geolocation:
+	   test = c.execute ("""INSERT level2 (id,version2,latitude,longitude,mjd,date,sunZD,fqid,quality,p_offs,f_shift,chi2,chi2_y,chi2_x,marq_start,marq_stop,marq_min,n_iter,scanno) values (%(id)s,%(version)s,%(Latitude)s,%(Longitude)s,%(MJD)s,%(date)s,%(SunZD)s,%(fqid)s,Null,Null,Null,Null,Null,Null,Null,Null,Null,Null,%(ScanNo)s)""", i)
+
+#        test = c.executemany("""INSERT level2 (id,version2,latitude,longitude,mjd,date,sunZD,fqid,quality,p_offs,f_shift,chi2,chi2_y,chi2_x,marq_start,marq_stop,marq_min,n_iter,scanno) values (%(id)s,%(version)s,%(Latitude)s,%(Longitude)s,%(MJD)s,%(date)s,%(SunZD)s,%(fqid)s,%(Quality)s,%(P_Offs)s,%(F_Shift)s,%(Chi2)s,%(Chi2_y)s,%(Chi2_x)s,%(Marq_Start)s,%(Marq_Stop)s,%(Marq_Min)s,%(N_Iter)s,%(ScanNo)s)""", self.geolocation)
+        c.close()
+        return test
 
 if __name__=="__main__":
     db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')

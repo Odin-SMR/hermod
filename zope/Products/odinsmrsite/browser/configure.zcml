@@ -1,8 +1,12 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
     xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="custom_i18n_domain">
+    >
+  
+
+  <five:traversable class="Products.Archetypes.public.BaseObject" />
+  <five:traversable class="Products.CMFCore.PortalObject.PortalObjectBase" />
 
 	 <!-- Eriks Colophon -->
     <browser:viewlet
@@ -14,19 +18,13 @@
         layer=".interfaces.IThemeSpecific"
         />
 
-    <include package="plone.app.portlets" />
-
-   <interface
-   interface=".interfaces.IThemeSpecific"
-   type="zope.publisher.interfaces.browser.IBrowserSkinType"
-   name="odinsmrsite_skin"
-   />
-
-   <plone:portletRenderer
-   portlet="plone.app.portlets.portlets.news.INewsPortlet"
-   template="mytheme_news.pt"       
-   layer=".interfaces.IThemeSpecific"
-   />
+  <browser:page
+  for="Products.odinsmrsite.interfaces.interfaces.IPortalObject"
+  name="test.html"
+  template="test.pt"
+  class="Products.odinsmrsite.browser.browser.PictureView"
+  permission="zope2.View"
+  />
 
 </configure>
 

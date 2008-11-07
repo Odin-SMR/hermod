@@ -1,0 +1,7 @@
+
+[validators]
+validators..Search = validLocation,validTime,validSpeciment,validProcessor
+validators = redraw
+[actions]
+action.success..Search = traverse_to:string:getData
+action.success =   traverse_to:string:searchl2

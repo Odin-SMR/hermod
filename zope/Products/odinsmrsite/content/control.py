@@ -1,6 +1,8 @@
 from Products.CMFCore import permissions
 from Products.odinsmrsite.config import PRODUCT_NAME
+from Products.odinsmrsite.interfaces.interfaces import IController
 
+from zope.interface import implements
 from Products.Archetypes.BaseContent import BaseContent, BaseSchema
 from Products.Archetypes.Schema import Schema
 from Products.Archetypes.ArchetypeTool import registerType
@@ -13,8 +15,10 @@ from cStringIO import StringIO
 from PIL import Image as PILImage
 # import from the graphics package
 
-class Controller (BaseContent):
+class Controller(BaseContent):
   """ plot  """
+
+  implements(IController)
   # Add an ImageField to your schema
   # Read up on the deails of ImageField, it has nice features like scaling
   schema = BaseSchema + Schema((
@@ -37,11 +41,6 @@ class Controller (BaseContent):
         'edit'       : 'base_edit',
         'properties' : 'base_metadata',
         }
-
-  def at_post_create_script(self):
-      '''docstring'''
-      date = self.getDate()
-      self.genPic(date)
 
   def at_post_create_script(self):
       '''docstring'''

@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    >
+
+  <five:implements
+      class="Products.CMFCore.PortalObject.PortalObjectBase"
+      interface=".interfaces.IPortalObject"
+      />
+  <five:implements
+      class="Products.Archetypes.public.BaseObject"
+      interface=".interfaces.IPortalObject"
+      />
+</configure>

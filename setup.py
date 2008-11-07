@@ -26,7 +26,7 @@ setup(cmdclass={'install_data': install_data},
         author='Joakim Möller',
         author_email='joakim.moller@chalmers.se',
         url='http://odin.rss.chalmers.se',
-        scripts=['scripts/hermodwritel22db','scripts/hermodrerun','scripts/hermodgetl1','scripts/hermodlastdays','scripts/hermodgetweather','pbs_scripts/healthcheck','scripts/hermodrunjob','scripts/hermodl1bcp','scripts/hermodl1bfind','scripts/hermodl2cp','scripts/hermodl2find'],
+        scripts=['scripts/hermodwritel22db','scripts/hermodrerun','scripts/hermodgetl1','scripts/hermodlastdays','scripts/hermodgetweather','pbs_scripts/healthcheck','scripts/hermodrunjob','scripts/hermodl1bcp','scripts/hermodl1bfind','scripts/hermodl2cp','scripts/hermodl2find','scripts/hermodl1download'],
         data_files=[('/etc',['hermod.cfg.default']),('/var/lib/torque',['pbs_scripts/torque.cfg','pbs_scripts/server_name']),('/var/lib/torque/mom_priv',['pbs_scripts/config','pbs_scripts/epilogue.precancel','pbs_scripts/epilogue','pbs_scripts/prologue','pbs_scripts/epilogue.user','pbs_scripts/prologue.user','pbs_scripts/healthcheck'])]
 #        ,ext_modules = [
 #        Extension('hermod.l1b.ReadHDF', 

@@ -5,13 +5,13 @@
     <object name="odinsmrsite_picture" meta_type="Filesystem Directory View" directory="Products.odinsmrsite:skins/odin_pictures" />
     <object name="odinsmrsite_manage" meta_type="Filesystem Directory View" directory="Products.odinsmrsite:skins/odin_queue" />
     <object name="odinsmrsite_info" meta_type="Filesystem Directory View" directory="Products.odinsmrsite:skins/odin_info" />
-    <object name="odinsmrsite_controller" meta_type="Filesystem Directory View"
-             directory="Products.odinsmrsite:skins/odin_control"/>
-             
+    <object name="odinsmrsite_controller" meta_type="Filesystem Directory View" directory="Products.odinsmrsite:skins/odin_control"/>
+    <object name="odinsmrsite_skin" meta_type="Filesystem Directory View" directory="Products.odinsmrsite:skins/odinsmrsite_skin"/>       
     <skin-path name="*" based-on="Plone Default" />
     
 <skin-path name="*">
     <layer name="odinsmrsite_customisations" insert-after="custom"/>
+    <layer name="odinsmrsite_skin" insert-after="custom"/>
     <layer name="odinsmrsite_search" insert-after="custom"/>
     <layer name="odinsmrsite_picture" insert-after="custom"/>
     <layer name="odinsmrsite_manage" insert-after="custom"/>

@@ -15,7 +15,7 @@ SKINS_DIR = 'skins'
 #     from the dictionnary), all the folders in 'skins/' will be listed
 #     underneath 'custom' in the new skin selection layers.
 SKINSELECTIONS = (
-    {'name': "odinsmrsite_skin",
+    {'name': "odinsmrsite",
      'base': "Plone Default",
      },
     )
@@ -26,7 +26,7 @@ SELECTSKIN = True
 
 # CHANGE it to the name of the skin selection that must be set as default in
 #  case SELECTSKIN is set to True.
-DEFAULTSKIN = "odinsmrsite_skin"
+DEFAULTSKIN = "odinsmrsite"
 
 # CHANGE this tuple of python dictionnaries to list the stylesheets that
 #  will be registered with the portal_css tool.

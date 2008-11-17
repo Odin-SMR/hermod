@@ -7,7 +7,7 @@
     <object name="odinsmrsite_info" meta_type="Filesystem Directory View" directory="Products.odinsmrsite:skins/odin_info" />
     <object name="odinsmrsite_controller" meta_type="Filesystem Directory View" directory="Products.odinsmrsite:skins/odin_control"/>
     <object name="odinsmrsite_skin" meta_type="Filesystem Directory View" directory="Products.odinsmrsite:skins/odinsmrsite_skin"/>       
-    <skin-path name="*" based-on="Plone Default" />
+    <skin-path name="odinsmrsite" based-on="Plone Default" />
     
 <skin-path name="*">
     <layer name="odinsmrsite_customisations" insert-after="custom"/>

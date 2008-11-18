@@ -67,7 +67,7 @@ body {
 
 #portal-globalnav {
 
-	background-image: url(green.jpg);
+	background-image: url(orange.jpg);
 	background-repeat: repeat-x;
 	border: none;
 	height: 2em;
@@ -96,7 +96,7 @@ body {
 #portal-globalnav li.selected a {
 	height: auto;
 	background-color: transparent;
-	background-image: url(greeninv.jpg);
+	background-image: url(orangeinv.jpg);
 	background-repeat: repeat-x;
 	border: none;
 	color: #000000;
@@ -1410,7 +1410,7 @@ margin: 0em !important;
 }
 
 
-/*------------------------- content tab, KOLLA PÅ DETTA M&E */
+/*------------------------- content tab */
 
 .actionMenu .actionMenuHeader a {
 	color: #000000;

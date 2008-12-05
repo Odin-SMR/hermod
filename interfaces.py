@@ -68,4 +68,52 @@ class IGetFiles:
         """
         raise NotImplementedError,"Implement the close method"
 
+class IMatlab:
+    """Opens a matlab session ready to run calculations
+    """
+    def start_matlab(self):
+        """Start a session
+        """
+        raise NotImplementedError,"Implement the start_matlab method"
 
+    def close_matlab(self):
+        """Close session
+        """
+        raise NotImplementedError,"Implement the close_matlab method"
+
+    def matlab_is_open(self):
+        """test if still available
+        """
+        raise NotImplementedError,"Implement the matlab_is_open method"
+
+    def matlab_command(self,command):
+        """Put a command into matlab.
+        """
+        raise NotImplementedError,"Implement the matlab_command_is_open method"
+
+
+
+class IMakeZPT:
+    """ZPT-file generation.
+    Needs a id-attribute to operate on 
+    """
+    def checkIfValid(self):
+        """Check if we have a valid ZPT-file.
+
+        If so return True ow. False
+        """
+        raise NotImplementedError,"Implement the checkIfValid method"
+
+    def makeZPT(self):
+        """Generate the specific
+        return zpt-file as a string if successful None
+        """
+        raise NotImplementedError,"Implement the makeZPT method"
+
+class IPbs:
+    """send a job to cluster.
+    """
+    def submit(self):
+        """Return True if submit was sucessfull
+        """
+        raise NotImplementedError,"Implement the submit method"

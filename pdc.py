@@ -11,6 +11,7 @@ from interfaces import IKerberosTicket,IGetFiles
 from pexpect import spawn,EOF,TIMEOUT
 from subprocess import Popen,PIPE
 from sys import stderr
+from gemlogger import logger
 
 class connection:
     def __init__(self):
@@ -40,8 +41,6 @@ class connection:
 #
     def uploads(self,srcDestPair):
         pdcsess = p.spawn('kftp -p %s' %(config.get('PDC','host')) ,timeout=300)
-        status = pdcsess.expect('Name.*')
-        pdcsess.sendline(config.get('PDC','user'))
         pdcsess.expect('ftp> ')
         if pdcsess.before.find('fail')==-1:
             for pair in srcDestPair:
@@ -93,20 +92,8 @@ class connection:
             raise HermodError("Login at PDC failed, %s@%s" %(config.get('PDC','user'),config.get('PDC','host')))
 
 class PDCKerberosTicket(IKerberosTicket):
-    def ticketlogger(f):
-        name = f.func_name
-        def wrapped(*args, **kwargs):
-            self = args[0]
-            if hasattr(self,'logfile'):
-                self.logfile.write( "Calling: %s %s %s\n" % (name, repr(args[1:]), repr(kwargs)))
-            result = f(*args,**kwargs)
-            if hasattr(self,'logfile'):
-                self.logfile.write("Called: %s %s %s returned: %s\n" % (repr(name), repr(args[1:]), repr(kwargs), repr(result)))
-            return result
-        wrapped.__doc__ = f.__doc__
-        return wrapped
 
-    @ticketlogger
+    @logger
     def request(self):
         ticket = spawn('kinit -f -r 7d -l 30d  %s@%s'%(config.get('PDC','user'),config.get('PDC','principal')))
         ticket.expect('.*Password: $')
@@ -116,7 +103,7 @@ class PDCKerberosTicket(IKerberosTicket):
         retcode = ticket.exitstatus
         return retcode==0
 
-    @ticketlogger
+    @logger
     def check(self):
         getticket = Popen(['/usr/bin/klist','-t'],stderr=PIPE)
         retcode = getticket.wait()
@@ -124,7 +111,7 @@ class PDCKerberosTicket(IKerberosTicket):
         getticket.stderr.close()
         return retcode==0
 
-    @ticketlogger
+    @logger
     def renew(self):
         getticket = Popen(['/usr/bin/kinit','-R'],stderr=PIPE)
         retcode = getticket.wait()
@@ -134,48 +121,45 @@ class PDCKerberosTicket(IKerberosTicket):
 
 class PDCkftpGetFiles(IGetFiles):
 
-    def kftplogger(f):
-        name = f.func_name
-        def wrapped(*args, **kwargs):
-            self = args[0]
-            if hasattr(self,'logfile'):
-                self.logfile.write( "Calling: %s %s %s\n" % (name, repr(args[1:]), repr(kwargs)))
-            result = f(*args,**kwargs)
-            if hasattr(self,'logfile'):
-                self.logfile.write(str(self.session.after))
-                self.logfile.write("Called: %s %s %s returned: %s\n" % (repr(name), repr(args[1:]), repr(kwargs), repr(result)))
-            return result
-        wrapped.__doc__ = f.__doc__
-        return wrapped
+    @logger
+    def count(self):
+        if self.counter> 400:
+            self.close()
+            self.connect()
+        else:
+            self.counter = self.counter + 1
 
-    @kftplogger
+    @logger
     def connect(self):
+        self.counter = 0
         self.session = spawn('/usr/bin/kftp',['-p','pisces.pdc.kth.se'],timeout=900)
         self.pattern = self.session.compile_pattern_list(['.*complete.*ftp> $','.*Timeout.*ftp> $','.*No such file.*ftp> $','.*ftp> $',EOF,TIMEOUT])
         index=self.session.expect(['.*ftp> $',EOF,TIMEOUT])
         return True
 
-    @kftplogger
+    @logger
     def close(self):
         self.session.sendline('bye')
         self.session.expect(['.*Goodbye.$',EOF,TIMEOUT],timeout=5)
         self.session.close()
         return True
 
-    @kftplogger
+    @logger
     def put(self,src,dest):
         index = -1
         if self.session.isalive():
             self.session.sendline('put %s %s'%(src,dest))
             index = self.session.expect(self.pattern,timeout=20)
+        self.count()
         return index==0
 
-    @kftplogger
+    @logger
     def get(self,src,dest):
         index = -1
         if self.session.isalive():
             self.session.sendline('get %s %s'%(src,dest))
             index = self.session.expect(self.pattern,timeout=20)
+        self.count()
         return index==0
 
 if __name__ == "__main__":

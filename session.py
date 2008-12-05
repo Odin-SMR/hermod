@@ -1,6 +1,9 @@
 import os,subprocess,fcntl,sys,os.path,tempfile,MySQLdb
 from hermod.level2 import *
 from hermod.hermodBase import *
+from pexpect import spawn,EOF,TIMEOUT
+from gemlogger import logger
+from interfaces import IMatlab
 
 '''
 Session module provides tools for Hermod to run programs in different
@@ -115,6 +118,39 @@ def pbsFactory(orbit,freqmode,calibration,fqid,name,qsmr,db):
         return pbs_20(orbit,freqmode,calibration,fqid,name,qsmr,db)
     else:
         return None
+
+
+class GEMMatlab(IMatlab):
+
+    @logger
+    def start_matlab(self):
+        self.m_session = spawn('/usr/local/bin/matlab',['-nodisplay'],timeout=600)
+        self.pattern = self.m_session.compile_pattern_list(['^.*\?\?\? .*>> $',
+            '^.*Warning: .*>> $',
+            '^.*>> $',
+            EOF,
+            TIMEOUT])
+        return self.m_session.expect(self.pattern)==2
+
+    @logger
+    def close_matlab(self):
+        self.m_session.sendline('quit')
+        return self.m_session.expect(self.pattern)==3
+
+    @logger
+    def matlab_is_open(self):
+        return self.m_session.isalive()
+
+    @logger
+    def matlab_command(self,command,timeout=900):
+        self.m_session.sendline(command)
+        index = self.m_session.expect(self.pattern,timeout=timeout)
+        if index in (1,3,4):
+            raise HermodWarning(self.m_session.after)
+        elif index==0:
+            raise HermodError(self.m_session.after)
+        return True
+
 
 class pbs:
     '''

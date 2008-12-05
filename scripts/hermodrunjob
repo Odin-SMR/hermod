@@ -1,42 +1,241 @@
-#!/usr/bin/python
+#!/usr/bin/python2.5
 
 '''
 This script runs on a computing node, it starts Matlab and parses its output.
 
-The follow in environment variables are mandatory input to this program: ORBIT,
-FREQMODE, CALIBRATION, FQID, NAME, QSMR.
 '''
 
-from os import environ
-from sys import exit
-from hermod.session import pbsFactory
-from hermod.hermodBase import *
-import MySQLdb
+from sys import stderr, stdout, argv, exit
+from os import getenv,remove
+from os.path import join,exists
+from string import Template
+from datetime import datetime
+
+from MySQLdb import connect
+from MySQLdb.cursors import DictCursor
+
+from pyhdf.HDF import HDF, HDF4Error
+#from pyhdf.VS import *
+
+
+from session import GEMMatlab
+from pdc import PDCKerberosTicket,PDCkftpGetFiles
+from hermod.hermodBase import connection_str,HermodError,HermodWarning,config
+
+
+class ILevel2FileNames:
+    pass
+
+class GEMLevel2FileNames(ILevel2FileNames):
+    
+
+    def setname(self):
+        prefix={'AC1':'B','AC2':'C'}
+        db = connect(**connection_str)
+        cursor = db.cursor(DictCursor)
+        #get all other names and parameters needed
+        status = cursor.execute('''
+            select distinct l1.orbit,  l1.backend, 
+                l1.calversion, a.name, v.process_time 
+            from orbitmeasurement om
+            join level0_raw l0 on (l0.id=om.l0id) 
+            join level1 l1 on (l1.id=om.l1id)
+            join Aero a on (l0.setup=a.mode and l1.backend=a.backend)
+            join status s on (l1.id=s.id)
+            join versions v on (a.id=v.id and l1.calversion=v.calversion)
+            where s.status and s.errmsg='' and l1.id=%(id)s and a.id=%(fqid)s 
+                and v.qsmr=%(qsmr)s''',
+            (self.parameters)
+            )
+        if status==1:
+            self.parameters.update(cursor.fetchone())
+        #calculate mid-frequency
+        status = cursor.execute('''
+            select ceil(((max(fq_stop)-min(fq_start))/2+min(fq_start))*10) as
+                midfreq
+            from Aero 
+            where id=%(fqid)s 
+            group by id''',
+            (self.parameters))
+        if status==1:
+            self.parameters.update(cursor.fetchone())
+        cursor.close()
+        db.close()
+        self.parameters['prefix']='SCH_%(midfreq)i_' %self.parameters + '%s' % prefix[self.parameters['backend']]
+        self.parameters['suffix']="_%.3i"%int(self.parameters['qsmr'].replace('-',''))
+        self.parameters['l2file'] = join('SMRhdf','Qsmr-%(qsmr)s','%(name)s','%(prefix)s%(orbit).4X%(suffix)s.L2P') %self.parameters
+        self.parameters['auxfile'] = join('SMRhdf','Qsmr-%(qsmr)s','%(name)s','%(prefix)s%(orbit).4X%(suffix)s.AUX') %self.parameters
+        self.parameters['pdcl2file'] = join('version_%s'%self.parameters['qsmr'].replace('-','.'),'%(name)s','%(prefix)s%(orbit).4X%(suffix)s.L2P') %self.parameters
+
+
+class GEMRunner(GEMMatlab,GEMLevel2FileNames,PDCkftpGetFiles,PDCKerberosTicket):
+    
+    def __init__(self,id,fqid,version):
+        param = dict()
+        param['id'] = id
+        param['fqid'] = fqid
+        param['qsmr'] = version
+        workdir = getenv('TMPDIR')
+        if workdir is None:
+            a =getenv('PBS_JOBID')
+            if not a is None:
+                workdir = join('/tmp','tmp'+a.split('.')[0])
+            else:
+                workdir = '/tmp'
+        param['dir'] = workdir
+        self.parameters = param
+
+    def delete_old(self):
+        basefile = join(config.get('GEM','SMRL2_DIR'),self.parameters['l2file'][:-3])
+        for attr in ['L2P','ERR','AUX']:
+            if exists(basefile+'.'+attr):
+                remove(basefile+'.'+attr)
+        db = connect(**connection_str)
+        c = db.cursor()
+        c.execute('''
+                delete from level2files 
+                where id=%(id)s and version=%(qsmr)s 
+                    and fqid=%(fqid)s
+                    ''',
+                self.parameters)
+        c.execute('''
+                delete from level2 
+                where id=%(id)s and version2=%(qsmr)s 
+                and fqid=%(fqid)s
+                ''',
+                self.parameters)
+        c.close()
+        db.close()
+
+
+    def readData(self):
+        """
+        Reads a the associated hdf file. Returns a list of dictionaries. If an error occurs it returns an empty list.
+        """
+        table = "Geolocation"
+        file = join(config.get('GEM','SMRL2_DIR'),self.parameters['l2file'])
+        try:
+            f = HDF(file)                # open 'inventory.hdf' in read mode
+            vs = f.vstart()                 # init vdata interface
+            vd = vs.attach(table)   # attach 'INVENTORY' in read mode
+            index = vd.inquire()[2]
+            info = []
+            if hasattr(self,'aux'):
+                a = iter(self.aux)
+            else:
+                a = [dict() for i in range(200)]
+            for i in vd[:]:
+                try:
+                    data = a.next()
+                    data.update(dict(zip(index,i)))
+                except StopIteration:
+                    pass
+                m = int(data.pop('Ticks')*1000000)
+                if m>999999:
+                    m=999999
+                data['date']= datetime(data.pop('Year'),data.pop('Month'),data.pop('Day'),data.pop('Hour'),data.pop('Min'),data.pop('Secs'),m)
+                data.update(self.parameters)
+                info.append(data)
+                
+            self.geolocation = info
+            vd.detach()               # "close" the vdata
+            vs.end()                  # terminate the vdata interface
+            f.close()                 # close the HDF file
+        except HDF4Error,inst:
+            mesg = "error reading %s: %s" % (file,inst)
+            raise HermodError(mesg)
+        self.parameters['pscans']=len(self.geolocation)
+
+    def addData(self):
+        """
+        Adds data into the odin database
+        """
+        db = connect(**connection_str)
+        c = db.cursor()
+        c.execute('''INSERT level2files (id,fqid,version,nscans,verstr,hdfname,pdcname,processed) values (%(id)s,%(fqid)s,%(qsmr)s,%(pscans)s,%(verstr)s,%(l2file)s,%(pdcl2file)s,now())''',(self.parameters))
+	for i in self.geolocation:
+	   test = c.execute ("""INSERT level2 (id,version2,latitude,longitude,mjd,date,sunZD,fqid,quality,p_offs,f_shift,chi2,chi2_y,chi2_x,marq_start,marq_stop,marq_min,n_iter,scanno) values (%(id)s,%(qsmr)s,%(Latitude)s,%(Longitude)s,%(MJD)s,%(date)s,%(SunZD)s,%(fqid)s,%(Quality)s,%(P_Offs)s,%(F_Shift)s,%(Chi2)s,%(Chi2_y)s,%(Chi2_x)s,%(Marq_Start)s,%(Marq_Stop)s,%(Marq_Min)s,%(N_Iter)s,%(ScanNo)s)""", i)
+        c.close()
+        db.close()
+    
+    def readAuxFile(self):
+        data=[]
+        typelist = [int,float,float,str,int,float,int,float,float,float,float,float,float,float,float,int]
+        #print "reading auxfile: %s" % self.auxfile
+        filename = join(config.get('GEM','SMRL2_DIR'),self.parameters['auxfile'])
+        try:
+            f = open(filename)
+        except:
+            raise HermodError('No auxfile found %s'%(filename))
+        try:
+            versionnr = False
+            headers = False
+            if f.readline()[0] == '#':
+                headers = True
+            if f.readline()[0] == '#':
+                versionnr = True
+            f.seek(0)
+            if versionnr:
+                ver = f.readline().strip().split(' ')[1]
+            else:
+                ver = None
+            if headers:
+                head = f.readline()
+                header = head.split()[1:]
+            for line in f:
+                    fields = line.split()
+                    converted = [g(h) for g,h in zip(typelist,fields)]
+                    map = dict(zip(header,converted))
+                    map['ver'] = ver
+                    data.append(map) 
+        finally:
+            f.close()
+            self.parameters['verstr'] = ver
+            self.aux = data
+
+    def upload(self):
+        db = connect(**connection_str)
+        cur = db.cursor()
+        if not self.check():
+            self.request()
+        if self.connect():
+            if self.put(join(config.get('GEM','SMRL2_DIR'),self.parameters['l2file']),
+                    join(config.get('PDC','smrl2_dir'),self.parameters['pdcl2file'])):
+                cur.execute('''update level2files set uploaded=now() where id=%(id)s and fqid=%(fqid)s and version=%(qsmr)s''',self.parameters)
+        self.close()
+        cur.close()
+        db.close()
 
 def main():
-    try:
-        orbit = environ['ORBIT']
-        freqmode = environ['FREQMODE']
-        calibration = environ['CALIBRATION']
-        fqid = environ['FQID']
-        name = environ['NAME']
-        qsmr = environ['QSMR']
-    except KeyError,inst:
-        print __doc__
-        exit('Error: No environment varible named: %s\n' %(inst))
-    db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
-    try:
-        job = pbsFactory(orbit,freqmode,calibration,fqid,name,qsmr,db)
-        if job is not None:
-            job.prepare()
-            job.run()
-            job.write()
-            job.upload()
-            job.clean()
-    except HermodError,inst:
-        db.close()
-        exit('Hermod Error: %s\n' %(inst))
-    db.close()
+    run = GEMRunner(*argv[1:])
+    run.setname()
+    run.delete_old()
+    commands = [
+            "set(gcf,'Visible','off')",
+            "qsmr_startup",
+            "qsmr_inv_op('%(name)s','%(orbit)0.4X','%(orbit)0.4X','%(dir)s')"
+                % run.parameters,
+            "close all",
+            "clear all",
+            "clear all",
+            ]
+    run.start_matlab()
+    for c in commands:
+        try:
+            run.matlab_command(c,timeout=86400)
+            print run.m_session.after
+        except HermodWarning,inst:
+            print >> stderr,run.m_session.after
+        except HermodError,inst:
+            print >> stderr,run.m_session.after
+    run.close_matlab()
+    run.readAuxFile()
+    run.readData()
+    run.addData()
+    run.upload()
 
 if __name__=='__main__':
-    main()
+    if len(argv)==4:
+        main()
+    else:
+        exit(1)

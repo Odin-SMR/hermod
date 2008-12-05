@@ -12,6 +12,9 @@ from pyhdf.VS import *
 from hermod.pdc import connection
 from hermod.hermodBase import *
 
+from os import getenv
+from os.path import join
+
 def level2Factory(orbitNrDec,freqMode,calibration,fqid,version,db):
     if version == '2-1':
         return Level2(orbitNrDec,freqMode,calibration,fqid,version,db)
@@ -49,13 +52,18 @@ class Level2:
 
 
     def setFileNames(self):
+        workarea = getenv('PBS_JOBID')
+        if workarea is None:
+            l2files = '/tmp/level2'
+        else:
+            l2files = join(workarea.split('.')[0],'level2')
         hdftemplate = os.path.join(config.get('GEM','SMRl2_DIR'),'SMRhdf','Qsmr-%(version)s','%(name)s','SCH_%(midfreq)i_%(l2prefix)s%(orbit)0.4X_%(l2version)s.%%s') % self.info
         mattemplate = os.path.join(config.get('GEM','SMRl2_DIR'),'SMRmat','Qsmr-%(version)s','%(name)s','%(prefix)s%(orbit)0.4X.%%s') % self.info
         self.hdffile = hdftemplate % ('L2P')
         self.auxfile = hdftemplate % ('AUX')
         self.inffile = hdftemplate % ('ERR')
-        self.matfile = mattemplate % ('mat')
-        self.errfile = mattemplate % ('qsmr_error')  
+        self.matfile = l2files+'.mat'
+        self.errfile = l2files+'.qsmr_error'  
         self.pdcfile = os.path.join(config.get('PDC','SMRl2_DIR'),'version_%s'%(self.version.replace('-','.')),'%(name)s','SCH_%(midfreq)i_%(l2prefix)s%(orbit)0.4X_%(l2version)s.L2P') % self.info
 
     def preClean(self):

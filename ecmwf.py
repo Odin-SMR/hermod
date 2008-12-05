@@ -10,6 +10,10 @@ import subprocess
 import sys
 import StringIO
 from ftplib import FTP
+from os.path import exists,join
+from sys import stderr
+from interfaces import IMakeZPT
+from gemlogger import logger
 
 ecmwfpat = re.compile('^.*([0-9]{6})\.([\d]{1,2})([A-Z]{1,2})\.gz')
 '''
@@ -64,7 +68,7 @@ class weathercontrol:
     def find(self): 
         c = self.db.cursor()
         if self.mode == 'U' or self.mode == 'V':
-            c.execute('''SELECT date,time FROM reference_calendar,reference_time where not exists (select date,hour from ecmwf where reference_calendar.date=ecmwf.date and reference_time.time=ecmwf.hour and type=%s) and date<now() order by date desc limit 10''',(self.mode,))
+            c.execute('''SELECT date,time FROM reference_calendar,reference_time where not exists (select date,hour from ecmwf where reference_calendar.date=ecmwf.date and reference_time.time=ecmwf.hour and type=%s) and date<now() order by date desc limit 60''',(self.mode,))
             self.dates = [i[0] for i in c]
             self.hour = [i[1] for i in c]
         elif self.mode == 'T' or self.mode == 'Z' or self.mode == 'PV':	
@@ -128,6 +132,40 @@ class ZPTfile:
         cursor = self.db.cursor()
         status = cursor.execute('''insert level1b_gem (id,filename) values (%s,%s) on duplicate key update date=now()''',filepair)
         cursor.close()
+
+class MatlabMakeZPT(IMakeZPT):
+    """ implementation with MATLAB as generator
+    """
+
+    @logger
+    def makeZPT(self):
+        if hasattr(self,'m_session'):
+            if hasattr(self,'zpt'):
+                prefix = config.get('GEM','LEVEL1B_DIR')
+                self.m_session.matlab_command('cd /odin/extdata/ecmwf/tz')
+                if self.m_session.matlab_command("create_tp_ecmwf_rss2('%s')"%join(prefix,self.log)):
+                    return self.zpt
+        else: 
+            raise HermodError('No Matlab-session started')
+        return None
+    
+    @logger
+    def checkIfValid(self,opendb):
+        db_OK = False
+        file_OK = False
+        prefix = config.get('GEM','LEVEL1B_DIR')
+        cursor = opendb.cursor()
+        status = cursor.execute('''SELECT id,filename from level1b_gem as l where not exists (select * from level1b_gem as m where m.id=l.id and m.filename regexp '.*ZPT' and  m.date>=l.date) and 
+                filename regexp ".*LOG" and id=%s''',self.id)
+        if status==0:
+            db_OK=True
+        if hasattr(self,'zpt'):
+            if exists(join(prefix,self.zpt)):
+                file_OK =True
+        cursor.close()
+        return file_OK and db_OK
+                
+
 
 def getallexisting(top,db):
     c  = db.cursor()

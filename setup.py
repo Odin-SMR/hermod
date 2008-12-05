@@ -19,7 +19,7 @@ class install_data(_install_data):
 
 setup(cmdclass={'install_data': install_data},
         name='hermod',
-        version='2.4.2',
+        version='3.0.0-rc1',
         package_dir={'hermod': ''},
         packages=['hermod'],
         description = 'Routines to simplify and improve speed of odinprocessing',

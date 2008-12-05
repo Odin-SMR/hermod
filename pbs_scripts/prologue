@@ -1,19 +1,19 @@
-#!/usr/bin/python
-import sys,os,datetime
+#!/usr/bin/python2.5
 
-print "### Hermod system information:"
-print "###"
-print "###",str(datetime.datetime.now())
-print "###"
+from shutil import rmtree
+from datetime import datetime
+from sys import argv,stderr,exit
 
-for i in os.uname():
-  print "###",i
+inparam = argv
 
-print "###"
-
-for i in sys.argv:
-  print "###",i
-
-print "###"
-
-sys.exit(0)
+print "%s:" %(inparam[0])
+print datetime.now()
+tempdir = '/tmp'
+try:
+    id = inparam[1].split('.')[0]
+except IndexError,inst:
+    print >> stderr, "Error reading jobid:", inst
+    exit(1)
+tempdir = '/tmp/tmp%s' % (id,)
+rmtree(tempdir,ignore_errors=True)
+exit(0)

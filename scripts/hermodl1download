@@ -8,7 +8,7 @@ from sys import stderr
 from optparse import OptionParser
 from datetime import datetime,timedelta
 from time import strptime,mktime
-from level1 import findids
+from hermod.level1 import findids
 from hermod.hermodBase import config
 
 
@@ -52,6 +52,7 @@ def main():
             orbitend = 0xFFFF,
             verbose = False,
             logfile = "",
+            list = False,
             cal=[-1,-2],
             )
     parser.add_option('-s','--start-time',
@@ -84,6 +85,9 @@ def main():
     parser.add_option('-v','--verbose',action='store_true',dest='verbose',
             help='display info when launching to queue'
             )
+    parser.add_option('-L','--list',action='store_true',dest='list',
+            help='list - don''t run anythint just list files to download'
+            )
     parser.add_option('-c','--calibration',
             action='append',dest='cal',type='float',
             metavar='CAL',help='calibration version'
@@ -106,12 +110,20 @@ def main():
             and l1.stop_utc>=%s and l1.start_utc<=%s''',
         (options.cal,options.orbitstart,options.orbitend,options.datestart,options.dateend)
         ))
+    close = False
     if options.verbose:
         l1.logfile= stderr
     if options.logfile!="":
-        l1.logfile=options.logfile
+        close=True
+        l1.logfile=open(options.logfile,'wb')
     l1.setnames()
-    l1.download()
+    if options.list:
+        for id in l1.ids:
+            print id.hdf
+    else:
+        l1.download()
+    if close:
+        l1.logfile.close()
 
 
 if __name__=="__main__":

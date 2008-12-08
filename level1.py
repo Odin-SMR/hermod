@@ -201,7 +201,7 @@ class Level1b(Level1,MatlabMakeZPT):
                 where l1.id=%s
             ''',(self.id,))
             for i in cursor:
-                if i[1]==6:
+                if i[1]==6 and getattr(self,attr) is not None:
                     #calversion 6 is linked to a deprecated QSMR 
                     #directory format                  
                     if attr=='zpt':

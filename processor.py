@@ -62,9 +62,7 @@ if __name__=='__main__':
     join versions v on (a.id=v.id and l1.calversion=v.calversion)
     left join level2files l2f on (l1.id=l2f.id and a.id=l2f.fqid and v.qsmr=l2f.version)
     where v.active and (l1.uploaded>l2f.processed or l2f.processed is null) 
-        and l1.orbit>=0x8000  and l1.orbit<=0x9000
     order by orbit desc, backend
-    limit 1000
     ''')
     x = ProcHFactory(sqlquery)
     print x

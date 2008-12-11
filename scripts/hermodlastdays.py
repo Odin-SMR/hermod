@@ -4,14 +4,14 @@
 Command line tool to see what files have been processed during a given timespan.
 """
 
-from hermod.hermodBase import *
-from hermod.level1b import *
+from hermod.hermodBase import config,connetion_str
 from sys import exit,stderr
 from optparse import OptionParser
 from os import environ
 from datetime import datetime,timedelta
 from time import strptime,mktime
-import MySQLdb
+from MySQLdb import connect
+from MySQLdb.cursors import DictCursor
 
 def parsetime(option,opt_str,value,parser):
     """Parse a string YYYYMMDD HH:MM to time.
@@ -55,11 +55,14 @@ def main():
             fqid =[127] #dummy value
             )
     parser.add_option('-s','--start-time',
-            action='callback',callback=parsetime,dest='datestart',nargs=2,type='string',
-            metavar='YYYYMMDD HH:MM',help='filter on start date default is 2 days from now'
+            action='callback',callback=parsetime,dest='datestart',nargs=2,
+            type='string',
+            metavar='YYYYMMDD HH:MM',
+            help='filter on start date default is 2 days from now'
             )
     parser.add_option('-k','--end-time',
-            action='callback',callback=parsetime,dest='dateend',nargs=2,type='string',
+            action='callback',callback=parsetime,dest='dateend',nargs=2,
+            type='string',
             metavar='YYYYMMDD HH:MM',help='filter on stop date default is now'
             )
     parser.add_option('-o','--start-orbit',
@@ -100,18 +103,27 @@ def main():
 
     # Initiate a database connection
     try:
-        db = MySQLdb.connect(host=config.get('READ_SQL','host'), user=config.get('READ_SQL','user'), db='smr')
+        db = connect(**connection_str)
     except Warning,inst:
         print >> stderr, "Warning: %s" % inst
     except Error,inst:
         print >> stderr, "Error: %s" % inst
         exit(1)
 
-    c = db.cursor(MySQLdb.cursors.DictCursor)
+    c = db.cursor(DictCursor)
 
     # Retrieve info from database
     try:
-        status=c.execute("""select l2.processed,start_utc,orbit,freqmode,fqid,version,l1.nscans,l2.nscans,l2.nscans/l1.nscans as proc,verstr,hdfname,id from level1 as l1 join level2files as l2 using (id) where l2.processed>=%s and l2.processed<=%s and orbit>=%s and orbit<=%s and fqid in %s and l1.nscans<>0 order by l2.processed;""",(options.datestart,options.dateend,options.orbitstart,options.orbitend,options.fqid))
+        status=c.execute("""
+        select l2.processed,start_utc,orbit,freqmode,fqid,version,
+            l1.nscans,l2.nscans,l2.nscans/l1.nscans as proc,verstr,hdfname,id 
+        from level1 as l1 
+        join level2files as l2 using (id) 
+        where l2.processed>=%s and l2.processed<=%s and orbit>=%s 
+            and orbit<=%s and fqid in %s and l1.nscans<>0 
+        order by l2.processed;""",
+        (options.datestart,options.dateend,options.orbitstart,options.orbitend,
+         options.fqid))
     except Warning,inst:
         print >> stderr, "Warning: %s" % inst
     except StandardError,inst:
@@ -120,7 +132,8 @@ def main():
 
     # Print
     if options.verbose:
-        print "%-19s%10s%7s%21s%8s%4s%6s%4s%4s%5s%12s%55s" % ('processed','dbid','orb','start_utc','fm','fq','ver','ps','ts','%','verstr','file')
+        print "%-19s%10s%7s%21s%8s%4s%6s%4s%4s%5s%12s%55s" % ('processed',
+                                                              'dbid','orb','start_utc','fm','fq','ver','ps','ts','%','verstr','file')
     else:
         print "%-19s%10s%7s%8s%4s%6s%4s%4s%5s%12s" % ('processed','dbid','orb','fm','fq','ver','ps','ts','%','verstr')
 

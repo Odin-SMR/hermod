@@ -1,18 +1,13 @@
 #!/usr/bin/python
-"""Show status or rerun jobs.
-    
-Show status of all available level1b files.
+"""Download level1 files from PDC
 """
 
-from hermod.hermodBase import *
-from hermod.level1b import *
-from sys import exit,stderr
+from sys import stderr
 from optparse import OptionParser
-from os import environ
 from datetime import datetime,timedelta
 from time import strptime,mktime
-from os.path import join,splitext,exists
-import MySQLdb
+from hermod.level1 import findids
+from hermod.hermodBase import config
 
 
 def parsetime(option,opt_str,value,parser):
@@ -46,7 +41,8 @@ def main():
     # OptionParser helps reading options from command line
     parser = OptionParser(
             usage='%prog [options]',
-            version="%%prog, Hermod release %s" % (config.get('DEFAULT','version')),
+            version="%%prog, Hermod release %s" % (config.get('DEFAULT',
+                                                              'version')),
             description="Find level1b files."
             )
     parser.set_defaults(datestart=datetime(2001,1,1),
@@ -54,18 +50,19 @@ def main():
             orbitstart = 0x0000,
             orbitend = 0xFFFF,
             verbose = False,
-            launch = False,
+            logfile = "",
+            list = False,
             cal=[-1,-2],
-            fm =[127,128],
-            threshold = .1,
-            queue = 'rerun',
-            qsmr= '2-1')
+            )
     parser.add_option('-s','--start-time',
-            action='callback',callback=parsetime,dest='datestart',nargs=2,type='string',
-            metavar='YYYYMMDD HH:MM',help='filter on start date default is 2 days from now'
+            action='callback',callback=parsetime,dest='datestart',nargs=2,
+            type='string',
+            metavar='YYYYMMDD HH:MM',
+            help='filter on start date default is 2 days from now'
             )
     parser.add_option('-k','--end-time',
-            action='callback',callback=parsetime,dest='dateend',nargs=2,type='string',
+            action='callback',callback=parsetime,dest='dateend',nargs=2,
+            type='string',
             metavar='YYYYMMDD HH:MM',help='filter on stop date default is now'
             )
     parser.add_option('-o','--start-orbit',
@@ -84,11 +81,14 @@ def main():
             action='callback',callback=hex2dec,dest='orbitend',type='string',
             metavar='HEX_ORB_END',help='filter on stop hex orbit'
             )
-    parser.add_option('-f','--freqmode',action='append',dest='fm',type='int',
-            metavar='FM',help='filter on freqmode'
+    parser.add_option('-l','--logfile',type='string',dest='logfile',
+            metavar="LOG",help='Print all output to a logfile'
             )
     parser.add_option('-v','--verbose',action='store_true',dest='verbose',
             help='display info when launching to queue'
+            )
+    parser.add_option('-L','--list',action='store_true',dest='list',
+            help='list - don''t run anythint just list files to download'
             )
     parser.add_option('-c','--calibration',
             action='append',dest='cal',type='float',
@@ -101,55 +101,33 @@ def main():
         n = range(20)
         setattr(parser.values,'cal',map(float,range(20)))
 
-    if len(options.fm)==2:
-        n = range(50)
-        setattr(parser.values,'fm',n)
+    l1 = findids(('''
+        SELECT id FROM level1 l1 
+        left join status s using (id) 
+        left join level1b_gem l1b using (id) 
+        where calversion in %s and s.status 
+            and (l1b.date<l1.uploaded or l1b.filename is null) 
+            and l1.filename is not null 
+            and l1.orbit>=%s and l1.orbit<=%s
+            and l1.stop_utc>=%s and l1.start_utc<=%s''',
+        (options.cal,options.orbitstart,options.orbitend,options.datestart,
+         options.dateend)
+        ))
+    close = False
+    if options.verbose:
+        l1.logfile= stderr
+    if options.logfile!="":
+        close=True
+        l1.logfile=open(options.logfile,'wb')
+    l1.setnames()
+    if options.list:
+        for id in l1.ids:
+            print id.hdf
+    else:
+        l1.download()
+    if close:
+        l1.logfile.close()
 
-    # Initiate a database connection
-    try:
-        db = MySQLdb.connect(host=config.get('READ_SQL','host'), user=config.get('READ_SQL','user'), db='smr')
-    except Warning,inst:
-        print >> stderr, "Warning: %s" % inst
-    except StdError,inst:
-        print >> stderr, "Error: %s" % inst
-        exit(1)
-
-
-    #find orbitfiles to run
-    cursor = db.cursor(MySQLdb.cursors.DictCursor)
-    try:
-        status = cursor.execute('''select filename,logname from level1 
-                                   where 1 
-                                   and orbit>=%s 
-                                   and start_utc>=%s
-                                   and orbit<=%s 
-                                   and stop_utc<=%s
-                                   and freqmode in %s and calversion in %s 
-                                   order by orbit,backend,calversion
-                                   ''',(options.orbitstart,options.datestart,options.orbitend,options.dateend,options.fm,options.cal))
-    except StandardError,e:
-        print >> stderr, "Hermod:", str(e)
-        exit(3)
-    except Warning,e:
-        print >> stderr, "Hermod:", str(e)
-    except KeyboardInterupt:
-        print >> stderr, "Hermod: KeyboardInterrupt, closing database..."
-        cursor.close()
-        db.close()
-        exit(2)
-
-    # do desired action on every object
-    for i in cursor:
-            try:
-                if not (i['filename'] is None):
-                    file = join(config.get('GEM','LEVEL1B_DIR'),splitext(i['filename'])[0])
-                    if exists(file):
-                        print file
-            except HermodError,inst:
-                print >> stderr,'HermodError: %s'%inst 
-                continue
-    cursor.close()
-    db.close()
 
 if __name__=="__main__":
     main()

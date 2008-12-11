@@ -18,7 +18,7 @@ def plotmissing():
 #left join level2files l2f on (l1.id=l2f.id and a.id=l2f.fqid and v.qsmr=l2f.version)
 #where ro.orbit>0x900 and ro.orbit<0xB000
 #    ''')
-    orbits = arange(0x8000,0xA000)
+    orbits = arange(0x9000,0xA600)
     cur.execute("""
     select ro.orbit 
     from reference_orbit ro
@@ -55,28 +55,27 @@ def plotmissing():
     m[measurment-orbits.min(),0]=1
     m[calibrated-orbits.min(),1]=1
     m[processed-orbits.min(),2]=1
-
-    plt.figure(figsize=(orbits.size/32,2.),dpi=72)
-
     
-#    p0 = plt.plot(orbits,m[:,0],'o',color='r')
-#    p1 = plt.plot(orbits,m[:,1],'+',color='y')
-#    p2 = plt.plot(orbits,m[:,2],'.',color='g')
-    p0 = plt.bar(orbits,m[:,0],color='r',linewidth=0,width=1,align='center')
-    p1 = plt.bar(orbits,m[:,1],color='y',bottom=m[:,0],linewidth=0,width=1,align='center')
-    p2 = plt.bar(orbits,m[:,2],color='g',bottom=m[:,[0,1]].sum(axis=1),linewidth=0,width=1,align='center')
+    plt.figure(figsize=(orbits.size/32,2.),dpi=72)
+    
+
+    p0 = plt.plot(orbits,m[:,2]*3,color='r',linestyle='steps')
+    p1 = plt.plot(orbits,m[:,1]*2,color='b',linestyle='steps')
+    p2 = plt.plot(orbits,m[:,0],color='g',linestyle='steps')
+#    p0 = plt.bar(orbits,m[:,0],color='r',linewidth=0,width=1,align='center')
+#    p1 = plt.bar(orbits,m[:,1],color='y',bottom=m[:,0],linewidth=0,width=1,align='center')
+#    p2 = plt.bar(orbits,m[:,2],color='g',bottom=m[:,[0,1]].sum(axis=1),linewidth=0,width=1,align='center')
     plt.yticks(arange(4),['','measured','calibrated','l2product'],rotation=45,fontsize='x-small')
     xmarks = orbits[orbits%32==0]
     plt.xticks(xmarks,map(str,map(hex,xmarks)),fontsize='xx-small')
-#    p2 = plt.plot(orbits,m[:,2]+2,color='g')
-#    p1 = plt.plot(orbits,m[:,2]+1,color='y')
-#    p0 = plt.plot(orbits,m[:,0],color='r')
+
     plt.ylim(0,3.2)
     plt.xlim((orbits.min()-10,orbits.max()))
-    plt.title('Process chain %s to calversion %.1f to %i',size='small')
-    #plt.show()
-    
+    plt.title('Processing chain %s to calversion %.1f to id %i'%('s1a',6.0,3),size='small')
+    plt.subplots_adjust(left=1*32./orbits.size, bottom=None, right=(orbits.size-1*32.)/orbits.size, top=None, wspace=None, hspace=None)
+
     plt.savefig('image.png')
+    #plt.show()
 
 
 if __name__=="__main__":

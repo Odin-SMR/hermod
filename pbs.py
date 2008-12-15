@@ -13,7 +13,7 @@ runscript = """
 #PBS -o %(outfile)s
 #PBS -d %(workdir)s
 
-PYTHONPATH=/home/joakim/work/hermod python /home/joakim/work/hermod/scripts/hermodrunjob %(id)i %(fqid)i %(version)s
+PYTHONPATH=/home/joakim/workspace/hermod python /home/joakim/workspace/hermod/scripts/hermodrunjob.py %(id)i %(fqid)i %(version)s
 """
 
 

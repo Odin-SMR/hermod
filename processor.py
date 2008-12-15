@@ -64,7 +64,22 @@ if __name__=='__main__':
     where v.active and (l1.uploaded>l2f.processed or l2f.processed is null) 
     order by orbit desc, backend
     ''')
-    x = ProcHFactory(sqlquery)
+    sqlquery2= ("""
+        select distinct l1.id,a.backend,l1.orbit,a.id as fqid,v.qsmr version,
+            l1.calversion,a.name,v.process_time
+        from reference_orbit ro 
+        join level0_raw l0 on (ro.orbit>=floor(l0.start_orbit) 
+            and ro.orbit<=floor(l0.stop_orbit))
+        join level1 l1 on (ro.orbit=l1.orbit)
+        join level1b_gem l1bg on (l1bg.id=l1.id)
+        join Aero a on (a.mode=l0.setup and a.backend=l1.backend)
+        join versions v on (a.id=v.id and l1.calversion=v.calversion)
+        left join level2files l2f on (l1.id=l2f.id and a.id=l2f.fqid 
+            and v.qsmr=l2f.version)
+        where v.active and (l1.uploaded>l2f.processed or l2f.processed is null) 
+            and ro.orbit>0x8000 and ro.orbit<0xB000
+        """)
+    x = ProcHFactory(sqlquery2)
     print x
     x.submit()
 

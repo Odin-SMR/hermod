@@ -35,20 +35,19 @@ class GEMLevel2FileNames(ILevel2FileNames):
         cursor = db.cursor(DictCursor)
         #get all other names and parameters needed
         status = cursor.execute('''
-            select distinct l1.orbit,  l1.backend, 
-                l1.calversion, a.name, v.process_time 
-            from orbitmeasurement om
-            join level0_raw l0 on (l0.id=om.l0id) 
-            join level1 l1 on (l1.id=om.l1id)
-            join Aero a on (l0.setup=a.mode and l1.backend=a.backend)
-            join status s on (l1.id=s.id)
-            join versions v on (a.id=v.id and l1.calversion=v.calversion)
-            where s.status and s.errmsg='' and l1.id=%(id)s and a.id=%(fqid)s 
-                and v.qsmr=%(qsmr)s''',
+select distinct l1.orbit,  l1.backend, l1.calversion, a.name, v.process_time
+from level1 l1
+join level0_raw l0 on (l1.orbit>=floor(l0.start_orbit) and l1.orbit<=floor(l0.stop_orbit))
+join Aero a on (l0.setup=a.mode and l1.backend=a.backend)
+join status s on (l1.id=s.id)
+join versions v on (a.id=v.id and l1.calversion=v.calversion)
+where l1.id=%(id)s and a.id=%(fqid)s and v.qsmr=%(qsmr)s''',
             (self.parameters)
             )
         if status==1:
             self.parameters.update(cursor.fetchone())
+        else:
+            print "status names:%i" %status
         #calculate mid-frequency
         status = cursor.execute('''
             select ceil(((max(fq_stop)-min(fq_start))/2+min(fq_start))*10) as
@@ -59,6 +58,8 @@ class GEMLevel2FileNames(ILevel2FileNames):
             (self.parameters))
         if status==1:
             self.parameters.update(cursor.fetchone())
+        else:
+            print "midfreq %i"%status
         cursor.close()
         db.close()
         self.parameters['prefix']='SCH_%(midfreq)i_' %self.parameters + '%s' % prefix[self.parameters['backend']]
@@ -207,6 +208,8 @@ class GEMRunner(GEMMatlab,GEMLevel2FileNames,PDCkftpGetFiles,PDCKerberosTicket):
         db.close()
 
 def main():
+    errors = False
+    errmsg = ""
     run = GEMRunner(*argv[1:])
     run.setname()
     run.delete_old()
@@ -225,15 +228,32 @@ def main():
             run.matlab_command(c,timeout=86400)
             print run.m_session.after
         except HermodWarning,inst:
-            print >> stderr,run.m_session.after
+            print >> stdout,inst
         except HermodError,inst:
-            print >> stderr,run.m_session.after
+            errors = True
+            errmsg = errmsg+str(inst)
+            print >> stderr,inst
+        
     run.close_matlab()
-    run.readAuxFile()
-    run.readData()
-    run.addData()
-    run.upload()
-
+    if not errors:
+        try:
+            run.readAuxFile()
+            run.readData()
+            run.addData()
+            run.upload()
+        except HermodError,inst:
+            errmsg = errmsg+str(inst)
+    db = connect(**connection_str)
+    cur = db.cursor()
+    run.parameters['errmsg']= errmsg
+    cur.execute('''insert statusl2 (id,fqid,version,errmsg) 
+        values (%(id)s,%(fqid)s,%(qsmr)s,%(errmsg)s)
+        on duplicate key update proccount=proccount+1,
+            errmsg=%(errmsg)s,date=now()
+        ''',run.parameters)
+    cur.close()
+    db.close()
+    
 if __name__=='__main__':
     if len(argv)==4:
         main()

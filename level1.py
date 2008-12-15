@@ -184,7 +184,7 @@ class Level1b(Level1,MatlabMakeZPT):
     def link(self,opendb,attrs=['hdf','log','zpt']):
         for attr in attrs:
             if not hasattr(self,attr):
-                raise HermodError("No %s-attribute"%attr)
+                continue
             #find the name of the mode.
             lprefix='/odin/smr/Data/SMRl1b/V-%i/' 
             prefix= config.get('GEM','LEVEL1B_DIR')

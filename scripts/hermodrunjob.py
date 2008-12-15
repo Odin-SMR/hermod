@@ -50,7 +50,7 @@ where l1.id=%(id)s and a.id=%(fqid)s and v.qsmr=%(qsmr)s''',
             print "status names:%i" %status
         #calculate mid-frequency
         status = cursor.execute('''
-            select ceil(((max(fq_stop)-min(fq_start))/2+min(fq_start))*10) as
+            select mid as
                 midfreq
             from Aero 
             where id=%(fqid)s 

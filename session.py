@@ -125,8 +125,8 @@ class GEMMatlab(IMatlab):
     @logger
     def start_matlab(self):
         self.m_session = spawn('/usr/local/bin/matlab',['-nodisplay'],timeout=600)
-        self.pattern = self.m_session.compile_pattern_list(['^.*\?\?\? .*>> $',
-            '^.*Warning: .*>> $',
+        self.pattern = self.m_session.compile_pattern_list(['^.*(\?\?\? .*>> $)',
+            '^.*(Warning: .*>> )$',
             '^.*>> $',
             EOF,
             TIMEOUT])
@@ -146,9 +146,9 @@ class GEMMatlab(IMatlab):
         self.m_session.sendline(command)
         index = self.m_session.expect(self.pattern,timeout=timeout)
         if index in (1,3,4):
-            raise HermodWarning(self.m_session.after)
+            raise HermodWarning(self.m_session.match.group()[0])
         elif index==0:
-            raise HermodError(self.m_session.after)
+            raise HermodError(self.m_session.match.group()[0])
         return True
 
 

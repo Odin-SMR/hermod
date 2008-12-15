@@ -310,10 +310,10 @@ if __name__=="__main__":
     from level1b_gem l1g
     where filename regexp ".*LOG" and not exists (select * from level1b_gem s where s.filename regexp ".*ZPT" and l1g.id=s.id) and l1g.filename regexp "6.*"
             """
-    x = findids((queryzpt ,))
+    x = findids((queryall ,))
     x.logfile =stderr
     x.setnames()
-    #x.download()
+    x.download()
     x.makeZPTs()
     x.make_links()
     test="""

@@ -297,17 +297,23 @@ def findids(sqlquery):
     return l1
         
 if __name__=="__main__":
-    x = findids(("""
+    queryall ="""
     select distinct l1.id
     from level1 l1
     join status s on (l1.id=s.id)
     left join level1b_gem l1bg on (l1.id=l1bg.id)
     where s.status and (l1bg.id is null or l1bg.date<l1.uploaded) 
         and s.errmsg='' and l1.calversion in (6,7,1)
-            """,))
+            """
+    queryzpt ="""
+    SELECT id
+    from level1b_gem l1g
+    where filename regexp ".*LOG" and not exists (select * from level1b_gem s where s.filename regexp ".*ZPT" and l1g.id=s.id) and l1g.filename regexp "6.*"
+            """
+    x = findids((queryzpt ,))
     x.logfile =stderr
     x.setnames()
-    x.download()
+    #x.download()
     x.makeZPTs()
     x.make_links()
     test="""

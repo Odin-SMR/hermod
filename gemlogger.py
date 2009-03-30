@@ -1,3 +1,14 @@
+from time import time
+
+def timer(f):
+    def wrapper(*arg):
+        t1 = time()
+        res = f(*arg)
+        t2 = time()
+        print '%s took %0.1f s' % (f.func_name, (t2-t1))
+        return res
+    return wrapper
+
 def logger(f):
     name = f.func_name
     def wrapped(*args, **kwargs):

@@ -15,16 +15,28 @@ def relink(start,stop):
     cursor = db.cursor(DictCursor)
     for st,sp in zip(i[:-1],i[1:]):
         cursor.execute('''
-            select distinct l1.id,a.backend,l1.orbit,
-                l1.calversion,a.name,l1bg.filename
-            from level1 l1
-            join level0_raw l0 on (l1.orbit>=floor(l0.start_orbit) 
-                and l1.orbit<=floor(l0.stop_orbit))
-            join level1b_gem l1bg on (l1bg.id=l1.id)
-            join Aero a on (a.mode=l0.setup and a.backend=l1.backend)
-            join versions v on (a.id=v.id and l1.calversion=v.calversion)
-            left join level2files l2f on (l1.id=l2f.id and a.id=l2f.fqid and v.qsmr=l2f.version)
-            where l1.calversion=6 and l1.orbit>=%s and l1.orbit<=%s
+select distinct a.name,l1.calversion,l1.backend,l1.orbit,filename
+            from (
+select orbit,id,substr(backend,1,3) backend,freqmode mode,calversion,l1g.filename from level1
+join status using (id)
+join level1b_gem l1g using (id)
+where status and not locate(',',freqmode)
+union
+(
+select orbit,id,substr(backend,1,3) backend,substr(freqmode,1, locate(',',freqmode)-1) mode,calversion,l1g.filename from level1
+join status using (id)
+join level1b_gem l1g using (id)
+where status  and locate(',',freqmode)
+)
+union
+(
+select orbit,id,substr(backend,1,3) backend,substr(freqmode from locate(',',freqmode)+1) mode,calversion, l1g.filename from level1
+join status using (id)
+join level1b_gem l1g using (id)
+where status  and locate(',',freqmode)
+)) as l1
+join versions v on (l1.mode=v.fm)
+join Aero a on (v.id=a.id) and l1.orbit>=%s and l1.orbit<=%s
             ''',(st,sp))
         for i in cursor:
             base = basename(i['filename'])
@@ -45,4 +57,4 @@ def relink(start,stop):
     db.close()
 
 if __name__ == '__main__':
-    relink(0x0,0xA000)
+    relink(0x0,0xB000)

@@ -190,15 +190,24 @@ class Level1b(Level1,MatlabMakeZPT):
             prefix= config.get('GEM','LEVEL1B_DIR')
             cursor = opendb.cursor()
             cursor.execute('''
-                select distinct a.name,l1.calversion,l1.backend
-                from reference_orbit as r
-                left join level0_raw as l0
-                    on ( floor(start_orbit)<=r.orbit and floor(stop_orbit)>=r.orbit )
-                left join level1 as l1
-                    on ( r.orbit=l1.orbit)
-                join Aero a on (l0.setup=a.mode and l1.backend=a.backend)
-                join versions v on (a.id=v.id)
+            select distinct a.name,l1.calversion,l1.backend
+            from (
+select orbit,id,substr(backend,1,3) backend,freqmode mode,calversion from level1
+join status using (id)
+union
+(
+select orbit,id,substr(backend,1,3) backend,substr(freqmode,1, locate(',',freqmode)-1) mode,calversion from level1
+join status using (id)
+)
+union
+(
+select orbit,id,substr(backend,1,3) backend,substr(freqmode from locate(',',freqmode)+1) mode,calversion from level1
+join status using (id)
+)) as l1
+join versions v on (l1.mode=v.fm)
+join Aero a on (v.id=a.id) 
                 where l1.id=%s
+                
             ''',(self.id,))
             for i in cursor:
                 if i[1]==6 and getattr(self,attr) is not None:

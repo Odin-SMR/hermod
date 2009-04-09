@@ -6,10 +6,11 @@ This script runs on a computing node, it starts Matlab and parses its output.
 '''
 
 from sys import stderr, stdout, argv, exit
-from os import getenv,remove
+from os import getenv,remove,environ
 from os.path import join,exists
 from string import Template
 from datetime import datetime
+from re import compile 
 
 from MySQLdb import connect
 from MySQLdb.cursors import DictCursor
@@ -35,21 +36,6 @@ class GEMLevel2FileNames(ILevel2FileNames):
         cursor = db.cursor(DictCursor)
         #get all other names and parameters needed
         status = cursor.execute('''
-select distinct l1.orbit,  l1.backend, l1.calversion, a.name, v.process_time
-from level1 l1
-join level0_raw l0 on (l1.orbit>=floor(l0.start_orbit) and l1.orbit<=floor(l0.stop_orbit))
-join Aero a on (l0.setup=a.mode and l1.backend=a.backend)
-join status s on (l1.id=s.id)
-join versions v on (a.id=v.id and l1.calversion=v.calversion)
-where l1.id=%(id)s and a.id=%(fqid)s and v.qsmr=%(qsmr)s''',
-            (self.parameters)
-            )
-        if status==1:
-            self.parameters.update(cursor.fetchone())
-        else:
-            print "status names:%i" %status
-        #calculate mid-frequency
-        status = cursor.execute('''
             select mid as
                 midfreq
             from Aero 
@@ -71,16 +57,21 @@ where l1.id=%(id)s and a.id=%(fqid)s and v.qsmr=%(qsmr)s''',
 
 class GEMRunner(GEMMatlab,GEMLevel2FileNames,PDCkftpGetFiles,PDCKerberosTicket):
     
-    def __init__(self,id,fqid,version):
+    def __init__(self, kwargs):
         param = dict()
-        param['id'] = id
-        param['fqid'] = fqid
-        param['qsmr'] = version
+        param['id'] = int(kwargs['id'])
+        param['fqid'] = int(kwargs['fqid'])
+        param['qsmr'] = kwargs['version']
+        param['orbit']= int(kwargs['orbit'])
+        param['backend']= kwargs['backend']
+        param['calversion']= float(kwargs['calversion'])
+        param['name']= kwargs['name']
+        param['process_time']= kwargs['process_time']
         workdir = getenv('TMPDIR')
         if workdir is None:
             a =getenv('PBS_JOBID')
             if not a is None:
-                workdir = join('/tmp','tmp'+a.split('.')[0])
+                workdir = join('/tmp', 'tmp'+a.split('.')[0])
             else:
                 workdir = '/tmp'
         param['dir'] = workdir
@@ -210,7 +201,10 @@ class GEMRunner(GEMMatlab,GEMLevel2FileNames,PDCkftpGetFiles,PDCKerberosTicket):
 def main():
     errors = False
     errmsg = ""
-    run = GEMRunner(*argv[1:])
+    for i in ['id','version','fqid','orbit','backend','process_time','calversion']:
+        if not environ.has_key(i):
+            raise HermodError('missisng evironment variable "%s"' %i )
+    run = GEMRunner(environ)
     run.setname()
     run.delete_old()
     commands = [
@@ -223,17 +217,28 @@ def main():
             "clear all",
             ]
     run.start_matlab()
+    result = ""
     for c in commands:
         try:
-            run.matlab_command(c,timeout=86400)
-            print run.m_session.after
+            result = run.matlab_command(c,timeout=86400)
         except HermodWarning,inst:
             print >> stdout,inst
         except HermodError,inst:
             errors = True
             errmsg = errmsg+str(inst)
             print >> stderr,inst
-        
+        row_result = result.splitlines()
+        epat = compile(".*(qsmr_error.*)")
+        wpat = compile(".*(qsmr_warning.*)")
+        for row in row_result:
+            m = epat.match(row)
+            n = wpat.match(row)
+            if m is not None:
+                msg = m.group(1)
+                errmsg = errmsg+str(msg)+'\n'
+                print >> stderr,msg
+            if n is not None:
+                print >> stdout,n.group(1)
     run.close_matlab()
     if not errors:
         try:
@@ -242,7 +247,9 @@ def main():
             run.addData()
             run.upload()
         except HermodError,inst:
-            errmsg = errmsg+str(inst)
+            msg = str(inst)
+            errmsg = errmsg +msg
+            print >> stderr,msg
     db = connect(**connection_str)
     cur = db.cursor()
     run.parameters['errmsg']= errmsg
@@ -255,7 +262,4 @@ def main():
     db.close()
     
 if __name__=='__main__':
-    if len(argv)==4:
-        main()
-    else:
-        exit(1)
+    main()

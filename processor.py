@@ -34,7 +34,7 @@ class Processor(GEMPbs):
         self.info = kwargs
 
     def __repr__(self):
-        return 'Processor object: %(orbit)X, %(calversion)s, %(backend)s, %(version)s, %(fqid)i' %(self.info)
+        return 'Processor object: %(id)i, %(orbit)X, %(calversion)s, %(backend)s, %(version)s, %(fqid)i, %(process_time)s' %(self.info)
 
 def ProcHFactory(sqlquery):
     """Factory returns a Processor handler from a sqlquery.
@@ -50,38 +50,38 @@ def ProcHFactory(sqlquery):
     db.close()
     return ProcessorHandler(result)
 
+
+
 if __name__=='__main__':
-    sqlquery= ('''
-    select distinct l1.id,a.backend,l1.orbit,a.id as fqid,v.qsmr version,
-        l1.calversion,a.name,v.process_time
-    from level1 l1
-    join orbitmeasurement om on (l1.id=om.l1id)
-    join level0_raw l0 on (l0.id=om.l0id)
-    join level1b_gem l1bg on (l1bg.id=l1.id)
-    join Aero a on (a.mode=l0.setup and a.backend=l1.backend)
-    join versions v on (a.id=v.id and l1.calversion=v.calversion)
-    left join level2files l2f on (l1.id=l2f.id and a.id=l2f.fqid and v.qsmr=l2f.version)
-    where v.active and (l1.uploaded>l2f.processed or l2f.processed is null) 
-    order by orbit desc, backend
-    ''')
-    sqlquery2= ("""
-        select distinct l1.id,a.backend,l1.orbit,a.id as fqid,v.qsmr version,
+    query = '''
+ select distinct l1.id,l1.back backend,l1.orbit orbit,v.id fqid,v.qsmr version,
             l1.calversion,a.name,v.process_time
-        from reference_orbit ro 
-        join level0_raw l0 on (ro.orbit>=floor(l0.start_orbit) 
-            and ro.orbit<=floor(l0.stop_orbit))
-        join level1 l1 on (ro.orbit=l1.orbit)
-        join level1b_gem l1bg on (l1bg.id=l1.id)
-        join Aero a on (a.mode=l0.setup and a.backend=l1.backend)
-        join versions v on (a.id=v.id and l1.calversion=v.calversion)
-        left join level2files l2f on (l1.id=l2f.id and a.id=l2f.fqid 
-            and v.qsmr=l2f.version)
-        where v.active and (l1.uploaded>l2f.processed or l2f.processed is null) 
-            and ro.orbit>0x8000 and ro.orbit<0xB000
-        """)
-    x = ProcHFactory(sqlquery2)
+from (
+select orbit,id,substr(backend,1,3) back,freqmode mode,calversion from level1
+join status using (id)
+join level1b_gem l1g using (id)
+where status and l1g.filename regexp ".*HDF" and not locate(',',freqmode)
+union
+(
+select orbit,id,substr(backend,1,3) back,substr(freqmode,1, locate(',',freqmode)-1) mode,calversion from level1
+join status using (id)
+join level1b_gem l1g using (id)
+where status and l1g.filename regexp ".*HDF" and locate(',',freqmode)
+)
+union
+(
+select orbit,id,substr(backend,1,3) back,substr(freqmode from locate(',',freqmode)+1) mode,calversion from level1
+join status using (id)
+join level1b_gem l1g using (id)
+where status and l1g.filename regexp ".*HDF" and locate(',',freqmode)
+)) as l1
+join versions v on (l1.mode=v.fm)
+join Aero a on (v.id=a.id) 
+left join level2files l2f on (l1.id=l2f.id and v.id=l2f.fqid and v.qsmr=l2f.version)
+where v.active and l2f.id is null and l1.calversion=6
+order by orbit desc,fqid   
+    '''
+    x = ProcHFactory(query)
     print x
     x.submit()
-
-
 

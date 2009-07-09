@@ -49,8 +49,11 @@ class weatherfile:
             except EnvironmentError,inst:
                 print >> sys.stderr, inst.errno, inst.strerror, inst.filename
                 sys.exit(1)
-        status = f.retrbinary('RETR %s'%self.filename, open(self.localname, 'wb').write)
-
+        try:
+            status = f.retrbinary('RETR %s'%self.filename, open(self.localname, 'wb').write)
+        except Error:
+            sys.exit(1)
+            
     def addDb(self):
         c = self.db.cursor()
         date_new = datetime.date(int(self.date.strftime('%Y')),int(self.date.strftime('%m')),int(self.date.strftime('%d')))

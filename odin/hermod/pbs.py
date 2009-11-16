@@ -14,7 +14,7 @@ runscript = """
 #PBS -d %(workdir)s
 #PBS -v id=%(id)i,orbit=%(orbit)i,fqid=%(fqid)s,version=%(version)s,backend=%(backend)s,calversion=%(calversion)s,name=%(name)s,process_time=%(process_time)s
 
-PYTHONPATH=/home/joakim/workspace/hermod python /home/joakim/workspace/hermod/scripts/hermodrunjob.py
+/usr/bin/hermodrunjob
 """
 
 

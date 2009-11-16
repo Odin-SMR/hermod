@@ -13,7 +13,7 @@ config_files = config.read(['/etc/hermod.cfg.default','/etc/hermod.cfg',
                             os.path.expanduser('~/.hermod.cfg'),
                             os.path.expanduser('~/.hermod.cfg.secret')])
 if os.path.expanduser('~/.hermod.cfg.secret') not in config_files:
-    mesg = "Make sure to create '~/.hermod.cfg.secret' and add your passwords"
+    mesg = "Make sure to create '%s' and add your passwords"% os.path.expanduser('~/.hermod.cfg.secret')
     raise HermodError(mesg)
 else:
     # check for permissions of secret config files

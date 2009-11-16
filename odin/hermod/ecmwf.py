@@ -1,6 +1,6 @@
-import hermod.hermodBase as hrm
-from hermod.hermodBase import *
-from hermod.session import *
+import odin.hermod.hermodBase as hrm
+from odin.hermod.hermodBase import *
+from odin.hermod.session import *
 import datetime
 import os
 import os.path
@@ -49,11 +49,8 @@ class weatherfile:
             except EnvironmentError,inst:
                 print >> sys.stderr, inst.errno, inst.strerror, inst.filename
                 sys.exit(1)
-        try:
-            status = f.retrbinary('RETR %s'%self.filename, open(self.localname, 'wb').write)
-        except Error:
-            sys.exit(1)
-            
+        status = f.retrbinary('RETR %s'%self.filename, open(self.localname, 'wb').write)
+
     def addDb(self):
         c = self.db.cursor()
         date_new = datetime.date(int(self.date.strftime('%Y')),int(self.date.strftime('%m')),int(self.date.strftime('%d')))

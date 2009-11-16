@@ -12,8 +12,8 @@ from sys import exit, stderr
 
 from MySQLdb import connection
 
-from hermod.ecmwf import weathercontrol
-from hermod.hermodBase import connection_str, config
+from odin.hermod.ecmwf import weathercontrol
+from odin.hermod.hermodBase import connection_str, config
 
 def main():
     """Main program.

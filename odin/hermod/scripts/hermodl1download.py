@@ -6,8 +6,8 @@ from sys import stderr
 from optparse import OptionParser
 from datetime import datetime,timedelta
 from time import strptime,mktime
-from hermod.level1 import findids
-from hermod.hermodBase import config
+from odin.hermod.level1 import findids
+from odin.hermod.hermodBase import config
 
 
 def parsetime(option,opt_str,value,parser):

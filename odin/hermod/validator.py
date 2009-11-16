@@ -1,6 +1,6 @@
 #!/usr/bin/python2.5
 from MySQLdb import connect
-from hermod.hermodBase import connection_str,config
+from odin.hermod.hermodBase import connection_str,config
 from os.path import exists,join
 from os import walk
 from re import compile

@@ -1,6 +1,6 @@
 import os,subprocess,fcntl,sys,os.path,tempfile,MySQLdb
 from hermod.level2 import *
-from hermod.hermodBase import *
+from odin.hermod.hermodBase import *
 from pexpect import spawn,EOF,TIMEOUT
 from gemlogger import logger
 from interfaces import IMatlab

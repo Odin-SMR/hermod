@@ -2,7 +2,7 @@ from MySQLdb import connect
 from MySQLdb.cursors import DictCursor
 from os import makedirs,walk
 from os.path import join,basename,dirname,splitext,exists
-from hermod.hermodBase import config,connection_str,HermodError,HermodWarning
+from odin.hermod.hermodBase import config,connection_str,HermodError,HermodWarning
 from subprocess import Popen,PIPE
 from pexpect import spawn,EOF
 from re import compile
@@ -304,8 +304,8 @@ def findids(sqlquery):
     cursor.close()
     db.close()
     return l1
-        
-if __name__=="__main__":
+
+def main():
     queryall ="""
     select distinct l1.id
     from level1 l1
@@ -333,4 +333,7 @@ select distinct l1.id
             join status s on (l1.id=s.id)    
             left join level1b_gem l1bg on (l1bg.id=l1.id)
                 where (l1bg.filename regexp '.*HDF' and l1bg.date<l1.uploaded or l1bg.filename is null) and l1.calversion in (1,6,7) and s.status
-    """
+    """ 
+if __name__=="__main__":
+    main()
+

@@ -19,9 +19,9 @@ from pyhdf.HDF import HDF, HDF4Error
 #from pyhdf.VS import *
 
 
-from session import GEMMatlab
-from pdc import PDCKerberosTicket,PDCkftpGetFiles
-from hermod.hermodBase import connection_str,HermodError,HermodWarning,config
+from odin.hermod.session import GEMMatlab
+from odin.hermod.pdc import PDCKerberosTicket,PDCkftpGetFiles
+from odin.hermod.hermodBase import connection_str,HermodError,HermodWarning,config
 
 
 class ILevel2FileNames:

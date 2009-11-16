@@ -2,7 +2,7 @@ from MySQLdb import connect
 from _mysql_exceptions import Warning
 from MySQLdb.cursors import SSCursor
 from gemlogger import timer
-from hermod.hermodBase import connection_str
+from odin.hermod.hermodBase import connection_str
 
 @timer
 def dbcons():

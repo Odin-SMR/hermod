@@ -5,7 +5,7 @@ import os.path as o
 import sys
 import subprocess
 
-from hermod.hermodBase import *
+from odin.hermod.hermodBase import *
 
 from interfaces import IKerberosTicket,IGetFiles
 from pexpect import spawn,EOF,TIMEOUT

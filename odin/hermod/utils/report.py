@@ -6,7 +6,7 @@ This module creates database reports.
 """
 
 from MySQLdb import connect
-from hermod.hermodBase import connection_str
+from odin.hermod.hermodBase import connection_str
 from sys import argv
 from numpy import histogram,array,arange
 import matplotlib.pyplot as plt

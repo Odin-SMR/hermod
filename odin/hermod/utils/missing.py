@@ -1,5 +1,5 @@
 from MySQLdb import connect
-from hermod.hermodBase import connection_str
+from odin.hermod.hermodBase import connection_str
 from sys import argv
 from numpy import histogram,array,arange,nan,zeros
 import matplotlib.pyplot as plt

@@ -6,7 +6,7 @@ from os.path import basename,join
 from MySQLdb import connect
 from MySQLdb.cursors import DictCursor
 
-from hermod.hermodBase import config,connection_str
+from odin.hermod.hermodBase import config,connection_str
 
 
 def relink(start,stop):

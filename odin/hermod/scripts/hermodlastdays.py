@@ -4,7 +4,7 @@
 Command line tool to see what files have been processed during a given timespan.
 """
 
-from hermod.hermodBase import config,connetion_str
+from odin.hermod.hermodBase import config,connetion_str
 from sys import exit,stderr
 from optparse import OptionParser
 from os import environ

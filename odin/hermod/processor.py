@@ -3,7 +3,7 @@
 from MySQLdb import connect
 from MySQLdb.cursors import DictCursor
 
-from hermod.hermodBase import connection_str
+from odin.hermod.hermodBase import connection_str
 from pbs import GEMPbs
 
 class ProcessorHandler:
@@ -50,9 +50,7 @@ def ProcHFactory(sqlquery):
     db.close()
     return ProcessorHandler(result)
 
-
-
-if __name__=='__main__':
+def main():
     query = '''
  select distinct l1.id,l1.back backend,l1.orbit orbit,v.id fqid,v.qsmr version,
             l1.calversion,a.name,v.process_time
@@ -78,10 +76,14 @@ where status and l1g.filename regexp ".*HDF" and locate(',',freqmode)
 join versions v on (l1.mode=v.fm)
 join Aero a on (v.id=a.id) 
 left join level2files l2f on (l1.id=l2f.id and v.id=l2f.fqid and v.qsmr=l2f.version)
-where v.active and l2f.id is null and l1.calversion=6
+left join statusl2 s2 on (l1.id=s2.id and v.id=s2.fqid and v.qsmr=s2.version)
+where v.active and l2f.id is null and l1.calversion=6 and (proccount is null or proccount<4)
 order by orbit desc,fqid   
     '''
     x = ProcHFactory(query)
     print x
     x.submit()
+
+if __name__=='__main__':
+    main()
 

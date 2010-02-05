@@ -5,6 +5,7 @@ from MySQLdb.cursors import DictCursor
 
 from odin.hermod.hermodBase import connection_str
 from pbs import GEMPbs
+from odin.hermod.torque import TorqueConnection
 
 class ProcessorHandler:
     """Handles a set of transitions
@@ -12,8 +13,12 @@ class ProcessorHandler:
 
     def __init__(self, processors_ids):
         self.proclist = []
+        torque_con = TorqueConnection()
+        already_inqueue = torque_con.inqueue()
         for p in processors_ids:
-            self.proclist.append(Processor(**p))
+            if not "o%(orbit).4X%(calversion).1f%(fqid).2i%(version)s" %p in already_inqueue:
+                self.proclist.append(Processor(**p))
+        torque_con.close()
 
     def __repr__(self):
         s = ''

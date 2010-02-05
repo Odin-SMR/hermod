@@ -68,7 +68,7 @@ class weathercontrol:
     def find(self): 
         c = self.db.cursor()
         if self.mode == 'U' or self.mode == 'V':
-            c.execute('''SELECT date,time FROM reference_calendar,reference_time where not exists (select date,hour from ecmwf where reference_calendar.date=ecmwf.date and reference_time.time=ecmwf.hour and type=%s) and date<now() order by date desc limit 60''',(self.mode,))
+            c.execute('''SELECT date,time FROM reference_calendar,reference_time where not exists (select date,hour from ecmwf where reference_calendar.date=ecmwf.date and reference_time.time=ecmwf.hour and type=%s) and date<now() order by date desc limit 160''',(self.mode,))
             self.dates = [i[0] for i in c]
             self.hour = [i[1] for i in c]
         elif self.mode == 'T' or self.mode == 'Z' or self.mode == 'PV':	

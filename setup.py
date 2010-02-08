@@ -1,10 +1,10 @@
 #!/usr/bin/python
 # vim: set fileencoding=utf-8 :
-from setuptools import setup,find_packages
+from setuptools import setup,find_packages,Extension
 
 setup(
         name='odin.hermod',
-        version='3.1.8',
+        version='3.2.2',
         description = 'Routines to simplify and improve speed of odinprocessing',
         entry_points= {"console_scripts": [
             "hermodgetlevel1 = odin.hermod.level1:main",
@@ -17,8 +17,8 @@ setup(
             ]},
         packages = find_packages(),
         namespace_packages = ['odin'],
-        ext_modules=[Extension('juno.pbs.torque',
-                      ['juno/pbs/pbs.c'],
+        ext_modules=[Extension('odin.hermod.torque',
+                      ['odin/hermod/pbs.c'],
                       libraries=['torque'],
                       include_dirs=['/usr/local/pbs/include','/usr/include/torque'],
                       library_dirs=['/usr/local/pbs/lib','/usr/lib'],

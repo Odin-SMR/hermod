@@ -147,8 +147,12 @@ class GEMMatlab(IMatlab):
     def matlab_command(self,command,timeout=900):
         self.m_session.sendline(command)
         index = self.m_session.expect(self.pattern,timeout=timeout)
-        if index in (1,3,4):
+        if index==1:
             raise HermodWarning(self.m_session.match.group(1))
+        elif index==3:
+            raise HermodError('Matlab unexpectably quitted')
+        elif index=4:
+            raise HermodError('Matlab caused TIMEOUT')
         elif index==0:
             raise HermodError(self.m_session.match.group(1))
         return self.m_session.match.group(1)

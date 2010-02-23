@@ -4,7 +4,7 @@ from setuptools import setup,find_packages,Extension
 
 setup(
         name='odin.hermod',
-        version='3.2.4',
+        version='3.2.5',
         description = 'Routines to simplify and improve speed of odinprocessing',
         entry_points= {"console_scripts": [
             "hermodgetlevel1 = odin.hermod.level1:main",

@@ -212,9 +212,6 @@ def main():
             "qsmr_startup",
             "qsmr_inv_op('%(name)s','%(orbit)0.4X','%(orbit)0.4X','%(dir)s')"
                 % run.parameters,
-            "close all",
-            "clear all",
-            "clear all",
             ]
     msession = MatlabSession()
     for c in commands:

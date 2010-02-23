@@ -151,7 +151,7 @@ class GEMMatlab(IMatlab):
             raise HermodWarning(self.m_session.match.group(1))
         elif index==3:
             raise HermodError('Matlab unexpectably quitted')
-        elif index=4:
+        elif index==4:
             raise HermodError('Matlab caused TIMEOUT')
         elif index==0:
             raise HermodError(self.m_session.match.group(1))

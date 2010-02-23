@@ -12,7 +12,7 @@ runscript = """
 #PBS -e %(errfile)s
 #PBS -o %(outfile)s
 #PBS -d %(workdir)s
-#PBS -v id=%(id)i,orbit=%(orbit)i,fqid=%(fqid)s,version=%(version)s,backend=%(backend)s,calversion=%(calversion)s,name=%(name)s,process_time=%(process_time)s
+#PBS -v id=%(id)i,orbit=%(orbit)i,fqid=%(fqid)s,version=%(version)s,backend=%(backend)s,calversion=%(calversion)s,name=%(name)s,process_time=%(process_time)s,LD_LIBRARY_PATH=/opt/matlab/bin/glnxa64
 
 /home/odinop/sandbox/bin/hermodrunjob
 """

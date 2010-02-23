@@ -4,7 +4,7 @@ from setuptools import setup,find_packages,Extension
 
 setup(
         name='odin.hermod',
-        version='3.2.3',
+        version='3.2.4',
         description = 'Routines to simplify and improve speed of odinprocessing',
         entry_points= {"console_scripts": [
             "hermodgetlevel1 = odin.hermod.level1:main",
@@ -22,11 +22,19 @@ setup(
                       libraries=['torque'],
                       include_dirs=['/usr/local/pbs/include','/usr/include/torque'],
                       library_dirs=['/usr/local/pbs/lib','/usr/lib'],
+                      ),
+                      Extension('odin.hermod.matlab',
+                      ['odin/hermod/matlab.c'],
+                      libraries=['eng','m','mx'],
+                      include_dirs=['/opt/matlab/extern/include'],
+                      library_dirs=['/opt/matlab/bin/glnxa64'],
                       )],
+        test_suite='tests',
         zip_safe=False,
         author='Joakim Möller',
         author_email='joakim.moller@chalmers.se',
         url='http://odin.rss.chalmers.se',
         install_requires=['setuptools','mysql-python','pexpect'],
+        #tests_require=['mocker','setuptools'],
 )
 

@@ -19,7 +19,7 @@ from pyhdf.HDF import HDF, HDF4Error
 #from pyhdf.VS import *
 
 
-from odin.hermod.session import GEMMatlab
+from odin.hermod.matlab import MatlabSession
 from odin.hermod.pdc import PDCKerberosTicket,PDCkftpGetFiles
 from odin.hermod.hermodBase import connection_str,HermodError,HermodWarning,config
 
@@ -55,7 +55,7 @@ class GEMLevel2FileNames(ILevel2FileNames):
         self.parameters['pdcl2file'] = join('version_%s'%self.parameters['qsmr'].replace('-','.'),'%(name)s','%(prefix)s%(orbit).4X%(suffix)s.L2P') %self.parameters
 
 
-class GEMRunner(GEMMatlab,GEMLevel2FileNames,PDCkftpGetFiles,PDCKerberosTicket):
+class GEMRunner(GEMLevel2FileNames,PDCkftpGetFiles,PDCKerberosTicket):
     
     def __init__(self, kwargs):
         param = dict()
@@ -203,7 +203,7 @@ def main():
     errmsg = ""
     for i in ['id','version','fqid','orbit','backend','process_time','calversion']:
         if not environ.has_key(i):
-            raise HermodError('missisng evironment variable "%s"' %i )
+            raise HermodError('missing evironment variable "%s"' %i )
     run = GEMRunner(environ)
     run.setname()
     run.delete_old()
@@ -216,30 +216,15 @@ def main():
             "clear all",
             "clear all",
             ]
-    run.start_matlab()
-    result = ""
+    msession = MatlabSession()
     for c in commands:
-        try:
-            result = run.matlab_command(c,timeout=86400)
-        except HermodWarning,inst:
-            print >> stdout,inst
-        except HermodError,inst:
-            errors = True
-            errmsg = errmsg+str(inst)
-            print >> stderr,inst
-        row_result = result.splitlines()
-        epat = compile(".*(qsmr_error.*)")
-        wpat = compile(".*(qsmr_warning.*)")
-        for row in row_result:
-            m = epat.match(row)
-            n = wpat.match(row)
-            if m is not None:
-                msg = m.group(1)
-                errmsg = errmsg+str(msg)+'\n'
-                print >> stderr,msg
-            if n is not None:
-                print >> stdout,n.group(1)
-    run.close_matlab()
+        result = msession.run(c)
+        if result!="":
+            errors=True
+            errmsg = errmsg + result
+            print >> stderr,result
+            break
+    msession.close()
     if not errors:
         try:
             run.readAuxFile()

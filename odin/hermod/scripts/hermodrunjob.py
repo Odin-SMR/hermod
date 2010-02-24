@@ -16,7 +16,7 @@ from MySQLdb import connect
 from MySQLdb.cursors import DictCursor
 
 from pyhdf.HDF import HDF, HDF4Error
-#from pyhdf.VS import *
+from pyhdf import VS
 
 
 from odin.hermod.matlab import MatlabSession

@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <engine.h>
 
-const char * function_wrap = "try\n\tstring = '';\n\t %s;\ncatch err\n\tstring = sprintf('Error: %%s with message: %%s\\n',err.identifier,err.message);\n\tfor i = 1:length(err.stack)\n\t\tstring = sprintf('%%sError: in fuction %%s in file %%s line %%i\\n',string,err.stack(i,1).name,err.stack(i,1).file,err.stack(i,1).line);\n\tend\nend";
+const char * function_wrap = "try\n\t%s;\ncatch err\n\tstring = sprintf('Error: %%s with message: %%s\\n',err.identifier,err.message);\n\tfor i = 1:length(err.stack)\n\t\tstring = sprintf('%%sError: in fuction %%s in file %%s line %%i\\n',string,err.stack(i,1).name,err.stack(i,1).file,err.stack(i,1).line);\n\tend\nend\nif exist('string','var')==0\n\tstring='';\nend";
 
 typedef struct 
 {
@@ -25,10 +25,12 @@ static PyObject * PyMatlabSessionObject_new(PyTypeObject *type, PyObject *args, 
 
 static int PyMatlabSessionObject_init(PyMatlabSessionObject *self, PyObject *args, PyObject *kwds)
 {
+    int status;
     if (!(self->ep = engOpen("/opt/matlab/bin/matlab -nodisplay"))) {
         fprintf(stderr, "\nCan't start MATLAB engine\n");
         return EXIT_FAILURE;
     }
+    status = engOutputBuffer(self->ep,NULL,0);
     return 0;
 }
 
@@ -51,14 +53,38 @@ static PyObject * PyMatlabSessionObject_run(PyMatlabSessionObject *self, PyObjec
     command = malloc(1500);
     sprintf(command,function_wrap,stringarg);
     status = engEvalString(self->ep,command);
-    mxresult = engGetVariable(self->ep,"string");
-    resultstring = mxArrayToString(mxresult);
-    if (!(result = PyString_FromString(resultstring)))
-        return NULL;
-    free(resultstring);
+    if (!(mxresult = engGetVariable(self->ep,"string")))
+    {
+        result = PyString_FromString("");
+    }
+    else
+    {
+        resultstring = mxArrayToString(mxresult);
+        if (!(result = PyString_FromString(resultstring)))
+            return NULL;
+        free(resultstring);
+    }
     return result;
 }
 
+static PyObject * PyMatlabSessionObject_putstring(PyMatlabSessionObject *self, PyObject *args)
+{
+    const char * name, * command_string;
+    const mxArray * variable;
+    if (!PyArg_ParseTuple(args,"ss",&name,&command_string))
+        return NULL;
+    if (!(variable=mxCreateString(command_string)))
+    {
+        PyErr_SetString(PyExc_RuntimeError,"Couldn't create mxarray");
+        return NULL;
+    }
+    if ((engPutVariable(self->ep,name,variable)!=0))
+    {
+        PyErr_SetString(PyExc_RuntimeError,"Couldn't place string on workspace");
+        return NULL;
+    }
+    Py_RETURN_NONE;
+}
 
 static PyObject * PyMatlabSessionObject_close(PyMatlabSessionObject * self, PyObject *args)
 {
@@ -70,6 +96,7 @@ static PyMethodDef PyMatlabSessionObject_methods[] =
 {
     {"run", (PyCFunction)PyMatlabSessionObject_run, METH_VARARGS, "Launch a command in MATLAB."},
     {"close", (PyCFunction)PyMatlabSessionObject_close, METH_VARARGS, "Close the open MATLAB session"},
+    {"putstring", (PyCFunction)PyMatlabSessionObject_putstring, METH_VARARGS, "Put a string on the workspace"},
     {NULL,NULL,0,NULL}
 };
 

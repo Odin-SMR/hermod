@@ -1,6 +1,7 @@
 
 #include <Python.h>
 #include <structmember.h>
+#include <numpy/arrayobject.h>
 #include <stdio.h>
 #include <engine.h>
 
@@ -26,7 +27,10 @@ static PyObject * PyMatlabSessionObject_new(PyTypeObject *type, PyObject *args, 
 static int PyMatlabSessionObject_init(PyMatlabSessionObject *self, PyObject *args, PyObject *kwds)
 {
     int status;
-    if (!(self->ep = engOpen("/opt/matlab/bin/matlab -nodisplay"))) {
+    char *startstr=NULL;
+    if (!PyArg_ParseTuple(args,"|s",&startstr))
+        return NULL;
+    if (!(self->ep = engOpen(startstr))) {
         fprintf(stderr, "\nCan't start MATLAB engine\n");
         return EXIT_FAILURE;
     }
@@ -62,9 +66,39 @@ static PyObject * PyMatlabSessionObject_run(PyMatlabSessionObject *self, PyObjec
         resultstring = mxArrayToString(mxresult);
         if (!(result = PyString_FromString(resultstring)))
             return NULL;
-        free(resultstring);
+        free((void*)resultstring);
     }
     return result;
+}
+
+static PyObject * PyMatlabSessionObject_putvalue(PyMatlabSessionObject *self, PyObject *args)
+{
+    const char * name;
+    PyArrayObject * ndarray,*cont_ndarray;
+    mxArray * mxarray,*tmp;
+
+    if (!PyArg_ParseTuple(args,"sO",&name,&ndarray))
+        return NULL;
+    cont_ndarray = PyArray_GETCONTIGUOUS(ndarray);
+    if (!(mxarray=mxCreateNumericArray((mwSize)PyArray_NDIM(cont_ndarray),
+                    (mwSize*)PyArray_DIMS(cont_ndarray),
+                    mxDOUBLE_CLASS,
+                    mxREAL)))
+    {
+        PyErr_SetString(PyExc_RuntimeError,"Couldn't create mxarray");
+        return NULL;
+    }
+    /*deallocating memmory from zero initialisation */
+    tmp = mxGetPr(mxarray);
+    mxFree(tmp);
+    /*Transferring data*/
+    mxSetData(mxarray,PyArray_DATA(cont_ndarray));
+    if ((engPutVariable(self->ep,name,mxarray)!=0))
+    {
+        PyErr_SetString(PyExc_RuntimeError,"Couldn't place string on workspace");
+        return NULL;
+    }
+    Py_RETURN_NONE;
 }
 
 static PyObject * PyMatlabSessionObject_putstring(PyMatlabSessionObject *self, PyObject *args)
@@ -86,6 +120,28 @@ static PyObject * PyMatlabSessionObject_putstring(PyMatlabSessionObject *self, P
     Py_RETURN_NONE;
 }
 
+static PyObject * PyMatlabSessionObject_getvalue(PyMatlabSessionObject * self, PyObject *args)
+{
+    const char * variable;
+    mxArray * mx;
+    PyObject *result;
+
+    if (!PyArg_ParseTuple(args,"s",&variable))
+        return NULL;
+    if (!(mx = engGetVariable(self->ep,variable)))
+        return PyErr_Format(PyExc_AttributeError,"Couldn't find '%s' at MATLAB desktop",variable);
+/*    This is how we could make it own data to avoid memory leak: (set OWN_DATA)
+ *    data = malloc(sizeof(double[n*m])); 
+    memcpy((void * )data,(void *)mxGetPr(mx),sizeof(double[n*m]));*/
+    if (!(result=PyArray_SimpleNewFromData(mxGetNumberOfDimensions(mx), (npy_intp*) mxGetDimensions(mx), NPY_DOUBLE, mxGetData(mx))))
+        return PyErr_Format(PyExc_AttributeError,"Couldn't convert to PyArray");
+    /*
+    mxDestroyArray(mx);
+    free((void*)data);
+    */
+    return result;
+}
+
 static PyObject * PyMatlabSessionObject_close(PyMatlabSessionObject * self, PyObject *args)
 {
     engClose(self->ep);
@@ -97,6 +153,8 @@ static PyMethodDef PyMatlabSessionObject_methods[] =
     {"run", (PyCFunction)PyMatlabSessionObject_run, METH_VARARGS, "Launch a command in MATLAB."},
     {"close", (PyCFunction)PyMatlabSessionObject_close, METH_VARARGS, "Close the open MATLAB session"},
     {"putstring", (PyCFunction)PyMatlabSessionObject_putstring, METH_VARARGS, "Put a string on the workspace"},
+    {"getvalue", (PyCFunction)PyMatlabSessionObject_getvalue, METH_VARARGS, "Get a variable from the workspace and return a ndarray"},
+    {"putvalue", (PyCFunction)PyMatlabSessionObject_putvalue, METH_VARARGS, "Get a variable from the workspace and return a ndarray"},
     {NULL,NULL,0,NULL}
 };
 
@@ -157,6 +215,7 @@ static PyMethodDef matlab_methods[] =
 PyMODINIT_FUNC initmatlab (void)
 {
     PyObject * mod;
+    import_array();
     mod =  Py_InitModule3("matlab",matlab_methods,"Juno's and Hermod's interface to MATLAB");
 
     if (mod==NULL) {

@@ -4,7 +4,7 @@ HERMOD processing suite
 
 :Authors: 
 
-        Joakim Möller <joakim.moller@chalmers.se>
+        Joakim Möller <joakim.moller@chalmers.se>, Donal Murtagh <donal.murtagh@chalmers.se>, Joachim Urban <joaurb@chalmers.se>
 
 :Version: 
         
@@ -30,6 +30,7 @@ HERMOD processing suite
 Level2 processing chain - HERMOD
 ================================
 
+
 .. The processing chain program suite is a set of python modules that provides an
 .. information system that makes it possible to track every single SMILES level1
 .. scan and choose a suitable processor to make higher level data ie. LEVEL2 data.
@@ -37,10 +38,13 @@ Level2 processing chain - HERMOD
 .. JUNO is a part of the SMILES processing chain makeing high level information
 .. from raw satelite data to very highlevel data ie. Human understandable data and
 .. possibly data collected and aggragated over longer timeperiods.
-.. 
-.. Overview
-.. --------
-.. 
+
+Overview
+--------
+
+.. image:: flow.svg
+    :width: 15cm
+
 .. The JUNO suite are written mostly in Python_ and small part of the code is
 .. written in C with Python's C-api to extend Pythons capabilities to
 .. interact with different tools in the Processing chain.
@@ -66,78 +70,75 @@ Level2 processing chain - HERMOD
 Required dependencies - Installation and configuration
 ======================================================
 
-.. The SMILES processing chain and JUNO make use of third party software.
-.. They are all based on some type of open source license like GNU GPL or BSD
-.. license.
-.. 
-.. MySQL_ :
-.. 
-..         Relational database to manage metadata. Database design for this
-..         project i discussed in `Design of Database`_
-.. 
-.. Torque_ :
-.. 
-..         Torque is a Cluster Resource Manager.  Documentation and detailed
-..         installation instructions can be found at Torque_ documentation pages.
-..         Site specific configuration will be discussed in `Torque
-..         configuration`_ section.
-.. 
-.. Maui_ :
-..         
-..         The Cluster Scheduler only site specific setup vill be noted in `Maui
-..         configuration`_
-.. 
-.. .. _MySQL: http://dev.mysql.com/doc/refman/5.1/en/
-.. .. _Torque: http://www.clusterresources.com/products/torque/docs
-.. .. _Maui: http://www.clusterresources.com/products/maui/docs
-.. 
+The ODIN processing chain and HERMOD make use of third party software.
+They are all based on some type of open source license like GNU GPL or BSD
+license.
+
+MySQL_ :
+
+        Relational database to manage metadata. Database design for this
+        project i discussed in `Design of Database`_
+
+Torque_ :
+
+        Torque is a Cluster Resource Manager.  Documentation and detailed
+        installation instructions can be found at Torque_ documentation pages.
+        Site specific configuration will be discussed in `Torque
+        configuration`_ section.
+
+Maui_ :
+        
+        The Cluster Scheduler only site specific setup vill be noted in `Maui
+        configuration`_
+
+.. _MySQL: http://dev.mysql.com/doc/refman/5.1/en/
+.. _Torque: http://www.clusterresources.com/products/torque/docs
+.. _Maui: http://www.clusterresources.com/products/maui/docs
+
  
 Design of Database
 ------------------
  
-.. Configuration of database is minimal. Standard apt installation of the package mysql-server is enough see `Appendix A - MySQL create script`_ and `Appendix B - MySQL Table layout`_ for database and table layout.
+Configuration of database is minimal. Standard apt installation of the package mysql-server is enough see `Appendix A - MySQL create script`_ and `Appendix B - MySQL Table layout`_ for database and table layout.
  
 Torque configuration
 --------------------
  
-.. Two types of Torque installations are required - one server installation and
-.. several client installations on each node in the cluster. The server
-.. installation manages the queueingsystem and needs to know about all clients
-.. (computee nodes) in the cluster. The clients does only need to now about the
-.. server.
-.. 
-.. In the Smiles specific environment all configurational files can be found in
-.. ``/var/spool/torque`` for both server and clients. Smiles-p1 is the queueing
-.. server and ``smiles-p3``, ``smiles-p4``, ``smiles-p5``, ``smiles-p9``, ``smiles-p10``, ``smiles-p11`` are clients. 
+Two types of Torque installations are required - one server installation and
+several client installations on each node in the cluster. The server
+installation manages the queueingsystem and needs to know about all clients
+(computee nodes) in the cluster. The clients does only need to now about the
+server.
+
  
 Torque client configuration
 ___________________________
  
-.. A standard apt installation of torque-client package is sufficient on each node computer. The following files needs to be edited.
-.. 
-.. ``torqueserver``:
-.. 
-.. .. code-block:: none
-.. 
-..         smiles-p1
-.. 
-.. ``mom_priv/config``:
-.. 
-.. .. code-block:: none
-.. 
-..         $configversion 5
-..         $remote_reconfig true
-..         $logevent 0x1fff
-..         $pbsserver smiles-p1
-..         $pbsclient smiles-p1
+A standard apt installation of torque-client package is sufficient on each node computer. The following files needs to be edited.
+
+``torqueserver``:
+
+.. code-block:: none
+
+        opal
+
+``mom_priv/config``:
+
+.. code-block:: none
+
+        $configversion 5
+        $remote_reconfig true
+        $logevent 0x1fff
+        $pbsserver opal
+        $pbsclient opal
  
 Torque server configuration
 ___________________________
  
-.. A standard apt installation would normaly do fine.
-.. 
-.. The file ``server_priv/nodea`` defines the computee nodes:
-.. 
+A standard apt installation would normaly do fine.
+
+The file ``server_priv/nodea`` defines the computee nodes:
+
 .. .. code-block:: none
 .. 
 ..         smiles-p3 np=8
@@ -147,8 +148,8 @@ ___________________________
 ..         smiles-p10 np=16
 ..         smiles-p11 np=16
 .. 
-.. Some settings are done through torque's configuration program ``qmgr``. A printout of Torque server settings generated with ``qmgr -C 'print server'`` can be found in `Appendix C - Torque server settings`_.
-.. 
+Some settings are done through torque's configuration program ``qmgr``. A printout of Torque server settings generated with ``qmgr -C 'print server'`` can be found in `Appendix C - Torque server settings`_.
+
  
 Maui configuration
 ------------------
@@ -158,25 +159,25 @@ Maui configuration
 .. .. code-block:: none
 .. 
 ..         /usr/local/maui/maui.cfg
-.. 
-..         
-.. Full configuration file can be found in `Appendix D - Maui configuration`_.
+ 
+         
+Full configuration file can be found in `Appendix D - Maui configuration`_.
 
 
 HERMOD
 ======
 
-.. Overview
-.. --------
-.. 
+Overview
+--------
+
 .. JUNO is a program suite written in Python that interacts with AMATERASU and the
 .. SMILES DATABASE. JUNO runs regulary and decides when to run AMATERASU according
 .. to information JUNO can find in the SMILES DATABASE. JUNO provides a fully
 .. automatic processing system for processing data from LEVEL1 to LEVEL2.
-.. 
-.. Package details
-.. ---------------
-.. 
+
+Package details
+---------------
+
 .. JUNO is divided into several smaller enteties that provide specific functionality.
 .. 
 .. juno.hdf5
@@ -273,10 +274,10 @@ HERMOD
 .. .. code-block:: none
 .. 
 ..         junosavemat -f output.mat l1bfile.l1b
-.. 
-.. JUNO Installation
-.. -----------------
-.. 
+
+HERMOD Installation
+-------------------
+
 .. The main installation is located in the ``/mnt/raid0/smilesdata/juno``
 .. directory.  From this location all processing nodes runs their instances of
 .. JUNO from.  Unfortunately due to different Ubuntu versions installed throught
@@ -325,10 +326,10 @@ HERMOD
 ..                  junomain
 .. 
 .. This will pull a complete installation of latest available JUNO, AMATERASU and dependencies.
-.. 
-.. Developers installation
-.. _______________________
-.. 
+
+Developers installation
+_______________________
+
 .. An automatic script to install a developers environment exists. The script will
 .. work in Smiles computing environment - on the smiles-pn  machines. Download it
 .. an run it:
@@ -352,13 +353,13 @@ HERMOD
 .. 
 .. .. _svn: http://svn.rss.chalmers.se/svn/smiles/
 .. __ svn_
-.. 
-.. Algorithms
-.. ----------
-.. 
-.. Finding scans available for processing
-.. ______________________________________
-.. 
+
+Algorithms
+----------
+
+Finding scans available for processing
+______________________________________
+
 .. When a scan with the corresponding GEOS5 information is available the scan can
 .. be selected for execution (launched to execution queue). There are some
 .. constraints — if a level2 file already exists or level2 file already is queued
@@ -374,10 +375,10 @@ HERMOD
 ..             natural left join LEVEL2_chain l2
 ..             where L2_flag=0  and l2.status is Null
 ..             and GEOS5_flag=1
-.. 
-.. Queuing and execution
-.. _____________________
-.. 
+
+Queuing and execution
+_____________________
+
 .. A "job" is defined from the lookup in the previous section. And information
 .. about the processing is sent to a queue for later execution. The Resource
 .. system that handles the queue and the execution nodes in the computing cluster
@@ -385,33 +386,33 @@ HERMOD
 .. Basically the "job" is a shell script sent to another machine for execution.
 .. 
 .. The script ``launchjobs`` described in juno.pbs_ puts  the script ``junorunner`` in queue with different input parameters to  run on the computee nodes.
-.. 
-.. Processing
-.. __________
-.. 
+
+Processing
+__________
+
 .. The ``launchjobs``-script executes the main-function in ``juno.common.scan`` which is running AMATERASU and collect the results and puts them in the dabase and the filesystem.
-.. 
-.. Appendix A - MySQL Create script
-.. ================================
-.. 
+
+Appendix A - MySQL Create script
+================================
+
 .. This script is available at the SMILES svn-repository_
 .. 
 .. .. _svn-repository: http://svn.rss.chalmers.se/svn/smiles/branches/jmbranch2/docs/database_model.sql
-.. 
-.. Appendix B - MySQL Table layout
-.. ===============================
-.. 
+
+Appendix B - MySQL Table layout
+===============================
+
 .. .. image:: database_model.png
-.. 
-.. Appendix C - Torque server settings
-.. ===================================
-.. 
+ 
+Appendix C - Torque server settings
+===================================
+
 .. .. code-block:: none
 ..         :include: pbs_set_server.conf
-.. 
-.. Appendix D - Maui configuration
-.. ===============================
-.. 
+ 
+Appendix D - Maui configuration
+===============================
+ 
 .. The only configuration file is in /usr/local/maui.cfg:
 .. 
 .. .. code-block:: none

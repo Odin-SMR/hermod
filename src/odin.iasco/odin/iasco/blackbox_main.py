@@ -16,9 +16,10 @@ from subprocess import Popen,PIPE
 from sys import stdout,stderr
 from db_calls import *
 import sys
+from pkg_resources import resource_filename
 
 def main():
-    zope = Popen(['/usr/local/Plone/zinstance/bin/zopepy','/home/odinop/sandbox/addlevel3.py'],stdin=PIPE,stdout=stdout,stderr=stderr)
+    zope = Popen(['/usr/local/Plone/zinstance/bin/zopepy',resource_filename('odin.iasco','addlevel3.py')],stdin=PIPE,stdout=stdout,stderr=stderr)
     new_dates=getNewDates()
     start_date=getStartDate()
     

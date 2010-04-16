@@ -36,15 +36,16 @@ for i=1:length(vMjd)
     [year, month, day]=mjd2utc(vMjd(i)); year=year-floor(year/100)*100; % Makes year format YY
 
     %Defines the path to the ECMWF data
-    s.path_winds=['/odin/extdata/ecmwf/tzuv/' num2str(year,'%02d')  num2str(month,'%02d') '/'];
+    s.path_winds=[find_path('WIND_DIR') num2str(year,'%02d')  num2str(month,'%02d') '/'];
     %Gives a path where .mat-files are saved
-    s.path_output=['/odin/extdata/ecmwf/tzuv/winds2/' num2str(year,'%02d') '/' num2str(month,'%02d') '/'];
+    wind2_path=find_path('WIND2_DIR')
+    s.path_output=[wind2_path num2str(year,'%02d') '/' num2str(month,'%02d') '/'];
     
-    if ~exist(['/odin/extdata/ecmwf/tzuv/winds2/' num2str(year,'%02d') '/'])
-        mkdir(['/odin/extdata/ecmwf/tzuv/winds2/' num2str(year,'%02d') '/']);
+    if ~exist([wind2_path num2str(year,'%02d') '/'])
+        mkdir([wind2_path num2str(year,'%02d') '/']);
     end
-    if ~exist(['/odin/extdata/ecmwf/tzuv/winds2/' num2str(year,'%02d') '/' num2str(month,'%02d') '/'])
-        mkdir(['/odin/extdata/ecmwf/tzuv/winds2/' num2str(year,'%02d') '/' num2str(month,'%02d') '/']);
+    if ~exist([wind2_path num2str(year,'%02d') '/' num2str(month,'%02d') '/'])
+        mkdir([wind2_path num2str(year,'%02d') '/' num2str(month,'%02d') '/']);
     end
 
     for time=times

@@ -3,7 +3,7 @@
 
 import MySQLdb 
 import sys
-from odin.hermod.hermodBase import *
+from odin.config.config import *
 from convert_date import utc2mjd
 from datetime import datetime,timedelta
 

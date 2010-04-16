@@ -4,6 +4,7 @@
 from plot import globalPlot,polarPlot
 from convert_date import utc2mjd,mjd2utc
 import os.path
+from odin.config.config import *
 #from odinsite.level3.register import registerObject
 
 #for mjd in range(52375,52376):#,52306):
@@ -39,9 +40,8 @@ def makePictures(date,fqid,zope):
             #inst.createLevel3Object(u'odin_wp',u'marjan',str(year),str(month),str(day),species,str(level))
             zope.stdin.write("%s,%s,%s,%s,%s\n"%(year,month,day,spec,level))
 
- 
-        file_501='/odin/smr/Data/SMRl3/DATA/O3_501/' + str(date.year) + '/' + str(date.month) + '/' + 'O3_501_' + str(date_mjd) + '_00.mat'
-        file_544='/odin/smr/Data/SMRl3/DATA/O3_544/' + str(date.year) + '/' + str(date.month) + '/' + 'O3_544_' + str(date_mjd) + '_00.mat'
+        file_501=config.get('GEM','LEVEL3_DIR') + 'DATA/O3_501/' + str(date.year) + '/' + str(date.month) + '/' + 'O3_501_' + str(date_mjd) + '_00.mat'
+        file_544=config.get('GEM','LEVEL3_DIR') + 'DATA/O3_544/' + str(date.year) + '/' + str(date.month) + '/' + 'O3_544_' + str(date_mjd) + '_00.mat' 
         if os.path.exists(file_501) and os.path.exists(file_544):
             ### Generation of polar plots. Needs data from all the species, hence the if-statement. 
             for level in range(0,2):        

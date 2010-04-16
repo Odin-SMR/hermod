@@ -1,7 +1,7 @@
 from datetime import date,timedelta
 from MySQLdb import connect
-from odin.hermod.hermodBase import connection_str
-from odin.hermod.gemlogger import timer
+from odin.config.config import connection_str
+from odin.config.gemlogger import timer
 
 def markWinds(): 
     '''

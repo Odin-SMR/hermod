@@ -8,6 +8,7 @@ import StringIO
 from pymatlab.matlab import MatlabSession
 from convert_date import utc2mjd
 from datetime import timedelta
+from odin.config.config import *
 
 def extractWinds(date): 
     """
@@ -17,7 +18,7 @@ def extractWinds(date):
     # Convert the date to mjd
     date_mjd=utc2mjd(date.year,date.month,date.day)
 
-    cmd = "addpath(genpath('/home/odinop/Matlab/IASCO_matlab-rev423/'));\n" + 'MakeWinds(' + str(date_mjd) + ');' 
+    cmd = "addpath(genpath(" + config.get('GEM','MATLAB_DIR') + "));\n" + 'MakeWinds(' + str(date_mjd) + ');' 
     session = MatlabSession('matlab -nodisplay') 
     session.putstring('command',cmd)
     errorMess = session.run('eval(command)') 
@@ -32,7 +33,7 @@ def copyWinds(date):
     """
     Copy existing wind-files if there are no extracted wind-files for the specific day and/or time and/or level
     """
-    path='/odin/extdata/ecmwf/tzuv/winds2/' ### Path to the wind data
+    path=config.get('GEM','WIND2_DIR') ### Path to the wind data
     year,month,day=date.year,date.month,date.day
     year,month,day='%02d' %(year-2000),'%02d' %(month),'%02d' %(day)
         

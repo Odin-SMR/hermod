@@ -5,6 +5,7 @@ from pymatlab.matlab import MatlabSession
 from convert_date import utc2mjd
 import sys
 import StringIO
+from odin.config.config import *
 
 def assimilate(date,fqid): 
     """
@@ -26,7 +27,7 @@ def assimilate(date,fqid):
     for spec in species:
         level = levels[l]
         print 'Running IASCO.m for date:',date,'levels: ' + level + ' and species:' + spec
-        cmd = "addpath(genpath('/home/odinop/Matlab/IASCO_matlab-rev423/'));\n" + 'IASCO(' + str(date_mjd) + ',' + level + ',' + spec + ');'        
+        cmd = 'addpath(genpath(' + config.get('GEM','MATLAB_DIR') + '));\n' + 'IASCO(' + str(date_mjd) + ',' + level + ',' + spec + ');'        
         session.putstring('command',cmd)
         errorMess = session.run('eval(command)') 
         

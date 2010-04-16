@@ -14,7 +14,9 @@ setup(
         author='Marcus Jansson, Erik Zakrisson',
         author_email='marcus.jansson@chalmers.se, erik.zakrisson@chalmers.se',
         url='http://odin.rss.chalmers.se',
-        install_requires=['setuptools','numpy','matplotlib','basemap','pymatlab'],
+        install_requires=['setuptools','numpy','matplotlib',
+		#'basemap',
+		'pymatlab'],
         test_suite="tests",
         eager_resources=['matlab/IASCO.m','matlab/MakeWinds.m','matlab/SMR_501hdf_read.m','matlab/SMR_544hdf_read.m','matlab/assimilateG.m','matlab/define_assgridG.m','matlab/readecmwfmult.m','matlab/Tools/mjd2utc.m','matlab/Tools/read_l2_smr.m','matlab/Tools/utc2mjd.m']
         )

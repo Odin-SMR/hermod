@@ -34,31 +34,32 @@ ept=ept(sim_levels);
 ept2=ept;
 
 %Set the path to the satellite data
-
+data_path=find_path('DATA_DIR')
+save_path=find_path('LEVEL3_DIR')
 switch sSpecies 
     case 'H2O'
-        path_species='/odin/extdata/SMR/H2O_2_0/OdinSMR_H2O_544_';
-        path_savefields='/odin/smr/Data/SMRl3/DATA/H2O/'; 
+        path_species=[data_path 'H2O_2_0/OdinSMR_H2O_544_'];
+        path_savefields=[save_path 'DATA/H2O/']; 
         mkdir(path_savefields);
         SPECIES=sSpecies;
     case 'O3_544'
-        path_species='/odin/extdata/SMR/Ozone_544_2_0/OdinSMR_O3_544_';
-        path_savefields='/odin/smr/Data/SMRl3/DATA/O3_544/';
+        path_species=[data_path 'Ozone_544_2_0/OdinSMR_O3_544_'];
+        path_savefields=[save_path 'DATA/O3_544/'];
         mkdir(path_savefields);
         SPECIES=sSpecies(1:2);
     case 'HNO3'
-        path_species='/odin/extdata/SMR/HNO3_2_0/OdinSMR_HNO3_544_';
-        path_savefields='/odin/smr/Data/SMRl3/DATA/HNO3/';
+        path_species=[data_path 'HNO3_2_0/OdinSMR_HNO3_544_'];
+        path_savefields=[save_path 'DATA/HNO3/'];
         mkdir(path_savefields);
         SPECIES=sSpecies;
     case 'O3_501'
-        path_species='/odin/extdata/SMR/Ozone_501_2_1/OdinSMR_O3_501_'; 
-        path_savefields='/odin/smr/Data/SMRl3/DATA/O3_501/';
+        path_species=[data_path 'Ozone_501_2_1/OdinSMR_O3_501_']; 
+        path_savefields=[save_path 'DATA/O3_501/'];
         mkdir(path_savefields);
         SPECIES=sSpecies(1:2);
     case 'N2O'
-        path_species='/odin/extdata/SMR/N2O_2_1/OdinSMR_N2O_501_';
-        path_savefields='/odin/smr/Data/SMRl3/DATA/N2O/';
+        path_species=[data_path 'N2O_2_1/OdinSMR_N2O_501_'];
+        path_savefields=[save_path 'DATA/N2O/'];
         mkdir(path_savefields);
         SPECIES=sSpecies;
     otherwise
@@ -71,7 +72,7 @@ save_tracerfields=1;
 
 
 %Defines the path to the wind fields
-path_winds = ['/odin/extdata/ecmwf/tzuv/winds2/']; 
+path_winds = find_path('WIND2_DIR'); 
 name_winds = '/winds2_';
 
 

@@ -12,9 +12,9 @@ function SMR_544hdf_read(orbits,backward,forward)
 
 
 %defines directories where .mat files are stored
-outputpath_h2o='/odin/extdata/SMR/H2O_2_0/';
-outputpath_hno3='/odin/extdata/SMR/HNO3_2_0/';
-outputpath_o3='/odin/extdata/SMR/Ozone_544_2_0/';
+outputpath_h2o=[find_path('DATA_DIR') 'H2O_2_0/'];
+outputpath_hno3=[find_path('DATA_DIR') 'HNO3_2_0/'];
+outputpath_o3=[find_path('DATA_DIR') 'Ozone_544_2_0/'];
 
 if ~exist(outputpath_h2o)
     mkdir([outputpath_h2o]);
@@ -25,7 +25,7 @@ elseif ~exist(outputpath_o3)
 end
 
 %the path to SMR data
-data_path='/odin/smr/Data/SMRl2/SMRhdf/Qsmr-2-0/SM_AC1e/';
+data_path=find_path('DATA544_DIR');
 
 date=0;
 

@@ -29,9 +29,10 @@ def globalPlot(date_mjd,level,species):
     from pylab import *
     import gc
     from datetime import date as dt
+    from odin.config.config import *
 
     year,month,day,hour,minute,secs,tics = c.mjd2utc(date_mjd)
-    load_path = '/odin/smr/Data/SMRl3/DATA/'
+    load_path = config.get('GEM','LEVEL3_DIR') + 'DATA/'
     data = sio.loadmat(load_path + species + '/' + str(year) + '/' + str(month) + '/' + species + '_' + str(date_mjd) + '_00.mat')
     data=double(data['TracerField_u16'])*data['K_TracerField']
     m = Basemap(projection='mill') # Makes a Miller projection of the world map
@@ -119,7 +120,10 @@ def globalPlot(date_mjd,level,species):
         figtext(0.865,0.465,'[ppm]',fontsize=12,rotation='vertical')
 	
     # Save the images divided into folders according to species, year and month
-    save_path_main=('/odin/smr/Data/SMRl3/PICTURES')
+    save_path_main=(config.get('GEM','LEVEL3_DIR') + 'PICTURES')
+
+    if not os.path.isdir(save_path_main + '/'):
+        os.mkdir(save_path_main + '/')
     if not os.path.isdir(save_path_main + '/' + species + '/'):
         os.mkdir(save_path_main + '/' + species + '/')
     if not os.path.isdir(save_path_main + '/' + species + '/' + str(year) + '/'):
@@ -148,7 +152,8 @@ def polarPlot(date_mjd,level):
     import matplotlib.colors as colors
     import gc
     from datetime import date as dt
-   
+    from odin.config.config import *
+
     species=['O3_501','H2O','N2O','HNO3']
     titles=['O3 (501.8 GHz)','H2O','N2O','HNO3']
     # The temperatur levels 475K and 525K corresponds to level 3 and 5 in the data matrix for H2O (0 and 1 for all the other)
@@ -180,7 +185,7 @@ def polarPlot(date_mjd,level):
     figtext(0.038,0.713,'North Pole', fontsize=12)
     figtext(0.038,0.275,'South Pole', fontsize=12)
     figtext(0.92,0.484,'[ppm]',fontsize=12,rotation='horizontal')
-    load_path = '/odin/smr/Data/SMRl3/DATA/'
+    load_path = config.get('GEM','LEVEL3_DIR') + 'DATA/'
     for i in range(0,len(species)): # Makes subplots for each species
 	
         data = sio.loadmat(load_path + species[i] + '/' + str(year) + '/' + str(month) + '/' + species[i] + '_' + str(date_mjd) + '_00.mat')
@@ -239,7 +244,9 @@ def polarPlot(date_mjd,level):
         mS.drawparallels(n.arange(-80.,90,20.))
 
     # Save the images divided into folders according to year and month
-    save_path_main=('/odin/smr/Data/SMRl3/PICTURES/')
+    save_path_main=(config.get('GEM','LEVEL3_DIR') + 'PICTURES/')
+    if not os.path.isdir(save_path_main):
+        os.mkdir(save_path_main)
     if not os.path.isdir(save_path_main + 'Polar/'):
         os.mkdir(save_path_main + 'Polar/')
     if not os.path.isdir(save_path_main  + 'Polar/' + str(year) + '/'):

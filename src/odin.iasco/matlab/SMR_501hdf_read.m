@@ -12,9 +12,9 @@ function SMR_501hdf_read(orbits,backward,forward)
 
 
 %defines directories where .mat files are stored
-outputpath_clo='/odin/extdata/SMR/ClO_2_1/';
-outputpath_n2o='/odin/extdata/SMR/N2O_2_1/';
-outputpath_o3='/odin/extdata/SMR/Ozone_501_2_1/';
+outputpath_clo=[find_path('DATA_DIR') 'ClO_2_1/'];
+outputpath_n2o=[find_path('DATA_DIR') 'N2O_2_1/'];
+outputpath_o3=[find_path('DATA_DIR') 'Ozone_501_2_1/'];
 
 
 if ~exist(outputpath_clo)
@@ -27,7 +27,7 @@ if ~exist(outputpath_o3)
     mkdir([outputpath_o3]);
 end
 %the path to SMR 501GHz v2.1 data
-data_path='/odin/smr/Data/SMRl2/SMRhdf/Qsmr-2-1/SM_AC2ab/';
+data_path=find_path('DATA501_DIR');
 
 date=0;
 

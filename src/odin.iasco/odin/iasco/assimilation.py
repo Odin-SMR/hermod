@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # coding: UTF-8
 
-#from odin.hermod.session import matlab
 from pymatlab.matlab import MatlabSession
 from convert_date import utc2mjd
 import sys
@@ -22,29 +21,21 @@ def assimilate(date,fqid):
         species = ["'O3_544'","'HNO3'","'H2O'"]       
         levels = ['[4 6 8 10]','[4 6 8 10 12 14]','[1 2 3 4 5 6]'] #corresponding to ['O3_544','HNO3','H2O']   
     
+    session = MatlabSession('matlab -nodisplay')
     l=0    
     for spec in species:
         level = levels[l]
-        cmd = "addpath(genpath('/home/odinop/Matlab/IASCO_matlab-rev423/'));\n"
-              'IASCO(' + str(date_mjd) + ',' + level + ',' + spec + ');'
-        session = MatlabSession() #OPTIONS
+        print 'Running IASCO.m for date:',date,'levels: ' + level + ' and species:' + spec
+        cmd = "addpath(genpath('/home/odinop/Matlab/IASCO_matlab-rev423/'));\n" + 'IASCO(' + str(date_mjd) + ',' + level + ',' + spec + ');'        
         session.putstring('command',cmd)
         errorMess = session.run('eval(command)') 
-        session.close()
+        
         
         if not errorMess=='':
+            session.close()
             sys.exit(errorMess + '\nDate = ' + str(date))
-        
-        #err=StringIO.StringIO()
-        #a = matlab(errorFile=err)
-        #level = levels[l]
-        #cmds = []
-        #cmds.append("addpath(genpath('/home/odinop/Matlab/IASCO_matlab-rev423/'))")
-        #cmds.append('IASCO(' + str(date_mjd) + ',' + level + ',' + spec + ')')
-        #a.commands(cmds)
-        #a.close()
-        #errors = err.getvalue()
-        #if not errors=='':
-        #    sys.exit(errors + '\nDate = ' + str(date))
-        #err.close()
-        l=l+1
+        else:
+            print 'IASCO assimilation complete'    
+                
+        l=l+1        
+    session.close()

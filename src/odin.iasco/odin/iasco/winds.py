@@ -5,7 +5,6 @@ import os.path
 import shutil
 import sys
 import StringIO
-#from odin.hermod.session import matlab
 from pymatlab.matlab import MatlabSession
 from convert_date import utc2mjd
 from datetime import timedelta
@@ -14,30 +13,20 @@ def extractWinds(date):
     """
     Extraction of the wind-files via matlab
     """
+    print 'Extracting winds in MakeWinds.m for date:',date
     # Convert the date to mjd
     date_mjd=utc2mjd(date.year,date.month,date.day)
 
-    cmd = "addpath(genpath('/home/odinop/Matlab/IASCO_matlab-rev423/'));\n"
-          'MakeWinds(' + str(date_mjd) + ');' 
-    session = MatlabSession() #OPTIONS
+    cmd = "addpath(genpath('/home/odinop/Matlab/IASCO_matlab-rev423/'));\n" + 'MakeWinds(' + str(date_mjd) + ');' 
+    session = MatlabSession('matlab -nodisplay') 
     session.putstring('command',cmd)
     errorMess = session.run('eval(command)') 
     session.close()
     
     if not errorMess=='':
         sys.exit(errorMess + '\nDate = ' + str(date))
-        
-    #err=StringIO.StringIO()   
-    #a = matlab(errorFile=err)
-    #cmds = []
-    #cmds.append("addpath(genpath('/home/odinop/Matlab/IASCO_matlab-rev423/'))")
-    #cmds.append('MakeWinds(' + str(date_mjd) + ')')
-    #a.commands(cmds)
-    #a.close()
-    #errors = err.getvalue()
-    #if not errorMess=='':
-    #    sys.exit(errorMess + '\nDate = ' + str(date))
-    #err.close()
+    else:
+        print 'Winds extracted'
 
 def copyWinds(date): 
     """

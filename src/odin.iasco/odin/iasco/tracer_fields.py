@@ -3,7 +3,6 @@
 
 import MySQLdb
 from pymatlab.matlab import MatlabSession
-#from odin.hermod.session import matlab
 import sys
 import StringIO
 
@@ -22,31 +21,19 @@ def hdfRead(date,orbit_list,fqid):
 
     # Executes SMR_501hdf_read and SMR_544hdf_read to create mat-files from the hdf-files
     if fqid==29:
-        cmd = "addpath(genpath('/home/odinop/Matlab/IASCO_matlab-rev423/'));\n"
-              'SMR_501hdf_read(' + str(orbit_list['orbit']) + ',' + str(backward) + ',' + str(forward) + ');'
+        print 'Orbit process started in SMR_501hdf_read.m for date:',date,'fqid:',fqid,'and orbits',orbit_list['orbit']
+        cmd = "addpath(genpath('/home/odinop/Matlab/IASCO_matlab-rev423/'));\n" + 'SMR_501hdf_read(' + str(orbit_list['orbit']) + ',' + str(backward) + ',' + str(forward) + ');'
     elif fqid==3:
-        cmd = "addpath(genpath('/home/odinop/Matlab/IASCO_matlab-rev423/'));\n"
-              'SMR_544hdf_read(' + str(orbit_list['orbit']) + ',' + str(backward) + ',' + str(forward) + ');'
+        print 'Orbit process started in SMR_544hdf_read.m for date:',date,'fqid:',fqid,'and orbits',orbit_list['orbit']
+        cmd = "addpath(genpath('/home/odinop/Matlab/IASCO_matlab-rev423/'));\n" + 'SMR_544hdf_read(' + str(orbit_list['orbit']) + ',' + str(backward) + ',' + str(forward) + ');'
      
-    session = MatlabSession() #OPTIONS
+    session = MatlabSession('matlab -nodisplay') 
     session.putstring('command',cmd)
     errorMess = session.run('eval(command)') 
     session.close()
     
     if not errorMess=='':
         sys.exit(errorMess + '\nDate = ' + str(date))
+    else:
+        print 'Orbit process complete'
     
-    #err=StringIO.StringIO()
-    #a = matlab(errorFile=err)
-    #cmds = []
-    #cmds.append("addpath(genpath('/home/odinop/Matlab/IASCO_matlab-rev423/'))")
-    #if fqid==29:
-    #    cmds.append('SMR_501hdf_read(' + str(orbit_list['orbit']) + ',' + str(backward) + ',' + str(forward) + ')')
-    #elif fqid==3:
-    #    cmds.append('SMR_544hdf_read(' + str(orbit_list['orbit']) + ',' + str(backward) + ',' + str(forward) + ')')
-    #a.commands(cmds)
-    #a.close()
-    #errors = err.getvalue()
-    #if not errors=='':
-    #    sys.exit(errors + '\nDate = ' + str(date))
-    #err.close()

@@ -27,7 +27,7 @@ setup(
                       ['odin/hermod/matlab.c'],
                       libraries=['eng','m','mx'],
                       include_dirs=['/opt/matlab/extern/include'],
-                      library_dirs=['/opt/matlab/bin/glnxa64'],
+                      library_dirs=['/opt/matlab/bin/glnxa64','/opt/matlab/bin/glnx86'],
                       )],
         test_suite='tests.alltests.test_suite',
         zip_safe=False,

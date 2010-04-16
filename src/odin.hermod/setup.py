@@ -29,7 +29,7 @@ setup(
                       include_dirs=['/opt/matlab/extern/include'],
                       library_dirs=['/opt/matlab/bin/glnxa64'],
                       )],
-        test_suite='tests',
+        test_suite='tests.alltests.test_suite',
         zip_safe=False,
         author='Joakim Möller',
         author_email='joakim.moller@chalmers.se',

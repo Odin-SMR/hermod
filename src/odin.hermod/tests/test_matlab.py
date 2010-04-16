@@ -65,6 +65,5 @@ class MatlabTestCase(unittest.TestCase):
         b = self.session.getvalue('A')
         self.assertTrue((a==b).all())
 
-if __name__=='__main__':
-    unittest.main()
+suite = unittest.TestLoader().loadTestsFromTestCase(MatlabTestCase)
 

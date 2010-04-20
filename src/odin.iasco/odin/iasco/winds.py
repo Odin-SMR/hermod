@@ -24,7 +24,7 @@ def extractWinds(date):
         
     try:
         session.run('eval(command)') 
-    except RuntimeError as error_msg
+    except RuntimeError as error_msg:
         print 'This into logg!!!!!!', error_msg
         session.close()
         raise(RuntimeError(error_msg))

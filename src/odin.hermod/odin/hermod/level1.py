@@ -12,7 +12,7 @@ from datetime import datetime
 from sys import stderr
 from pdc import PDCkftpGetFiles,PDCKerberosTicket
 from ecmwf import MatlabMakeZPT
-from pymatlab.matlab import MatlabSession
+from session import GEMMatlab
 from gemlogger import logger
 
 class Level1Handler:
@@ -57,18 +57,19 @@ class L1bHandler(Level1Handler,PDCKerberosTicket,PDCkftpGetFiles):
     @logger
     def makeZPTs(self,force=False):
         db = connect(**connection_str)
-        self.matlab_session = MatlabSession()
-        for i in self.ids:
-            i.m_session = self.matlab_session
-            if not i.checkIfValid(db) or force:
-                try:
-                    i.makeZPT()
-                except HermodWarning,inst:
-                    print stderr,inst
-                except HermodError,inst:
-                    print stderr,inst
-                i.addDb(db,attrs=['zpt'])
-        self.matlab_session.close()
+        self.matlab_session = GEMMatlab()
+        if self.matlab_session.start_matlab():
+            for i in self.ids:
+                i.m_session = self.matlab_session
+                if not i.checkIfValid(db) or force:
+                    try:
+                        i.makeZPT()
+                    except HermodWarning,inst:
+                        print stderr,inst
+                    except HermodError,inst:
+                        print stderr,inst
+                    i.addDb(db,attrs=['zpt'])
+        self.matlab_session.close_matlab()
         db.close()
 
 

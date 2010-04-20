@@ -142,12 +142,12 @@ class MatlabMakeZPT(IMakeZPT):
         if hasattr(self,'m_session'):
             if hasattr(self,'zpt'):
                 prefix = config.get('GEM','LEVEL1B_DIR')
-                self.m_session.run('cd /odin/extdata/ecmwf/tz')
-                try:
-                    self.m_session.run("create_tp_ecmwf_rss2('%s')"%join(prefix,self.log))
-                except RuntimeError(msg):
-                    raise HermodError('Matlab:%s'%msg)
-        return self.zpt
+                self.m_session.matlab_command('cd /odin/extdata/ecmwf/tz')
+                if self.m_session.matlab_command("create_tp_ecmwf_rss2('%s')"%join(prefix,self.log)):
+                    return self.zpt
+        else: 
+            raise HermodError('No Matlab-session started')
+        return None
     
     @logger
     def checkIfValid(self,opendb):

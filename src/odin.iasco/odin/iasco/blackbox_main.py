@@ -2,7 +2,7 @@
 # coding: UTF-8
 
 """ 
-    This main program controles all the parts needed to produce pictures of assimilated fields of the tracer gases O3, HNO3, H2O and N2O. 
+    This main program controls all the parts needed to produce pictures of assimilated fields of the tracer gases O3, HNO3, H2O and N2O. 
     For more information about the different parts, please see each program and the associated README.txt file.
 """
 
@@ -21,9 +21,9 @@ import logging.config
 from pkg_resources import resource_filename
 
 def main():
-    logging.config.fileConfig("logging.conf")
+    logging.config.fileConfig("/home/zakrisso/hermod/src/odin.config/odin/config/odinlogger.cfg")
     logger = logging.getLogger("iasco")
-
+    
     zope = Popen(['/usr/local/Plone/zinstance/bin/zopepy',resource_filename('odin.iasco','addlevel3.py')],stdin=PIPE,stdout=stdout,stderr=stderr)
     new_dates=getNewDates()
     start_date=getStartDate()

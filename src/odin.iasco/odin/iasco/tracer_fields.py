@@ -13,7 +13,7 @@ def hdfRead(date,orbit_list,fqid):
     """
     Create mat-files (via matlab) of the orbit-files for one date and fqid at the time
     """
-    logging.config.fileConfig("logging.conf")
+    logging.config.fileConfig("/home/zakrisso/hermod/src/odin.config/odin/config/odinlogger.cfg")
     logger = logging.getLogger("iasco_assimilate")
     
     backward = [] # Orbits that overlap the limit betweens two days, where the first part of the orbit doesn't belong to the date which is now being assmilated

@@ -16,7 +16,7 @@ def extractWinds(date):
     """
     Extraction of the wind-files via matlab
     """
-    logging.config.fileConfig("logging.conf")
+    logging.config.fileConfig("/home/zakrisso/hermod/src/odin.config/odin/config/odinlogger.cfg")
     logger = logging.getLogger("iasco_winds")
     
     logger.info('Extracting winds in MakeWinds.m for date:',date) #Write information to log
@@ -40,7 +40,7 @@ def copyWinds(date):
     """
     Copy existing wind-files if there are no extracted wind-files for the specific day and/or time and/or level
     """
-    logging.config.fileConfig("logging.conf")
+    logging.config.fileConfig("/home/zakrisso/hermod/src/odin.config/odin/config/odinlogger.cfg")
     logger = logging.getLogger("iasco_winds")
     
     path=config.get('GEM','WIND2_DIR') ### Path to the wind data

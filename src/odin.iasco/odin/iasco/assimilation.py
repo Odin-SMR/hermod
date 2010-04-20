@@ -13,7 +13,7 @@ def assimilate(date,fqid):
     """
     Run the assimilationprogram (via matlab) for the one date and fqid at the time
     """
-    logging.config.fileConfig("logging.conf")
+    logging.config.fileConfig("/home/zakrisso/hermod/src/odin.config/odin/config/odinlogger.cfg")
     logger = logging.getLogger("iasco_assimilate")
     
     # Convert the date to mjd

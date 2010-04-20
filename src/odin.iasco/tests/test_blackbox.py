@@ -20,9 +20,8 @@ class BlackboxTestCase(unittest.TestCase):
 
 def test_suite():
     tests = [
-            'config',
-            'logger',
-            ]
+            'noDates',
+            ]            ]
     return unittest.TestSuite(map(BlackboxTestCase,tests))
 
 if __name__=='__main__':

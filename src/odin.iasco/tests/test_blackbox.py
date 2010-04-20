@@ -10,11 +10,13 @@ class BlackboxTestCase(unittest.TestCase):
         self.main = main()
 
     def noDates(self):
-	main = self.mocker.mock()
-	main.getNewDates()
-	self.mocker.result('[]')
-	main.getStartDate()
-	self.mocker.result('[]')
+        main = self.mocker.mock()
+        main.getNewDates()
+        self.mocker.result('[]')
+        main.getStartDate()
+        self.mocker.result('[]')
+        main.Popen() # ????????
+        self.mocker.result('I am a test')
         
 
 

@@ -142,7 +142,7 @@ for i=-Rad_ass:Rad_ass
    end
 end
 
-%Search for the the last day earlier than the first assimilation day with
+%Search for the last day earlier than the first assimilation day with
 %assimilated values to load
 mjd=vDays(1);
 mjd=mjd-1;

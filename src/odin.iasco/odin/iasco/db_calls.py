@@ -3,6 +3,8 @@
 
 import MySQLdb 
 import sys
+import logger
+import logger.config
 from odin.config.environment import *
 from convert_date import utc2mjd
 from datetime import datetime,timedelta
@@ -11,6 +13,9 @@ def w2iasco(date,fqid,version):
     """
     Write information to the iasco database.
     """
+    logger.config.fileConfig("/home/zakrisso/hermod/src/odin.config/odin/config/odinlogger.cfg")
+    logger = logging.getLogger("iasco_database")
+    
     if fqid==29:
         species=['O3_501','N2O']
     elif fqid==3:
@@ -35,6 +40,7 @@ def w2iasco(date,fqid,version):
             ins = db.cursor()
             ins.execute('''UPDATE iasco set processed=now(),wind=0,hdf=0,assimilate=0 where assdate=%s and species=%s ''',(assdate,spec)) # Update the time of processing to now and set all booleans to 0
             ins.close()
+    logger.info('The IASCO database have been updated for date:',date,'and fqid',fqid) # Write to logg
 
 def w2iasco_orbits(date,assid,l1ids):
     """

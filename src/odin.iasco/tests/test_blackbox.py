@@ -12,16 +12,16 @@ class BlackboxTestCase(unittest.TestCase):
     def noDates(self):
 	main = self.mocker.mock()
 	main.getNewDates()
-	self.mocker.result([])
+	self.mocker.result('[]')
 	main.getStartDate()
-	self.mocker.result([])
+	self.mocker.result('[]')
         
 
 
 def test_suite():
     tests = [
             'noDates',
-            ]            ]
+            ]
     return unittest.TestSuite(map(BlackboxTestCase,tests))
 
 if __name__=='__main__':

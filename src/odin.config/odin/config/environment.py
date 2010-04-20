@@ -1,10 +1,8 @@
 from ConfigParser import SafeConfigParser
-from logging.handler import TimedRotationFileHandler
-from logging import getLogger,DEBUG,INFO,WARNING,ERROR,CRITICAL
 from os.path import expanduser
 from os import stat
-from stat import S_IMODE,S_IRGRP,ST_MODE,S_ROTH
-
+from stat import S_IMODE,S_IRGRP,ST_MODE,S_IROTH
+from pkg_resources import resource_stream
 class HermodError(Exception):
     pass
 
@@ -12,8 +10,8 @@ class HermodWarning(Exception):
     pass
 
 def config():
-    t = safeConfigParser()
-    defaults = resource_stream(__name__,"defaults.conf")
+    t = SafeConfigParser()
+    defaults = resource_stream("odin","defaults.conf")
     t.readfp(defaults)
     config_files = t.read([
         expanduser('~/.hermod.cfg'),
@@ -35,11 +33,5 @@ def config():
             raise HermodError(mesg)
     return t
 
-def logger():
-    conf = config()
-    rootLogger = getLogger('')
-    rootLogger.setLevel(eval(conf.get('logging','level')))
-    rootLogger.addHandler(TimedRotationFileHandler(
-        conf.get('logging','logfile'),when='D',intervall='30'))
 
     

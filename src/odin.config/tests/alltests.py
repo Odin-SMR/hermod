@@ -1,5 +1,5 @@
 import unittest
-from tests import notest
+from tests import notest,test_environment
 
 def test_suite():
     return unittest.TestSuite([

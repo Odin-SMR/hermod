@@ -19,7 +19,7 @@ from pyhdf.HDF import HDF, HDF4Error
 from pyhdf import VS
 
 
-from odin.hermod.matlab import MatlabSession
+from pymatlab.matlab import MatlabSession
 from odin.hermod.pdc import PDCKerberosTicket,PDCkftpGetFiles
 from odin.hermod.hermodBase import connection_str,HermodError,HermodWarning,config
 
@@ -201,7 +201,8 @@ class GEMRunner(GEMLevel2FileNames,PDCkftpGetFiles,PDCKerberosTicket):
 def main():
     errors = False
     errmsg = ""
-    for i in ['id','version','fqid','orbit','backend','process_time','calversion']:
+    for i in ['id','version','fqid','orbit','backend','process_time',
+            'calversion']:
         if not environ.has_key(i):
             raise HermodError('missing evironment variable "%s"' %i )
     run = GEMRunner(environ)
@@ -215,11 +216,11 @@ def main():
             ]
     msession = MatlabSession()
     for c in commands:
-        result = msession.run(c)
-        if result!="":
+        try:
+            msession.run(c)
+        except RuntimeError(msg):
             errors=True
-            errmsg = errmsg + result
-            print >> stderr,result
+            print >> stderr,msg
             break
     msession.close()
     if not errors:

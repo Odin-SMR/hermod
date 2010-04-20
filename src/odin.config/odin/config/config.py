@@ -24,14 +24,8 @@ else:
         mesg ="set not readable for other on ~/.hermod.cfg.secret"
         raise HermodError(mesg)
     
-#Set paths
-SPOOL_DIR= config.get('GEM','SPOOL_DIR')
-LEVEL1B_DIR= config.get('GEM','LEVEL1B_DIR')
-SMRL1B_DIR= config.get('GEM','SMRL1B_DIR')
-SMRL2_DIR = config.get('GEM','SMRl2_DIR')
-PDC_DIR = config.get('PDC','PDC_DIR')
-
 connection_str = {'host':config.get('WRITE_SQL','host'), 'user':config.get('WRITE_SQL','user'), 'passwd':config.get('WRITE_SQL','passwd'), 'db':config.get('WRITE_SQL','db')}
+
 def mjdtoutc(mjdnr):
     # Julian date
     jd = int(mjdnr) + 2400000.5

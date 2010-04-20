@@ -29,7 +29,7 @@ def globalPlot(date_mjd,level,species):
     from pylab import *
     import gc
     from datetime import date as dt
-    from odin.config.config import *
+    from odin.config.environment import *
 
     year,month,day,hour,minute,secs,tics = c.mjd2utc(date_mjd)
     load_path = config.get('GEM','LEVEL3_DIR') + 'DATA/'
@@ -152,7 +152,7 @@ def polarPlot(date_mjd,level):
     import matplotlib.colors as colors
     import gc
     from datetime import date as dt
-    from odin.config.config import *
+    from odin.config.environment import *
 
     species=['O3_501','H2O','N2O','HNO3']
     titles=['O3 (501.8 GHz)','H2O','N2O','HNO3']

@@ -16,9 +16,14 @@ from subprocess import Popen,PIPE
 from sys import stdout,stderr
 from db_calls import *
 import sys
+import logging
+import logging.config
 from pkg_resources import resource_filename
 
 def main():
+    logging.config.fileConfig("logging.conf")
+    logger = logging.getLogger("iasco")
+
     zope = Popen(['/usr/local/Plone/zinstance/bin/zopepy',resource_filename('odin.iasco','addlevel3.py')],stdin=PIPE,stdout=stdout,stderr=stderr)
     new_dates=getNewDates()
     start_date=getStartDate()
@@ -48,8 +53,15 @@ def main():
                 version='2-1'
         
             wind=getWindBool(date,fqid)
+            if wind: windstr = 'wind processes'
+            else: ''
             hdf=getHdfBool(date,fqid)
+            if hdf: hdfstr = 'tracer fields processes'
+            else: ''
             assim=getAssimilateBool(date,fqid)
+            if assim: assimstr = 'assimilation processes'
+            else: ''
+            logger.info('The process started for date:',date,'and fqid:',fqid,'for',windstr,hdfstr,assimstr)
             
             if wind:
                 if fqid==3: # The wind extraction is not needed for both fqid
@@ -76,7 +88,7 @@ def main():
                     for assid in assids:
                         w2iasco_orbits(date,assid,orbit_list['l1id'])
                 
-                print 'The process is complete for date:',date,'and fqid:',fqid
+                logger.info('The process is complete for date:',date,'and fqid:',fqid)
                 runNo=runNo+1
         
         if runNo>=15:

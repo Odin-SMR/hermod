@@ -3,14 +3,19 @@
 
 import MySQLdb
 from pymatlab.matlab import MatlabSession
+import logging
+import logging.config
 import sys
 import StringIO
-from odin.config.config import *
+from odin.config.environment import *
 
 def hdfRead(date,orbit_list,fqid): 
     """
     Create mat-files (via matlab) of the orbit-files for one date and fqid at the time
     """
+    logging.config.fileConfig("logging.conf")
+    logger = logging.getLogger("iasco_assimilate")
+    
     backward = [] # Orbits that overlap the limit betweens two days, where the first part of the orbit doesn't belong to the date which is now being assmilated
     forward = [] # Orbits that overlap the limit betweens two days, where the last part of the orbit doesn't belong to the date which is now being assmilated
     # In the SMRhdf_read-files, these parts of the orbits that don't belong to the date are not used, only the part that belongs to the date that is now assimilated is used
@@ -22,10 +27,10 @@ def hdfRead(date,orbit_list,fqid):
 
     # Executes SMR_501hdf_read and SMR_544hdf_read to create mat-files from the hdf-files
     if fqid==29:
-        print 'Orbit process started in SMR_501hdf_read.m for date:',date,'fqid:',fqid,'and orbits',orbit_list['orbit']
+        logger.info('Orbit process started in SMR_501hdf_read.m for date:',date,'fqid:',fqid,'and orbits',orbit_list['orbit'])  
         cmd = "addpath(genpath(" + config.get('GEM','MATLAB_DIR') + "));\n" + 'SMR_501hdf_read(' + str(orbit_list['orbit']) + ',' + str(backward) + ',' + str(forward) + ');'
     elif fqid==3:
-        print 'Orbit process started in SMR_544hdf_read.m for date:',date,'fqid:',fqid,'and orbits',orbit_list['orbit']
+        logger.info('Orbit process started in SMR_544hdf_read.m for date:',date,'fqid:',fqid,'and orbits',orbit_list['orbit'])
         cmd = "addpath(genpath(" + config.get('GEM','MATLAB_DIR') + "));\n" + 'SMR_544hdf_read(' + str(orbit_list['orbit']) + ',' + str(backward) + ',' + str(forward) + ');'
      
     session = MatlabSession('matlab -nodisplay') 
@@ -34,7 +39,7 @@ def hdfRead(date,orbit_list,fqid):
     try:
         session.run('eval(command)') 
     except RuntimeError as error_msg:
-        print 'This into logg!!!!!!', error_msg
+        logger.error(error_msg) # Write error to log
         session.close()
         raise(RuntimeError(error_msg))
 

@@ -4,7 +4,7 @@
 from plot import globalPlot,polarPlot
 from convert_date import utc2mjd,mjd2utc
 import os.path
-from odin.config.config import *
+from odin.config.environment import *
 #from odinsite.level3.register import registerObject
 
 #for mjd in range(52375,52376):#,52306):

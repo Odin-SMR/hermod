@@ -5,16 +5,21 @@ import os.path
 import shutil
 import sys
 import StringIO
+import logging
+import logging.config
 from pymatlab.matlab import MatlabSession
 from convert_date import utc2mjd
 from datetime import timedelta
-from odin.config.config import *
+from odin.config.environment import *
 
 def extractWinds(date): 
     """
     Extraction of the wind-files via matlab
     """
-    print 'Extracting winds in MakeWinds.m for date:',date
+    logging.config.fileConfig("logging.conf")
+    logger = logging.getLogger("iasco_winds")
+    
+    logger.info('Extracting winds in MakeWinds.m for date:',date) #Write information to log
     # Convert the date to mjd
     date_mjd=utc2mjd(date.year,date.month,date.day)
 
@@ -25,7 +30,7 @@ def extractWinds(date):
     try:
         session.run('eval(command)') 
     except RuntimeError as error_msg:
-        print 'This into logg!!!!!!', error_msg
+        logger.error(error_msg) # Write error to log
         session.close()
         raise(RuntimeError(error_msg))
 
@@ -35,6 +40,9 @@ def copyWinds(date):
     """
     Copy existing wind-files if there are no extracted wind-files for the specific day and/or time and/or level
     """
+    logging.config.fileConfig("logging.conf")
+    logger = logging.getLogger("iasco_winds")
+    
     path=config.get('GEM','WIND2_DIR') ### Path to the wind data
     year,month,day=date.year,date.month,date.day
     year,month,day='%02d' %(year-2000),'%02d' %(month),'%02d' %(day)
@@ -58,6 +66,7 @@ def copyWinds(date):
                                 if not os.path.exists(path + str(year) + '/' + str(month) + '/'):
                                     os.mkdir(path + str(year) + '/' + str(month) + '/')
                                 shutil.copyfile(copy_file,wanted_file)
+                                logger.info(wanted_file,'were missed so',copy_file,'was copied') # Information to log
                                 break
             
                 else: ### If wind data is missing for j=6,12,18 we just copy from the same day, 6h before, because we can be sure we have data for time=0 on the actual day(the code above)
@@ -67,3 +76,4 @@ def copyWinds(date):
                     if not os.path.exists(path + str(year) + '/' + str(month) + '/'):
                         os.mkdir(path + str(year) + '/' + str(month) + '/')
                     shutil.copyfile(copy_file,wanted_file)
+                    logger.info(wanted_file,'were missed so',copy_file,'was copied') # Information to log

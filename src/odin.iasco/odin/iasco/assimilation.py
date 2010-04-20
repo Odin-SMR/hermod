@@ -3,14 +3,19 @@
 
 from pymatlab.matlab import MatlabSession
 from convert_date import utc2mjd
+import logging
+import logging.config
 import sys
 import StringIO
-from odin.config.config import *
+from odin.config.environment import *
 
 def assimilate(date,fqid): 
     """
     Run the assimilationprogram (via matlab) for the one date and fqid at the time
     """
+    logging.config.fileConfig("logging.conf")
+    logger = logging.getLogger("iasco_assimilate")
+    
     # Convert the date to mjd
     date_mjd=utc2mjd(date.year,date.month,date.day)
     
@@ -26,13 +31,13 @@ def assimilate(date,fqid):
     l=0    
     for spec in species:
         level = levels[l]
-        print 'Running IASCO.m for date:',date,'levels: ' + level + ' and species:' + spec
+        logger.info('Running IASCO.m for date:',date,'levels: ' + level + ' and species:' + spec) # Write information to log
         cmd = 'addpath(genpath(' + config.get('GEM','MATLAB_DIR') + '));\n' + 'IASCO(' + str(date_mjd) + ',' + level + ',' + spec + ');'        
         session.putstring('command',cmd)
         try:
             session.run('eval(command)') 
         except RuntimeError as error_msg:
-            print 'This into logg!!!!!!', error_msg
+            logger.error(error_msg) # Write error to log
             session.close()
             raise(RuntimeError(error_msg))
 

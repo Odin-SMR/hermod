@@ -13,7 +13,7 @@ class EnvironmentTestCase(unittest.TestCase):
 
     def config(self):
         sections = self.config.sections()
-        testsection = ['logging']
+        testsection = ['GEM']
         for section in testsection:
             self.assertTrue(section in sections)
 
@@ -22,7 +22,7 @@ class EnvironmentTestCase(unittest.TestCase):
 
     def logger(self):
         name=self.config.get('logging','configfile')
-        file = resource_stream(__name__,name)
+        file = resource_stream("odin.config",name)
         logging.config.fileConfig(file)
 
         

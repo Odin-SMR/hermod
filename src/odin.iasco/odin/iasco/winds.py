@@ -21,13 +21,15 @@ def extractWinds(date):
     cmd = "addpath(genpath(" + config.get('GEM','MATLAB_DIR') + "));\n" + 'MakeWinds(' + str(date_mjd) + ');' 
     session = MatlabSession('matlab -nodisplay') 
     session.putstring('command',cmd)
-    errorMess = session.run('eval(command)') 
+        
+    try:
+        session.run('eval(command)') 
+    except RuntimeError as error_msg
+        print 'This into logg!!!!!!', error_msg
+        session.close()
+        raise(RuntimeError(error_msg))
+
     session.close()
-    
-    if not errorMess=='':
-        sys.exit(errorMess + '\nDate = ' + str(date))
-    else:
-        print 'Winds extracted'
 
 def copyWinds(date): 
     """

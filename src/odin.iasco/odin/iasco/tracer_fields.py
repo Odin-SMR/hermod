@@ -30,11 +30,14 @@ def hdfRead(date,orbit_list,fqid):
      
     session = MatlabSession('matlab -nodisplay') 
     session.putstring('command',cmd)
-    errorMess = session.run('eval(command)') 
-    session.close()
     
-    if not errorMess=='':
-        sys.exit(errorMess + '\nDate = ' + str(date))
-    else:
-        print 'Orbit process complete'
+    try:
+        session.run('eval(command)') 
+    except RuntimeError as error_msg
+        print 'This into logg!!!!!!', error_msg
+        session.close()
+        raise(RuntimeError(error_msg))
+
+    session.close()
+
     

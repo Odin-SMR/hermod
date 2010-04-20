@@ -29,14 +29,12 @@ def assimilate(date,fqid):
         print 'Running IASCO.m for date:',date,'levels: ' + level + ' and species:' + spec
         cmd = 'addpath(genpath(' + config.get('GEM','MATLAB_DIR') + '));\n' + 'IASCO(' + str(date_mjd) + ',' + level + ',' + spec + ');'        
         session.putstring('command',cmd)
-        errorMess = session.run('eval(command)') 
-        
-        
-        if not errorMess=='':
+        try:
+            session.run('eval(command)') 
+        except RuntimeError as error_msg
+            print 'This into logg!!!!!!', error_msg
             session.close()
-            sys.exit(errorMess + '\nDate = ' + str(date))
-        else:
-            print 'IASCO assimilation complete'    
-                
+            raise(RuntimeError(error_msg))
+
         l=l+1        
     session.close()

@@ -3,8 +3,8 @@
 
 import MySQLdb 
 import sys
-import logger
-import logger.config
+import logging
+import logging.config
 from odin.config.environment import *
 from convert_date import utc2mjd
 from datetime import datetime,timedelta
@@ -13,7 +13,7 @@ def w2iasco(date,fqid,version):
     """
     Write information to the iasco database.
     """
-    logger.config.fileConfig("/home/zakrisso/hermod/src/odin.config/odin/config/odinlogger.cfg")
+    logging.config.fileConfig("/home/zakrisso/hermod/src/odin.config/odin/config/odinlogger.cfg")
     logger = logging.getLogger("iasco_database")
     
     if fqid==29:

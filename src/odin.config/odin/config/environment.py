@@ -11,7 +11,7 @@ class HermodWarning(Exception):
 
 def config():
     t = SafeConfigParser()
-    defaults = resource_stream("odin","defaults.conf")
+    defaults = resource_stream("odin.config","defaults.cfg")
     t.readfp(defaults)
     config_files = t.read([
         expanduser('~/.hermod.cfg'),

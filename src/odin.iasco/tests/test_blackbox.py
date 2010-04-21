@@ -14,17 +14,17 @@ class BlackboxTestCase(mocker.MockerTestCase):
     def noDates(self):
         logconf = self.mocker.replace("logging.config.fileConfig")
         logconf(mocker.ANY)
-        self.mocker.result(None)
+        #self.mocker.result(None)
 
         logger = self.mocker.replace("logging.getLogger")
         logger(mocker.ANY)
-        self.mocker.result(None) #not very useful
+        #self.mocker.result(None) #not very useful
 
         popen = self.mocker.mock()
         popen.stdin.close()
-        self.mocker.result(None)
+        #self.mocker.result(None)
         popen.wait()
-        self.mocker.result(None)
+        #self.mocker.result(None)
 
         zopepopen = self.mocker.replace("subprocess.Popen")
         zopepopen(mocker.ARGS,mocker.KWARGS)

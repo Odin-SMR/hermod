@@ -1,8 +1,8 @@
 import unittest
-from tests import notest,test_environment
+from tests import test_environment
 
 def test_suite():
     return unittest.TestSuite([
-        notest.suite(),
+        test_environment.test_suite(),
         ])
 

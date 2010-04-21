@@ -1,9 +1,9 @@
 import os,subprocess,fcntl,sys,os.path,tempfile,MySQLdb
-from hermod.level2 import *
 from odin.hermod.hermodBase import *
 from pexpect import spawn,EOF,TIMEOUT
-from gemlogger import logger
-from interfaces import IMatlab
+from odin.hermod.gemlogger import logger
+from odin.hermod.interfaces import IMatlab
+from pymatlab.matlab import MatlabSession
 
 '''
 Session module provides tools for Hermod to run programs in different
@@ -124,38 +124,24 @@ class GEMMatlab(IMatlab):
 
     @logger
     def start_matlab(self):
-        self.m_session = spawn('/usr/local/bin/matlab',['-nodisplay'],
-                timeout=600)
-        self.pattern = self.m_session.compile_pattern_list(
-            ['^.*(\?\?\? .*)>> $',
-            '^.*(Warning: .*)>> $',
-            '^(.*)>> $',
-            EOF,
-            TIMEOUT])
-        return self.m_session.expect(self.pattern)==2
+        self.m_session = MatlabSession()       
+        self.m_alive = True
+        return True
 
     @logger
     def close_matlab(self):
-        self.m_session.sendline('quit')
-        return self.m_session.expect(self.pattern)==3
+        self.m_session.close()
+        self.m_alive = False
+        return True
 
     @logger
     def matlab_is_open(self):
-        return self.m_session.isalive()
+        return self.m_alive
 
     @logger
     def matlab_command(self,command,timeout=900):
-        self.m_session.sendline(command)
-        index = self.m_session.expect(self.pattern,timeout=timeout)
-        if index==1:
-            raise HermodWarning(self.m_session.match.group(1))
-        elif index==3:
-            raise HermodError('Matlab unexpectably quitted')
-        elif index==4:
-            raise HermodError('Matlab caused TIMEOUT')
-        elif index==0:
-            raise HermodError(self.m_session.match.group(1))
-        return self.m_session.match.group(1)
+        self.m_session.run(command)
+        return ""
 
 
 class pbs:

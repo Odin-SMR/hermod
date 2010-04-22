@@ -105,11 +105,11 @@ class PDCKerberosTicket(IKerberosTicket):
 
     @logger
     def check(self):
-        getticket = Popen(['/usr/bin/klist','-t'],stderr=PIPE)
+        getticket = Popen(['/usr/bin/klist'],stdout=PIPE,stderr=PIPE)
         retcode = getticket.wait()
-        msg = getticket.stderr.read()
-        getticket.stderr.close()
-        return retcode==0
+        msg = getticket.stdout.read()
+        getticket.stdout.close()
+        return (not retcode and msg.find(config.get('PDC','principal'))>=0)
 
     @logger
     def renew(self):
@@ -118,6 +118,12 @@ class PDCKerberosTicket(IKerberosTicket):
         msg = getticket.stderr.read()
         getticket.stderr.close()
         return retcode==0
+
+    def destroy(self):
+        destroy = Popen(['/usr/bin/kdestroy'],stderr=PIPE)
+        retcode = destroy.wait()
+        destroy.stderr.close()
+        return True
 
 class PDCkftpGetFiles(IGetFiles):
 
@@ -132,8 +138,17 @@ class PDCkftpGetFiles(IGetFiles):
     @logger
     def connect(self):
         self.counter = 0
-        self.session = spawn('/usr/bin/kftp',['-p','pisces.pdc.kth.se'],timeout=900)
-        self.pattern = self.session.compile_pattern_list(['.*complete.*ftp> $','.*Timeout.*ftp> $','.*No such file.*ftp> $','.*ftp> $',EOF,TIMEOUT])
+        self.session = spawn('/usr/bin/kftp',['-p','pisces.pdc.kth.se'],timeout=30)
+        self.pattern = self.session.compile_pattern_list([
+            '.*complete.*ftp> $',
+            '.*Timeout.*ftp> $',
+            '.*No such file.*ftp> $',
+            '.*ftp> $',
+            EOF,
+            TIMEOUT,
+            ])
+        index=self.session.expect(['.*ftp> $',EOF,TIMEOUT])
+        self.session.sendline('user %s'%config.get('PDC','user'))
         index=self.session.expect(['.*ftp> $',EOF,TIMEOUT])
         return True
 
@@ -161,6 +176,14 @@ class PDCkftpGetFiles(IGetFiles):
             index = self.session.expect(self.pattern,timeout=20)
         self.count()
         return index==0
+
+    def delete(self,src):
+        index = -1
+        if self.session.isalive():
+            self.session.sendline('delete %s'%(src,))
+            index = self.session.expect(self.pattern,timeout=5)
+        self.count()
+        return index==3
 
 if __name__ == "__main__":
     ticket = PDCKerberosTicket()

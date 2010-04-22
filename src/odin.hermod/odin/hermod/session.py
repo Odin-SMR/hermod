@@ -124,7 +124,7 @@ class GEMMatlab(IMatlab):
 
     @logger
     def start_matlab(self):
-        self.m_session = MatlabSession()       
+        self.m_session = MatlabSession('matlab -nojvm -nodisplay')       
         self.m_alive = True
         return True
 

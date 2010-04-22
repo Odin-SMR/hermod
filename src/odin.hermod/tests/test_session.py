@@ -7,6 +7,7 @@ from os import remove
 class SessionTestCase(TestCase):
 
     def matlab_run(self):
+        "Testing matlab"
         mat = GEMMatlab()
         mat.start_matlab()
         self.assertTrue(mat.matlab_is_open())

@@ -74,7 +74,8 @@ class LogRecordSocketReceiver(SocketServer.ThreadingTCPServer):
 
 def main():
     logging.basicConfig(
-        format="%(relativeCreated)5d %(name)-15s %(levelname)-8s %(message)s")
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        datefmt="%a, %d %b %Y %H:%M:%S")
     tcpserver = LogRecordSocketReceiver()
     tcpserver.serve_until_stopped()
 

@@ -54,14 +54,14 @@ def main():
         
             wind=getWindBool(date,fqid)
             if wind: windstr = 'wind processes'
-            else: ''
+            else: windstr = ''
             hdf=getHdfBool(date,fqid)
             if hdf: hdfstr = 'tracer fields processes'
-            else: ''
+            else: hdfstr = ''
             assim=getAssimilateBool(date,fqid)
             if assim: assimstr = 'assimilation processes'
-            else: ''
-            logger.info('The process started for date:',date,'and fqid:',fqid,'for',windstr,hdfstr,assimstr)
+            else: assimstr = ''
+            logger.info('The process started for date:',str(date),'and fqid:',fqid,'for',windstr,hdfstr,assimstr)
             
             if wind:
                 if fqid==3: # The wind extraction is not needed for both fqid

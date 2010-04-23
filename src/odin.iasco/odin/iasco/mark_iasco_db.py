@@ -1,24 +1,40 @@
 from datetime import date,timedelta
 from MySQLdb import connect
-from odin.config.config import connection_str
+from odin.config.environment import connection_str
 from odin.config.gemlogger import timer
+import logging
+import logging.config
+from pkg_resources import resource_stream
 
 def markWinds(): 
     '''
     Find and mark the days where wind files have been updaten since the last assimilation
     '''
+    name = config.get('logging','configfile')
+    file = resource_stream('odin.config',name)
+    logging.config.fileConfig(file)
+    root_logger = logging.getLogger("")
+    logger = logging.getLogger("mark_iasco_db")
+    
     con = connect(**connection_str)
     query = """
         update iasco ia,ecmwf e set wind=1 
         where ia.assdate=e.date and e.downloaded>ia.processed
         """
-    con.query(query)
+    num_wind = con.query(query)
     con.close()
+    logger.info(num_wind,'rows have been marked with wind flags')
     
 def markL2(): 
     '''
     Find and mark the days where orbit files have been updaten since the last assimilation (limit: number_of_new_orbits/number_of_old_orbits>=0.5)
     '''
+    name = config.get('logging','configfile')
+    file = resource_stream('odin.config',name)
+    logging.config.fileConfig(file)
+    root_logger = logging.getLogger("")
+    logger = logging.getLogger("mark_iasco_db")
+    
     con =connect(**connection_str)
     query = """
         select T.date,T.fqid,T.version
@@ -43,11 +59,18 @@ def markL2():
             """ % row
         con.query(q)
     con.close()
-
+    logger.info(len(rows),'rows have been marked with hdf flags')
+    
 def markAss(): 
     '''
     Find the days where wind and/or hdf is marked and marks assimilate on this day and 90 days ahead 
     '''
+    name = config.get('logging','configfile')
+    file = resource_stream('odin.config',name)
+    logging.config.fileConfig(file)
+    root_logger = logging.getLogger("")
+    logger = logging.getLogger("mark_iasco_db")
+    
     con = connect(**connection_str)
     query = """
         SELECT distinct rc.date,ia.fqid,ia.version
@@ -80,11 +103,18 @@ def markAss():
             """ % row
         con.query(q)
     con.close()
+    logger.info('Assimilate flags have been added to rows with wind flags or hdf flags and 90 days ahead')
 
 def markDaysWithNewOrbits():
     '''
     Find the days where new orbits have been processed (there were no orbits for this day when the assimilation were run the last time) and mark hdf and assimilate on this day and assimilate for 90 days ahead
     '''
+    name = config.get('logging','configfile')
+    file = resource_stream('odin.config',name)
+    logging.config.fileConfig(file)
+    root_logger = logging.getLogger("")
+    logger = logging.getLogger("mark_iasco_db")
+    
     con = connect(**connection_str)
     for fqid in [3,29]:
         if fqid==3: version='2-0'
@@ -108,7 +138,8 @@ def markDaysWithNewOrbits():
             res = con.store_result()
             n=res.fetch_row(1)
             num=int(n[0][0])
-
+            
+            count = 0
             if not num==0:
                 date90=date+timedelta(90)
                 q3 = """
@@ -120,7 +151,9 @@ def markDaysWithNewOrbits():
                      """ % (fqid,date,date90)
                 con.query(q3)
                 con.query(q4)
-    con.close()    
+                count = count + 1
+    con.close()
+    logger.info(count,'rows have been marked because new orbits have occured.')    
 
 def main():
     markWinds()

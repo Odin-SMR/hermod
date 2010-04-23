@@ -8,12 +8,16 @@ import logging.config
 import sys
 import StringIO
 from odin.config.environment import *
+from pkg_resources import resource_stream
 
 def assimilate(date,fqid): 
     """
     Run the assimilationprogram (via matlab) for the one date and fqid at the time
     """
-    logging.config.fileConfig("/home/zakrisso/hermod/src/odin.config/odin/config/odinlogger.cfg")
+    name = config.get('logging','configfile')
+    file = resource_stream('odin.config',name)
+    logging.config.fileConfig(file)
+    root_logger = logging.getLogger("")
     logger = logging.getLogger("iasco_assimilate")
     
     # Convert the date to mjd

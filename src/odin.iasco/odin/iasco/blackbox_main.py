@@ -18,12 +18,16 @@ from db_calls import *
 import sys
 import logging
 import logging.config
-from pkg_resources import resource_filename
+from pkg_resources import resource_filename, resource_stream
 
 def main():
-    logging.config.fileConfig("/home/zakrisso/hermod/src/odin.config/odin/config/odinlogger.cfg")
+
+    name = config.get('logging','configfile')
+    file = resource_stream('odin.config',name)
+    logging.config.fileConfig(file)
+    root_logger = logging.getLogger("")
     logger = logging.getLogger("iasco")
-    
+       
     zope = Popen(['/usr/local/Plone/zinstance/bin/zopepy',resource_filename('odin.iasco','addlevel3.py')],stdin=PIPE,stdout=stdout,stderr=stderr)
     new_dates=getNewDates()
     start_date=getStartDate()

@@ -8,12 +8,16 @@ import logging.config
 from odin.config.environment import *
 from convert_date import utc2mjd
 from datetime import datetime,timedelta
+from pkg_resources import resource_stream
 
 def w2iasco(date,fqid,version):
     """
     Write information to the iasco database.
     """
-    logging.config.fileConfig("/home/zakrisso/hermod/src/odin.config/odin/config/odinlogger.cfg")
+    name = config.get('logging','configfile')
+    file = resource_stream('odin.config',name)
+    logging.config.fileConfig(file)
+    root_logger = logging.getLogger("")
     logger = logging.getLogger("iasco_database")
     
     if fqid==29:

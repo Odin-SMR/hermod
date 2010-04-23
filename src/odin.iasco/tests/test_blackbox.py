@@ -13,6 +13,9 @@ class BlackboxTestCase(mocker.MockerTestCase):
         pass
 
     def noDates(self):
+	"""Testing blackbox_main without dates
+
+	"""
         logconf = self.mocker.replace("logging.config.fileConfig")
         logconf(mocker.ANY)
         #self.mocker.result(None)
@@ -43,6 +46,10 @@ class BlackboxTestCase(mocker.MockerTestCase):
         self.mocker.verify()
 
     def dates(self):
+	"""Testing blackbox_main with one date in new_dates and one in start_date
+
+	Checking if the calls for function are made as many times as expected and that the array of dates is as expected.
+	"""
         logconf = self.mocker.replace("logging.config.fileConfig")
         logconf(mocker.ANY)
         self.mocker.result(None)
@@ -74,12 +81,22 @@ class BlackboxTestCase(mocker.MockerTestCase):
         startdate()
         self.mocker.result(datetime.date(2010, 1, 1))
 
-	getwindbool = self.mocker.replace("odin.iasco.db_calls.getWindBool")
-	getwindbool(mocker.ARGS,mocker.KWARGS)
-	self.mocker.result(False)
-	self.mocker.count(8)
+	self.list3=[]
+	self.list29=[]
 
-        gethdfbool = self.mocker.replace("odin.iasco.db_calls.getHdfBool")
+	getwindbool = self.mocker.replace("odin.iasco.db_calls.getWindBool")
+	getwindbool(mocker.ARGS)
+	self.mocker.call(lambda date,fqid: listing(date,fqid))
+	self.mocker.count(8)
+	
+	def listing(date,fqid):
+		if fqid==3:
+			self.list3.append(date)
+		elif fqid==29:
+			self.list29.append(date)
+		return False
+        
+	gethdfbool = self.mocker.replace("odin.iasco.db_calls.getHdfBool")
         gethdfbool(mocker.ARGS,mocker.KWARGS)
         self.mocker.result(False)
 	self.mocker.count(8)       
@@ -113,7 +130,8 @@ class BlackboxTestCase(mocker.MockerTestCase):
 	self.mocker.replay()
         self.assertRaises(SystemExit,odin.iasco.blackbox_main.main)
         self.mocker.verify()
-	self.assertEquals(dates,"[datetime.date(2010,1,1) datetime.date(2010,1,2) datetime.date(2010,1,3) datetime.date(2010,1,4)]")
+	self.assertEquals(self.list3,[datetime.date(2010,1,1), datetime.date(2010,1,2), datetime.date(2010,1,3), datetime.date(2010,1,4)])
+	self.assertEquals(self.list29,[datetime.date(2010,1,1), datetime.date(2010,1,2), datetime.date(2010,1,3), datetime.date(2010,1,4)])
 
 
 def test_suite():

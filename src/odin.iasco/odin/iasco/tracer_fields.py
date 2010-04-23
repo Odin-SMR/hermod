@@ -14,7 +14,7 @@ def hdfRead(date,orbit_list,fqid):
     """
     Create mat-files (via matlab) of the orbit-files for one date and fqid at the time
     """
-    name = config.get('logging','configfile')
+    name = config().get('logging','configfile')
     file = resource_stream('odin.config',name)
     logging.config.fileConfig(file)
     root_logger = logging.getLogger("")
@@ -32,10 +32,10 @@ def hdfRead(date,orbit_list,fqid):
     # Executes SMR_501hdf_read and SMR_544hdf_read to create mat-files from the hdf-files
     if fqid==29:
         logger.info('Orbit process started in SMR_501hdf_read.m for date:',date,'fqid:',fqid,'and orbits',orbit_list['orbit'])  
-        cmd = "addpath(genpath(" + config.get('GEM','MATLAB_DIR') + "));\n" + 'SMR_501hdf_read(' + str(orbit_list['orbit']) + ',' + str(backward) + ',' + str(forward) + ');'
+        cmd = "addpath(genpath(" + config().get('GEM','MATLAB_DIR') + "));\n" + 'SMR_501hdf_read(' + str(orbit_list['orbit']) + ',' + str(backward) + ',' + str(forward) + ');'
     elif fqid==3:
         logger.info('Orbit process started in SMR_544hdf_read.m for date:',date,'fqid:',fqid,'and orbits',orbit_list['orbit'])
-        cmd = "addpath(genpath(" + config.get('GEM','MATLAB_DIR') + "));\n" + 'SMR_544hdf_read(' + str(orbit_list['orbit']) + ',' + str(backward) + ',' + str(forward) + ');'
+        cmd = "addpath(genpath(" + config().get('GEM','MATLAB_DIR') + "));\n" + 'SMR_544hdf_read(' + str(orbit_list['orbit']) + ',' + str(backward) + ',' + str(forward) + ');'
      
     session = MatlabSession('matlab -nodisplay') 
     session.putstring('command',cmd)

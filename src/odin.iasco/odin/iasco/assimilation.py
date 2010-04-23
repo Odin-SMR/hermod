@@ -14,7 +14,7 @@ def assimilate(date,fqid):
     """
     Run the assimilationprogram (via matlab) for the one date and fqid at the time
     """
-    name = config.get('logging','configfile')
+    name = config().get('logging','configfile')
     file = resource_stream('odin.config',name)
     logging.config.fileConfig(file)
     root_logger = logging.getLogger("")
@@ -36,7 +36,7 @@ def assimilate(date,fqid):
     for spec in species:
         level = levels[l]
         logger.info('Running IASCO.m for date:',date,'levels: ' + level + ' and species:' + spec) # Write information to log
-        cmd = 'addpath(genpath(' + config.get('GEM','MATLAB_DIR') + '));\n' + 'IASCO(' + str(date_mjd) + ',' + level + ',' + spec + ');'        
+        cmd = 'addpath(genpath(' + config().get('GEM','MATLAB_DIR') + '));\n' + 'IASCO(' + str(date_mjd) + ',' + level + ',' + spec + ');'        
         session.putstring('command',cmd)
         try:
             session.run('eval(command)') 

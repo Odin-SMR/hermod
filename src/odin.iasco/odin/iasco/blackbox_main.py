@@ -22,7 +22,7 @@ from pkg_resources import resource_filename, resource_stream
 
 def main():
 
-    name = config.get('logging','configfile')
+    name = config().get('logging','configfile')
     file = resource_stream('odin.config',name)
     logging.config.fileConfig(file)
     root_logger = logging.getLogger("")

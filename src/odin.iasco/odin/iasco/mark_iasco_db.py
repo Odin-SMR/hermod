@@ -10,7 +10,7 @@ def markWinds():
     '''
     Find and mark the days where wind files have been updaten since the last assimilation
     '''
-    name = config.get('logging','configfile')
+    name = config().get('logging','configfile')
     file = resource_stream('odin.config',name)
     logging.config.fileConfig(file)
     root_logger = logging.getLogger("")
@@ -29,7 +29,7 @@ def markL2():
     '''
     Find and mark the days where orbit files have been updaten since the last assimilation (limit: number_of_new_orbits/number_of_old_orbits>=0.5)
     '''
-    name = config.get('logging','configfile')
+    name = config().get('logging','configfile')
     file = resource_stream('odin.config',name)
     logging.config.fileConfig(file)
     root_logger = logging.getLogger("")
@@ -65,7 +65,7 @@ def markAss():
     '''
     Find the days where wind and/or hdf is marked and marks assimilate on this day and 90 days ahead 
     '''
-    name = config.get('logging','configfile')
+    name = config().get('logging','configfile')
     file = resource_stream('odin.config',name)
     logging.config.fileConfig(file)
     root_logger = logging.getLogger("")
@@ -109,7 +109,7 @@ def markDaysWithNewOrbits():
     '''
     Find the days where new orbits have been processed (there were no orbits for this day when the assimilation were run the last time) and mark hdf and assimilate on this day and assimilate for 90 days ahead
     '''
-    name = config.get('logging','configfile')
+    name = config().get('logging','configfile')
     file = resource_stream('odin.config',name)
     logging.config.fileConfig(file)
     root_logger = logging.getLogger("")

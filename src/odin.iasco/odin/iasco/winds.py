@@ -17,7 +17,7 @@ def extractWinds(date):
     """
     Extraction of the wind-files via matlab
     """
-    name = config.get('logging','configfile')
+    name = config().get('logging','configfile')
     file = resource_stream('odin.config',name)
     logging.config.fileConfig(file)
     root_logger = logging.getLogger("")
@@ -27,7 +27,7 @@ def extractWinds(date):
     # Convert the date to mjd
     date_mjd=utc2mjd(date.year,date.month,date.day)
 
-    cmd = "addpath(genpath(" + config.get('GEM','MATLAB_DIR') + "));\n" + 'MakeWinds(' + str(date_mjd) + ');' 
+    cmd = "addpath(genpath(" + config().get('GEM','MATLAB_DIR') + "));\n" + 'MakeWinds(' + str(date_mjd) + ');' 
     session = MatlabSession('matlab -nodisplay') 
     session.putstring('command',cmd)
         
@@ -44,13 +44,13 @@ def copyWinds(date):
     """
     Copy existing wind-files if there are no extracted wind-files for the specific day and/or time and/or level
     """
-    name = config.get('logging','configfile')
+    name = config().get('logging','configfile')
     file = resource_stream('odin.config',name)
     logging.config.fileConfig(file)
     root_logger = logging.getLogger("")
     logger = logging.getLogger("iasco_winds")
     
-    path=config.get('GEM','WIND2_DIR') ### Path to the wind data
+    path=config().get('GEM','WIND2_DIR') ### Path to the wind data
     year,month,day=date.year,date.month,date.day
     year,month,day='%02d' %(year-2000),'%02d' %(month),'%02d' %(day)
         

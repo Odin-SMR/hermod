@@ -14,7 +14,7 @@ def w2iasco(date,fqid,version):
     """
     Write information to the iasco database.
     """
-    name = config.get('logging','configfile')
+    name = config().get('logging','configfile')
     file = resource_stream('odin.config',name)
     logging.config.fileConfig(file)
     root_logger = logging.getLogger("")
@@ -25,7 +25,7 @@ def w2iasco(date,fqid,version):
     elif fqid==3:
         species=['O3_544','H2O','HNO3']
     
-    db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
+    db = MySQLdb.connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     for spec in species:
         year,month,day=date.year,date.month,date.day
         assdate=date
@@ -53,7 +53,7 @@ def w2iasco_orbits(date,assid,l1ids):
     if l1ids==[]:
         sys.exit('Failed in db_write.orbit, there are no l1id' + '\nDate:' + str(date) + '\nAssid:' + str(assid) + '\nL1ids:' + str(l1ids))
     else:   
-        db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
+        db = MySQLdb.connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
         d = db.cursor()
         d.execute('''DELETE from iasco_orbits where assid=%s''',assid)
         d.close()
@@ -66,7 +66,7 @@ def getStartDate():
     """
     Get the date where to start the assimilation. The main program (blackbox_main.py) loops over all days from this date until today.
     """
-    db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
+    db = MySQLdb.connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     mi = db.cursor(MySQLdb.cursors.DictCursor)
     mi.execute('''SELECT MIN(assdate) assdate from iasco where wind or hdf or assimilate ''')
     mi.close()    
@@ -79,7 +79,7 @@ def getNewDates():
     """
     Get the days that never been assimilated before. These are the dates from the last day that has been assimilated until the last day where it exists wind data.
     """
-    db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
+    db = MySQLdb.connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
 
     la = db.cursor()
     la.execute('''select min(a.assdate) from 
@@ -105,7 +105,7 @@ def getWindBool(date,fqid):
     """
     Collect information from the iasco database to decide if the assimilation process for an update in a wind file should be run for the fqid on this day.
     """
-    db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
+    db = MySQLdb.connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     cur = db.cursor(MySQLdb.cursors.DictCursor)
     wind=cur.execute('''SELECT * from iasco where wind and assdate=%s and fqid=%s''',(date,fqid))
     cur.close()
@@ -116,7 +116,7 @@ def getHdfBool(date,fqid):
     """
     Collect information from the iasco database to decide if the assimilation process for an update in a tracer field file should be run for the fqid on this day.
     """
-    db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
+    db = MySQLdb.connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     cur = db.cursor(MySQLdb.cursors.DictCursor)
     hdf=cur.execute('''SELECT *  from iasco where hdf and assdate=%s and fqid=%s''',(date,fqid))
     cur.close()
@@ -127,7 +127,7 @@ def getAssimilateBool(date,fqid):
     """
     Collect information from the iasco database to decide if the assimilation process should be run for the fqid on this day.
     """
-    db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
+    db = MySQLdb.connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     cur = db.cursor(MySQLdb.cursors.DictCursor)
     assim=cur.execute('''SELECT *  from iasco where assimilate and assdate=%s and fqid=%s''',(date,fqid))
     cur.close()
@@ -138,7 +138,7 @@ def getAssid(date,fqid):
     """
     Get all the assids for the specific fqid and date. There should be 2 assids for fqid=29 and 3 for fqid=3.
     """
-    db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
+    db = MySQLdb.connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     a_id = db.cursor(MySQLdb.cursors.DictCursor)
     a_id.execute('''SELECT assid from iasco where assdate=%s and fqid=%s''',(date,fqid))
     a_id.close()
@@ -149,7 +149,7 @@ def getOrbitInfo(date,fqid,version):
     """
     Get information about the orbits that are used to produce the tracer fields.
     """
-    db = MySQLdb.connect(host=config.get('WRITE_SQL','host'), user=config.get('WRITE_SQL','user'), passwd=config.get('WRITE_SQL','passwd'), db='smr')
+    db = MySQLdb.connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     cur = db.cursor(MySQLdb.cursors.DictCursor)
     cur.execute('''SELECT distinct orbit,date(start_utc) start_utc,date(stop_utc) stop_utc,id from level2 join level1 using (id) where (date(start_utc)=%s or date(stop_utc)=%s) and fqid=%s and version2=%s order by start_utc''',(date,date,fqid,version))
     cur.close()

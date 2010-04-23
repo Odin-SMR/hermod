@@ -40,8 +40,8 @@ def makePictures(date,fqid,zope):
             #inst.createLevel3Object(u'odin_wp',u'marjan',str(year),str(month),str(day),species,str(level))
             zope.stdin.write("%s,%s,%s,%s,%s\n"%(year,month,day,spec,level))
 
-        file_501=config.get('GEM','LEVEL3_DIR') + 'DATA/O3_501/' + str(date.year) + '/' + str(date.month) + '/' + 'O3_501_' + str(date_mjd) + '_00.mat'
-        file_544=config.get('GEM','LEVEL3_DIR') + 'DATA/O3_544/' + str(date.year) + '/' + str(date.month) + '/' + 'O3_544_' + str(date_mjd) + '_00.mat' 
+        file_501=config().get('GEM','LEVEL3_DIR') + 'DATA/O3_501/' + str(date.year) + '/' + str(date.month) + '/' + 'O3_501_' + str(date_mjd) + '_00.mat'
+        file_544=config().get('GEM','LEVEL3_DIR') + 'DATA/O3_544/' + str(date.year) + '/' + str(date.month) + '/' + 'O3_544_' + str(date_mjd) + '_00.mat' 
         if os.path.exists(file_501) and os.path.exists(file_544):
             ### Generation of polar plots. Needs data from all the species, hence the if-statement. 
             for level in range(0,2):        

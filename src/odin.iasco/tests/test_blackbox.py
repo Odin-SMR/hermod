@@ -5,6 +5,7 @@ import logging
 import logging.config
 import datetime
 
+
 def getexcept(e):
     raise e
 
@@ -16,6 +17,14 @@ class BlackboxTestCase(mocker.MockerTestCase):
 	"""Testing blackbox_main without dates
 
 	"""
+	#confget = self.mocker.replace("odin.config.environment.config.get")
+        #confget(mocker.ANY)
+        #self.mocker.result(None)
+
+        #resstr = self.mocker.replace("resource_stream")
+        #resstr(mocker.ANY)
+        #self.mocker.result(None)
+
         logconf = self.mocker.replace("logging.config.fileConfig")
         logconf(mocker.ANY)
         #self.mocker.result(None)
@@ -23,8 +32,9 @@ class BlackboxTestCase(mocker.MockerTestCase):
         logger = self.mocker.replace("logging.getLogger")
         logger(mocker.ANY)
         self.mocker.result(None) #not very useful
-
-        popen = self.mocker.mock()
+	self.mocker.count(2)
+        
+	popen = self.mocker.mock()
         popen.stdin.close()
         #self.mocker.result(None)
         popen.wait()
@@ -50,6 +60,14 @@ class BlackboxTestCase(mocker.MockerTestCase):
 
 	Checking if the calls for function are made as many times as expected and that the array of dates is as expected.
 	"""
+	#confget = self.mocker.replace("odin.config.environment.config.get")
+        #confget(mocker.ANY)
+        #self.mocker.result(None)
+	
+	#resstr = self.mocker.replace("resource_stream")
+        #resstr(mocker.ANY)
+        #self.mocker.result(None)
+
         logconf = self.mocker.replace("logging.config.fileConfig")
         logconf(mocker.ANY)
         self.mocker.result(None)
@@ -62,6 +80,7 @@ class BlackboxTestCase(mocker.MockerTestCase):
         logger = self.mocker.replace("logging.getLogger")
         logger(mocker.ANY)
         self.mocker.result(logmock) 
+	self.mocker.count(2)
 
         popen = self.mocker.mock()
         popen.stdin.close()

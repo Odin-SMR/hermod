@@ -1,5 +1,5 @@
 import unittest
-from tests import test_blackbox
+import test_blackbox
 
 def test_suite():
     return unittest.TestSuite([

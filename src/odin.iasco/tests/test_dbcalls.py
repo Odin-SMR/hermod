@@ -1,19 +1,19 @@
 import unittest
 import mocker
-import odin.iasco.blackbox_main
-import logging
-import logging.config
+import odin.iasco.db_calls
+#import logging
+#import logging.config
 import datetime
 
 def getexcept(e):
     raise e
 
-class BlackboxTestCase(mocker.MockerTestCase):
+class dbcallsTestCase(mocker.MockerTestCase):
     def setUp(self):
         pass
 
-    def noDates(self):
-	"""Testing blackbox_main without dates
+    def w2iasco_test(self):
+	"""Testing w2iasco
 
 	"""
         logconf = self.mocker.replace("logging.config.fileConfig")
@@ -30,16 +30,7 @@ class BlackboxTestCase(mocker.MockerTestCase):
         popen.wait()
         #self.mocker.result(None)
 
-        zopepopen = self.mocker.replace("subprocess.Popen")
-        zopepopen(mocker.ARGS,mocker.KWARGS)
-        self.mocker.result(popen)
-        
-        getnewdates = self.mocker.replace("odin.iasco.db_calls.getNewDates")
-        getnewdates()
-        self.mocker.result([])
-        startdate = self.mocker.replace("odin.iasco.db_calls.getStartDate")
-        startdate()
-        self.mocker.result([])
+
 
         self.mocker.replay()
         self.assertRaises(SystemExit,odin.iasco.blackbox_main.main)

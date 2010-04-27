@@ -1,8 +1,8 @@
 import unittest
 import mocker
 import odin.iasco.db_calls
-#import logging
-#import logging.config
+import logging
+import logging.config
 import datetime
 
 def getexcept(e):
@@ -16,121 +16,111 @@ class dbcallsTestCase(mocker.MockerTestCase):
 	"""Testing w2iasco
 
 	"""
-        logconf = self.mocker.replace("logging.config.fileConfig")
-        logconf(mocker.ANY)
-        #self.mocker.result(None)
 
-        logger = self.mocker.replace("logging.getLogger")
-        logger(mocker.ANY)
-        self.mocker.result(None) #not very useful
-
-        popen = self.mocker.mock()
-        popen.stdin.close()
-        #self.mocker.result(None)
-        popen.wait()
-        #self.mocker.result(None)
-
-
-
-        self.mocker.replay()
-        self.assertRaises(SystemExit,odin.iasco.blackbox_main.main)
-        self.mocker.verify()
-
-    def dates(self):
-	"""Testing blackbox_main with one date in new_dates and one in start_date
-
-	Checking if the calls for function are made as many times as expected and that the array of dates is as expected.
-	"""
-        logconf = self.mocker.replace("logging.config.fileConfig")
+	logconf = self.mocker.replace("logging.config.fileConfig")
         logconf(mocker.ANY)
         self.mocker.result(None)
-	
+
 	logmock = self.mocker.mock()
         logmock.info(mocker.ARGS,mocker.KWARGS)
         self.mocker.result(None)
-	self.mocker.count(10)
+        #self.mocker.count(10)
 
         logger = self.mocker.replace("logging.getLogger")
         logger(mocker.ANY)
-        self.mocker.result(logmock) 
+        self.mocker.result(logmock)
+	self.mocker.count(2)
 
-        popen = self.mocker.mock()
-        popen.stdin.close()
-        #self.mocker.result(None)
-        popen.wait()
-        #self.mocker.result(None)
+	ch = self.mocker.mock()
+        ch.execute(mocker.ARGS,mocker.KWARGS)
+        self.mocker.result(2)
+	self.mocker.count(2)
+	ch.close()
+	self.mocker.result(None)
+	self.mocker.count(2)
 
-        zopepopen = self.mocker.replace("subprocess.Popen")
-        zopepopen(mocker.ARGS,mocker.KWARGS)
-        self.mocker.result(popen)
-
-        getnewdates = self.mocker.replace("odin.iasco.db_calls.getNewDates")
-        getnewdates()
-        self.mocker.result([datetime.date(2010, 1, 4)])
-        
-	startdate = self.mocker.replace("odin.iasco.db_calls.getStartDate")
-        startdate()
-        self.mocker.result(datetime.date(2010, 1, 1))
-
-	self.list3=[]
-	self.list29=[]
-
-	getwindbool = self.mocker.replace("odin.iasco.db_calls.getWindBool")
-	getwindbool(mocker.ARGS)
-	self.mocker.call(lambda date,fqid: listing(date,fqid))
-	self.mocker.count(8)
-	
-	def listing(date,fqid):
-		if fqid==3:
-			self.list3.append(date)
-		elif fqid==29:
-			self.list29.append(date)
-		return False
-        
-	gethdfbool = self.mocker.replace("odin.iasco.db_calls.getHdfBool")
-        gethdfbool(mocker.ARGS,mocker.KWARGS)
-        self.mocker.result(False)
-	self.mocker.count(8)       
- 
-	getassimilatebool = self.mocker.replace("odin.iasco.db_calls.getAssimilateBool")
-        getassimilatebool(mocker.ARGS,mocker.KWARGS)
-        self.mocker.result(False)
-	self.mocker.count(8)
-
-	extractwinds = self.mocker.replace("odin.iasco.winds.extractWinds")
-        extractwinds(mocker.ARGS,mocker.KWARGS)
-        self.mocker.count(1)
-
-	copywinds = self.mocker.replace("odin.iasco.winds.copyWinds")
-        copywinds(mocker.ARGS,mocker.KWARGS)
+	db = self.mocker.mock()
+        db.cursor(mocker.ARGS,mocker.KWARGS)
+        self.mocker.result(ch)
         self.mocker.count(2)
 
-	assimilate = self.mocker.replace("odin.iasco.assimilation.assimilate")
-        assimilate(mocker.ARGS,mocker.KWARGS)
+        dbconnect = self.mocker.replace("MySQLdb.connect")
+        dbconnect(mocker.ARGS,mocker.KWARGS)
+        self.mocker.result(db)
+
+        self.mocker.replay()
+        self.assertEquals(odin.iasco.db_calls.w2iasco(datetime.date(2010,1,1),29,'2-1'),None)
+	self.mocker.verify()
+
+    def w2iasco_orbits_test(self):
+	"""Testing w2iasco_orbits
+
+	"""
+	d = self.mocker.mock()
+        d.execute(mocker.ARGS,mocker.KWARGS)
+	self.mocker.result(None)
+	self.mocker.count(2)
+        d.close()
+	self.mocker.result(None)
         self.mocker.count(2)
 
-	makepictures = self.mocker.replace("odin.iasco.pics.makePictures")
-        makepictures(mocker.ARGS,mocker.KWARGS)
+      	db = self.mocker.mock()
+        db.cursor(mocker.ARGS,mocker.KWARGS)
+        self.mocker.result(d)
         self.mocker.count(2)
 
-	w2iasco = self.mocker.replace("odin.iasco.db_calls.w2iasco")
-        w2iasco(mocker.ARGS,mocker.KWARGS)
-        self.mocker.count(2)
+        dbconnect = self.mocker.replace("MySQLdb.connect")
+        dbconnect(mocker.ARGS,mocker.KWARGS)
+        self.mocker.result(db)
 
-
-	self.mocker.replay()
-        self.assertRaises(SystemExit,odin.iasco.blackbox_main.main)
+       	self.mocker.replay()
+        self.assertEquals(odin.iasco.db_calls.w2iasco_orbits(datetime.date(2010,1,1),68317,[134982]),None)
         self.mocker.verify()
-	self.assertEquals(self.list3,[datetime.date(2010,1,1), datetime.date(2010,1,2), datetime.date(2010,1,3), datetime.date(2010,1,4)])
-	self.assertEquals(self.list29,[datetime.date(2010,1,1), datetime.date(2010,1,2), datetime.date(2010,1,3), datetime.date(2010,1,4)])
+
+
+    def getStartDate_test(self):
+	"""Testing getStartDate
+	
+	"""
+	curs = self.mocker.replace("MySQLdb.cursors.DictCursor")
+        curs(mocker.ARGS,mocker.KWARGS)
+        self.mocker.result(None)
+
+	mi = self.mocker.mock()
+        mi.execute(mocker.ARGS,mocker.KWARGS)
+        #mi.iter()
+        #self.mocker.result([None].__iter__())
+	self.mocker.result([None])
+        #self.mocker.count(2)
+        mi.close()
+        self.mocker.result(None)
+        #self.mocker.count(2)
+        #mi.iter()
+        #self.mocker.result([None].__iter__())
+
+#	def __iter__(self):
+#	    return [None].__iter__()
+	db = self.mocker.mock()
+        db.cursor(mocker.ARGS,mocker.KWARGS)
+        self.mocker.result(mi)
+        #self.mocker.count(2)
+
+        dbconnect = self.mocker.replace("MySQLdb.connect")
+        dbconnect(mocker.ARGS,mocker.KWARGS)
+        self.mocker.result(db)
+
+        self.mocker.replay()
+        self.assertEquals(odin.iasco.db_calls.getStartDate(),False)
+        self.mocker.verify()
 
 
 def test_suite():
     tests = [
-            'noDates',
-            'dates',
-            ]
-    return unittest.TestSuite(map(BlackboxTestCase,tests))
+            'w2iasco_test',
+            'w2iasco_orbits_test',
+	    #'getStartDate_test',
+	    ]            
+    return unittest.TestSuite(map(dbcallsTestCase,tests))
 
 if __name__=='__main__':
     unittest.TextTestRunner(verbosity=3).run(test_suite())

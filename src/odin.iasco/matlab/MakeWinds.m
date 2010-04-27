@@ -38,7 +38,7 @@ for i=1:length(vMjd)
     %Defines the path to the ECMWF data
     s.path_winds=[find_path('WIND_DIR') num2str(year,'%02d')  num2str(month,'%02d') '/'];
     %Gives a path where .mat-files are saved
-    wind2_path=find_path('WIND2_DIR')
+    wind2_path=find_path('WIND2_DIR');
     s.path_output=[wind2_path num2str(year,'%02d') '/' num2str(month,'%02d') '/'];
     
     if ~exist([wind2_path num2str(year,'%02d') '/'])

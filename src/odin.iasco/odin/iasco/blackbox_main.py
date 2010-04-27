@@ -28,11 +28,11 @@ def main():
     logging.config.fileConfig(file)
     root_logger = logging.getLogger("")
     logger = logging.getLogger("iasco")
-  
-    zope = Popen(['/usr/local/Plone/zinstance/bin/zopepy',resource_filename('odin.iasco','addlevel3.py')],stdin=PIPE,stdout=stdout,stderr=stderr)
+
+    zope = Popen(['/usr/local/Plone/zinstance/bin/zopepy',resource_filename('odin.iasco','addlevel3.py')],stdin=PIPE,stdout=stdout,stderr=stderr)    
     new_dates=getNewDates()
     start_date=getStartDate()
-
+    
     if start_date:
         if new_dates:
             dates=[start_date]

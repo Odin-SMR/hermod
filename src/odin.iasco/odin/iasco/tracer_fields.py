@@ -9,6 +9,7 @@ import sys
 import StringIO
 from odin.config.environment import *
 from pkg_resources import resource_stream
+from os.path import dirname
 
 def hdfRead(date,orbit_list,fqid): 
     """
@@ -19,6 +20,7 @@ def hdfRead(date,orbit_list,fqid):
     logging.config.fileConfig(file)
     root_logger = logging.getLogger("")
     logger = logging.getLogger("iasco_tracer_fields")
+    file_dir = dirname(file.name)
     
     backward = [] # Orbits that overlap the limit betweens two days, where the first part of the orbit doesn't belong to the date which is now being assmilated
     forward = [] # Orbits that overlap the limit betweens two days, where the last part of the orbit doesn't belong to the date which is now being assmilated
@@ -32,10 +34,10 @@ def hdfRead(date,orbit_list,fqid):
     # Executes SMR_501hdf_read and SMR_544hdf_read to create mat-files from the hdf-files
     if fqid==29:
         logger.info('Orbit process started in SMR_501hdf_read.m for date:',date,'fqid:',fqid,'and orbits',orbit_list['orbit'])  
-        cmd = "addpath(genpath(" + config().get('GEM','MATLAB_DIR') + "));\n" + 'SMR_501hdf_read(' + str(orbit_list['orbit']) + ',' + str(backward) + ',' + str(forward) + ');'
+        cmd = "addpath(genpath('" + config().get('GEM','MATLAB_DIR') + "'), '" + file_dir + "');\n" + 'SMR_501hdf_read(' + str(orbit_list['orbit']) + ',' + str(backward) + ',' + str(forward) + ');'
     elif fqid==3:
         logger.info('Orbit process started in SMR_544hdf_read.m for date:',date,'fqid:',fqid,'and orbits',orbit_list['orbit'])
-        cmd = "addpath(genpath(" + config().get('GEM','MATLAB_DIR') + "));\n" + 'SMR_544hdf_read(' + str(orbit_list['orbit']) + ',' + str(backward) + ',' + str(forward) + ');'
+        cmd = "addpath(genpath('" + config().get('GEM','MATLAB_DIR') + "'), '" + file_dir + "');\n" + 'SMR_544hdf_read(' + str(orbit_list['orbit']) + ',' + str(backward) + ',' + str(forward) + ');'
      
     session = MatlabSession('matlab -nodisplay') 
     session.putstring('command',cmd)

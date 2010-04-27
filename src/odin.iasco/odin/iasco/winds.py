@@ -10,8 +10,10 @@ import logging.config
 from pymatlab.matlab import MatlabSession
 from convert_date import utc2mjd
 from datetime import timedelta
+from datetime import date as dtdate
 from odin.config.environment import *
 from pkg_resources import resource_stream
+from os.path import dirname
 
 def extractWinds(date): 
     """
@@ -22,12 +24,13 @@ def extractWinds(date):
     logging.config.fileConfig(file)
     root_logger = logging.getLogger("")
     logger = logging.getLogger("iasco_winds")
+    file_dir = dirname(file.name)
     
     logger.info('Extracting winds in MakeWinds.m for date:',date) #Write information to log
     # Convert the date to mjd
     date_mjd=utc2mjd(date.year,date.month,date.day)
 
-    cmd = "addpath(genpath(" + config().get('GEM','MATLAB_DIR') + "));\n" + 'MakeWinds(' + str(date_mjd) + ');' 
+    cmd = "addpath(genpath('" + config().get('GEM','MATLAB_DIR') + "'), '" + file_dir + "');\n" + 'MakeWinds(' + str(date_mjd) + ');' 
     session = MatlabSession('matlab -nodisplay') 
     session.putstring('command',cmd)
         
@@ -63,6 +66,10 @@ def copyWinds(date):
                     copy_file = path + str(year) + '/' + str(month) + '/' + 'winds2_' + str(year) + str(month) + str(day) + '.' + str(j) + '.' + str(k) + '.mat'
                     while not os.path.exists(copy_file):
                         date_0 = date_0-timedelta(1)
+                        if date_0 < dtdate(2001,10,1): # To prevent the while loop to go out of range
+                            logger.info('No wind files exist for the wanted range of days, copy wind files manually and try again') 
+                            raise(RuntimeError('Wind file date out of range'))
+                        
                         year_c,month_c,day_c=date_0.year,date_0.month,date_0.day
                         year_c,month_c,day_c='%02d' %(year_c-2000),'%02d' %(month_c),'%02d' %(day_c)
                         for time in [18,12,6,0]: ### If there isn't wind data from the day before to copy, we iterate days and times until we find data. We start with time=18 to make sure the data we find is the closest before the j=0 data we are missing 

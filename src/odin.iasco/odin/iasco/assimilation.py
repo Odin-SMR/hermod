@@ -9,6 +9,7 @@ import sys
 import StringIO
 from odin.config.environment import *
 from pkg_resources import resource_stream
+from os.path import dirname
 
 def assimilate(date,fqid): 
     """
@@ -19,6 +20,7 @@ def assimilate(date,fqid):
     logging.config.fileConfig(file)
     root_logger = logging.getLogger("")
     logger = logging.getLogger("iasco_assimilate")
+    file_dir = dirname(file.name)
     
     # Convert the date to mjd
     date_mjd=utc2mjd(date.year,date.month,date.day)
@@ -36,7 +38,7 @@ def assimilate(date,fqid):
     for spec in species:
         level = levels[l]
         logger.info('Running IASCO.m for date:',date,'levels: ' + level + ' and species:' + spec) # Write information to log
-        cmd = 'addpath(genpath(' + config().get('GEM','MATLAB_DIR') + '));\n' + 'IASCO(' + str(date_mjd) + ',' + level + ',' + spec + ');'        
+        cmd = "addpath(genpath('" + config().get('GEM','MATLAB_DIR') + "'), '" + file_dir + "');\n" + 'IASCO(' + str(date_mjd) + ',' + level + ',' + spec + ');'        
         session.putstring('command',cmd)
         try:
             session.run('eval(command)') 

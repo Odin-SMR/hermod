@@ -2,8 +2,9 @@ from setuptools import setup,find_packages
 
 setup(
         name="odin.iasco",
-        version="1.0.2",
-        package_data= {'':['matlab/*.m','matlab/*.mat'],},
+        version="1.0.3",
+        description = 'Package for processing images with IASCO. Includes processing of wind and odin data, images and updates of databases and the odin homepage',
+	package_data= {'':['matlab/*.m','matlab/*.mat'],},
         entry_points= {"console_scripts": 
                        ["blackbox_run = odin.iasco.blackbox_main:main", 
                         "mark_db = odin.iasco.mark_iasco_db:main",

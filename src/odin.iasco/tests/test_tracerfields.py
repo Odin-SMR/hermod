@@ -12,7 +12,8 @@ class TracerFieldsTestCase(mocker.MockerTestCase):
 
     def hdfRead_test(self):
 	"""Testing hdfRead 
-
+	
+	Checks that all the parts in the program runs as many times as they should for a specified orbit list, one date and fqid=3
 	"""
         logconf = self.mocker.replace("logging.config.fileConfig")
         logconf(mocker.ANY)

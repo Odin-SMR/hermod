@@ -12,7 +12,8 @@ class WindsTestCase(mocker.MockerTestCase):
 
     def extractWinds_test(self):
 	"""Testing extractWinds 
-
+	
+	Test that the program parts runs as many times as expected for one date.
 	"""
         logconf = self.mocker.replace("logging.config.fileConfig")
         logconf(mocker.ANY)
@@ -44,7 +45,7 @@ class WindsTestCase(mocker.MockerTestCase):
     def copyWinds_test(self):
 	"""Testing copyWinds
 	
-	   It is only a test where the file exists. 
+	   It is only a test where the file exists. Quite a nonsense test.
 	"""
         logconf = self.mocker.replace("logging.config.fileConfig")
         logconf(mocker.ANY)

@@ -16,6 +16,7 @@ class BlackboxTestCase(mocker.MockerTestCase):
     def noDates(self):
 	"""Testing blackbox_main without dates
 
+	Checking that all the parts of the program are run as many times as expected when there are no dates
 	"""
 
         logconf = self.mocker.replace("logging.config.fileConfig")

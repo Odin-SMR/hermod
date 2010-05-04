@@ -13,6 +13,7 @@ class AssimilationTestCase(mocker.MockerTestCase):
     def assimilate(self):
 	"""Testing assimilation 
 
+	Checking that all the parts of the program run as many times as expected when having one date and fqid as input
 	"""
         logconf = self.mocker.replace("logging.config.fileConfig")
         logconf(mocker.ANY)

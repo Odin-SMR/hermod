@@ -15,6 +15,7 @@ class dbcallsTestCase(mocker.MockerTestCase):
     def w2iasco_test(self):
 	"""Testing w2iasco
 
+	Checking that all the parts of the program run as many times as expected with one date, fqid and version as input
 	"""
 
 	logconf = self.mocker.replace("logging.config.fileConfig")
@@ -55,6 +56,7 @@ class dbcallsTestCase(mocker.MockerTestCase):
     def w2iasco_orbits_test(self):
 	"""Testing w2iasco_orbits
 
+	Checking that all the parts of the program run as many times as expected with one date, orbit number and l1id as input
 	"""
 	d = self.mocker.mock()
         d.execute(mocker.ARGS,mocker.KWARGS)
@@ -81,6 +83,7 @@ class dbcallsTestCase(mocker.MockerTestCase):
     def getStartDate_test(self):
 	"""Testing getStartDate
 	
+	Checking that all the parts of the program run as many times as expected and that it returns 'False'
 	"""
 	curs = self.mocker.replace("MySQLdb.cursors.DictCursor")
         self.mocker.result(None)
@@ -108,7 +111,8 @@ class dbcallsTestCase(mocker.MockerTestCase):
     def getNewDates_test(self):
         """Testing getNewDates
         
-        """
+        Checking that all the parts of the program run as many times as expected and that it returns the expected dates for the mocked database calls
+	"""
         curs = self.mocker.replace("MySQLdb.cursors.DictCursor")
         self.mocker.result(None)
 
@@ -140,7 +144,8 @@ class dbcallsTestCase(mocker.MockerTestCase):
     def getWindBool_test(self):
         """Testing getWindBool
         
-        """
+        Checking that all the parts of the program run as many times as expected and that it returns 'False' with no input
+	"""
         curs = self.mocker.replace("MySQLdb.cursors.DictCursor")
         self.mocker.result(None)
 
@@ -165,7 +170,8 @@ class dbcallsTestCase(mocker.MockerTestCase):
     def getHdfBool_test(self):
         """Testing getHdfBool
         
-        """ 
+        Checking that all the parts of the program run as many times as expected and that it returns 'False' with no input
+	""" 
         curs = self.mocker.replace("MySQLdb.cursors.DictCursor")
         self.mocker.result(None)
 
@@ -190,7 +196,8 @@ class dbcallsTestCase(mocker.MockerTestCase):
     def getAssimilateBool_test(self):
         """Testing getAssimilateBool
         
-        """ 
+        Checking that all the parts of the program run as many times as expected and that it returns 'False' with no input
+	""" 
         curs = self.mocker.replace("MySQLdb.cursors.DictCursor")
         self.mocker.result(None)
             
@@ -215,7 +222,8 @@ class dbcallsTestCase(mocker.MockerTestCase):
     def getAssid_test(self):
         """Testing getAssid
         
-        """ 
+        Checking that all the parts of the program run as many times as expected and that the output is as expected with no input
+	""" 
         curs = self.mocker.replace("MySQLdb.cursors.DictCursor")
         self.mocker.result(None)
             
@@ -242,7 +250,8 @@ class dbcallsTestCase(mocker.MockerTestCase):
     def getOrbitInfo_test(self):
         """Testing getOrbitInfo
         
-        """
+        Checking that all the parts of the program are run as many times as expected and that the output is as expected with the mocked database calls
+	"""
         curs = self.mocker.replace("MySQLdb.cursors.DictCursor")
         self.mocker.result(None)
 

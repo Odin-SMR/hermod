@@ -1,5 +1,3 @@
-#!/usr/bin/python2.5
-
 from MySQLdb import connect
 from MySQLdb.cursors import DictCursor
 

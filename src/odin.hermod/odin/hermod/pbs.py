@@ -1,9 +1,7 @@
 from subprocess import Popen,PIPE
 from os.path import join,expanduser
-
-from MySQLdb.cursors import DictCursor
-
 from interfaces import IPbs
+from odin.config.environment import config
 
 runscript = """
 #PBS -N %(jobname)s
@@ -17,10 +15,11 @@ runscript = """
 /home/odinop/sandbox/bin/hermodrunjob
 """
 
-
 class GEMPbs(IPbs):
     
     def set_submit_info(self,queue='new'):
+        self.conf = config()
+
         self.info['queue'] = queue
         self.info['jobname'] =  'o%(orbit).4X%(calversion).1f%(fqid).2i%(version)s' % self.info
         self.info['errfile'] = join(expanduser('~'),'logs', 
@@ -33,7 +32,8 @@ class GEMPbs(IPbs):
 
 
     def submit(self):
-        s = Popen(['/usr/bin/qsub'],stderr=PIPE,stdin=PIPE,stdout=PIPE)
+        s = Popen([self.conf.get('pbs','batch_command')],stderr=PIPE,
+                stdin=PIPE,stdout=PIPE)
         s.stdin.write(runscript%self.info)
         s.stdin.close()
         print s.stdout.read()

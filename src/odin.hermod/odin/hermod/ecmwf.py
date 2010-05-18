@@ -1,6 +1,4 @@
-import odin.hermod.hermodBase as hrm
-from odin.hermod.hermodBase import *
-from odin.hermod.session import *
+from odin.config.environment import HermodError,HermodWarning,config
 import datetime
 import os
 import os.path
@@ -19,6 +17,8 @@ ecmwfpat = re.compile('^.*([0-9]{6})\.([\d]{1,2})([A-Z]{1,2})\.gz')
 '''
 ecmwf interacts with nilumod to get weather data files from nilu
 '''
+
+config = config()
 
 class weatherfile:
     '''
@@ -99,39 +99,6 @@ class weatherfile_PV(weatherfile):
         lait.command("convert_pv_to_mat_day(%s,'%s',1)"% (self.date.strftime('%Y,%m,%d'),os.path.join(config.get('GEM','ECMWF_DIR'),'pv/')))
         lait.close()
     
-class ZPTfile:
-    def __init__(self,opendb):
-        self.db = opendb
-        self.row = []
-        pass
-
-    def getNonExisting(self):
-        cursor = self.db.cursor()
-        cursor.execute('''SELECT id,filename from level1b_gem as l where not exists (select * from level1b_gem as m where m.id=l.id and m.filename regexp '.*ZPT' and  m.date>=l.date) and 
-        filename regexp ".*LOG"''')
-        self.row = [i for i in cursor]
-        cursor.close()
-
-    def genZPT(self,logfilepair):
-        stringout = StringIO.StringIO()
-        stringerr = StringIO.StringIO()
-        x = matlab(cwd='/odin/extdata/ecmwf/tz',outputFile=stringout,errorFile=stringerr)
-        x.command("create_tp_ecmwf_rss2('%s%s')"%(config.get('GEM','LEVEL1B_DIR'),logfilepair[1]))
-        if stringerr.getvalue()<>'':
-            sys.stderr.write(stringerr.getvalue())
-        else:
-            self.add(logfilepair)
-        x.close()
-
-    def genZPTs(self):
-        for a in self.row:
-            self.genZPT(a)
-
-    def add(self,logfilepair):
-        filepair = (logfilepair[0],logfilepair[1].replace('LOG','ZPT'))
-        cursor = self.db.cursor()
-        status = cursor.execute('''insert level1b_gem (id,filename) values (%s,%s) on duplicate key update date=now()''',filepair)
-        cursor.close()
 
 class MatlabMakeZPT(IMakeZPT):
     """ implementation with MATLAB as generator
@@ -143,11 +110,11 @@ class MatlabMakeZPT(IMakeZPT):
             if hasattr(self,'zpt'):
                 prefix = config.get('GEM','LEVEL1B_DIR')
                 self.m_session.matlab_command('cd /odin/extdata/ecmwf/tz')
-                if self.m_session.matlab_command("create_tp_ecmwf_rss2('%s')"%join(prefix,self.log)):
-                    return self.zpt
+                self.m_session.matlab_command(
+                        "create_tp_ecmwf_rss2('%s')"%join(prefix,self.log))
+                return self.zpt
         else: 
             raise HermodError('No Matlab-session started')
-        return None
     
     @logger
     def checkIfValid(self,opendb):

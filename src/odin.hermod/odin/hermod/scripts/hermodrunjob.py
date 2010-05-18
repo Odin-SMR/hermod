@@ -19,7 +19,7 @@ from pyhdf.HDF import HDF, HDF4Error
 from pyhdf import VS
 
 
-from odin.hermod.matlab import MatlabSession
+from odin.hermod.session import GEMMatlab
 from odin.hermod.pdc import PDCKerberosTicket,PDCkftpGetFiles
 from odin.hermod.hermodBase import connection_str,HermodError,HermodWarning,config
 
@@ -213,15 +213,16 @@ def main():
             "qsmr_inv_op('%(name)s','%(orbit)0.4X','%(orbit)0.4X','%(dir)s')"
                 % run.parameters,
             ]
-    msession = MatlabSession()
+    msession = GEMMatlab()
+    msession.start_matlab()
     for c in commands:
-        result = msession.run(c)
+        result = msession.command(c)
         if result!="":
             errors=True
             errmsg = errmsg + result
             print >> stderr,result
             break
-    msession.close()
+    msession.close_matlab()
     if not errors:
         try:
             run.readAuxFile()

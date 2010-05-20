@@ -1,5 +1,6 @@
 from unittest import makeSuite,TestSuite,TextTestRunner
-from odin.hermod.ecmwf import MatlabMakeZPT
+from datetime import date
+from odin.hermod.ecmwf import MatlabMakeZPT,weatherfile
 from odin.hermod.session import GEMMatlab
 from os.path import exists,abspath,join
 from os import remove
@@ -32,10 +33,23 @@ class EcmwfTestCase(mocker.MockerTestCase):
         remove(mat.zpt)
         #self.mocker.verify()
 
+    def ecmwf_get_gen_T(self):
+        "Generate and download a PVfile from nilu"
+        db = self.mocker.mock()
+        testfile = weatherfile(db,'T',0,date(2008,12,17))
+        testfile.localname = resource_filename("odin.hermod","tests/testfile")
+        testfile.generate()
+        testfile.download()
+        self.assertTrue(exists(testfile.localname))
+        remove(testfile.localname)
+
+
+
 
 def test_suite():
     tests = [
             'ecmwf_make_zpt',
+            'ecmwf_get_gen_T',
             ]
     return TestSuite(map(EcmwfTestCase,tests))
 

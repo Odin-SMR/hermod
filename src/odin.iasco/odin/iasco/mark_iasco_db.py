@@ -1,10 +1,10 @@
 from datetime import date,timedelta
 from MySQLdb import connect
-from odin.config.environment import connection_str
 from odin.config.gemlogger import timer
 import logging
 import logging.config
 from pkg_resources import resource_stream
+from odin.config.environment import *
 
 def markWinds(): 
     '''
@@ -16,7 +16,7 @@ def markWinds():
     root_logger = logging.getLogger("")
     logger = logging.getLogger("mark_iasco_db")
     
-    con = connect(**connection_str)
+    con = connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     query = """
         update iasco ia,ecmwf e set wind=1 
         where ia.assdate=e.date and e.downloaded>ia.processed
@@ -35,7 +35,7 @@ def markL2():
     root_logger = logging.getLogger("")
     logger = logging.getLogger("mark_iasco_db")
     
-    con =connect(**connection_str)
+    con =connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     query = """
         select T.date,T.fqid,T.version
         from (select date(start_utc) date, l2.fqid, l2.version, count(*) tot
@@ -71,7 +71,7 @@ def markAss():
     root_logger = logging.getLogger("")
     logger = logging.getLogger("mark_iasco_db")
     
-    con = connect(**connection_str)
+    con = connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     query = """
         SELECT distinct rc.date,ia.fqid,ia.version
         FROM iasco ia, reference_calendar rc
@@ -115,7 +115,7 @@ def markDaysWithNewOrbits():
     root_logger = logging.getLogger("")
     logger = logging.getLogger("mark_iasco_db")
     
-    con = connect(**connection_str)
+    con = connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     for fqid in [3,29]:
         if fqid==3: version='2-0'
         elif fqid==29: version='2-1'

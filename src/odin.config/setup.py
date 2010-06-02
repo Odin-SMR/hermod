@@ -4,12 +4,12 @@ from setuptools import setup,find_packages,Extension
 
 setup(
         name='odin.config',
-        version='0.0.1',
+        version='0.0.2',
         description = 'Routines to simplify and improve speed of odinprocessing',
         data_files=[('odin/config',['odin/config/defaults.cfg','odin/config/odinlogger.cfg']),],
 	packages = find_packages(),
 	namespace_packages = ['odin'],
-        test_suite='tests.alltests.test_suite',
+        test_suite='hermod.config.tests.alltests.test_suite',
         zip_safe=False,
         author='Joakim Möller',
         author_email='joakim.moller@chalmers.se',

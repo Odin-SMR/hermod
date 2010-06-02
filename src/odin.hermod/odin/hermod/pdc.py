@@ -1,5 +1,4 @@
 import MySQLdb as sql
-import pexpect as p
 import os
 import os.path as o
 import sys

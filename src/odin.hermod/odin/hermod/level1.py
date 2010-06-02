@@ -13,7 +13,6 @@ from sys import stderr
 from pdc import PDCkftpGetFiles,PDCKerberosTicket
 from ecmwf import MatlabMakeZPT
 from session import GEMMatlab
-from gemlogger import logger
 
 class Level1Handler:
     """A class that handles a set of level1 idetifiers
@@ -54,7 +53,6 @@ class L1bHandler(Level1Handler,PDCKerberosTicket,PDCkftpGetFiles):
     def __init__(self):
         self.ids = []
 
-    @logger
     def makeZPTs(self,force=False):
         db = connect(**connection_str)
         self.matlab_session = GEMMatlab()
@@ -74,14 +72,12 @@ class L1bHandler(Level1Handler,PDCKerberosTicket,PDCkftpGetFiles):
 
 
 
-    @logger
     def validate(self):
         db = connect(**connection_str)
         for id in ids:
             if not id.validate(db):
                 ids.remove(id)
 
-    @logger
     def ticket(self):
         ticket = False
         ticket = self.check()
@@ -89,21 +85,18 @@ class L1bHandler(Level1Handler,PDCKerberosTicket,PDCkftpGetFiles):
             ticket = self.request()
         return ticket
     
-    @logger
     def setnames(self):
         db = connect(**connection_str)
         for id in self.ids:
                 id.setname(db)
         db.close()
 
-    @logger
     def make_links(self):
         db = connect(**connection_str)
         for id in self.ids:
                 id.link(db)
         db.close()
 
-    @logger
     def download(self,force=False):
         db = connect(**connection_str)
         if self.ticket():
@@ -127,7 +120,6 @@ class Level1b(Level1,MatlabMakeZPT):
     Utility object that operates on a the HDF,LOG and ZPT files related to a row in the level1 table
     """
 
-    @logger
     def __init__(self,id):
         """
         Id number from the level1 table
@@ -136,7 +128,6 @@ class Level1b(Level1,MatlabMakeZPT):
         self.l1_OK = False
         self.gzip = True
 
-    @logger
     def decompress(self):
         if self.l1_OK:
             localfile = join(config.get('GEM','LEVEL1B_DIR'),self.hdf)
@@ -148,14 +139,12 @@ class Level1b(Level1,MatlabMakeZPT):
                 else:
                     self.hdf = self.hdf[:-3]
             
-    @logger
     def validate(self,opendb):
         cursor = opendb.cursor()
         status = cursor.execute('''select id from level1 where id=%s''',(id,))
         cursor.close()
         return  status==1 
 
-    @logger
     def setname(self,opendb):
         '''Set the names of the files
         '''
@@ -168,7 +157,6 @@ class Level1b(Level1,MatlabMakeZPT):
             self.l1_OK = True
             self.zpt = self.log[:-4]+'.ZPT'
     
-    @logger
     def createdir(self): 
         for att in ['hdf','log','zpt']:
             if hasattr(self,att):
@@ -180,7 +168,6 @@ class Level1b(Level1,MatlabMakeZPT):
                         print >> stderr, inst
                         continue
 
-    @logger
     def link(self,opendb,attrs=['hdf','log','zpt']):
         for attr in attrs:
             if not hasattr(self,attr):
@@ -240,7 +227,6 @@ join Aero a on (v.id=a.id)
  #               error = "".join(x.stderr.readlines()) + "".join(x.stdout.readlines())
  #               raise HermodError("Could't launch job: %s\n%s" %(name,error))
 
-    @logger
     def addDb(self,opendb,attrs=['hdf','log','zpt'],forcetime=False):
         if self.l1_OK:
             cursor = opendb.cursor()

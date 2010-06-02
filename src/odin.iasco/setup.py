@@ -21,7 +21,7 @@ setup(
                 'scipy',
 		],
         tests_require='mocker',
-        test_suite="tests.alltests.test_suite",
+        test_suite="odin.iasco.tests.alltests.test_suite",
         eager_resources=['matlab/IASCO.m','matlab/MakeWinds.m','matlab/SMR_501hdf_read.m','matlab/SMR_544hdf_read.m','matlab/assimilateG.m','matlab/define_assgridG.m','matlab/readecmwfmult.m','matlab/Tools/mjd2utc.m','matlab/Tools/read_l2_smr.m','matlab/Tools/utc2mjd.m']
         )
 

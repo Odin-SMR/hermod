@@ -83,6 +83,3 @@ def downloadl1bfiles():
     l1b.gettickets()
     l1b.download()
     l1b.finish()
-
-if __name__=="__main__":
-    downloadl1bfiles()

@@ -12,20 +12,23 @@ class WindMaker(GEMMatlab):
         self.cursor = self.db.cursor()
 
     def makewind(self):
-        self.connect()
         self.start_matlab()
-        prefix = config.get('GEM','LEVEL1B_DIR')
+        prefix = self.config.get('GEM','LEVEL1B_DIR')
         self.matlab_command("cd /odin/extdata/ecmwf/tz")
         for f in self.lists:
             print f
             idn, logfile = f
             filename = join(prefix,logfile)
-            self..matlab_command(
-                    "create_tp_ecmwf_rss2('%s')"%join(prefix,self.log))
+            try:
+                self.matlab_command(
+                        "create_tp_ecmwf_rss2('%s')"%filename)
+            except RuntimeError,e:
+                #error or logmessage
+                print "error"
+                continue
             self.register(idn,logfile.replace("LOG","ZPT"))
 
         self.close_matlab()
-        self.close()
 
     def register(self, idn, name):
         self.cursor.execute("""
@@ -43,7 +46,7 @@ def makewinds():
     db = connect()
     cursor = db.cursor()
     cursor.execute("""
-            SELECT id
+            SELECT id,filename
             from level1b_gem l1g
             where filename regexp ".*LOG" 
                 and not exists (
@@ -56,5 +59,5 @@ def makewinds():
     cursor.close()
     db.close()
     l1b = WindMaker(result)
-    l1b.makewinds()
+    l1b.makewind()
     l1b.finish()

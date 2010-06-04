@@ -11,6 +11,7 @@ setup(
             "hermodrunprocessor = odin.hermod.processor:main",
             "hermodrunjob = odin.hermod.scripts.hermodrunjob:main",
             "hermodgetwinds = odin.hermod.ecmwf:rungetfilesfromnilu",
+            "hermodmakezpt = odin.hermod.winds:makewinds",
 #            "hermodl1bfind = odin.hermod.scripts.hermodl1bfind:main",
 #            "hermodl1bcp = odin.hermod.scripts.hermodl1bcp:main",
 #            "hermodl2find = odin.hermod.scripts.hermodl2find:main",

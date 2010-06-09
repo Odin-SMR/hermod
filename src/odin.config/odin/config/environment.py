@@ -19,7 +19,7 @@ def config():
         ])
     if expanduser('~/.hermod.cfg.secret') not in config_files:
         mesg = " ".join ("Make sure to create a file called",
-                os.path.expanduser('~/.hermod.cfg.secret'),
+                expanduser('~/.hermod.cfg.secret'),
                 "and put your passwords in it.",
                 "protect it with read permissions only for you")
         raise HermodError(mesg)

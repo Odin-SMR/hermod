@@ -4,6 +4,7 @@ from os.path import dirname,basename,join
 import os, stat, errno
 import fuse
 from fuse import Fuse
+from re import match
 
 
 
@@ -83,9 +84,36 @@ def smrlist(path):
 	f = path.split('/')
         return filelist(cal[f[1]],fm[f[2]])
 
+def path2real(path):
+    base = basename(path)
+    #6.0/AC2/C2/OC1BC274.HDF
+    cal = {'V-1':1,'V-6':6,'V-7':7}
+    m=match('(V-.)/.M_(AC.).{1,2}.*(.{4})\.(.{3})',
+            'V-6/SM_AC2ab/OC1BC274.HDF')
+    calibration = cal[m.group(1)]
+    backend = m.group(2)
+    orbit = int(m.group(3),16)
+    filetype = m.group(4)
+    db = connect()
+    cur = db.cursor()
+    cur.execute('''
+            SELECT l1g.filename 
+            FROM level1 join level1b_gem l1g using (id)
+            where backend=%s and orbit=%s and calversion=%s 
+                and l1g.filename regexp %s
+        ''',(backend,orbit,calibration,'.*'+filetype))
+    result = cur.fetchone()
+    cur.close()
+    db.close()
+    return '/odin/smr/Data/level1b/'+result[0]
+    
+   
 
-class HelloFS(Fuse):
+class SmrFS(Fuse):
 
+    def __init__(self,*args,**kwargs):
+        Fuse.__init__(self,*args,**kwargs)
+        self.file_class = SmrFile
     def getattr(self, path):
         st = MyStat()
         if pathdepth(path)<4 :
@@ -102,33 +130,27 @@ class HelloFS(Fuse):
     def readdir(self, path, offset):
         for r in ['.','..']+smrlist(path):
 			yield fuse.Direntry(r)
-		
 
-    def open(self, path, flags):
-        if pathdepth(path)!=4:
-            return -errno.ENOENT
-        accmode = os.O_RDONLY | os.O_WRONLY | os.O_RDWR
-        if (flags & accmode) != os.O_RDONLY:
-            return -errno.EACCES
+class SmrFile(object):
 
-    def read(self, path, size, offset):
-	if pathdepth(path)!=4:
-            return -errno.ENOENT
-        slen = len(hello_str)
-        if offset < slen:
-            if offset + size > slen:
-                size = slen - offset
-            buf = hello_str[offset:offset+size]
-        else:
-            buf = ''
-        return buf
+    def __init__(self, path, flags, *mode):
+        self.file = os.fdopen(os.open(path2real(path), flags, *mode),
+                              flag2mode(flags))
+        self.fd = self.file.fileno()
+
+    def read(self, length, offset):
+        self.file.seek(offset)
+        return self.file.read(length)
+
+    def release(self, flags):
+        self.file.close()
 
 def main():
     usage="""
 Userspace hello example
 
 """ + Fuse.fusage
-    server = HelloFS(version="%prog " + fuse.__version__,
+    server = SmrFS(version="%prog " + fuse.__version__,
                      usage=usage,
                      dash_s_do='setsingle')
 

@@ -1,6 +1,6 @@
 
 from unittest import makeSuite,TestSuite,TextTestRunner,TestCase
-from odin.hermod.smr import pathdepth,filelist
+from odin.hermod.smr import pathdepth,filelist,path2real
 class SMRTestCase(TestCase):
 
     def test_pathdepth(self):
@@ -12,10 +12,15 @@ class SMRTestCase(TestCase):
     def test_filelist(self):
         self.assertEqual(len(filelist(6,1)),100)
 
+    def test_path(self):
+        a =path2real('/V-6/SM_AC2ab/OC1BC274.HDF')    
+        self.assertEqual(a,'/odin/smr/Data/level1b/6.0/AC2/C2/OC1BC274.HDF')
+
 def test_suite():
     tests = [
             'test_pathdepth',
             'test_filelist',
+            'test_path',
             ]
     return TestSuite(map(SMRTestCase,tests))
 

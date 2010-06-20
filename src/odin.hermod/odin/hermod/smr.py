@@ -22,12 +22,23 @@ def filelist(cal,fm):
     db = connect()
     cur = db.cursor()
     cur.execute('''
-        SELECT l1g.filename FROM level1b_gem l1g join level1 l1 using (id) where freqmode=%s and calversion=%s limit 100;
+        SELECT l1g.filename FROM level1b_gem l1g join level1 l1 using (id) where freqmode=%s and calversion=%s
         ''',(fm,cal))
     result = cur.fetchall()
     cur.close()
     db.close()
     return [basename(r[0]) for r in result]
+
+def flag2mode(flags):
+    md = {os.O_RDONLY: 'r', os.O_WRONLY: 'w', os.O_RDWR: 'w+'}
+    m = md[flags & (os.O_RDONLY | os.O_WRONLY | os.O_RDWR)]
+
+    if flags | os.O_APPEND:
+        m = m.replace('w', 'a', 1)
+
+    return m
+
+
 
 class MyStat(fuse.Stat):
     def __init__(self):
@@ -88,8 +99,8 @@ def path2real(path):
     base = basename(path)
     #6.0/AC2/C2/OC1BC274.HDF
     cal = {'V-1':1,'V-6':6,'V-7':7}
-    m=match('(V-.)/.M_(AC.).{1,2}.*(.{4})\.(.{3})',
-            'V-6/SM_AC2ab/OC1BC274.HDF')
+    m=match('/(V-.)/.M_(AC.).{1,2}.*(.{4})\.(.{3})',
+            path)
     calibration = cal[m.group(1)]
     backend = m.group(2)
     orbit = int(m.group(3),16)
@@ -107,6 +118,40 @@ def path2real(path):
     db.close()
     return '/odin/smr/Data/level1b/'+result[0]
     
+class SmrFile(object):
+
+    def __init__(self, path, flags, *mode):
+        self.pathnnname = path
+        self.realnnnfile = path2real(path)
+        self.file = os.fdopen(os.open(
+                self.realnnnfile, 
+                flags, 
+                *mode),flag2mode(flags))
+        self.fd = self.file.fileno()
+
+    def read(self, length, offset):
+        self.file.seek(offset)
+        return self.file.read(length)
+
+    def release(self, flags):
+        self.file.close()
+
+    def fgetattr(self):
+        return os.fstat(self.fd)
+    def _fflush(self):
+        if 'w' in self.file.mode or 'a' in self.file.mode:
+            self.file.flush()
+    def fsync(self, isfsyncfile):
+        self._fflush()
+        if isfsyncfile and hasattr(os, 'fdatasync'):
+            os.fdatasync(self.fd)
+        else:
+            os.fsync(self.fd)
+
+    def flush(self):
+        self._fflush()
+        os.close(os.dup(self.fd))
+
    
 
 class SmrFS(Fuse):
@@ -131,19 +176,7 @@ class SmrFS(Fuse):
         for r in ['.','..']+smrlist(path):
 			yield fuse.Direntry(r)
 
-class SmrFile(object):
 
-    def __init__(self, path, flags, *mode):
-        self.file = os.fdopen(os.open(path2real(path), flags, *mode),
-                              flag2mode(flags))
-        self.fd = self.file.fileno()
-
-    def read(self, length, offset):
-        self.file.seek(offset)
-        return self.file.read(length)
-
-    def release(self, flags):
-        self.file.close()
 
 def main():
     usage="""
@@ -159,3 +192,4 @@ Userspace hello example
 
 if __name__ == '__main__':
     main()
+

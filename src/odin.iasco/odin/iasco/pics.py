@@ -5,13 +5,6 @@ from plot import globalPlot,polarPlot
 from convert_date import utc2mjd,mjd2utc
 import os.path
 from odin.config.environment import *
-#from odinsite.level3.register import registerObject
-
-#for mjd in range(52375,52376):#,52306):
-#    for species in ['O3_501','O3_544','H2O','HNO3','N2O']:
-#        for level in potLevel[species]:
-#            year,month,day,hour,minute,sec,tic=mjd2utc(mjd)
-#            inst.createLevel3Object(u'odin_wp',u'marjan',str(year),str(month),str(day),species,level)
  
 def makePictures(date,fqid,zope): 
     """
@@ -35,9 +28,7 @@ def makePictures(date,fqid,zope):
         ### Generation of global plots
         for level in levels: 
             globalPlot(date_mjd,level,spec)
-            #inst=registerObject('parts/instance/etc/zope.conf')
             year,month,day,hour,minute,sec,tic=mjd2utc(date_mjd)
-            #inst.createLevel3Object(u'odin_wp',u'marjan',str(year),str(month),str(day),species,str(level))
             zope.stdin.write("%s,%s,%s,%s,%s\n"%(year,month,day,spec,level))
 
         file_501=config().get('GEM','LEVEL3_DIR') + 'DATA/O3_501/' + str(date.year) + '/' + str(date.month) + '/' + 'O3_501_' + str(date_mjd) + '_00.mat'

@@ -5,8 +5,6 @@ import os.path
 import shutil
 import sys
 import StringIO
-import logging
-import logging.config
 from pymatlab.matlab import MatlabSession
 from convert_date import utc2mjd
 from datetime import timedelta
@@ -15,18 +13,15 @@ from odin.config.environment import *
 from pkg_resources import resource_stream
 from os.path import dirname
 
-def extractWinds(date): 
+def extractWinds(date,logger): 
     """
     Extraction of the wind-files via matlab
     """
     name = config().get('logging','configfile')
     file = resource_stream('odin.config',name)
-    logging.config.fileConfig(file)
-    root_logger = logging.getLogger("")
-    logger = logging.getLogger("iasco_winds")
     file_dir = dirname(file.name)
-    
-    logger.info('Extracting winds in MakeWinds.m for date:',date) #Write information to log
+
+    logger.info('Extracting winds in MakeWinds.m for date: ' + str(date)) #Write information to log
     # Convert the date to mjd
     date_mjd=utc2mjd(date.year,date.month,date.day)
 
@@ -36,22 +31,17 @@ def extractWinds(date):
         
     try:
         session.run('eval(command)') 
-    except RuntimeError as error_msg:
+    except RuntimeError,error_msg:
         logger.error(error_msg) # Write error to log
         session.close()
         raise(RuntimeError(error_msg))
 
     session.close()
 
-def copyWinds(date): 
+def copyWinds(date,logger): 
     """
     Copy existing wind-files if there are no extracted wind-files for the specific day and/or time and/or level
     """
-    name = config().get('logging','configfile')
-    file = resource_stream('odin.config',name)
-    logging.config.fileConfig(file)
-    root_logger = logging.getLogger("")
-    logger = logging.getLogger("iasco_winds")
     
     path=config().get('GEM','WIND2_DIR') ### Path to the wind data
     year,month,day=date.year,date.month,date.day
@@ -67,7 +57,7 @@ def copyWinds(date):
                     while not os.path.exists(copy_file):
                         date_0 = date_0-timedelta(1)
                         if date_0 < dtdate(2001,10,1): # To prevent the while loop to go out of range
-                            logger.info('No wind files exist for the wanted range of days, copy wind files manually and try again') 
+                            logger.error('No wind files exist for the wanted range of days, copy wind files manually and try again') 
                             raise(RuntimeError('Wind file date out of range'))
                         
                         year_c,month_c,day_c=date_0.year,date_0.month,date_0.day
@@ -80,7 +70,7 @@ def copyWinds(date):
                                 if not os.path.exists(path + str(year) + '/' + str(month) + '/'):
                                     os.mkdir(path + str(year) + '/' + str(month) + '/')
                                 shutil.copyfile(copy_file,wanted_file)
-                                logger.info(wanted_file,'were missed so',copy_file,'was copied') # Information to log
+                                logger.info(wanted_file + ' were missed so ' + copy_file + ' was copied') # Information to log
                                 break
             
                 else: ### If wind data is missing for j=6,12,18 we just copy from the same day, 6h before, because we can be sure we have data for time=0 on the actual day(the code above)
@@ -90,4 +80,4 @@ def copyWinds(date):
                     if not os.path.exists(path + str(year) + '/' + str(month) + '/'):
                         os.mkdir(path + str(year) + '/' + str(month) + '/')
                     shutil.copyfile(copy_file,wanted_file)
-                    logger.info(wanted_file,'were missed so',copy_file,'was copied') # Information to log
+                    logger.info(wanted_file + ' were missed so ' + copy_file + ' was copied') # Information to log

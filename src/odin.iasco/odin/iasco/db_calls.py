@@ -3,23 +3,15 @@
 
 import MySQLdb 
 import sys
-import logging
-import logging.config
 from odin.config.environment import *
 from convert_date import utc2mjd
 from datetime import datetime,timedelta
 from pkg_resources import resource_stream
 
-def w2iasco(date,fqid,version):
+def w2iasco(date,fqid,version,logger):
     """
     Write information to the iasco database.
     """
-    name = config().get('logging','configfile')
-    file = resource_stream('odin.config',name)
-    logging.config.fileConfig(file)
-    root_logger = logging.getLogger("")
-    logger = logging.getLogger("iasco_database")
-    
     if fqid==29:
         species=['O3_501','N2O']
     elif fqid==3:
@@ -44,14 +36,15 @@ def w2iasco(date,fqid,version):
             ins = db.cursor()
             ins.execute('''UPDATE iasco set processed=now(),wind=0,hdf=0,assimilate=0 where assdate=%s and species=%s ''',(assdate,spec)) # Update the time of processing to now and set all booleans to 0
             ins.close()
-    logger.info('The IASCO database have been updated for date:',date,'and fqid',fqid) # Write to logg
+    logger.info('The IASCO database have been updated for date: ' + str(date) + ' and fqid ' + str(fqid)) # Write to logg
 
-def w2iasco_orbits(date,assid,l1ids):
+def w2iasco_orbits(date,assid,l1ids,logger):
     """
     Write information to the iasco_orbits database.
     """
     if l1ids==[]:
-        sys.exit('Failed in db_write.orbit, there are no l1id' + '\nDate:' + str(date) + '\nAssid:' + str(assid) + '\nL1ids:' + str(l1ids))
+        logger.error('Failed in db_calls.w2iasco_orbits, there are no l1ids. Date: ' + str(date) + ', assid: ' + str(assid) + ', l1ids: ' + str(l1ids))
+        sys.exit(0)
     else:   
         db = MySQLdb.connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
         d = db.cursor()

@@ -3,23 +3,18 @@
 
 import MySQLdb
 from pymatlab.matlab import MatlabSession
-import logging
-import logging.config
 import sys
 import StringIO
 from odin.config.environment import *
 from pkg_resources import resource_stream
 from os.path import dirname
 
-def hdfRead(date,orbit_list,fqid): 
+def hdfRead(date,orbit_list,fqid,logger): 
     """
     Create mat-files (via matlab) of the orbit-files for one date and fqid at the time
     """
     name = config().get('logging','configfile')
     file = resource_stream('odin.config',name)
-    logging.config.fileConfig(file)
-    root_logger = logging.getLogger("")
-    logger = logging.getLogger("iasco_tracer_fields")
     file_dir = dirname(file.name)
     
     backward = [] # Orbits that overlap the limit betweens two days, where the first part of the orbit doesn't belong to the date which is now being assmilated
@@ -33,10 +28,10 @@ def hdfRead(date,orbit_list,fqid):
 
     # Executes SMR_501hdf_read and SMR_544hdf_read to create mat-files from the hdf-files
     if fqid==29:
-        logger.info('Orbit process started in SMR_501hdf_read.m for date:',date,'fqid:',fqid,'and orbits',orbit_list['orbit'])  
+        logger.info('Orbit process started in SMR_501hdf_read.m for date: ' + str(date) + ' fqid: ' + str(fqid) + ' and orbits ' + str(orbit_list['orbit']))  
         cmd = "addpath(genpath('" + config().get('GEM','MATLAB_DIR') + "'), '" + file_dir + "');\n" + 'SMR_501hdf_read(' + str(orbit_list['orbit']) + ',' + str(backward) + ',' + str(forward) + ');'
     elif fqid==3:
-        logger.info('Orbit process started in SMR_544hdf_read.m for date:',date,'fqid:',fqid,'and orbits',orbit_list['orbit'])
+        logger.info('Orbit process started in SMR_544hdf_read.m for date: ' + str(date) + ' fqid: ' + str(fqid) + ' and orbits ' + str(orbit_list['orbit']))
         cmd = "addpath(genpath('" + config().get('GEM','MATLAB_DIR') + "'), '" + file_dir + "');\n" + 'SMR_544hdf_read(' + str(orbit_list['orbit']) + ',' + str(backward) + ',' + str(forward) + ');'
      
     session = MatlabSession('matlab -nodisplay') 
@@ -44,7 +39,7 @@ def hdfRead(date,orbit_list,fqid):
     
     try:
         session.run('eval(command)') 
-    except RuntimeError as error_msg:
+    except RuntimeError,error_msg:
         logger.error(error_msg) # Write error to log
         session.close()
         raise(RuntimeError(error_msg))

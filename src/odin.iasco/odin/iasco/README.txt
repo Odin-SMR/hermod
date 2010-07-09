@@ -5,7 +5,23 @@ This README file contains information for installing and using the odin.iasco-eg
 
 ### Installing the egg and necessary preparations ###
 
-Info about installation, changing paths, other stuff thats needed (e.g hermod, matlab-files) and other good things to know before start
+The odin.iasco-egg is placed in /misc/apps/odinsite, otherwise all files are placed on the svn site (http://svn.rss.chalmers.se/projects/odinsmr/browser/hermod/trunk/src/odin.iasco). The odin.hermod and odin.config eggs are also needed to run and install the egg. Here is a list of needed programs and their (tested) versions.
+
+python-2.4
+basemap-0.99.4
+fuse_python-0.2
+MySQL_python-1.2.3 
+numpy-1.4.1
+odin.config-0.0.3
+odin.hermod-3.3.3
+pexpect-2.4
+pip-0.7.2
+pymatlab-0.1.1
+scipy-0.8.0
+setuptools-0.6
+
+All file directories are listed in defaults.cfg that is placed in the odin.config-egg. 
+When the program is running it is writing a log-file defined in odinlogger.cfg also placed in the odin.config-egg. If another log type is wanted, for example a log server, the option is commented in the same file. As for now the log file is /home/odinop/crontab_logs/iasco_log.txt
 
 ==========================
 
@@ -24,7 +40,7 @@ blackbox_main.py
 
 ----------------
 assimilate.py
-    Info kommer här
+    Run the IASCO.m assimilation program for the chosen date, species and levels.
     
 ----------------
 color_axis.py
@@ -50,18 +66,18 @@ mark_iasco_db.py
     
 ----------------
 pics.py
-    Info kommer här
+    Uploades the pictures on the chalmers ODIN home page (http://odin.rss.chalmers.se)
     
 ----------------
 plot.py
-    Info kommer här
+    Making global and polar images of the assimilation and saves the images as .png files.
     
 ----------------
 tracer_fields.py
-    Info kommer här
+    Run SMR_501hdf_read.m and SMR_544hdf_read.m to create files containing tracer gases from ODIN.
     
 ----------------
 winds.py
-    Info kommer här
+    Run the MakeWinds.m program for extracting wind files from NILU
     
 ==========================

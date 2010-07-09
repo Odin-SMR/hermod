@@ -14,7 +14,6 @@ def markWinds():
     file = resource_stream('odin.config',name)
     logging.config.fileConfig(file)
     root_logger = logging.getLogger("")
-    logger = logging.getLogger("mark_iasco_db")
     
     con = connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     query = """
@@ -23,7 +22,7 @@ def markWinds():
         """
     num_wind = con.query(query)
     con.close()
-    logger.info(num_wind,'rows have been marked with wind flags')
+    logger.info(str(len(num_wind)) + ' rows have been marked with wind flags')
     
 def markL2(): 
     '''
@@ -33,7 +32,6 @@ def markL2():
     file = resource_stream('odin.config',name)
     logging.config.fileConfig(file)
     root_logger = logging.getLogger("")
-    logger = logging.getLogger("mark_iasco_db")
     
     con =connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     query = """
@@ -59,7 +57,7 @@ def markL2():
             """ % row
         con.query(q)
     con.close()
-    logger.info(len(rows),'rows have been marked with hdf flags')
+    logger.info(str(len(rows)) + ' rows have been marked with hdf flags')
     
 def markAss(): 
     '''
@@ -69,7 +67,6 @@ def markAss():
     file = resource_stream('odin.config',name)
     logging.config.fileConfig(file)
     root_logger = logging.getLogger("")
-    logger = logging.getLogger("mark_iasco_db")
     
     con = connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     query = """
@@ -113,7 +110,6 @@ def markDaysWithNewOrbits():
     file = resource_stream('odin.config',name)
     logging.config.fileConfig(file)
     root_logger = logging.getLogger("")
-    logger = logging.getLogger("mark_iasco_db")
     
     con = connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     for fqid in [3,29]:
@@ -153,7 +149,7 @@ def markDaysWithNewOrbits():
                 con.query(q4)
                 count = count + 1
     con.close()
-    logger.info(count,'rows have been marked because new orbits have occured.')    
+    logger.info(str(count) + ' rows have been marked because new orbits have occured.')    
 
 def main():
     markWinds()

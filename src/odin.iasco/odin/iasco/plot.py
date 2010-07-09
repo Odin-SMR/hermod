@@ -5,6 +5,19 @@
 plot.py plots measured and simulated data from the ODIN satellite and the simulation program IASCO. The plots are projected eather on a world map (Miller projection) och on the north and south pole. For more information on how to use these different applications, please see the documentation for globalPlot and polarPlot respectivly.
 """
 
+import convert_date as c
+import color_axis as col
+from scipy import io as sio
+import matplotlib as matplotlib
+matplotlib.use('Agg')
+import os
+import numpy as n
+from mpl_toolkits.basemap import Basemap,shiftgrid
+from pylab import *
+import gc
+from datetime import date as dt
+from odin.config.environment import *
+
 def globalPlot(date_mjd,level,species):
     """
     Function for a global plot. The figure shows a plot over the world map for the chosen species (O3 501.8 GHz, O3 544.6 GHz, H2O, N2O, HNO3). Inputs are the date defined in Modified Julian Date, the potential temperature level of interest (see table below) and the species of interest (date and level (0 to 5) should be defined as integers while the species is defined as a string).
@@ -18,19 +31,6 @@ def globalPlot(date_mjd,level,species):
   
     Example: globalPlot(54745,2,'O3_501') - Will plot a global projection for 2008-10-06 for O3 (510.8 GHz) at the potential temperature level 575 K.
     """
-    import convert_date as c    # Convert dates (mjd <=> utc)
-    import color_axis as col    # Determine the color axis for each species and level
-    from scipy import io as sio
-    import matplotlib as matplotlib
-    matplotlib.use('Agg')
-    import os
-    import numpy as n
-    from mpl_toolkits.basemap import Basemap,shiftgrid
-    from pylab import *
-    import gc
-    from datetime import date as dt
-    from odin.config.environment import *
-
     year,month,day,hour,minute,secs,tics = c.mjd2utc(date_mjd)
     load_path = config().get('GEM','LEVEL3_DIR') + 'DATA/'
     data = sio.loadmat(load_path + species + '/' + str(year) + '/' + str(month) + '/' + species + '_' + str(date_mjd) + '_00.mat')
@@ -140,19 +140,7 @@ def polarPlot(date_mjd,level):
 
     Example: polarPlot(54745,0) - Will plot a polar projection for 2008-10-06 at the potential temperature level 475 K.
     """
-    import convert_date as c    # Convert dates (mjd <=> utc)
-    import color_axis as col    # Determine the color axis for each species and level
-    from scipy import io as sio
-    import matplotlib as matplotlib
-    matplotlib.use('Agg')
-    import os
-    import numpy as n
-    from mpl_toolkits.basemap import Basemap,shiftgrid
-    from pylab import *
     import matplotlib.colors as colors
-    import gc
-    from datetime import date as dt
-    from odin.config.environment import *
 
     species=['O3_501','H2O','N2O','HNO3']
     titles=['O3 (501.8 GHz)','H2O','N2O','HNO3']

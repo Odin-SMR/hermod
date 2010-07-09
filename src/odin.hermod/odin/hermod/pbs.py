@@ -14,7 +14,7 @@ runscript = """
 
 /home/odinop/sandbox/bin/hermodrunjob
 """
-
+#the renscript is not generic enough - have to change the last line
 class GEMPbs(IPbs):
     
     def set_submit_info(self,queue='new'):

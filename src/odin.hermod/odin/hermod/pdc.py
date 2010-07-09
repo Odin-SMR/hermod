@@ -16,7 +16,7 @@ from gemlogger import logger
 class PDCKerberosTicket(IKerberosTicket):
 
     def request(self):
-        ticket = spawn('kinit -f -r 7d -l 30d  %s@%s'%(config.get('PDC','user'),config.get('PDC','principal')))
+        ticket = spawn('/usr/bin/kinit -f -r 7d -l 30d  %s@%s'%(config.get('PDC','user'),config.get('PDC','principal')))
         ticket.expect('.*Password: $')
         ticket.sendline(config.get('PDC','passwd'))
         ticket.expect(EOF)

@@ -16,7 +16,7 @@ from gemlogger import logger
 class PDCKerberosTicket(IKerberosTicket):
 
     def request(self):
-        ticket = spawn('/usr/bin/kinit -f -r 7d -l 30d  %s@%s'%(config.get('PDC','user'),config.get('PDC','principal')))
+        ticket = spawn('/usr/bin/kinit -f -r 154h -l 8h  %s@%s'%(config.get('PDC','user'),config.get('PDC','principal')))
         ticket.expect('.*Password: $')
         ticket.sendline(config.get('PDC','passwd'))
         ticket.expect(EOF)
@@ -25,11 +25,11 @@ class PDCKerberosTicket(IKerberosTicket):
         return retcode==0
 
     def check(self):
-        getticket = Popen(['/usr/bin/klist'],stdout=PIPE,stderr=PIPE)
+        getticket = Popen(['/usr/bin/klist','-t'],stdout=PIPE,stderr=PIPE)
         retcode = getticket.wait()
         msg = getticket.stdout.read()
         getticket.stdout.close()
-        return (not retcode and msg.find(config.get('PDC','principal'))>=0)
+        return (not retcode)
 
     def renew(self):
         getticket = Popen(['/usr/bin/kinit','-R'],stderr=PIPE)

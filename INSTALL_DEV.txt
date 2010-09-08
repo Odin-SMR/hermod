@@ -1,0 +1,5 @@
+#check out
+virtualenv -p /usr/bin/python2.6 --no-site-packages <directory>
+cd <directory>
+bin/easy_install-2.6 zc.buildout
+bin/buildout

@@ -13,10 +13,9 @@ class L1bDownloader(PDCKerberosTicket,PDCkftpGetFiles):
         self.cursor = self.db.cursor()
 
     def gettickets(self):
-        if not self.check():
+        if not self.renew():
+            self.destroy()
             self.request()
-        else:
-            self.renew()
     
     def download(self):
         self.connect()
@@ -45,8 +44,7 @@ class L1bDownloader(PDCKerberosTicket,PDCkftpGetFiles):
     def register(self, idn, name):
         self.cursor.execute("""
                 replace level1b_gem
-                (id,filename)
-                values (%s,%s)
+                values (%s,%s,CURRENT_TIMESTAMP)
                 """,(idn,name))
 
     def finish(self):
@@ -69,7 +67,7 @@ def downloadl1bfiles():
     db = connect()
     cursor = db.cursor()
     cursor.execute('''
-            select l1.id,l1.filename,l1.logname
+            select distinct l1.id,l1.filename,l1.logname
             from level1 l1
             join status s on (l1.id=s.id)
             left join level1b_gem l1bg on (l1.id=l1bg.id)

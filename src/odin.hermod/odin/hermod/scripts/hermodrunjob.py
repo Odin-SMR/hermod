@@ -188,7 +188,8 @@ class GEMRunner(GEMLevel2FileNames,PDCkftpGetFiles,PDCKerberosTicket):
     def upload(self):
         db = connect(**connection_str)
         cur = db.cursor()
-        if not self.check():
+        if not self.renew():
+            self.destroy()
             self.request()
         if self.connect():
             if self.put(join(config.get('GEM','SMRL2_DIR'),self.parameters['l2file']),

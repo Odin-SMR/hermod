@@ -217,7 +217,7 @@ def main():
     msession = GEMMatlab()
     msession.start_matlab()
     for c in commands:
-        result = msession.command(c)
+        result = msession.matlab_command(c)
         if result!="":
             errors=True
             errmsg = errmsg + result

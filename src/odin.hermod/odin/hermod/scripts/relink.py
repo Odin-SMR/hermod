@@ -57,4 +57,4 @@ join Aero a on (v.id=a.id) and l1.orbit>=%s and l1.orbit<=%s
     db.close()
 
 if __name__ == '__main__':
-    relink(0x0,0xB000)
+    relink(0xA000,0xD000)

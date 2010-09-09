@@ -82,6 +82,7 @@ left join level2files l2f on (l1.id=l2f.id and v.id=l2f.fqid and v.qsmr=l2f.vers
 left join statusl2 s2 on (l1.id=s2.id and v.id=s2.fqid and v.qsmr=s2.version)
 where v.active and l2f.id is null and l1.calversion=6 and (proccount is null or proccount<4)
 order by orbit desc,fqid   
+limit 4
     '''
     x = ProcHFactory(query)
     print x

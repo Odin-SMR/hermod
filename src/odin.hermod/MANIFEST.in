@@ -1,2 +1,2 @@
 include *.txt *.default
-recursive-include pbs_scripts *
+#recursive-include pbs_scripts *

@@ -12,7 +12,7 @@ runscript = """
 #PBS -d %(workdir)s
 #PBS -v id=%(id)i,orbit=%(orbit)i,fqid=%(fqid)s,version=%(version)s,backend=%(backend)s,calversion=%(calversion)s,name=%(name)s,process_time=%(process_time)s,LD_LIBRARY_PATH=/opt/matlab/bin/glnxa64
 
-/home/odinop/hermod_jm/bin/hermodrunjob
+hermodrunjob
 """
 #the renscript is not generic enough - have to change the last line
 class GEMPbs(IPbs):

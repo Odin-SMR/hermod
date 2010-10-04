@@ -4,7 +4,7 @@ HERMOD processing suite
 
 :Authors: 
 
-        Joakim Möller <joakim.moller@chalmers.se>, Donal Murtagh <donal.murtagh@chalmers.se>, Joachim Urban <joaurb@chalmers.se>
+        Joakim Möller <joakim.moller@molflow.com>, Donal Murtagh <donal.murtagh@chalmers.se>, Joachim Urban <joaurb@chalmers.se>
 
 :Version: 
         
@@ -23,9 +23,9 @@ HERMOD processing suite
         requirements such as external datafiles and launches a Qsmr session
         when all requirements are met.
 
-.. raw:: pdf
-        
-        PageBreak
+.. .. raw:: pdf
+..        
+..        PageBreak
 
 .. contents:: 
 .. target-notes::
@@ -65,20 +65,28 @@ to find out what data is missing or what can be calculated for the moment ie.
 all prerequisits for starting Qsmr calculations are resolved. Hermod also
 serves other automated systems like IASCO model with data.
 
-.. _Python: http://python.org
+.. .. _Python: http://python.org
 
 
 Required dependencies - Installation and configuration
 ======================================================
 
-The ODIN processing chain and HERMOD make use of third party software.
+The Odin processing chain and Hermo make use of third party software.
 They are all based on some type of open source license like GNU GPL or BSD
 license.
 
+Hermod is buildt to run on Ubuntu Linux 10.04 (server version) but may work on different Ubuntu versions aswell as other POSIX OS:es probably even on windows.
+
+Hermod needs other components to work properly:
+
+Python_ :
+
+        Hermods core is implemented in Python 2.6. But other version may work.
+
 MySQL_ :
 
-        Relational database to manage metadata. Database design for this
-        project i discussed in `Design of Database`_
+        Relational database to manage metadata. Database installation for this
+        project i discussed in `Installation of the Database`_
 
 Torque_ :
 
@@ -94,34 +102,18 @@ Maui_ :
 
 Other tools :
         
-        Python if of course a nescessary dependency. Gcc have to bee installed
-        to be able to compile all python modules.
+        GCC have to bee installed to be able to compile all python modules.
 
+.. _Python: http://python.org/
 .. _MySQL: http://dev.mysql.com/doc/refman/5.1/en/
 .. _Torque: http://www.clusterresources.com/products/torque/docs
 .. _Maui: http://www.clusterresources.com/products/maui/docs
 
  
-Design of Database
-------------------
+Installation of the Database
+-----------------------------
  
 Configuration of database is minimal. Standard apt installation of the package mysql-server is enough see `Appendix A - MySQL create script`_ and `Appendix B - MySQL Table layout`_ for database and table layout.
-
-Datamodel
-_________
-
-The Hermod data model is pretty simple. All tables are 'nitted' together with a 'id' field. For example in the 'level1'-table the logical key that identifies each row is the fields 'orbit','calversion' and 'freqmode'.
-
-        level1:
-        id -> orbit, backend, calversion, freqmode -> 'records in level1'
-
-The 'id'-field is included in the 'level2'-table to make it possible to find all level2 products derived from a 'level1' record.
-
-        level2:
-        id, fqid, scanno -> 'records in level2-table'
-
-        level2files:
-        id, fqid -> 'records in level2files-table'
 
 Torque configuration
 --------------------
@@ -138,30 +130,29 @@ ___________________________
  
 A site-specific installation script ``/misc/apps/torque-package-mom-linux-x86_64.sh`` provided all configuration needed at the client.
 
+This is probably a lie - but would be nice to regenerate the scripts to include everything...
 
 Torque server configuration
 ___________________________
  
-A site-specific installation script ``torque-package-server-linux-x86_64.sh``
+A site-specific installation script ``torque-package-server-linux-x86_64.sh`` installs binaries and libraries and some basic configuration. Configuration to reflect connected nodes and their capabilities is necesary.
 
-The file ``/var/spool/torque/server_priv/nodea`` defines the computee nodes:
-
-.. code-block:: none
+The file ``/var/spool/torque/server_priv/nodes`` defines the computee nodes:
 
         glass np=8 hermod node x86_64
         sard np=2 hermod node x86_64 
 
-Some settings are done through torque's configuration program ``qmgr``. A printout of Torque server settings generated with ``qmgr -C 'print server'`` can be found in `Appendix C - Torque server settings`_.
+The attributes hermod, node and x86_64 specifies different capabilities en each node. 'x86_64' tells us the architechture on the node is 64 bits. 'hermod' states that hermod, Qsmr and Q-pack in installed and works correctly. The last attribute shows us the computer is a node with no other users than the torque queue operates the computer. 'desktop' would state it is a workstation with human users.
+
+Some additional settings con be done through torque's configuration program ``qmgr``. A printout of Torque server settings generated with ``qmgr -C 'print server'`` can be found in `Appendix C - Torque server settings`_.
 
  
 Maui configuration
 ------------------
  
-.. The main configuration file can be found at smiles-p1 in the directory. This software is installed by SEC.
-.. 
-.. .. code-block:: none
-.. 
-..         /usr/local/maui/maui.cfg
+The main configuration file can be found at ``morion.rss.chalmers.se``.
+ 
+         /usr/local/maui/maui.cfg
  
          
 Full configuration file can be found in `Appendix D - Maui configuration`_.
@@ -355,8 +346,30 @@ The source of  hermod is available at `Chalmers' Subversion repoitory`__ .
 
 __ svn_
 
-Algorithms
-----------
+Datamodel
+---------
+
+The database consists of a number of loosly connected tables with records
+(rows) describing meta data about satelite measurement or file stored on disk.
+
+The Hermod data model is pretty simple. All tables are 'nitted' together with a
+'id' field. For example in the 'level1'-table the logical key that identifies
+each row is the fields 'orbit','calversion' and 'freqmode'.
+
+level1:
+        
+        id -> orbit, calversion, freqmode -> 'records in level1'
+
+The 'id'-field is included in the 'level2'-table to make it possible to find all level2 products derived from a 'level1' record.
+
+level2:
+        
+        id, fqid, scanno -> 'records in level2-table'
+
+level2files:
+        
+        id, fqid -> 'records in level2files-table'
+
 
 Finding scans available for processing
 ______________________________________
@@ -391,7 +404,17 @@ _____________________
 Processing
 __________
 
-.. The ``launchjobs``-script executes the main-function in ``juno.common.scan`` which is running AMATERASU and collect the results and puts them in the dabase and the filesystem.
+The ``hermodprocessor``-script executes the main-function in
+``odin.hermod.processor``-module. This module looks in the database to find
+level1b records which not have as many corresponding level2 records as hermod
+expects.
+
+When Hermod detects a job to run - Hermod sends a wrapped Qsmr job to the
+processing cluser and collects the results and puts them in the dabase and the
+filesystem.
+
+Datamodel
+_________
 
 Appendix A - MySQL Create script
 ================================

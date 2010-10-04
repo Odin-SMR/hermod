@@ -8,16 +8,20 @@ HERMOD processing suite
 
 :Version: 
         
-        0.1 
+        0.2 
 
 
 :Date:
 
-        2010-03-23
+        2010-10-01
 
 :Abstract: 
 
-        HERMOD is a part of the ODIN processing chain - automating level1b data to level2 data. This document describes the installation, configuration and function of the program suite. In short HERMOD sets up and run SMR in the ODIN cluster environment.
+        Hermod is a part of the Odin processing chain - automating level1b data
+        to level2 data. This document describes the installation, configuration
+        and function of the program suite. In short Hermod prepares
+        requirements such as external datafiles and launches a Qsmr session
+        when all requirements are met.
 
 .. raw:: pdf
         
@@ -27,44 +31,41 @@ HERMOD processing suite
 .. target-notes::
 .. sectnum::
 
-Level2 processing chain - HERMOD
+Level2 processing chain - Hermod
 ================================
 
-
-.. The processing chain program suite is a set of python modules that provides an
-.. information system that makes it possible to track every single SMILES level1
-.. scan and choose a suitable processor to make higher level data ie. LEVEL2 data.
-.. 
-.. JUNO is a part of the SMILES processing chain makeing high level information
-.. from raw satelite data to very highlevel data ie. Human understandable data and
-.. possibly data collected and aggragated over longer timeperiods.
+The processing chain program suite is a set of python modules that provides an
+information system that makes it possible to track every single Odin Level1
+file and choose a suitable processor to make higher level data i.e. Level2
+data.
+ 
+Hermod is a part of the Odin processing chain making high level information
+from calibrated satelite data to very highlevel data ie. Human understandable
+data and possibly data collected and aggragated over longer timeperiods.
 
 Overview
 --------
 
-.. image:: flow.svg
-    :width: 15cm
+.. image:: flow.png
+    :height: 5cm
 
-.. The JUNO suite are written mostly in Python_ and small part of the code is
-.. written in C with Python's C-api to extend Pythons capabilities to
-.. interact with different tools in the Processing chain.
-.. 
-.. Meta data from the calculations made by AMATERASU is stored in a database and
-.. data are stored in files at the filesystem. 
-.. 
-.. JUNO is the working name of the processing chain. It was chosen for fun after
-.. an attack of the smiles computers. The name of the attackers program was
-.. JUNO.  The name JUNO is unfortunately already occupied in the `Python Package
-.. Index`__ name space. A new must be chosen if we want to publish it at the
-.. `Python Package Index`__ or to avoid name clashes when using ``easy_install`` to
-.. install the juno packages suite.
-.. 
-.. The JUNO system can be seen as a set of scripts that glues AMATERASU calculations and its results into the database. JUNO also uses those result to find out what data is missing or what can be calculated for the moment ie. all prerequisits for starting AMATERASU calculations are resolve. JUNO also gather AMATERASU outputs into daily data products into HDF5 files.
-.. 
-.. .. _Python: http://python.org
-.. .. _PyPI: http://pypi.python.org
-.. __ PyPI_
-.. __ PyPI_
+The hermod suite are written mostly in Python_ and small part of the code is
+written in C with Python's C-api to extend Pythons capabilities to
+interact with different tools in the Processing chain.
+
+Meta data from calculations made by Qsmr is stored in a database and
+data is stored in files at the filesystem. 
+
+Hermod is the collection name for the processing chain. The name Hermod was
+chosen after one of the sons of Odin - Hermod known for his speed. 
+
+The Hermod processing system can be seen as a set of scripts that glues Qsmr's
+calculations and its results into the database. Hermod also uses those result
+to find out what data is missing or what can be calculated for the moment ie.
+all prerequisits for starting Qsmr calculations are resolved. Hermod also
+serves other automated systems like IASCO model with data.
+
+.. _Python: http://python.org
 
 
 Required dependencies - Installation and configuration
@@ -91,6 +92,11 @@ Maui_ :
         The Cluster Scheduler only site specific setup vill be noted in `Maui
         configuration`_
 
+Other tools :
+        
+        Python if of course a nescessary dependency. Gcc have to bee installed
+        to be able to compile all python modules.
+
 .. _MySQL: http://dev.mysql.com/doc/refman/5.1/en/
 .. _Torque: http://www.clusterresources.com/products/torque/docs
 .. _Maui: http://www.clusterresources.com/products/maui/docs
@@ -100,7 +106,23 @@ Design of Database
 ------------------
  
 Configuration of database is minimal. Standard apt installation of the package mysql-server is enough see `Appendix A - MySQL create script`_ and `Appendix B - MySQL Table layout`_ for database and table layout.
- 
+
+Datamodel
+_________
+
+The Hermod data model is pretty simple. All tables are 'nitted' together with a 'id' field. For example in the 'level1'-table the logical key that identifies each row is the fields 'orbit','calversion' and 'freqmode'.
+
+        level1:
+        id -> orbit, backend, calversion, freqmode -> 'records in level1'
+
+The 'id'-field is included in the 'level2'-table to make it possible to find all level2 products derived from a 'level1' record.
+
+        level2:
+        id, fqid, scanno -> 'records in level2-table'
+
+        level2files:
+        id, fqid -> 'records in level2files-table'
+
 Torque configuration
 --------------------
  
@@ -114,40 +136,21 @@ server.
 Torque client configuration
 ___________________________
  
-A standard apt installation of torque-client package is sufficient on each node computer. The following files needs to be edited.
+A site-specific installation script ``/misc/apps/torque-package-mom-linux-x86_64.sh`` provided all configuration needed at the client.
 
-``torqueserver``:
 
-.. code-block:: none
-
-        opal
-
-``mom_priv/config``:
-
-.. code-block:: none
-
-        $configversion 5
-        $remote_reconfig true
-        $logevent 0x1fff
-        $pbsserver opal
-        $pbsclient opal
- 
 Torque server configuration
 ___________________________
  
-A standard apt installation would normaly do fine.
+A site-specific installation script ``torque-package-server-linux-x86_64.sh``
 
-The file ``server_priv/nodea`` defines the computee nodes:
+The file ``/var/spool/torque/server_priv/nodea`` defines the computee nodes:
 
-.. .. code-block:: none
-.. 
-..         smiles-p3 np=8
-..         smiles-p4 np=8
-..         smiles-p5 np=16
-..         smiles-p9 np=16
-..         smiles-p10 np=16
-..         smiles-p11 np=16
-.. 
+.. code-block:: none
+
+        glass np=8 hermod node x86_64
+        sard np=2 hermod node x86_64 
+
 Some settings are done through torque's configuration program ``qmgr``. A printout of Torque server settings generated with ``qmgr -C 'print server'`` can be found in `Appendix C - Torque server settings`_.
 
  
@@ -181,7 +184,6 @@ Package details
 .. JUNO is divided into several smaller enteties that provide specific functionality.
 .. 
 .. juno.hdf5
-.. _________
 .. 
 .. The juno.hdf5 package aggregates AMATERASU LEVEL2 data in to a HDF5 file
 .. containing all data from a specific day and species. Normally this program runs
@@ -225,7 +227,6 @@ Package details
 ..         20091109 -k 20091110 -bA -bC
 .. 
 .. juno.pbs
-.. ________
 .. 
 .. This package interfaces with the resource manager TORQUE to put AMATERASU jobs into the batch queue.
 .. 
@@ -265,7 +266,6 @@ Package details
 .. 
 .. 
 .. juno.external
-.. _____________
 .. 
 .. Tool for use outside of NICT's computing environment. To be distributed to people that wants to interact with smiles specific fileformats
 .. 
@@ -348,11 +348,12 @@ _______________________
 ..         $ dir_to_install/dist_all 
 .. 
 .. Both script is provided in `Appendix E - Juno scripts` for reference.
-.. 
-.. The source of all JUNO and AMATERASU is available at `Chalmers' Subversion repoitory`__ .
-.. 
-.. .. _svn: http://svn.rss.chalmers.se/svn/smiles/
-.. __ svn_
+
+The source of  hermod is available at `Chalmers' Subversion repoitory`__ .
+
+.. _svn: http://svn.rss.chalmers.se/svn/odinsmr/hermod
+
+__ svn_
 
 Algorithms
 ----------

@@ -2,7 +2,7 @@ docgen= rst2pdf
 docgenopts= -b1 --fit-literal-mode=shrink --break-side=odd
 graphgen= dot
 dotsource= $(wildcard *.dot)
-images= $(patsubst %.dot, %.svg,$(dotsource))
+images= $(patsubst %.dot, %.png,$(dotsource))
 
 targets=$(images) odin.hermod.pdf
 
@@ -14,5 +14,5 @@ clean:
 %.pdf : %.rst
 	$(docgen) $(docgenopts) $< -o $@
 
-%.svg : %.dot
-	$(graphgen) -Tsvg $< -o $@
+%.png : %.dot
+	$(graphgen) -Tpng $< -o $@

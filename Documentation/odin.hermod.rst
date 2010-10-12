@@ -81,7 +81,8 @@ Hermod needs other components to work properly:
 
 Python_ :
 
-        Hermods core is implemented in Python 2.6. But other version may work.
+        Hermods core is implemented in Python 2.6. But other versions may also
+        work.
 
 MySQL_ :
 
@@ -102,7 +103,7 @@ Maui_ :
 
 Other tools :
         
-        GCC have to bee installed to be able to compile all python modules.
+        GCC have to be installed to be able to compile all python modules.
 
 .. _Python: http://python.org/
 .. _MySQL: http://dev.mysql.com/doc/refman/5.1/en/
@@ -130,12 +131,21 @@ ___________________________
  
 A site-specific installation script ``/misc/apps/torque-package-mom-linux-x86_64.sh`` provided all configuration needed at the client.
 
-This is probably a lie - but would be nice to regenerate the scripts to include everything...
+        This is probably a lie - but would be nice to regenerate the scripts to
+        include everything...
+
+An important part of the processing system is the scripts at the client that
+creates a temporary directories before a processing starts and removes it when
+processing is finished. These scripts runs wether or not the processing was
+successful or not.
 
 Torque server configuration
 ___________________________
  
-A site-specific installation script ``torque-package-server-linux-x86_64.sh`` installs binaries and libraries and some basic configuration. Configuration to reflect connected nodes and their capabilities is necesary.
+A site-specific installation script ``torque-package-server-linux-x86_64.sh``
+installs binaries and libraries and some basic configuration. Editing
+configuration files to reflect connected nodes and their capabilities is
+necesary.
 
 The file ``/var/spool/torque/server_priv/nodes`` defines the computee nodes:
 
@@ -146,6 +156,27 @@ The attributes hermod, node and x86_64 specifies different capabilities en each 
 
 Some additional settings con be done through torque's configuration program ``qmgr``. A printout of Torque server settings generated with ``qmgr -C 'print server'`` can be found in `Appendix C - Torque server settings`_.
 
+Torque starting and stopping
+____________________________
+
+There are currently no system V init scripts implemented. Starting and stopping server and nodes is manual. There is no problem shutting off a node before the server but the running job at the node will be killed. If server is stopped the current queue will be saved and the current running jobs at the moms will continue. When server is started again moms will report their finished jobs. 
+
+start server at morion:
+
+        $ /usr/local/sbin/pbs_server
+
+start moms at nodes:
+
+        $ /usr/local/sbin/pbs_mom
+
+stop moms at nodes:
+
+        $ /usr/local/sbin/momctl -s
+
+stop server at morion:
+
+        $ /usr/local/bin/qterm -t immediate
+
  
 Maui configuration
 ------------------
@@ -155,7 +186,7 @@ The main configuration file can be found at ``morion.rss.chalmers.se``.
          /usr/local/maui/maui.cfg
  
          
-Full configuration file can be found in `Appendix D - Maui configuration`_.
+Full configuration file can be found in `Appendix D - Maui configuration`_. This setup restrict one user to take all resources at once enforcing Odin processing always have atleast a minimum of processer available but also giving users acccess to the queue.
 
 
 HERMOD
@@ -164,143 +195,54 @@ HERMOD
 Overview
 --------
 
-.. JUNO is a program suite written in Python that interacts with AMATERASU and the
-.. SMILES DATABASE. JUNO runs regulary and decides when to run AMATERASU according
-.. to information JUNO can find in the SMILES DATABASE. JUNO provides a fully
-.. automatic processing system for processing data from LEVEL1 to LEVEL2.
+Hermod is a program suite written in Python that wraps around QSMR and inserts
+metadata in to the SMR database. Hermod runs regulary and decides when to run
+QSMR according to information Hermod can find in the SMR Database. Hermod
+provides a fully automatic processing system for processing data from Level1
+data to Level2 data.
 
 Package details
 ---------------
 
-.. JUNO is divided into several smaller enteties that provide specific functionality.
-.. 
-.. juno.hdf5
-.. 
-.. The juno.hdf5 package aggregates AMATERASU LEVEL2 data in to a HDF5 file
-.. containing all data from a specific day and species. Normally this program runs
-.. from a crontab (launched on a specific time each day) but it runs easily from the command line.
-.. 
-.. Log in as ``smiles`` on ``smiles-p10``. The command ``hdfwriter`` will find level1 scans and put the in the queue to process level2 data. Output will be placed in ``/mnt/raid0/smilesdata/level2r``.
-.. 
-.. .. code-block:: none
-.. 
-..         smiles@smiles-p10:/mnt/raid0/smilesdata/juno$ bin/hdf5writer -h
-..         
-..         Usage: hdf5writer [options]
-..         
-..         Aggregates Level2_nict profiles to a HDF EOS file.
-..         
-..         Options:
-..           -h, --help            show this help message and exit
-..           -s YYYYMMDD, --start-date=YYYYMMDD
-..                                 filter on start date default is 2 days from now
-..           -k YYYYMMDD, --end-date=YYYYMMDD
-..                                 filter on stop date default is now
-..           -b BAND, --band=BAND  only select BAND. Default is all bands
-..           -r L2R_VERSION, --l2r-version=L2R_VERSION
-..                                 use l2r-version default is latest available
-..           -v L1B_VERSION, --l1b-version=L1B_VERSION
-..                                 use l2r-version default is std005
-..        
-.. 
-.. Example 1:  Create hdf5 files for 20091109 to 10091110
-.. 
-.. .. code-block:: none
-.. 
-..         smiles@smiles-p10:/mnt/raid0/smilesdata/juno$ bin/hdf5writer \
-..         -s 20091109 -k 20091110 -r 0.4.3 -v std005
-.. 
-.. Example 2:  Create hdf5 files for 20091109 to 10091110 only band C and A
-.. 
-.. .. code-block:: none
-.. 
-..         smiles@smiles-p10:/mnt/raid0/smilesdata/juno$ bin/hdf5writer -s \
-..         20091109 -k 20091110 -bA -bC
-.. 
-.. juno.pbs
-.. 
-.. This package interfaces with the resource manager TORQUE to put AMATERASU jobs into the batch queue.
-.. 
-.. Log in as smiles on ``smiles-p1``. The command ``launchjobs`` will find level1 scans and put the in the queue to process level2 data.
-.. 
-.. .. code-block:: none
-.. 
-..         smiles@smiles-p1:~/python/smiles$ bin/launchjobs -h
-..         Usage: launchjobs [options]
-..         
-..         Launch L1B scans into cluster.
-..         
-..         Options:
-..           -h, --help            show this help message and exit
-..           -s YYYYMMDD, --start-date=YYYYMMDD
-..                                 filter on start date default is 2 days from now
-..           -k YYYYMMDD, --end-date=YYYYMMDD
-..                                 filter on stop date default is now
-..           -t TYPE, --type=TYPE  filter on TYPE  default [JAXA_std,JAXA_rev,NICT]
-..           -f, --force           Force processing even if level2 already is 
-..                                 produced or previous processing ended with 
-..                                 errors
-..         
-.. Example 1: start processing of the 29 of october 2009 (all types)
-.. 
-.. .. code-block:: none
-.. 
-..         smiles@smiles-p1:~/python/smiles$ bin/launchjobs -s 20091029 \
-..                 -k 20091029
-..         
-.. Example 2: start processing of the 29 of october 2009 JAXA_rev only
-.. 
-.. .. code-block:: none
-.. 
-..         smiles@smiles-p1:~/python/smiles$ bin/launchjobs -s 20091029 \
-..                 -k 20091029 -t JAXA_rev
-.. 
-.. 
-.. juno.external
-.. 
-.. Tool for use outside of NICT's computing environment. To be distributed to people that wants to interact with smiles specific fileformats
-.. 
-.. This example shows how to convert a single l1b-file to a MATLAB file.
-.. 
-.. .. code-block:: none
-.. 
-..         junosavemat -f output.mat l1bfile.l1b
+Hermod is divided into several smaller enteties that provide specific functionality. The current status of the source code is still in a form of transistion from one package to more and smaller sub packages.
+
+odin.hermod
+
+The odin.hermod package is the package which is responsible for the infomation and bookkeeping parts of hermod i.e keep track of file transactions, filedependencies and finally submitting jobs to the queueing system
+
+
+odin.config
+
+The odin.config i more or less a configuration package Hermod and Iasco shares this package
 
 HERMOD Installation
 -------------------
 
-.. The main installation is located in the ``/mnt/raid0/smilesdata/juno``
-.. directory.  From this location all processing nodes runs their instances of
-.. JUNO from.  Unfortunately due to different Ubuntu versions installed throught
-.. out the computing system smiles-p1 is not using the same directory to run from.
-.. This due to different libraries install on different version of ubuntu.
-.. Programs running on smiles-p1 runs from ``/home/smiles/python/smiles``
-.. 
-.. Installing on ubuntu 9.10 requires the following packages.
-.. 
-.. .. code-block:: none
-.. 
-..         pyton-dev
-..         python-virtualenv
-..         python-setuptools
-..         subversion
-..         libhdf5-serial-dev
-..         libatlas-base-dev
-..         gfortran
-..         libfreetype6-dev
-..         libpng12-dev
-..         python-wxgtk2.8
-..         python-gtk2-dev
-..         libmysqlclient-dev
-..         libwxgtk2.8-dev
-.. 
-.. To test if all libraries are available on a machine run the following line. This command generates no output if everything is ok:
-.. 
-.. .. code-block:: none
-.. 
-..         find /mnt/raid0/smilesdata/juno/ -regex .*so -exec ldd \{\} + | grep \
-..                 "not found" | sort -u
-.. 
+For the moment hermod is running from the development source i.e. from the directory ``~odinop/hermod_jm`` for ubuntu 10.04 and  ``~odinop/hermod_glass`` for 9.08 this directory is checked out from svn. This is not by any mean the ideal way to maintain a piece of software. This is a temporary solution.
+
+Best way to continue development is to separate development and production. First all processing nodes and servers in the system need to have the same OS version (ubuntu 10.04 LTS). Using the same OS makes it possible to run Hermod from on single installation shared by NFS.
+
+Hermod packages already exits in ``/misc/apps/odinsite`` a simple buildout installation.
+
+        [buildout]
+        parts = 
+                odin
+        find-links =
+                /misc/apps/odinsite
+        
+        [odin]
+        recipe = zc.recipe.egg
+        interpreter = odinpy
+        eggs = 
+                odin.config
+                odin.iasco
+                odin.hermod
+                mocker
+                pymatlab
+                fuse-python
+                numpy
+                scipy
+
 .. 
 .. To make sure our environment does not change and break when the ubuntu system
 .. updates. Juno is installed in a virtual environment. This is done with the

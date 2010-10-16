@@ -149,6 +149,8 @@ necesary.
 
 The file ``/var/spool/torque/server_priv/nodes`` defines the computee nodes:
 
+.. code-block:: txt
+
         glass np=8 hermod node x86_64
         sard np=2 hermod node x86_64 
 
@@ -163,17 +165,25 @@ There are currently no system V init scripts implemented. Starting and stopping 
 
 start server at morion:
 
+.. code-block:: txt
+
         $ /usr/local/sbin/pbs_server
 
 start moms at nodes:
+
+.. code-block:: txt
 
         $ /usr/local/sbin/pbs_mom
 
 stop moms at nodes:
 
+.. code-block:: txt
+
         $ /usr/local/sbin/momctl -s
 
 stop server at morion:
+
+.. code-block:: txt
 
         $ /usr/local/bin/qterm -t immediate
 
@@ -187,6 +197,18 @@ The main configuration file can be found at ``morion.rss.chalmers.se``.
  
          
 Full configuration file can be found in `Appendix D - Maui configuration`_. This setup restrict one user to take all resources at once enforcing Odin processing always have atleast a minimum of processer available but also giving users acccess to the queue.
+
+start the scheduler:
+
+.. code-block:: txt
+
+        $ /usr/local/bin/maui
+
+stop the scheduler:
+
+.. code-block:: txt
+
+        $ /usr/local/maui/bin/schedctl -k
 
 
 HERMOD
@@ -223,6 +245,8 @@ For the moment hermod is running from the development source i.e. from the direc
 Best way to continue development is to separate development and production. First all processing nodes and servers in the system need to have the same OS version (ubuntu 10.04 LTS). Using the same OS makes it possible to run Hermod from on single installation shared by NFS.
 
 Hermod packages already exits in ``/misc/apps/odinsite`` a simple buildout installation.
+
+.. code-block:: txt
 
         [buildout]
         parts = 
@@ -300,16 +324,22 @@ each row is the fields 'orbit','calversion' and 'freqmode'.
 
 level1:
         
+.. code-block:: txt
+
         id -> orbit, calversion, freqmode -> 'records in level1'
 
 The 'id'-field is included in the 'level2'-table to make it possible to find all level2 products derived from a 'level1' record.
 
 level2:
         
+.. code-block:: txt
+
         id, fqid, scanno -> 'records in level2-table'
 
 level2files:
         
+.. code-block:: txt
+
         id, fqid -> 'records in level2files-table'
 
 

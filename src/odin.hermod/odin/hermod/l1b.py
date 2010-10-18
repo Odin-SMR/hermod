@@ -21,24 +21,27 @@ class L1bDownloader(PDCKerberosTicket,PDCkftpGetFiles):
         self.connect()
         for f in self.lists:
             print f
-            for num,typ in enumerate(['HDF','LOG']):
-                remote = join(
-                        self.config.get('PDC','PDC_DIR'),
-                        f[num+1],
-                        )
-                local = join(
-                        self.config.get("GEM","LEVEL1B_DIR"),
-                        f[num+1],
-                        )
-                makedir(dirname(local))
-                self.get(remote,local)
-                if typ=='HDF':
-                    retcode =system('/bin/gunzip -fq %s'%(local,))
-                    if retcode!=0:
-                        continue
-                    self.register(f[0],f[num+1][:-3])
-                else:
-                    self.register(f[0],f[num+1])
+            if f[1]=='' or f[1] is None:
+                pass
+            else:
+                for num,typ in enumerate(['HDF','LOG']):
+                    remote = join(
+                            self.config.get('PDC','PDC_DIR'),
+                            f[num+1],
+                            )
+                    local = join(
+                            self.config.get("GEM","LEVEL1B_DIR"),
+                            f[num+1],
+                            )
+                    makedir(dirname(local))
+                    self.get(remote,local)
+                    if typ=='HDF':
+                        retcode =system('/bin/gunzip -fq %s'%(local,))
+                        if retcode!=0:
+                            continue
+                        self.register(f[0],f[num+1][:-3])
+                    else:
+                        self.register(f[0],f[num+1])
         self.close()
 
     def register(self, idn, name):

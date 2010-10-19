@@ -4,7 +4,8 @@ HERMOD processing suite
 
 :Authors: 
 
-        Joakim Möller <joakim.moller@molflow.com>, Donal Murtagh <donal.murtagh@chalmers.se>, Joachim Urban <joaurb@chalmers.se>
+        Joakim Möller <joakim.moller@molflow.com>, Donal Murtagh
+        <donal.murtagh@chalmers.se>, Joachim Urban <joaurb@chalmers.se>
 
 :Version: 
         
@@ -75,7 +76,8 @@ The Odin processing chain and Hermo make use of third party software.
 They are all based on some type of open source license like GNU GPL or BSD
 license.
 
-Hermod is buildt to run on Ubuntu Linux 10.04 (server version) but may work on different Ubuntu versions aswell as other POSIX OS:es probably even on windows.
+Hermod is buildt to run on Ubuntu Linux 10.04 (server version) but may work on
+different Ubuntu versions aswell as other POSIX OS:es probably even on windows.
 
 Hermod needs other components to work properly:
 
@@ -114,7 +116,9 @@ Other tools :
 Installation of the Database
 -----------------------------
  
-Configuration of database is minimal. Standard apt installation of the package mysql-server is enough see `Appendix A - MySQL create script`_ and `Appendix B - MySQL Table layout`_ for database and table layout.
+Configuration of database is minimal. Standard apt installation of the package
+mysql-server is enough see `Appendix A - MySQL create script`_ and `Appendix B
+- MySQL Table layout`_ for database and table layout.
 
 Torque configuration
 --------------------
@@ -122,17 +126,33 @@ Torque configuration
 Two types of Torque installations are required - one server installation and
 several client installations on each node in the cluster. The server
 installation manages the queueingsystem and needs to know about all clients
-(computee nodes) in the cluster. The clients does only need to now about the
+(computee nodes) in the cluster. The clients does only need to know about the
 server.
 
  
 Torque client configuration
 ___________________________
  
-A site-specific installation script ``/misc/apps/torque-package-mom-linux-x86_64.sh`` provided all configuration needed at the client.
+A site-specific installation script
+``/misc/apps/torque-package-mom-linux-x86_64.sh`` provided all configuration
+needed at the client.
 
         This is probably a lie - but would be nice to regenerate the scripts to
-        include everything...
+        include everything. Any way the following script make all steps in the
+        installation process.
+
+.. code-block:: txt
+
+        #!/bin/bash
+        # A script to install, prepare and start a node
+        # run as root
+
+        aptitude purge torque-mom torque-client -y
+        sh /misc/apps/torque-package-mom-linux-x86_64.sh --install
+        cp /misc/apps/prologue.user /var/spool/torque/mom_priv/
+        cp /misc/apps/epilogue.user /var/spool/torque/mom_priv/
+        ldconfig
+        pbs_mom
 
 An important part of the processing system is the scripts at the client that
 creates a temporary directories before a processing starts and removes it when
@@ -153,15 +173,27 @@ The file ``/var/spool/torque/server_priv/nodes`` defines the computee nodes:
 
         glass np=8 hermod node x86_64
         sard np=2 hermod node x86_64 
+        ...
 
-The attributes hermod, node and x86_64 specifies different capabilities en each node. 'x86_64' tells us the architechture on the node is 64 bits. 'hermod' states that hermod, Qsmr and Q-pack in installed and works correctly. The last attribute shows us the computer is a node with no other users than the torque queue operates the computer. 'desktop' would state it is a workstation with human users.
+The attributes hermod, node and x86_64 specifies different capabilities en each
+node. 'x86_64' tells us the architechture on the node is 64 bits. 'hermod'
+states that hermod, Qsmr and Q-pack in installed and works correctly. The last
+attribute shows us the computer is a node with no other users than the torque
+queue operates the computer. 'desktop' would state it is a workstation with
+human users.
 
-Some additional settings con be done through torque's configuration program ``qmgr``. A printout of Torque server settings generated with ``qmgr -C 'print server'`` can be found in `Appendix C - Torque server settings`_.
+Some additional settings con be done through torque's configuration program
+``qmgr``. A printout of Torque server settings generated with ``qmgr -C 'print
+server'`` can be found in `Appendix C - Torque server settings`_.
 
 Torque starting and stopping
 ____________________________
 
-There are currently no system V init scripts implemented. Starting and stopping server and nodes is manual. There is no problem shutting off a node before the server but the running job at the node will be killed. If server is stopped the current queue will be saved and the current running jobs at the moms will continue. When server is started again moms will report their finished jobs. 
+There are currently no system V init scripts implemented. Starting and stopping
+server and nodes is manual. There is no problem shutting off a node before the
+server but the running job at the node will be killed. If server is stopped the
+current queue will be saved and the current running jobs at the moms will
+continue. When server is started again moms will report their finished jobs. 
 
 start server at morion:
 
@@ -196,7 +228,10 @@ The main configuration file can be found at ``morion.rss.chalmers.se``.
          /usr/local/maui/maui.cfg
  
          
-Full configuration file can be found in `Appendix D - Maui configuration`_. This setup restrict one user to take all resources at once enforcing Odin processing always have atleast a minimum of processer available but also giving users acccess to the queue.
+Full configuration file can be found in `Appendix D - Maui configuration`_.
+This setup restrict one user to take all resources at once enforcing Odin
+processing always have atleast a minimum of processer available but also giving
+users acccess to the queue.
 
 start the scheduler:
 
@@ -226,46 +261,40 @@ data to Level2 data.
 Package details
 ---------------
 
-Hermod is divided into several smaller enteties that provide specific functionality. The current status of the source code is still in a form of transistion from one package to more and smaller sub packages.
+Hermod is divided into several smaller enteties that provide specific
+functionality. The current status of the source code is still in a form of
+transistion from one package to more and smaller sub packages.
 
 odin.hermod
 
-The odin.hermod package is the package which is responsible for the infomation and bookkeeping parts of hermod i.e keep track of file transactions, filedependencies and finally submitting jobs to the queueing system
+The odin.hermod package is the package which is responsible for the infomation
+and bookkeeping parts of hermod i.e keep track of file transactions,
+filedependencies and finally submitting jobs to the queueing system
 
 
 odin.config
 
-The odin.config i more or less a configuration package Hermod and Iasco shares this package
+The odin.config i more or less a configuration package Hermod and Iasco shares
+this package
 
 HERMOD Installation
 -------------------
 
-For the moment hermod is running from the development source i.e. from the directory ``~odinop/hermod_jm`` for ubuntu 10.04 and  ``~odinop/hermod_glass`` for 9.08 this directory is checked out from svn. This is not by any mean the ideal way to maintain a piece of software. This is a temporary solution.
+For the moment hermod is running from the development source i.e. from the
+directory ``~odinop/hermod_jm`` for ubuntu 10.04 and  ``~odinop/hermod_glass``
+for 9.08 this directory is checked out from svn. This is not by any mean the
+ideal way to maintain a piece of software. This is a temporary solution.
 
-Best way to continue development is to separate development and production. First all processing nodes and servers in the system need to have the same OS version (ubuntu 10.04 LTS). Using the same OS makes it possible to run Hermod from on single installation shared by NFS.
+Best way to continue development is to separate development and production.
+First all processing nodes and servers in the system need to have the same OS
+version (ubuntu 10.04 LTS). Using the same OS makes it possible to run Hermod
+from on single installation shared by NFS.
 
-Hermod packages already exits in ``/misc/apps/odinsite`` a simple buildout installation.
+Hermod packages already exits in ``/misc/apps/odinsite`` a simple buildout
+installation.
 
 .. code-block:: txt
-
-        [buildout]
-        parts = 
-                odin
-        find-links =
-                /misc/apps/odinsite
-        
-        [odin]
-        recipe = zc.recipe.egg
-        interpreter = odinpy
-        eggs = 
-                odin.config
-                odin.iasco
-                odin.hermod
-                mocker
-                pymatlab
-                fuse-python
-                numpy
-                scipy
+        :include: buildout.cfg
 
 .. 
 .. To make sure our environment does not change and break when the ubuntu system
@@ -385,8 +414,6 @@ When Hermod detects a job to run - Hermod sends a wrapped Qsmr job to the
 processing cluser and collects the results and puts them in the dabase and the
 filesystem.
 
-Datamodel
-_________
 
 Appendix A - MySQL Create script
 ================================
@@ -403,30 +430,13 @@ Appendix B - MySQL Table layout
 Appendix C - Torque server settings
 ===================================
 
-.. .. code-block:: none
-..         :include: pbs_set_server.conf
+.. code-block:: txt
+        :include: set__server.conf
  
 Appendix D - Maui configuration
 ===============================
  
-.. The only configuration file is in /usr/local/maui.cfg:
-.. 
-.. .. code-block:: none
-..         :include: maui.cfg
-.. 
-.. Appendix E - Juno scripts
-.. =========================
-.. 
-.. Developers installation script:
-.. 
-.. .. code-block:: none
-..         :include: create_virtualenv.sh
-.. 
-.. Automated deployment:
-.. 
-.. .. code-block:: none
-..         :include: dist_all.sh
-.. 
-.. .. raw:: pdf
-.. 
-..         PageBreak
+The only configuration file is in /usr/local/maui/maui.cfg:
+
+.. code-block:: txt
+        :include: maui.cfg

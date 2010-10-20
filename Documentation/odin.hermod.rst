@@ -135,11 +135,10 @@ ___________________________
  
 A site-specific installation script
 ``/misc/apps/torque-package-mom-linux-x86_64.sh`` provided all configuration
-needed at the client.
+needed at the client. But some additional configuration is needed to provide
+the per session temp directory.
 
-        This is probably a lie - but would be nice to regenerate the scripts to
-        include everything. Any way the following script make all steps in the
-        installation process.
+The following script makes all steps in the installation process.
 
 .. code-block:: txt
 
@@ -294,8 +293,25 @@ Hermod packages already exits in ``/misc/apps/odinsite`` a simple buildout
 installation.
 
 .. code-block:: txt
-        :include: buildout.cfg
 
+        [buildout]
+        parts = 
+                odin
+        find-links =
+                /misc/apps/odinsite
+        
+        [odin]
+        recipe = zc.recipe.egg
+        interpreter = odinpy
+        eggs = 
+                odin.config
+                odin.iasco
+                odin.hermod
+                mocker
+                pymatlab
+                fuse-python
+                numpy
+                scipy
 .. 
 .. To make sure our environment does not change and break when the ubuntu system
 .. updates. Juno is installed in a virtual environment. This is done with the
@@ -431,12 +447,143 @@ Appendix C - Torque server settings
 ===================================
 
 .. code-block:: txt
-        :include: set__server.conf
- 
+
+        #
+        # Create queues and set their attributes.
+        #
+        #
+        # Create and define queue batch
+        #
+        create queue batch
+        set queue batch queue_type = Execution
+        set queue batch resources_default.nodes = 1
+        set queue batch resources_default.walltime = 01:00:00
+        set queue batch enabled = True
+        set queue batch started = True
+        #
+        # Create and define queue new
+        #
+        create queue new
+        set queue new queue_type = Execution
+        set queue new resources_default.nodes = 1
+        set queue new resources_default.walltime = 01:00:00
+        set queue new enabled = True
+        set queue new started = True
+        #
+        # Set server attributes.
+        #
+        set server scheduling = True
+        set server acl_hosts = morion
+        set server managers = root@morion.rss.chalmers.se
+        set server operators = root@morion.rss.chalmers.se
+        set server default_queue = batch
+        set server log_events = 511
+        set server mail_from = adm
+        set server query_other_jobs = True
+        set server scheduler_iteration = 600
+        set server node_check_rate = 150
+        set server tcp_timeout = 6
+        set server mom_job_sync = True
+        set server keep_completed = 300
+        set server auto_node_np = True
+        set server next_job_number = 18315
+
 Appendix D - Maui configuration
 ===============================
  
 The only configuration file is in /usr/local/maui/maui.cfg:
 
 .. code-block:: txt
-        :include: maui.cfg
+        
+        # maui.cfg 3.3
+        
+        SERVERHOST            morion
+        # primary admin must be first in list
+        ADMIN1                root e0joakim jo
+        ADMIN2		      donal odinop
+        ADMIN3		      all
+        
+        # Resource Manager Definition
+        
+        RMCFG[base] TYPE=PBS
+        
+        # Allocation Manager Definition
+        
+        AMCFG[bank]  TYPE=NONE
+        
+        # full parameter docs at http://supercluster.org/mauidocs/a.fparameters.html
+        # use the 'schedctl -l' command to display current configuration
+        
+        RMPOLLINTERVAL        00:00:30
+        
+        SERVERPORT            42559
+        SERVERMODE            NORMAL
+        
+        # Admin: http://supercluster.org/mauidocs/a.esecurity.html
+        
+        
+        LOGFILE               maui.log
+        LOGFILEMAXSIZE        10000000
+        LOGLEVEL              3
+        
+        # Job Priority: http://supercluster.org/mauidocs/5.1jobprioritization.html
+        
+        QUEUETIMEWEIGHT       1 
+        
+        # FairShare: http://supercluster.org/mauidocs/6.3fairshare.html
+        
+        FSPOLICY              PSDEDICATED
+        FSDEPTH               7
+        FSINTERVAL            6:00:00
+        FSDECAY               0.80
+        
+        FSWEIGHT 10
+        CREDWEIGHT 100
+        USERWEIGHT 0
+        GROUPWEIGHT 0
+        CLASSWEIGHT 100
+        SERVICEWEIGHT 1
+        QUEUETIMEWEIGHT 1
+        FSCLASSWEIGHT 100
+        FSUSERWEIGHT 0
+        
+        
+        # Throttling Policies: http://supercluster.org/mauidocs/6.2throttlingpolicies.html
+        
+        # NONE SPECIFIED
+        
+        # Backfill: http://supercluster.org/mauidocs/8.2backfill.html
+        
+        BACKFILLPOLICY        FIRSTFIT
+        RESERVATIONPOLICY     CURRENTHIGHEST
+        
+        # Node Allocation: http://supercluster.org/mauidocs/5.2nodeallocation.html
+        
+        NODEALLOCATIONPOLICY  MINRESOURCE
+        
+        # QOS: http://supercluster.org/mauidocs/7.3qos.html
+        
+        # QOSCFG[hi]  PRIORITY=100 XFTARGET=100 FLAGS=PREEMPTOR:IGNMAXJOB
+        # QOSCFG[low] PRIORITY=-1000 FLAGS=PREEMPTEE
+        
+        # Standing Reservations: http://supercluster.org/mauidocs/7.1.3standingreservations.html
+        
+        # SRSTARTTIME[test] 8:00:00
+        # SRENDTIME[test]   17:00:00
+        # SRDAYS[test]      MON TUE WED THU FRI
+        # SRTASKCOUNT[test] 20
+        # SRMAXTIME[test]   0:30:00
+        
+        # Creds: http://supercluster.org/mauidocs/6.1fairnessoverview.html
+        
+        USERCFG[DEFAULT]      FSTARGET=20 MAXJOB=10
+        USERCFG[odinop]       FSTARGET=50 MAXJOB=50
+        # USERCFG[john]         PRIORITY=100  FSTARGET=10.0-
+        # GROUPCFG[staff]       PRIORITY=1000 QLIST=hi:low QDEF=hi
+        #CLASSCFG[batch]       FLAGS=PREEMPTEE
+        CLASSCFG[batch]       FLAGS=PREEMPTEE PRIORITY=10000
+        # CLASSCFG[interactive] FLAGS=PREEMPTOR
+        CLASSCFG[batch] FSTARGET=40.0
+        CLASSCFG[rerun] FSTARGET=20.0
+        CLASSCFG[new] FSTARGET=40.0
+        

@@ -1,5 +1,6 @@
 docgen= rst2pdf
-docgenopts= -b1 --fit-literal-mode=shrink --break-side=odd
+docgenopts= -b1 --break-side=odd
+#docgenopts= -b1 --fit-literal-mode=shrink --break-side=odd
 graphgen= dot
 dotsource= $(wildcard *.dot)
 images= $(patsubst %.dot, %.png,$(dotsource))

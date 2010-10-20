@@ -5,16 +5,16 @@ from odin.config.environment import config
 
 runscript = """
 #PBS -N %(jobname)s
-#PBS -l walltime=%(process_time)s,nice=19,nodes=1:hermod:node
+#PBS -l walltime=%(process_time)s,nice=19,nodes=1:hermod:node:x86_64
 #PBS -q %(queue)s
 #PBS -e %(errfile)s
 #PBS -o %(outfile)s
 #PBS -d %(workdir)s
 #PBS -v id=%(id)i,orbit=%(orbit)i,fqid=%(fqid)s,version=%(version)s,backend=%(backend)s,calversion=%(calversion)s,name=%(name)s,process_time=%(process_time)s,LD_LIBRARY_PATH=/opt/matlab/bin/glnxa64
 
-hermodrunjob
+/home/odinop/odin_glass_2.5/bin/hermodrunjob
 """
-#the renscript is not generic enough - have to change the last line
+#the runscript is not generic enough - have to change the last line
 class GEMPbs(IPbs):
     
     def set_submit_info(self,queue='new'):

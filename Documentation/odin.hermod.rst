@@ -470,6 +470,15 @@ Appendix C - Torque server settings
         set queue new enabled = True
         set queue new started = True
         #
+        # Create and define queue new
+        #
+        create queue rerun
+        set queue rerun queue_type = Execution
+        set queue rerun resources_default.nodes = 1
+        set queue rerun resources_default.walltime = 01:00:00
+        set queue rerun enabled = True
+        set queue rerun started = True
+        #
         # Set server attributes.
         #
         set server scheduling = True

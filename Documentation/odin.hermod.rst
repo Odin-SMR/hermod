@@ -312,44 +312,9 @@ installation.
                 fuse-python
                 numpy
                 scipy
-.. 
-.. To make sure our environment does not change and break when the ubuntu system
-.. updates. Juno is installed in a virtual environment. This is done with the
-.. ubuntu apt package ``virtual-env``. All packages ready for deployment is put in
-.. ``/mnt/raid0/smilesdata/distributionfiles`` by the JUNO developers
-.. 
-.. First time installation:
-.. 
-.. .. code-block:: none
-..         
-..         $ virtual-env -p/usr/bin/python2.6 --no-site-packages dir_to_install
-..         $ cd dir_to_install
-..         $ easy_install --find-links=/mnt/raid0/smilesdata/distributionfiles\
-..                  junomain
-.. 
-.. This will pull a complete installation of latest available JUNO, AMATERASU and dependencies.
 
 Developers installation
 _______________________
-
-.. An automatic script to install a developers environment exists. The script will
-.. work in Smiles computing environment - on the smiles-pn  machines. Download it
-.. an run it:
-.. 
-.. .. code-block:: none
-.. 
-..         $ wget http://svn.rss.chalmers.se/svn/smiles//trunk/create_virtualenv.sh
-..         $ sh create_virtualenv.sh dir_to_install
-.. 
-.. This script creates a virtual environment and downloads all source code from
-.. the svn server. By running the ``build-all``-script a semi-automated deployment starts building all packages and proposes commands to run for deployment
-.. of the JUNO packages in the computing environment.
-.. 
-.. .. code-block:: none
-..         
-..         $ dir_to_install/dist_all 
-.. 
-.. Both script is provided in `Appendix E - Juno scripts` for reference.
 
 The source of  hermod is available at `Chalmers' Subversion repoitory`__ .
 
@@ -387,36 +352,76 @@ level2files:
 
         id, fqid -> 'records in level2files-table'
 
+Downloading level1 files
+________________________
+
+Hermod searches the database to find new files available on PDC but not in the local file storage.
+
+.. code-block:: sql
+
+        select l1.id,l1.filename,l1.logname
+        from level1 l1
+        join status s on (l1.id=s.id)
+        left join level1b_gem l1bg on (l1.id=l1bg.id)
+        where s.status and (l1bg.id is null or l1bg.date<l1.uploaded) 
+                and s.errmsg='' and l1.calversion in (6,7);
+
 
 Finding scans available for processing
 ______________________________________
 
-.. When a scan with the corresponding GEOS5 information is available the scan can
-.. be selected for execution (launched to execution queue). There are some
-.. constraints — if a level2 file already exists or level2 file already is queued
-.. or previous execution ended with an error.
-.. 
-.. The following query describes it more precisely:
-.. 
-.. .. code-block:: mysql
-.. 
-..         SELECT L1b_filename, GEOS5_LEVEL1_filename, date, scan,
-..             L1b_version, L1b_type from LEVEL1 
-..             natural join GEOS5_LEVEL1
-..             natural left join LEVEL2_chain l2
-..             where L2_flag=0  and l2.status is Null
-..             and GEOS5_flag=1
+To find new orbits in the database that has not already been processed to a level2 file.
+
+.. code-block:: sql
+
+        select distinct l1.id,l1.back backend,l1.orbit orbit,v.id fqid,
+                v.qsmr version, l1.calversion,a.name,v.process_time
+        from (
+                select orbit,id,substr(backend,1,3) back,freqmode mode,
+                        calversion from level1
+                join status using (id)
+                join level1b_gem l1g using (id)
+                where status and l1g.filename regexp ".*HDF" 
+                        and not locate(',',freqmode)
+        union (
+                select orbit,id,substr(backend,1,3) back,
+                        substr(freqmode,1, locate(',',freqmode)-1) mode,
+                        calversion from level1
+                join status using (id)
+                join level1b_gem l1g using (id)
+                where status and l1g.filename regexp ".*HDF" 
+                        and locate(',',freqmode)
+              )
+        union (
+                select orbit,id,substr(backend,1,3) back,
+                        substr(freqmode from locate(',',freqmode)+1) mode,
+                        calversion from level1
+                join status using (id)
+                join level1b_gem l1g using (id)
+                where status and l1g.filename regexp ".*HDF" 
+                        and locate(',',freqmode)
+              )) as l1
+        join versions v on (l1.mode=v.fm)
+        join Aero a on (v.id=a.id) 
+        left join level2files l2f on 
+                (l1.id=l2f.id and v.id=l2f.fqid and v.qsmr=l2f.version)
+        left join statusl2 s2 on 
+                (l1.id=s2.id and v.id=s2.fqid and v.qsmr=s2.version)
+        where v.active and l2f.id is null and l1.calversion=6 
+                and (proccount is null or proccount<4)
+        order by orbit desc,fqid   
 
 Queuing and execution
 _____________________
 
-.. A "job" is defined from the lookup in the previous section. And information
-.. about the processing is sent to a queue for later execution. The Resource
-.. system that handles the queue and the execution nodes in the computing cluster
-.. (``smiles-p3``, ``smiles-p4``, ``smiles-p5,...``) is Torque_. 
-.. Basically the "job" is a shell script sent to another machine for execution.
-.. 
-.. The script ``launchjobs`` described in juno.pbs_ puts  the script ``junorunner`` in queue with different input parameters to  run on the computee nodes.
+A "job" is defined from the lookup in the previous section. Information
+about the processing is sent to a queue for later execution. The Resource
+system that handles the queue and the execution nodes in the computing cluster
+(``glass``,``larimar``,``titanite``,``...``) is Torque_. 
+
+Basically the "job" is a shell script sent to another machine for execution.
+
+The script ``runprocessor`` puts  the shell script in queue with different input parameters to  run on the computee nodes.
 
 Processing
 __________

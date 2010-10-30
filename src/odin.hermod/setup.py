@@ -31,8 +31,11 @@ setup(
         author='Joakim Möller',
         author_email='joakim.moller@chalmers.se',
         url='http://odin.rss.chalmers.se',
-        install_requires=['setuptools','mysql-python','pexpect',
-		#'fuse-python',
+        install_requires=[
+            'setuptools',
+            'mysql-python',
+            'pexpect',
+            'fuse-python',
 		],
         tests_require=['mocker','setuptools'],
 )

@@ -112,7 +112,22 @@ Other tools :
 .. _Torque: http://www.clusterresources.com/products/torque/docs
 .. _Maui: http://www.clusterresources.com/products/maui/docs
 
- 
+Dependencies in Ubuntu Lucid:
+
+.. code-block:: txt 
+        
+      gfortran 
+      libatlas-base-dev 
+      libblas-dev 
+      libfuse-dev 
+      libtorque-dev 
+      python-dev 
+      python-numpy 
+      python-scipy 
+      python-virtualenv
+      subversion 
+      ubuntu-dev-tools 
+
 Installation of the Database
 -----------------------------
  
@@ -321,6 +336,15 @@ The source of  hermod is available at `Chalmers' Subversion repoitory`__ .
 .. _svn: http://svn.rss.chalmers.se/svn/odinsmr/hermod
 
 __ svn_
+
+.. code-block:: txt
+
+        virtualenv <dir>
+        cd <dir>
+        svn co http://svn.rss.chalemrs.se/svn/odinsmr/hermod/trunk .
+        python2.6 bootstrap.py
+        bin/buildout
+
 
 Datamodel
 ---------

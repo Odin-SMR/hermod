@@ -84,7 +84,7 @@ Hermod needs other components to work properly:
 Python_ :
 
         Hermods core is implemented in Python 2.6. But other versions may also
-        work.
+        work. Hermod uses a lot of external packages see below.
 
 MySQL_ :
 
@@ -103,16 +103,13 @@ Maui_ :
         The Cluster Scheduler only site specific setup vill be noted in `Maui
         configuration`_
 
-Other tools :
-        
-        GCC have to be installed to be able to compile all python modules.
-
 .. _Python: http://python.org/
 .. _MySQL: http://dev.mysql.com/doc/refman/5.1/en/
 .. _Torque: http://www.clusterresources.com/products/torque/docs
 .. _Maui: http://www.clusterresources.com/products/maui/docs
 
-Dependencies in Ubuntu Lucid:
+On a Ubuntu 10.04 LTS machine for developing hermod the following apt-packages
+need to be installed:
 
 .. code-block:: txt 
         
@@ -120,20 +117,32 @@ Dependencies in Ubuntu Lucid:
       libatlas-base-dev 
       libblas-dev 
       libfuse-dev 
+      libgeos-dev
+      libmysqlclient-dev 
       libtorque-dev 
+      openssh-server 
+      pkg-config 
       python-dev 
+      python-matplotlib 
       python-numpy 
       python-scipy 
       python-virtualenv
+      python-virtualenv 
       subversion 
+      torque-dev 
       ubuntu-dev-tools 
+      ubversion 
+      vim-nox 
 
 Installation of the Database
 -----------------------------
  
-Configuration of database is minimal. Standard apt installation of the package
-mysql-server is enough see `Appendix A - MySQL create script`_ and `Appendix B
-- MySQL Table layout`_ for database and table layout.
+Configuration of the database is minimal - Hermod works fine on a standard apt
+installation of the package. But futher tuning may increase performance
+significally.  See `Appendix A - MySQL create script`_ and `Appendix B
+- MySQL Table layout`_ for database and table layout. 
+
+On the nodes at least ``libmysqlclient`` needs to be installed.
 
 Torque configuration
 --------------------
@@ -277,7 +286,7 @@ Package details
 
 Hermod is divided into several smaller enteties that provide specific
 functionality. The current status of the source code is still in a form of
-transistion from one package to more and smaller sub packages.
+transition from one package to more and smaller sub packages.
 
 odin.hermod
 
@@ -291,12 +300,16 @@ odin.config
 The odin.config i more or less a configuration package Hermod and Iasco shares
 this package
 
+odin.iasco
+
+This runs and manages the IASCO model.
+
 HERMOD Installation
 -------------------
 
 For the moment hermod is running from the development source i.e. from the
 directory ``~odinop/hermod_jm`` for ubuntu 10.04 and  ``~odinop/hermod_glass``
-for 9.08 this directory is checked out from svn. This is not by any mean the
+for 9.08 this directory is checked out from svn. This is not by any means the
 ideal way to maintain a piece of software. This is a temporary solution.
 
 Best way to continue development is to separate development and production.
@@ -304,38 +317,48 @@ First all processing nodes and servers in the system need to have the same OS
 version (ubuntu 10.04 LTS). Using the same OS makes it possible to run Hermod
 from on single installation shared by NFS.
 
-Hermod packages already exits in ``/misc/apps/odinsite`` a simple buildout
-installation.
+A set of compiled hermod packages exits in ``/misc/apps/odinsite``. The
+installation of hermod is controlled by zc.buildout installation. This way
+buildout pinns down the specific version of each dependency package.
 
 .. code-block:: txt
 
-        [buildout]
-        parts = 
-                odin
-        find-links =
-                /misc/apps/odinsite
-        
-        [odin]
-        recipe = zc.recipe.egg
-        interpreter = odinpy
-        eggs = 
-                odin.config
-                odin.iasco
-                odin.hermod
-                mocker
-                pymatlab
-                fuse-python
-                numpy
-                scipy
+	[buildout]
+	parts = 
+	    odin
+	develop = 
+	    src/odin.iasco
+	    src/odin.hermod
+	    src/odin.config
+	
+	[odin]
+	recipe = zc.recipe.egg==1.2.2
+	interpreter = odinpy
+	find-links =
+	    deps
+	eggs = 
+	    mocker
+	    pymatlab==0.1.3
+	    fuse-python==0.2
+	    scipy==0.7.0
+	    numpy==1.3.0
+	    mysql-python
+	    pexpect
+	    matplotlib==0.99.1.1
+	    basemap==0.99.4
 
 Developers installation
 _______________________
 
-The source of  hermod is available at `Chalmers' Subversion repoitory`__ .
+The source of  hermod is available at `Chalmers' Subversion repoitory`__ . A
+developers installation is a isolated installation which is running in its own
+environment - from here it's possible to run unittest and other functional
+testing. With a correct .hermod.config and .hermod.config.secret it's possible
+to connect to the database or PDC. (Future work: It would even be possible to
+have a standalone database with a small dataset to run offsite tests).
 
-.. _svn: http://svn.rss.chalmers.se/svn/odinsmr/hermod
-
-__ svn_
+Once developers build packages in the development environment described above.
+Packages selected to be "released" are copied to ``/misc/apps/odinsite``.
 
 .. code-block:: txt
 
@@ -345,6 +368,38 @@ __ svn_
         python2.6 bootstrap.py
         bin/buildout
 
+
+.. _svn: http://svn.rss.chalmers.se/svn/odinsmr/hermod
+
+__ svn_
+
+
+Installation in Production environment
+______________________________________
+
+Released packages can be installed in the production enviroment by using
+Python's ``easy_install`` utility.
+
+Packages can be installed either into the system environment or into a virtual
+python environment. (Preferrably the virtual enviroment to not clutter the
+system installation)
+
+.. code-block:: txt
+	
+	virtualenv <dir>
+	cd <dir>
+	bin/easy_install -f /misc/apps/odinsite \
+		odin.config \
+		odin.hermod \
+		odin.iasco
+
+Later on updates can be installed by:
+
+.. code-block:: txt
+	
+	cd <dir>
+	bin/easy_install -f /mist/apps/odinsite -U \
+		odin.hermod
 
 Datamodel
 ---------
@@ -362,7 +417,8 @@ level1:
 
         id -> orbit, calversion, freqmode -> 'records in level1'
 
-The 'id'-field is included in the 'level2'-table to make it possible to find all level2 products derived from a 'level1' record.
+The 'id'-field is included in the 'level2'-table to make it possible to find
+all level2 products derived from a 'level1' record.
 
 level2:
         
@@ -379,7 +435,8 @@ level2files:
 Downloading level1 files
 ________________________
 
-Hermod searches the database to find new files available on PDC but not in the local file storage.
+Hermod searches the database to find new files available on PDC but not in the
+local file storage.
 
 .. code-block:: sql
 
@@ -394,7 +451,8 @@ Hermod searches the database to find new files available on PDC but not in the l
 Finding scans available for processing
 ______________________________________
 
-To find new orbits in the database that has not already been processed to a level2 file.
+To find new orbits in the database that has not already been processed to a
+level2 file.
 
 .. code-block:: sql
 
@@ -445,7 +503,8 @@ system that handles the queue and the execution nodes in the computing cluster
 
 Basically the "job" is a shell script sent to another machine for execution.
 
-The script ``runprocessor`` puts  the shell script in queue with different input parameters to  run on the computee nodes.
+The script ``runprocessor`` puts  the shell script in queue with different
+input parameters to  run on the computee nodes.
 
 Processing
 __________

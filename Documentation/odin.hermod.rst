@@ -132,7 +132,7 @@ need to be installed:
       torque-dev 
       ubuntu-dev-tools 
       ubversion 
-      vim-nox 
+      vim-nox
 
 Installation of the Database
 -----------------------------
@@ -260,7 +260,7 @@ start the scheduler:
 
 .. code-block:: txt
 
-        $ /usr/local/sbin/maui
+        $ /usr/local/maui/sbin/maui
 
 stop the scheduler:
 
@@ -373,6 +373,33 @@ Packages selected to be "released" are copied to ``/misc/apps/odinsite``.
 
 __ svn_
 
+Developing and creating eggs for production
+___________________________________________
+
+Once you have a `Developers installation`_ you can change or correct Hermod's behaivor. If you want to deploy your changes you have to change the version variable in the setup.py file. When tests are ok - commit your changes to svn. If you don't have any test for your code - consider to add a test to cover your code.
+
+To build installable eggs use the python interpretor created with buildout.
+
+.. code-block:: txt
+
+        $ cd <devel>
+        $ cd src/odin.hermod
+        $ ../../bin/odinpy setup.py bdist_egg
+
+To install an egg in a productoin environment.
+
+.. code-block:: txt
+
+       $ cd <production>
+       $ bin/easy_install -U -f <where the eggs are> odin.hermod
+
+#. make changes
+#. run tests
+#. commit
+#. build eggs
+#. install in production environment.
+ 
+
 
 Installation in Production environment
 ______________________________________
@@ -402,7 +429,7 @@ Later on updates can be installed by:
 		odin.hermod
 
 Data model
----------
+----------
 
 The database consists of a number of loosely connected tables with records
 (rows) describing meta data about satellite measurement or file stored on disk.

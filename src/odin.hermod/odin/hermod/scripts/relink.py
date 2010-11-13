@@ -9,11 +9,15 @@ from MySQLdb.cursors import DictCursor
 from odin.hermod.hermodBase import config,connection_str
 
 
-def relink(start,stop):
-    i = range(start,stop,0x100)
+def relink():
+    
     db = connect(**connection_str)
+    it_cursor = db.cursor()
+    it_cursor.execute('''SELECT distinct orbit FROM level1b_gem l1bg, level1 l1  where l1bg.date > now() - interval 2 day and l1bg.id=l1.id order by date desc''')
+
+    
     cursor = db.cursor(DictCursor)
-    for st,sp in zip(i[:-1],i[1:]):
+    for orb in it_cursor:
         cursor.execute('''
 select distinct a.name,l1.calversion,l1.backend,l1.orbit,filename
             from (
@@ -36,8 +40,8 @@ join level1b_gem l1g using (id)
 where status  and locate(',',freqmode)
 )) as l1
 join versions v on (l1.mode=v.fm)
-join Aero a on (v.id=a.id) and l1.orbit>=%s and l1.orbit<=%s
-            ''',(st,sp))
+join Aero a on (v.id=a.id) and l1.orbit=%s
+            ''',orb)
         for i in cursor:
             base = basename(i['filename'])
             src = join(config.get('GEM','LEVEL1B_DIR'),i['filename'])
@@ -54,7 +58,8 @@ join Aero a on (v.id=a.id) and l1.orbit>=%s and l1.orbit<=%s
                 continue
             print "%s OK" %trg
     cursor.close()
+    it_cursor.close()
     db.close()
 
 if __name__ == '__main__':
-    relink(0xA000,0xD000)
+    relink()

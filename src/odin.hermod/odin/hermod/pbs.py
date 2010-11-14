@@ -5,7 +5,7 @@ from odin.config.environment import config
 
 runscript = """
 #PBS -N %(jobname)s
-#PBS -l walltime=%(process_time)s,nice=19,nodes=1:hermod:node:x86_64
+#PBS -l walltime=%(process_time)s,nodes=1:hermod:node:x86_64,mem=950mb
 #PBS -q %(queue)s
 #PBS -e %(errfile)s
 #PBS -o %(outfile)s

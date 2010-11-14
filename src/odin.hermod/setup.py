@@ -4,7 +4,7 @@ from setuptools import setup,find_packages,Extension
 
 setup(
         name='odin.hermod',
-        version='3.3.5',
+        version='3.3.6',
         description = 'Routines to simplify and improve speed of odinprocessing',
         entry_points= {"console_scripts": [
             "hermodgetlevel1 = odin.hermod.l1b:downloadl1bfiles",
@@ -13,6 +13,7 @@ setup(
             "hermodgetwinds = odin.hermod.ecmwf:rungetfilesfromnilu",
             "hermodmakezpt = odin.hermod.winds:makewinds",
             "hermodmount = odin.hermod.smr:main",
+	    "hermodrelink = odin.hermod.scripts.relink:relink",
 #            "hermodl1bfind = odin.hermod.scripts.hermodl1bfind:main",
 #            "hermodl1bcp = odin.hermod.scripts.hermodl1bcp:main",
 #            "hermodl2find = odin.hermod.scripts.hermodl2find:main",

@@ -217,8 +217,9 @@ def main():
     msession = GEMMatlab()
     msession.start_matlab()
     for c in commands:
-        result = msession.matlab_command(c)
-        if result!="":
+        try: 
+            result = msession.matlab_command(c)
+        except:
             errors=True
             errmsg = errmsg + result
             print >> stderr,result

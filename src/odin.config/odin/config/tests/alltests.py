@@ -1,5 +1,5 @@
 import unittest
-from tests import test_environment,test_database
+from odin.config.tests import test_environment,test_database
 
 def test_suite():
     return unittest.TestSuite([

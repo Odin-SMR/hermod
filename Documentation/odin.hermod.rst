@@ -131,7 +131,7 @@ need to be installed:
       subversion 
       torque-dev 
       ubuntu-dev-tools 
-      ubversion 
+      libhdf4g-dev
       vim-nox
 
 Installation of the Database

@@ -4,7 +4,7 @@ from setuptools import setup,find_packages,Extension
 
 setup(
         name='odin.hermod',
-        version='3.3.6',
+        version='3.3.7',
         description = 'Routines to simplify and improve speed of odinprocessing',
         entry_points= {"console_scripts": [
             "hermodgetlevel1 = odin.hermod.l1b:downloadl1bfiles",
@@ -34,9 +34,15 @@ setup(
         url='http://odin.rss.chalmers.se',
         install_requires=[
             'setuptools',
-            'mysql-python',
-            'pexpect',
-            'fuse-python',
+            'mysql-python==1.2.3',
+            'pexpect==2.4',
+            'fuse-python==0.2',
+            'pyhdf==0.8.3',
+            'numpy==1.3.0',
+            'scipy==0.7.0',
+            'matplotlib==0.99.1.1',
+            'pymatlab==0.1.3',
+            'odin.config',
 		],
         tests_require=['mocker','setuptools'],
 )

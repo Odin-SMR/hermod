@@ -432,17 +432,29 @@ Data model
 ----------
 
 The database consists of a number of loosely connected tables with records
-(rows) describing meta data about satellite measurement or file stored on disk.
+(rows) describing meta data about satellite measurement or metadata of files stored on disk.
 
 The Hermod data model is pretty simple. All tables are 'knitted' together with a
 'id' field. For example in the 'level1'-table the logical key that identifies
 each row is the fields 'orbit','calversion' and 'freqmode'.
 
-level1:
+level1
+______
+
+This table contains the metadata from the process of producing 'Level 1' data at Onsala. One orbit of Odin corresponds to at least 2 rows in the database, one for each combination of freqmode, calversion and backend.
         
 .. code-block:: txt
 
-        id -> orbit, calversion, freqmode -> 'records in level1'
+        id -> orbit, calversion, backend, freqmode -> 'records in level1'
+
+status
+______
+
+Some errormessages from the level0 to level1 process are captured in this table.
+
+.. code-block:: txt
+
+        id -> status,errmsg
 
 The 'id'-field is included in the 'level2'-table to make it possible to find
 all level2 products derived from a 'level1' record.
@@ -545,6 +557,15 @@ When Hermod detects a job to run - Hermod sends a wrapped Qsmr job to the
 processing cluster and collects the results and puts them in the database and the
 file system.
 
+Troubleshooting
+===============
+
+A job is stale - showing negative time whith qstat:
+
+The execution service on the node is probably dead. Use `qstat -rn` to see what
+node the job runs on, also note the jobnumber. Log in as root at the stale
+node. Start the mom by `pbs_mom`. When the mom is started lauch `momctl -c
+<jobnumber> to clear the nodes status.
 
 Appendix A - MySQL Create script
 ================================

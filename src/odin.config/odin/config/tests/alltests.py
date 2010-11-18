@@ -7,3 +7,5 @@ def test_suite():
         test_database.test_suite()
         ])
 
+if __name__=="__main__":
+    unittest.TextTestRunner(verbosity=3).run(test_suite())

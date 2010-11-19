@@ -219,10 +219,10 @@ def main():
     for c in commands:
         try: 
             result = msession.matlab_command(c)
-        except:
+        except RuntimeError,msg:
             errors=True
-            errmsg = errmsg + result
-            print >> stderr,result
+            errmsg = errmsg + str(msg)
+            print >> stderr,msg
             break
     msession.close_matlab()
     if not errors:

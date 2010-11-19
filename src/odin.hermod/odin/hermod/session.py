@@ -11,7 +11,7 @@ class GEMMatlab(IMatlab):
     """Runs matlab at gemm"""
 
     def start_matlab(self):
-        self.m_session = MatlabSession('matlab -nojvm -nodisplay')       
+        self.m_session = MatlabSession('/usr/local/bin/matlab --nodisplay --nojvm')       
         self.m_alive = True
         return True
 

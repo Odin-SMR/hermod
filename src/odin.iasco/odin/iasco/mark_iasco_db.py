@@ -13,7 +13,7 @@ def markWinds():
     name = config().get('logging','configfile')
     file = resource_stream('odin.config',name)
     logging.config.fileConfig(file)
-    root_logger = logging.getLogger("")
+    logger = logging.getLogger("")
     
     con = connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     query = """
@@ -31,7 +31,7 @@ def markL2():
     name = config().get('logging','configfile')
     file = resource_stream('odin.config',name)
     logging.config.fileConfig(file)
-    root_logger = logging.getLogger("")
+    logger = logging.getLogger("")
     
     con =connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     query = """
@@ -66,7 +66,7 @@ def markAss():
     name = config().get('logging','configfile')
     file = resource_stream('odin.config',name)
     logging.config.fileConfig(file)
-    root_logger = logging.getLogger("")
+    logger = logging.getLogger("")
     
     con = connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     query = """
@@ -109,7 +109,7 @@ def markDaysWithNewOrbits():
     name = config().get('logging','configfile')
     file = resource_stream('odin.config',name)
     logging.config.fileConfig(file)
-    root_logger = logging.getLogger("")
+    logger = logging.getLogger("")
     
     con = connect(host=config().get('WRITE_SQL','host'), user=config().get('WRITE_SQL','user'), passwd=config().get('WRITE_SQL','passwd'), db='smr')
     for fqid in [3,29]:

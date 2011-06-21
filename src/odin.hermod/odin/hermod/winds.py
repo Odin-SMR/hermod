@@ -46,9 +46,9 @@ def makewinds():
     db = connect()
     cursor = db.cursor()
     cursor.execute("""
-            SELECT id,filename
-            from level1b_gem l1g
-            where filename regexp ".*LOG" 
+           SELECT l1g.id,l1g.filename
+            from level1b_gem l1g,level1
+            where l1g.id=level1.id and l1g.filename regexp ".*LOG" and level1.start_utc<"2011-05-1"
                 and not exists (
                     select * from level1b_gem s 
                     where s.filename regexp ".*ZPT" 

@@ -119,6 +119,7 @@ typedef struct {
 
 enum VARS {lvl,lon,lat,T,Q,U,V,VO,O3,P,CIWC,CLWC,GMH,PV,PT,GP,T2M,U10M,V10M,SKT,SP,TCO3,TCW,TCWV,Z};
 
+static void create_odin_nc(char *name_in, char *name_out);
 static void USAGE(int nargs,char **args);
 static void GetGLInfo(GL *g);
 static data *Pack(float *array, size_t size, int p);

@@ -13,23 +13,30 @@
 
 int main(int argc, char *argv[]) {
   
+
+  if(argc != 3) {
+    USAGE(argc,argv);
+    printf("INFO: argc = %d\n",argc);
+  }
+
+  create_odin_nc(argv[1],argv[2]);
+
+ 
+  return EXIT_SUCCESS;
+}
+
+static void create_odin_nc(char *name_in, char *name_out) {
   int status;
   GL *g = NULL;
   char tname[50], name[50];
   int tid;
   size_t tlen;
-
-  if(argc != 2) {
-    USAGE(argc,argv);
-    printf("INFO: argc = %d\n",argc);
-  }
-
   g = (GL *)malloc(sizeof(GL));
   if(g == NULL) NRERROR("Failed to allocate mem for geolocation struct");
 
-  strcpy(g->infile,argv[1]);
+  strcpy(g->infile,name_in);
 
-  printf("INFO: Calling program %s for file %s\n",argv[0],argv[1]);
+  printf("INFO: Calling program for file %s to get %s\n",name_in,name_out);
   
   printf("INFO: Opening file ->%s\n",g->infile);    
   status = nc_open(g->infile, NC_NOWRITE, &g->incid); 
@@ -53,12 +60,13 @@ int main(int argc, char *argv[]) {
   GetGLInfo(g);
   
   //Contruct the output file
-  strcpy(g->outfile,PRX);
-  strcat(g->outfile,name);
-  strcat(g->outfile,"_");
-  sprintf(name,"%02ld",g->nlev);
-  strcat(g->outfile,name);
-  strcat(g->outfile,"_AN.NC");
+  strcpy(g->outfile,name_out);
+//  strcpy(g->outfile,PRX);
+//  strcat(g->outfile,name);
+//  strcat(g->outfile,"_");
+//  sprintf(name,"%02ld",g->nlev);
+//  strcat(g->outfile,name);
+//  strcat(g->outfile,"_AN.NC");
   printf("Outfile = %s\n",g->outfile);
 
   printf("Seting up the output file...\n");
@@ -109,10 +117,7 @@ int main(int argc, char *argv[]) {
   //streamClose(g->streamID);
   if(g) free(g); g = NULL;
   printf("Process complete :-)\n");
- 
-  return EXIT_SUCCESS;
 }
-
 static void remove_extra(char *str, char *str2) {
   int p; 
   int count = 0;

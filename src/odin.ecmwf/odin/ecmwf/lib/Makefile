@@ -3,7 +3,7 @@ LD = gcc
 LDSHARED = $(CC)
 HOME = /home/marston/SOFTWARE
 
-INC= -I$(HOME)/libs4cdo-0.0.9/build/include -I$/usr/include 
+INC= -I$(HOME)/libs4cdo-0.0.9/build/include -I/usr/include 
 
 LIB= -L$(HOME)/libs4cdo-0.0.9/build/lib -L/usr/lib
 
@@ -19,27 +19,24 @@ LDFLAGS= --as-needed $(HDF5LIB) $(NCLIB)
 
 #------------------------------------------------------------------
 #List of generated object files for adding
-OBJECTS= odinecmwf2.o 
 
 #Top-level rule, to compile area
-TARGET= ODINP_GRIB2
-grib2: $(TARGET) 
+grib2: ODINP_GRIB2
 
 #Rule to link the program
-$(TARGET): $(OBJECTS)
-	$(LDSHARED) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(LIBRARIES)
+ODINP_GRIB2: odinecmwf2.o
+	$(LDSHARED) -o ODINP_GRIB2 odinecmwf2.o $(LDFLAGS) $(LIBRARIES)
 
 #Rule per dependency when compiling
 odinecmwf2.o: odinecmwf2.c 
 	$(CC) $(CFLAGS) -c odinecmwf2.c
 #--------------------------------------------------------------------
 #Top-level rule, to compile area
-TARGET= ODINP_GRIB1
-grib1: $(TARGET) 
+grib1 : ODINP_GRIB1
 
 #Rule to link the program
-$(TARGET): $(OBJECTS)
-	$(LDSHARED) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(LIBRARIES)
+ODINP_GRIB1: odinecmwf1.o
+	$(LDSHARED) -o ODINP_GRIB1 odinecmwf1.o $(LDFLAGS) $(LIBRARIES)
 
 #Rule per dependency when compiling
 odinecmwf1.o: odinecmwf1.c 

@@ -43,7 +43,6 @@ int DEBUGXTRA = 0;
 #define MALLOC(s,t) {if(((s) = malloc(t)) == NULL) { oops("error: malloc() "); stop; }}
 
 #define REFPRES   100000.0 // Pascal
-#define G0        9.80665   // m s-2 mean g at the equator
 #define EQRAD     6378.14e3 // meters
 #define FLAT      1.0/298.257
 #define Boltzmann 1.380658e-23
@@ -58,6 +57,7 @@ int DEBUGXTRA = 0;
 #define CPV       4.0 * RV 
 #define KAPPA     287.06/1004.71
 #define OMEGA     (2*M_PI)/86164.09053 
+#define G0        9.80665   // m s-2 mean g at the equator
 
 #define NVARS 18 // Number of variables in NWP infile
 #define MISSING -999.0
@@ -149,7 +149,4 @@ static void WRITE1D(void *sar, char *type, int varid, int ncid);
 static void AddAtt(data *Var, int id, int root_grp, char *name, GL *g);
 static void handle_error(int status, int line, char *file);
 static void remove_extra(char *str, char *str2);
-static char *tolowercase(char *vname);
-static char *touppercase(char *vname);
-
 

@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
   return EXIT_SUCCESS;
 }
 
-static void create_odin_nc(char *name_in, char *name_out) {
+void create_odin_nc(char *name_in, char *name_out) {
   int status;
   GL *g = NULL;
   char tname[50], name[50];

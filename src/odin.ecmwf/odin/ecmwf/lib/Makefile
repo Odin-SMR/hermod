@@ -11,18 +11,18 @@ LIBRARIES= -lnetcdf -lhdf5_hl -lhdf5 -lcurl -lz -lm
 
 #FLAGS
 #CFLAGS= -static -g -O2 -Wall -z $(INC) 
-CFLAGS= -g -fPIC -Wall -O2 -z muldefs $(HDF5INC) $(NCINC) 
+CFLAGS= -g -fpic -Wall -O2 -z muldefs $(HDF5INC) $(NCINC) 
  
 #LINKER FLAGS
 #LDFLAGS= -static -static-libgcc $(LIB)
-LDFLAGS= --shared $(HDF5LIB) $(NCLIB) 
+LDFLAGS= --shared -Wl,-soname,odinp_grib2.so.1 $(HDF5LIB) $(NCLIB) 
 
 #------------------------------------------------------------------
 #List of generated object files for adding
 OBJECTS2= odinecmwf_grib2.o 
 
 #Top-level rule, to compile area
-TARGET2= odinp_grib2.so
+TARGET2= odinp_grib2.so.1.0.0
 grib2: $(TARGET2) 
 
 #Rule to link the program

@@ -1,3 +1,5 @@
+#ifndef odinecmwf_h
+#define odinecmwf_h
 /**********************************************************
  * This program reads a directory for GRIB files.         *
  *                                                        *
@@ -24,8 +26,17 @@
 #define PRX "ODIN_NWP_"
 #define PACKED_TYPE 16
 
-int DEBUG = 0;
-int DEBUGXTRA = 0;
+#ifdef LOG_INFO
+#define DEBUG 1
+#else
+#define DEBUG 0
+#endif
+
+#ifdef LOG_DEBUG
+#define DEBUGXTRA 1
+#else
+#define DEBUGXTRA 0
+#endif
 
 // Macros
 #define ERRCODE 2
@@ -119,7 +130,7 @@ typedef struct {
 
 enum VARS {lvl,lon,lat,T,Q,U,V,VO,O3,P,CIWC,CLWC,GMH,PV,PT,GP,T2M,U10M,V10M,SKT,SP,TCO3,TCW,TCWV,Z};
 
-void create_odin_nc(char *name_in, char *name_out);
+int create_odin_nc(char *name_in, char *name_out);
 static void USAGE(int nargs,char **args);
 static void GetGLInfo(GL *g);
 static data *Pack(float *array, size_t size, int p);
@@ -149,4 +160,4 @@ static void WRITE1D(void *sar, char *type, int varid, int ncid);
 static void AddAtt(data *Var, int id, int root_grp, char *name, GL *g);
 static void handle_error(int status, int line, char *file);
 static void remove_extra(char *str, char *str2);
-
+#endif

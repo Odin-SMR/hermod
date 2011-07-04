@@ -14,18 +14,20 @@
 int main(int argc, char *argv[]) {
   
 
+  int i;
   if(argc != 3) {
     USAGE(argc,argv);
     printf("INFO: argc = %d\n",argc);
   }
 
-  create_odin_nc(argv[1],argv[2]);
+  i = create_odin_nc(argv[1],argv[2]);
 
  
   return EXIT_SUCCESS;
+
 }
 
-void create_odin_nc(char *name_in, char *name_out) {
+int create_odin_nc(char *name_in, char *name_out) {
   int status;
   GL *g = NULL;
   char tname[50], name[50];
@@ -53,7 +55,7 @@ void create_odin_nc(char *name_in, char *name_out) {
   if (status != NC_NOERR) handle_error(status,__LINE__,__FILE__);
   tname[tlen] = '\0';   
   if(DEBUG) printf("%s\n",tname);
-  remove_extra(tname,name);
+  //remove_extra(tname,name);
   if(DEBUG) printf("%s\n",name);
 
   printf("Get the nlat nlon and size for data variables\n");  
@@ -117,6 +119,7 @@ void create_odin_nc(char *name_in, char *name_out) {
   //streamClose(g->streamID);
   if(g) free(g); g = NULL;
   printf("Process complete :-)\n");
+  return g->nlev;
 }
 
 static void remove_extra(char *str, char *str2) {

@@ -11,7 +11,7 @@ setup(
             ]},
         packages = find_packages(),
         namespace_packages = ['odin'],
-        test_suite='odin.ecmwf.tests.alltests.test_suite',
+        test_suite='odin.ecmwf.tests.test_all.test_suite',
         zip_safe=True,
         author='Joakim Möller',
         author_email='joakim.moller@molflow.com',

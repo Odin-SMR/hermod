@@ -150,7 +150,9 @@ static void GMHPV(GL *g,
                   float *GP);
 static float GeoidRadius(float lat);
 static void MaxMin(float *array, long size);
+#ifndef ODINECMWF_SILENT
 static void MaxMinS(short *array, long size);
+#endif
 static float GRAV(float lat, float z);
 static void WriteXtra(char *name, int id, GL *g, long size, int ndim, int p);
 static void SetupNC(GL *g);
@@ -159,5 +161,4 @@ static void WRITEMD(void *sar, char *type, int varid, int ncid);
 static void WRITE1D(void *sar, char *type, int varid, int ncid); 
 static void AddAtt(data *Var, int id, int root_grp, char *name, GL *g);
 static void handle_error(int status, int line, char *file);
-static void remove_extra(char *str, char *str2);
 #endif

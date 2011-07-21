@@ -4,7 +4,7 @@ from setuptools import setup,find_packages,Extension
 
 setup(
         name='odin.hermod',
-        version='3.3.7',
+        version='3.3.9',
         description = 'Routines to simplify and improve speed of odinprocessing',
         entry_points= {"console_scripts": [
             "hermodgetlevel1 = odin.hermod.l1b:downloadl1bfiles",
@@ -19,7 +19,10 @@ setup(
 #            "hermodl2find = odin.hermod.scripts.hermodl2find:main",
 #            "hermodl2cp = odin.hermod.scripts.hermodl2cp:main",
             ]},
-        packages = find_packages(),
+        packages = find_packages(exclude=['ez_setup','tests']),
+        package_data={'odin.hermod': [
+                'hermod.cfg.default'
+                ]},
         namespace_packages = ['odin'],
         ext_modules=[Extension('odin.hermod.torque',
                       ['odin/hermod/pbs.c'],

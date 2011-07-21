@@ -1,52 +1,27 @@
-CC = gcc 
-LD = gcc 
-LDSHARED = $(CC)
-HOME = /home/marston/SOFTWARE
-
-INC= -I$(HOME)/libs4cdo-0.0.9/build/include -I$/usr/include 
-
-LIB= -L$(HOME)/libs4cdo-0.0.9/build/lib -L/usr/lib
-
-LIBRARIES= -lnetcdf -lhdf5_hl -lhdf5 -lcurl -lz -lm 
-
-#FLAGS
-#CFLAGS= -static -g -O2 -Wall -z $(INC) 
-CFLAGS= -g -fpic -Wall -O2 -z muldefs $(HDF5INC) $(NCINC) 
+LIBS= -lnetcdf -lhdf5_hl -lhdf5 -lz -lm 
+LIB_DIRS = -L/usr/local/lib
+INCLUDES= -I/usr/local/include
+#to build with outputs -> make SILENT=""
+SILENT= -DODINECMWF_SILENT
+CPPFLAGS= $(INCLUDES) $(SILENT)
+CFLAGS= -g -fpic -Wall -z muldefs
  
-#LINKER FLAGS
-#LDFLAGS= -static -static-libgcc $(LIB)
-LDFLAGS= --shared -Wl,-soname,odinp_grib2.so.1 $(HDF5LIB) $(NCLIB) 
+#SHARED= --shared -Wl,-soname,odinp_grib2.so.1 
+SHARED= --shared 
+LDFLAGS=  $(LIB_DIRS) $(LIBS) 
 
-#------------------------------------------------------------------
-#List of generated object files for adding
-OBJECTS2= odinecmwf_grib2.o 
+all: shared exec
 
-#Top-level rule, to compile area
-TARGET2= odinp_grib2.so.1.0.0
-grib2: $(TARGET2) 
+shared: odinecmwf_grib2.so odinecmwf_grib1.so
 
-#Rule to link the program
-$(TARGET2): $(OBJECTS2)
-	$(LDSHARED) -o $(TARGET2) $(OBJECTS2) $(LDFLAGS) $(LIBRARIES)
+exec: odinecmwf_grib2 odinecmwf_grib1 
 
-#Rule per dependency when compiling
-odinecmwf2.o: odinecmwf_grib2.c 
-	$(CC) $(CFLAGS) -c odinecmwf_grib2.c
-#--------------------------------------------------------------------
-#List of generated object files for adding
-OBJECTS1= odinecmwf_grib1.o 
-#Top-level rule, to compile area
-TARGET1= odinp_grib1.so
-grib1: $(TARGET1) 
+#Rule to link as a shared library
+%.so: %.o
+	$(CC) -o $@  $< $(SHARED) $(LDFLAGS)
 
-#Rule to link the program
-$(TARGET1): $(OBJECTS1)
-	$(LDSHARED) -o $(TARGET1) $(OBJECTS1) $(LDFLAGS) $(LIBRARIES)
+distclean: clean
 
-#Rule per dependency when compiling
-odinecmwf1.o: odinecmwf_grib1.c 
-	$(CC) $(CFLAGS) -c odinecmwf_grib1.c
-#---------------------------------------------------------
 clean:
-	@\rm -f *.o *~
+	$(RM) -f odinecmwf_grib1.so odinecmwf_grib1.o odinecmwf_grib1 odinecmwf_grib2.so odinecmwf_grib2.o odinecmwf_grib2 
 

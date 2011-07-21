@@ -116,9 +116,14 @@ need to be installed:
       gfortran 
       libatlas-base-dev 
       libblas-dev 
+      libfreetype6-dev
       libfuse-dev 
       libgeos-dev
-      libmysqlclient-dev 
+      libhdf4g-dev
+      libjasper-dev
+      libjpeg62-dev
+      libmysqlclient-dev
+      libpng12-dev
       libtorque-dev 
       openssh-server 
       pkg-config 
@@ -131,8 +136,8 @@ need to be installed:
       subversion 
       torque-dev 
       ubuntu-dev-tools 
-      libhdf4g-dev
       vim-nox
+      zlib1g-dev
 
 Installation of the Database
 -----------------------------

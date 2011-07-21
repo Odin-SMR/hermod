@@ -2,15 +2,21 @@ import mocker
 from unittest import makeSuite,TestSuite,TextTestRunner,TestCase
 from datetime import datetime
 from odin.ecmwf.ecmwf_nc import Ecmwf_Grib2
+from pkg_resources import resource_filename
 import odin.config.environment
 class EcmwfTestCase(mocker.MockerTestCase):
 
     def test_convert_grib(self):
-	grib = Ecmwf_Grib2('ECMWF_ODIN_201105211800+000H00M')
+        gribfile = resource_filename('odin.ecmwf',
+                'tests/ECMWF_ODIN_201106300000+000H00M')
+	grib = Ecmwf_Grib2(gribfile)
         grib.convert2nc()
    
-    def test_convert_nc(self):
-	grib = Ecmwf_Grib2('ECMWF_ODIN_201105211800+000H00M')
+    def test_convert(self):
+        gribfile = resource_filename('odin.ecmwf',
+                'tests/ECMWF_ODIN_201106300000+000H00M')
+	grib = Ecmwf_Grib2(gribfile)
+        grib.convert2nc()
         grib.convert2odin()
 
     def test_infile(self):
@@ -38,7 +44,7 @@ class EcmwfTestCase(mocker.MockerTestCase):
 def test_suite():
     tests = [
             'test_convert_grib',
-            'test_convert_nc',
+            'test_convert',
             'test_infile',
             'test_outfile',
             ]

@@ -1,16 +1,22 @@
 #!/usr/bin/python
 # vim: set fileencoding=utf-8 :
-from setuptools import setup,find_packages,Extension
+from setuptools import setup,find_packages
 
 setup(
         name='odin.ecmwf',
-        version='1.0.0',
+        version='1.0.4',
         description = 'Receives and converts gribfiles from ecmwf',
         entry_points= {"console_scripts": [
-            "hermodgetlevel1 = odin.hermod.l1b:downloadl1bfiles",
+            "hermodcreateecmwf = odin.ecmwf.create_odinecmwf:create_insert",
             ]},
-        packages = find_packages(),
+        packages = find_packages(exclude=['ez_setup','tests']),
         namespace_packages = ['odin'],
+        package_data={'odin.ecmwf': [
+                'odinecmwf/odinecmwf_grib2.so',
+                'odinecmwf/odinecmwf_grib1.so'
+                ]},
+        include_package_data=True,
+
         test_suite='odin.ecmwf.tests.test_all.test_suite',
         zip_safe=True,
         author='Joakim Möller',

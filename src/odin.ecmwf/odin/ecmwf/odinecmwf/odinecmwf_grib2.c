@@ -24,13 +24,15 @@ int main(int argc, char *argv[]) {
 
  
   return EXIT_SUCCESS;
-
 }
 
 int create_odin_nc(char *name_in, char *name_out) {
-  int status;
+  int status,nlev;
   GL *g = NULL;
-  char tname[50], name[50];
+  char tname[50];
+  #ifndef ODINECMWF_SILENT
+  char name[50];
+  #endif
   int tid;
   size_t tlen;
 
@@ -39,9 +41,10 @@ int create_odin_nc(char *name_in, char *name_out) {
 
   strcpy(g->infile,name_in);
 
+  #ifndef ODINECMWF_SILENT
   printf("INFO: Calling program for file %s to get %s\n",name_in,name_out);
-  
   printf("INFO: Opening file ->%s\n",g->infile);    
+  #endif
   status = nc_open(g->infile, NC_NOWRITE, &g->incid); 
   if (status != NC_NOERR) handle_error(status,__LINE__,__FILE__);
 
@@ -54,11 +57,12 @@ int create_odin_nc(char *name_in, char *name_out) {
   status = nc_get_att_text(g->incid,tid, "units", tname);
   if (status != NC_NOERR) handle_error(status,__LINE__,__FILE__);
   tname[tlen] = '\0';   
+  #ifndef ODINECMWF_SILENT
   if(DEBUG) printf("%s\n",tname);
-  //remove_extra(tname,name);
   if(DEBUG) printf("%s\n",name);
 
   printf("Get the nlat nlon and size for data variables\n");  
+  #endif
 
   GetGLInfo(g);
   
@@ -69,9 +73,11 @@ int create_odin_nc(char *name_in, char *name_out) {
 //  sprintf(name,"%02ld",g->nlev);
 //  strcat(g->outfile,name);
 //  strcat(g->outfile,"_AN.NC");
+  #ifndef ODINECMWF_SILENT
   printf("Outfile = %s\n",g->outfile);
 
   printf("Seting up the output file...\n");
+  #endif
   SetupNC(g);
 
   // Add the time to the file
@@ -84,7 +90,9 @@ int create_odin_nc(char *name_in, char *name_out) {
   float *q  = Getdata(g->incid,(long)g->size,"q");
   float *vo = Getdata(g->incid,(long)g->size,"vo");
 
+  #ifndef ODINECMWF_SILENT
   printf("INFO MAIN: Calculate and write the full pressure fields, GP, GMH, PT, and PV. Note: half levels are not saved\n");  
+  #endif
   FullPresGpPt(g,t,q,z,sp,vo);
   free(sp); sp = NULL;
   free(z); z = NULL;
@@ -117,32 +125,13 @@ int create_odin_nc(char *name_in, char *name_out) {
   status = nc_close(g->incid);
   if(status != NC_NOERR) check_err(status,__LINE__,__FILE__);
   //streamClose(g->streamID);
+  nlev = g->nlev;
   if(g) free(g); g = NULL;
-  printf("Process complete :-)\n");
-  return g->nlev;
-}
 
-static void remove_extra(char *str, char *str2) {
-  int p; 
-  int count = 0;
-  for(p = 0; p < strlen(str); p++) {
-    if(str[p] == 'h' || 
-       str[p] == 'o' || 
-       str[p] == 'u' || 
-       str[p] == 'r' || 
-       str[p] == 's' || 
-       str[p] == 'i' || 
-       str[p] == 'n' || 
-       str[p] == 'c' ||
-       str[p] == ' ' || 
-       str[p] == 'e') {
-      continue;
-    } else {
-      if(str[p] == ':' || str[p] == '-') str2[count++] = '_'; else str2[count++] = str[p];
-    }
-  }
-  str2[count] = '\0';
-  return;
+  #ifndef ODINECMWF_SILENT 
+  printf("Process complete :-)\n"); 
+  #endif
+  return nlev;
 }
 
 static void WriteXtra(char *name, int id, GL *g, long size, int ndim, int p) {
@@ -184,12 +173,16 @@ static void WriteXtra(char *name, int id, GL *g, long size, int ndim, int p) {
 static float *PH(float *SP, GL *g) {
   
   int i,k;
+  #ifndef ODINECMWF_SILENT
   printf("INFO PH: Calculating the half pressure PH\n");
+  #endif
   
   long gridsize = (long)g->gridsize;
   long isize = (long)gridsize*g->ilev;
   float *ph;
+  #ifndef ODINECMWF_SILENT
   if(DEBUG) printf("DEBUG PH: ILEV %d GRIDSIZE = %ld ISIZE = %ld\n",(int)g->ilev,gridsize,isize);
+  #endif
 
   CALLOCF(ph,isize);
 
@@ -207,7 +200,9 @@ static float *HGP(float *Z, GL *g) {
 
   int i;
    
+  #ifndef ODINECMWF_SILENT
   printf("INFO HGP: Setting the elevation to the half GP\n");
+  #endif
   long gridsize = (long)g->gridsize;
   long ground = (long)gridsize*(g->ilev-1);
   long isize = (long)gridsize*g->ilev;
@@ -226,13 +221,17 @@ static float *Getdata(int ncid, long size, char *vname) {
   int n = 0, status = 0;
   float *array=NULL;
  
+  #ifndef ODINECMWF_SILENT
   printf("Assumes the variable %s is a float\n",vname);
+  #endif
   status = nc_inq_varid(ncid,vname,&n); 
   if(status != NC_NOERR) {
       printf("Varaible %s not found in file!\n",vname);
       check_err(status,__LINE__,__FILE__);
     } else {
+  #ifndef ODINECMWF_SILENT
       printf("Variable %s id = %d is found!\n",vname,n);
+  #endif
     }
   CALLOCF(array,size);
   status = nc_get_var_float(ncid,n,array);  
@@ -249,7 +248,9 @@ static void GetGLInfo(GL *g) {
   int dimid = 0;
   int varid = 0;
 
+  #ifndef ODINECMWF_SILENT
   printf("Extract meta data\n");
+  #endif
 
   // Get the lon
   status = nc_inq_dimid(ncid,"lon",&dimid);  // get ID for lat dimension
@@ -283,9 +284,13 @@ static void GetGLInfo(GL *g) {
   status = nc_inq_dimlen(ncid,dimid,&len); 
   if (status != NC_NOERR) handle_error(status,__LINE__,__FILE__);
   g->nlev = len;
+  #ifndef ODINECMWF_SILENT
   printf("%d %d\n",(int)g->nlev,(int)len);
+  #endif
   CALLOCI(g->nlevs,(int)len);
+  #ifndef ODINECMWF_SILENT
   printf("Copy data to int array...");
+  #endif
   for(i = 0; i < (int)len; i++) g->nlevs[i] = i;
 
   // Get intermediate levels
@@ -309,13 +314,16 @@ static void GetGLInfo(GL *g) {
   status = nc_get_var_double(ncid,varid,g->B);
   if(status != NC_NOERR) check_err(status,__LINE__,__FILE__); 
 
+  #ifndef ODINECMWF_SILENT
   printf("Assigning the data...\n");
+  #endif
   g->gridsize = g->nlon*g->nlat;
   g->size = g->nlev*g->nlat*g->nlon;
   g->isize = g->ilev*g->nlat*g->nlon;
+  #ifndef ODINECMWF_SILENT
   printf("INFO: NLEV = %d, ILEV = %d, NLON = %d, NLAT = %d, GRIDSIZE = %d, SIZE = %d ISIZE = %d\n", \
 	 (int)g->nlev,(int)g->ilev,(int)g->nlon,(int)g->nlat,(int)g->gridsize,(int)g->size,(int)g->isize);
-
+  #endif
   return;
 }
  
@@ -365,30 +373,36 @@ static data *Pack(float *array, size_t size, int p) {
     m->scale_factor = (max - min)/(pow(2,PACKED_TYPE)-1);
     m->add_offset = min + pow(2,PACKED_TYPE-1) * m->scale_factor;
     
+  #ifndef ODINECMWF_SILENT
     if(DEBUGXTRA) {
       printf("Min = %f\t Max = %f\n",min, max);
       printf("SHORT: Scale_Factor = %f Add_Offset = %f\n",m->scale_factor,m->add_offset);
     }
+  #endif
     // copy the packed data to output array
     for(k = 0; k < (long)size; k++) m->sarray[k] = lrint((array[k]-m->add_offset)/m->scale_factor);
     
     //Test the arrays
+  #ifndef ODINECMWF_SILENT
     if(DEBUGXTRA) {
       for(k = 0; k < (long)size; k = k+size/500) {
     	printf("Data = %15.8f\t Packed = %d Unpacked = %15.8f\n",array[k],m->sarray[k],m->sarray[k]*m->scale_factor + m->add_offset);
       }
     }
     if(DEBUG) MaxMinS(m->sarray,(long)size);
+  #endif
   } else if(p == 0) { // if the array is not to be packed
     CALLOCF(m->farray,(long)size);
     m->sarray = NULL; 
     for(k = 0; k < (long)size; k++) m->farray[k] = array[k]; 
     m->scale_factor = 1;
     m->add_offset = 0;
+  #ifndef ODINECMWF_SILENT
     if(DEBUG) {
       MaxMin(m->farray,(long)size);
       printf("Float: Scale_Factor = %f Add_Offset = %f\n",m->scale_factor,m->add_offset);
     }
+  #endif
   }
   return m;
 }
@@ -417,19 +431,27 @@ static void FullPresGpPt(GL *g,
   double dp;
   double alpha;
   
+  #ifndef ODINECMWF_SILENT
   if(DEBUG) printf("Calculate the half levels: Pressure\n"); 
+  #endif
   float *ph = PH(sp,g);
 
+  #ifndef ODINECMWF_SILENT
   if(DEBUG) printf("Calculate the half levels: GP\n"); 
+  #endif
   float *hgp = HGP(z,g);
 
   float *gp = NULL, *fp = NULL, *pt = NULL;
+  #ifndef ODINECMWF_SILENT
   printf("Allocate some memory for GP, P, and PT\n");
+  #endif
   CALLOCF(gp,size); 
   CALLOCF(fp,size); 
   CALLOCF(pt,size); 
   
+  #ifndef ODINECMWF_SILENT
   printf("Calculating the Full pressure, potential temp, and gp\n");
+  #endif
 
   for (k = nlev-1; k > -1; k--) { // Integrate from the ground up. Loop over levels
     long lev = k*gridsize;   // first level
@@ -488,19 +510,27 @@ static void FullPresGpPt(GL *g,
       if(lvl_fpmax > fpmax) fpmax = lvl_fpmax;
       if(lvl_fpmin < fpmin) fpmin = lvl_fpmin;
     }
+  #ifndef ODINECMWF_SILENT
     if(DEBUG) {
       printf("Level = %03d MaxP = %8.3f MinP = %8.3f Maxgp = %8.3f Mingp = %8.3f MaxPT = %8.3f MinPT = %8.3f\n",k, \
 	     lvl_fpmax,lvl_fpmin,lvl_gpmax,lvl_gpmin,lvl_ptmax,lvl_ptmin);
     }   
+  #endif
   } // end loop for k
+  #ifndef ODINECMWF_SILENT
   printf("Completed loop over all levels. Calculating the scaling factors and add_offsets\n");
+  #endif
    
   // Calculate the geometric height and potential vorticity
    
   // Add the scale_factor and add_offset, write data, and free array
+  #ifndef ODINECMWF_SILENT
   printf("Calling the function for GMH and PV calculations...\n");
+  #endif
   GMHPV(g,vo,fp,pt,gp);
+  #ifndef ODINECMWF_SILENT
   printf("Completed calculations...\n");
+  #endif
 
   data *P   = Pack(fp,size,1);
   data *GP = Pack(gp,size,1);
@@ -593,9 +623,11 @@ static void GMHPV(GL *g,
       if(lming < ming) ming = lming; 
       if(lmaxg > maxg) maxg = lmaxg; 
     }
+  #ifndef ODINECMWF_SILENT
     if(DEBUG) {
       printf("Level = %03d MaxGMH = %8.3f MinGMH = %8.3f MinG = %f MaxG = %f\n",k,lvlgm_max,lvlgm_min,ming,maxg);
     }
+  #endif
   }
   //EARTH VORTICITY = 2 x (Rate of Rotation of Earth) x sin (Latitude in radians)
   //AV = F + RV Adding the Earths rotational vorticity
@@ -632,12 +664,16 @@ static void GMHPV(GL *g,
 	if(lvlpv_max > pv_max) pv_max = lvlpv_max;
 	if(lvlpv_min < pv_min) pv_min = lvlpv_min;
       }
+  #ifndef ODINECMWF_SILENT
       if(DEBUG) {
 	printf("Level = %03d MaxPV = %10.7f MinPV = %10.7f\n",k,lvlpv_max,lvlpv_min);
       }
+  #endif
     }
   }// end for loop level
+  #ifndef ODINECMWF_SILENT
   printf("Completed loop over all levels. Calculating the scaling factors and add_offsets\n");
+  #endif
 
   data *PV = Pack(pv,size,0);
   free(pv); pv = NULL;
@@ -651,7 +687,9 @@ static void GMHPV(GL *g,
   WRITEMD(GMH->sarray,"s",g->GMHid,g->d3grp);
   free(GMH->sarray); free(GMH); GMH = NULL;
  
+  #ifndef ODINECMWF_SILENT
   printf("Completed calculation geometric height and potential vorticity\n");
+  #endif
 
   return;
 }
@@ -677,10 +715,13 @@ void MaxMin(float *array, long size) {
     if(array[i] < min) min = array[i];
     if(array[i] > max) max = array[i];
   }
+  #ifndef ODINECMWF_SILENT
   printf("INFO: Min = %-10f\tMax = %-10f\n",min,max);
+  #endif
   return;
 }
 
+  #ifndef ODINECMWF_SILENT
 void MaxMinS(short *array, long size) {
   
   int i;
@@ -694,6 +735,7 @@ void MaxMinS(short *array, long size) {
   printf("INFO: Min = %d\tMax = %d\n",min,max);
   return;
 }
+  #endif
 
 static float GRAV(float lat, float z) {
 
@@ -1539,7 +1581,9 @@ static void WRITEMD(void *sar, char *type, int varid, int grpid) {
   
   int retval;
     
+  #ifndef ODINECMWF_SILENT
   if(DEBUG) printf("Attempting to write to netcdf file!\n");
+  #endif
   if(strcmp(type,"s") == 0) {
     short *ar = (short *)sar;
     if((retval = nc_put_var_short(grpid,varid,&ar[0]))) check_err(retval,__LINE__,__FILE__);
@@ -1550,14 +1594,18 @@ static void WRITEMD(void *sar, char *type, int varid, int grpid) {
     if((retval = nc_put_var_float(grpid,varid,&ar[0]))) check_err(retval,__LINE__,__FILE__);
     ar = NULL;
   }
+  #ifndef ODINECMWF_SILENT
   if(DEBUG) printf("Done...\n");
+  #endif
   return;
 }
 
 static void WRITE1D(void *sar, char *type, int varid, int grpid) {
   
   int retval;
+  #ifndef ODINECMWF_SILENT
   if(DEBUG) printf("Attempting to write to netcdf file!\n");
+  #endif
   if(strcmp(type,"i") == 0) { 
     int *ar = (int *)sar;
     if((retval = nc_put_var_int(grpid,varid,&ar[0]))) check_err(retval,__LINE__,__FILE__);
@@ -1569,7 +1617,9 @@ static void WRITE1D(void *sar, char *type, int varid, int grpid) {
   } else {
     NRERROR("This was designed to write GL data of float and int types!");
   }
+  #ifndef ODINECMWF_SILENT
   if(DEBUG) printf("Done...\n");
+  #endif
   return;
 }
 
@@ -1579,17 +1629,21 @@ static void AddAtt(data *Var, int id, int grpid, char *name, GL *g) {
   
   const double scale_factor[1]  = {Var->scale_factor};
   const double add_offset[1] = {Var->add_offset};
+  #ifndef ODINECMWF_SILENT
   if(DEBUG) {
     printf("Write the scale and offset...\n");
     printf("Root_grp = %d GRPID = %d VARID = %d Name = %s\n",g->oncid,grpid,id,name);
   }
+  #endif
 
   stat = nc_put_att_double(grpid,id,"scale_factor",NC_DOUBLE,1,scale_factor);
   check_err(stat,__LINE__,__FILE__);
   stat = nc_put_att_double(grpid,id,"add_offset",NC_DOUBLE,1,add_offset);
   check_err(stat,__LINE__,__FILE__);
 
+  #ifndef ODINECMWF_SILENT
   if(DEBUG) printf("Added scale and offset :o)\n");
+  #endif
   
   return;
 } 

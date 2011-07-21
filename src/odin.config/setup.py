@@ -1,13 +1,14 @@
 #!/usr/bin/python
 # vim: set fileencoding=utf-8 :
-from setuptools import setup,find_packages,Extension
+from setuptools import setup,find_packages
 
 setup(
         name='odin.config',
-        version='0.0.4',
+        version='0.0.5',
         description = 'Routines to simplify and improve speed of odinprocessing',
-        data_files=[('odin/config',['odin/config/defaults.cfg','odin/config/odinlogger.cfg']),],
-	packages = find_packages(),
+	packages = find_packages(exclude=['ez_setup','tests']),
+        package_data={'odin.config':['defaults.cfg','odinlogger.cfg']},
+        include_package_data=True,
 	namespace_packages = ['odin'],
         test_suite='odin.config.tests.alltests.test_suite',
         zip_safe=False,

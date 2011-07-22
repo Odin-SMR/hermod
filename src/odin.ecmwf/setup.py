@@ -4,7 +4,7 @@ from setuptools import setup,find_packages
 
 setup(
         name='odin.ecmwf',
-        version='1.1.0',
+        version='1.1.1',
         description = 'Receives and converts gribfiles from ecmwf',
         entry_points= {"console_scripts": [
             "hermodcreateecmwf = odin.ecmwf.create_odinecmwf:create_insert",

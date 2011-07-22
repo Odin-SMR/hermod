@@ -4,12 +4,16 @@ from setuptools import setup,find_packages
 
 setup(
         name='odin.config',
-        version='1.0.0',
+        version='1.0.2',
         description = 'Routines to simplify and improve speed of odinprocessing',
 	packages = find_packages(exclude=['ez_setup','tests']),
         package_data={'odin.config':['defaults.cfg','odinlogger.cfg']},
         include_package_data=True,
 	namespace_packages = ['odin'],
+        entry_points= {"console_scripts": [
+            "hermodlogserver = odin.config.logserver:main",
+            ]},
+
         test_suite='odin.config.tests.alltests.test_suite',
         zip_safe=False,
         author='Joakim Möller',

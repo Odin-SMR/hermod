@@ -27,12 +27,12 @@ def create_insert():
         record['hour'] = ecmwf.time.hour
         record['filename'] = ecmwf.outfile().split(
                 conf.get('ecmwf','basedir'))[1]
-        cursor.execute("""\
-                replace ecmwf (date,type,hour,filename)\ 
-                values (%(date)s, %(type)s, %(hour)s, %(filename)s)\
+        cursor.execute("""
+                replace ecmwf (date,type,hour,filename) 
+                values (%(date)s, %(type)s, %(hour)s, %(filename)s)
                 """ , (record))
         ecmwf.delete()
-        log.debug('processed file {0}'.format(ecmwf.outfile()))
+        log.info('processed file {0}'.format(ecmwf.outfile()))
     cursor.close()
     db.close()
 	

@@ -14,7 +14,7 @@ class OdinCursor(Cursor):
     def __init__(self, *args, **kwargs):
         Cursor.__init__(self, *args, **kwargs)
         self.log = logging.getLogger(__name__)
-        self.log.critical('Created a cursor')
+        self.log.debug('Created a cursor')
     
     def execute(self, *args, **kwargs):
         status =Cursor.execute(self, *args, **kwargs)

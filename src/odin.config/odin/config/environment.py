@@ -1,8 +1,12 @@
 from ConfigParser import SafeConfigParser
 from os.path import expanduser
 from os import stat
+from sys import stdout
 from stat import S_IMODE,S_IRGRP,ST_MODE,S_IROTH
-from pkg_resources import resource_stream
+from pkg_resources import resource_filename
+import logging
+import logging.config
+from tempfile import NamedTemporaryFile
 class HermodError(Exception):
     pass
 
@@ -10,13 +14,15 @@ class HermodWarning(Exception):
     pass
 
 def config():
+    log = logging.getLogger(__name__)
     t = SafeConfigParser()
-    defaults = resource_stream("odin.config","defaults.cfg")
-    t.readfp(defaults)
     config_files = t.read([
+    	resource_filename("odin.config","defaults.cfg"),
         expanduser('~/.hermod.cfg'),
         expanduser('~/.hermod.cfg.secret'),
         ])
+    log.debug("Using configfiles {0} latest one overrides".format(
+            " ".join(config_files)))
     if expanduser('~/.hermod.cfg.secret') not in config_files:
         mesg = " ".join ("Make sure to create a file called",
                 expanduser('~/.hermod.cfg.secret'),
@@ -33,5 +39,16 @@ def config():
             raise HermodError(mesg)
     return t
 
-
+def set_hermod_logging():
+    parser = SafeConfigParser()
+    used_files = parser.read([
+            resource_filename('odin.config','odinlogger.cfg'),
+            expanduser('~/.hermod.logger.cfg'), 
+            ])
+    # create a temporary file on disk
+    config_file = NamedTemporaryFile()
+    parser.write(config_file)
+    config_file.file.flush()
+    # let the logger read the temporary file
+    logging.config.fileConfig(config_file.name)
     

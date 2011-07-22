@@ -53,7 +53,7 @@ class LogRecordSocketReceiver(SocketServer.ThreadingTCPServer):
 
     allow_reuse_address = 1
 
-    def __init__(self, host='localhost',
+    def __init__(self, host='0.0.0.0',
                  port=logging.handlers.DEFAULT_TCP_LOGGING_PORT,
                  handler=LogRecordStreamHandler):
         SocketServer.ThreadingTCPServer.__init__(self, (host, port), handler)
@@ -73,9 +73,15 @@ class LogRecordSocketReceiver(SocketServer.ThreadingTCPServer):
             abort = self.abort
 
 def main():
-    logging.basicConfig(
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        datefmt="%a, %d %b %Y %H:%M:%S")
+    logger = logging.getLogger()
+    fh = logging.handlers.RotatingFileHandler(
+            '/home/odinop/hermod_systemlogs/system.log', mode='a', maxBytes=2**20, backupCount=5, encoding=None, 
+            delay=0)
+    formatter = logging.Formatter(
+            fmt="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            datefmt='%y-%m-%dZ%H:%M:%S')
+    fh.setFormatter(formatter)
+    logger.addHandler(fh)
     tcpserver = LogRecordSocketReceiver()
     tcpserver.serve_until_stopped()
 

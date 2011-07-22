@@ -6,21 +6,15 @@ from MySQLdb.connections import Connection
 from MySQLdb.cursors import Cursor
 from odin.config.environment import config
 from pkg_resources  import resource_filename
-
 import logging
-import logging.config
 
 class OdinCursor(Cursor):
     """Odin Cursor class.
     """
     def __init__(self, *args, **kwargs):
         Cursor.__init__(self, *args, **kwargs)
-        filename = config().get('logging','configfile')
-        logfile = resource_filename('odin.config',filename)
-        logging.config.fileConfig(logfile)
-        self.rootlog = logging.getLogger("")
-        self.log = logging.getLogger('OdinCursor')       
-        self.log.debug('Created a cursor')
+        self.log = logging.getLogger(__name__)
+        self.log.critical('Created a cursor')
     
     def execute(self, *args, **kwargs):
         status =Cursor.execute(self, *args, **kwargs)
@@ -38,12 +32,8 @@ class ConnectionServer(Connection):
         if not kwargs.has_key('cursorclass'):
             kwargs['cursorclass'] = OdinCursor
         Connection.__init__(self, *args, **kwargs)
-        filename = config().get('logging','configfile')
-        logfile = resource_filename('odin.config',filename)
-        logging.config.fileConfig(logfile)
-        self.rootlog = logging.getLogger("")
-        self.log = logging.getLogger('ConnectionServer')
-        self.log.info(" ".join([
+        self.log = logging.getLogger(__name__)
+        self.log.debug(" ".join([
                 "Connected to",
                 self.get_host_info(),
                 "with thread id: ",
@@ -51,7 +41,7 @@ class ConnectionServer(Connection):
                 ]))
         
     def close(self):
-        self.log.info(" ".join([
+        self.log.debug(" ".join([
                 "Closing connection to",
                 self.get_host_info(),
                 "thread id: ",

@@ -2,8 +2,9 @@ import mocker
 from unittest import makeSuite,TestSuite,TextTestRunner,TestCase
 from datetime import datetime
 from odin.ecmwf.ecmwf_nc import Ecmwf_Grib2
-from pkg_resources import resource_filename
 import odin.config.environment
+from pkg_resources import resource_filename
+from StringIO import StringIO
 class EcmwfTestCase(mocker.MockerTestCase):
 
     def test_convert_grib(self):

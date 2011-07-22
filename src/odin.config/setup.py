@@ -4,7 +4,7 @@ from setuptools import setup,find_packages
 
 setup(
         name='odin.config',
-        version='0.0.5',
+        version='1.0.0',
         description = 'Routines to simplify and improve speed of odinprocessing',
 	packages = find_packages(exclude=['ez_setup','tests']),
         package_data={'odin.config':['defaults.cfg','odinlogger.cfg']},

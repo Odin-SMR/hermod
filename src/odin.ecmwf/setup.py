@@ -8,6 +8,7 @@ setup(
         description = 'Receives and converts gribfiles from ecmwf',
         entry_points= {"console_scripts": [
             "hermodcreateecmwf = odin.ecmwf.create_odinecmwf:create_insert",
+            "hermodcreatezpt  =  odin.ecmwf.donaletty_EcmwfNC:main",
             ]},
         packages = find_packages(exclude=['ez_setup','tests']),
         namespace_packages = ['odin'],
@@ -26,6 +27,9 @@ setup(
             'setuptools',
             'mysql-python==1.2.3',
             'odin.config',
+            'numpy==1.3.0',
+            'scipy==0.7.0',
+            'netCDF4',
 		],
         tests_require=['mocker','setuptools'],
 )

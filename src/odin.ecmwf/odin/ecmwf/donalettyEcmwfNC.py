@@ -1,12 +1,14 @@
 import datetime as DT
-from sys import argv
+from sys import argv,exit
 import numpy as np
 import odin.ecmwf.NC4ecmwf as NC
 from scipy.integrate import odeint
 from scipy.interpolate import splmake, spleval,spline
 from scipy import io as sio
-
-
+from pylab import diff,interp
+from pkg_resources import resource_filename
+from odin.config.environment import set_hermod_logging
+import logging
 class ZptFile(dict):
     '''
          Create ZPT2 file using the new NetCDF ECMWF files
@@ -15,7 +17,7 @@ class ZptFile(dict):
              
     '''
     
-    def donaletty(g5zpt, month, day, lat):
+    def donaletty(self,g5zpt, month, day, lat):
         '''Inputs :
                     g5zpt : heights (km) Pressure (hPa) and temperature profile
                             should extend to at least 60 km
@@ -45,27 +47,27 @@ class ZptFile(dict):
                          Craig Haley 11-06-04
                   ---------------------------------------------------------------
                   '''
-                  DEGREE = n.pi / 180.0
+                  DEGREE = np.pi / 180.0
                   EQRAD = 6378.14 * 1000
                   FLAT = 1.0 / 298.257
                   Rmax = EQRAD
                   Rmin = Rmax * (1.0 - FLAT)
-                  Re = n.sqrt(1./(n.cos(latitude*DEGREE)**2/Rmax**2
-                                + n.sin(latitude*DEGREE)**2/Rmin**2)) / 1000
+                  Re = np.sqrt(1./(np.cos(latitude*DEGREE)**2/Rmax**2
+                                + np.sin(latitude*DEGREE)**2/Rmin**2)) / 1000
                   return Re
 
 
             def intermbar(z):
-                Mbars = n.r_[28.9644, 28.9151, 28.73, 28.40, 27.88, 27.27, 26.68, 26.20, 25.80, 25.44, 25.09, 24.75, 24.42, 24.10]
-                Mbarz=n.arange(85,151,5)
+                Mbars = np.r_[28.9644, 28.9151, 28.73, 28.40, 27.88, 27.27, 26.68, 26.20, 25.80, 25.44, 25.09, 24.75, 24.42, 24.10]
+                Mbarz=np.arange(85,151,5)
                 m=interp(z,Mbarz,Mbars)
                 return m    
 
             def g(z,lat):
                 #Re=6372;  
                 #g=9.81*(1-2.*z/Re)
-                return 9.80616 *(1 - 0.0026373*n.cos(2*lat*n.pi/180.) + \
-                             0.0000059*n.cos(2*lat*n.pi/180.)**2)*(1-2.*z/geoid_radius(lat))
+                return 9.80616 *(1 - 0.0026373*np.cos(2*lat*np.pi/180.) + \
+                             0.0000059*np.cos(2*lat*np.pi/180.)**2)*(1-2.*z/geoid_radius(lat))
 
             def func(y,z,xk,cval,k):
                 grad=spleval((xk,cval,k),z)
@@ -75,9 +77,8 @@ class ZptFile(dict):
             mbar_over_m0=intermbar(newz)/m0
             splinecoeff=splmake(newz,g(newz,lat)/newT*mbar_over_m0,3)
             integral=odeint(func,0,newz,splinecoeff)
-            integral=3.483*n.squeeze(integral.transpose())
-            integral=(1*newT[1]/newT*mbar_over_m0*n.exp(-integral))
-            # print integral.shape, newz.shape    
+            integral=3.483*np.squeeze(integral.transpose())
+            integral=(1*newT[1]/newT*mbar_over_m0*np.exp(-integral))
             normfactor=normrho/spline(newz,integral,normz)
             rho=normfactor*integral
             nodens=rho/intermbar(newz)*6.02282e23/1e3
@@ -92,12 +93,12 @@ class ZptFile(dict):
         Ro=8.3143 # ideal gas constant
         k=1.38054e-23 # jK-1 Boltzman's constant
         #load cira.mat
-        cira = sio.loadmat('cira.mat')
-        latpt=min(max(1,round((lat+85)/10+0.5)),17)
+        cira = sio.loadmat(resource_filename('odin.ecmwf','cira.mat'))
+        latpt=np.min( np.hstack((  np.max( np.hstack((1,np.round((lat+85)/10+0.5)))) ,17 )) )
         monthrange=np.arange((month-1)*25,month*25)
         ciraT=cira['temp'][monthrange,latpt]
-        z=r_[g5zpt[g5zpt[:,0]<60,0],arange(75,121,5)]
-        temp=r_[g5zpt[g5zpt[:,0]<60,2],ciraT[15:25]]
+        z=np.r_[g5zpt[g5zpt[:,0]<60,0],np.arange(75,121,5)]
+        temp=np.r_[g5zpt[g5zpt[:,0]<60,2],ciraT[15:25]]
         newz=np.arange(121)
         normrho=interp([20],g5zpt[:,0],g5zpt[:,1])*28.9644/1000/Ro/interp([20],
                        g5zpt[:,0],g5zpt[:,2])
@@ -108,6 +109,8 @@ class ZptFile(dict):
 
 
     def __init__(self, filename, outputfilename):
+        self.log = logging.getLogger(__name__)
+        self.log.info('Creating ptz-file for {0}'.format(filename))
         ecmwfpath='/odin/external/ecmwf/'
         ecmz=np.arange(65)
         newz=np.arange(121)
@@ -131,33 +134,41 @@ class ZptFile(dict):
             return data
         
         self.filename=filename
-        fid=open(outputfilename,'aw')
+        fid=open(outputfilename,'w')
         logdata=readlogfile(self.filename)
-        np.array(logdata.shape[0]).tofile(fid,' ','%3d')
-        np.array(newz.shape[0]).tofile(fid,' ','%3d')
-        newz.tofile(fid,' ', '%5.2f\n')
+        fid.write('# ARRAY dimension (={0})\n'.format(logdata.shape[0]))
+        fid.write('# MATRIX dimensions (always 3 columns)\n')
+        fid.write('# Pressure[Pa] Temperature[K] Altitude[m]\n')
+        fid.write('# Created the script hermodcreateptz in the odin.ecmwf package\n')
+        fid.write('{0}\n'.format(logdata.shape[0]))
         datetime=mjd2utc(logdata[0,11])
         hourstr=str(np.int(datetime.hour/6)*600)
         ecmwffilename=ecmwfpath+'ODIN_'+datetime.strftime('%Y%m%d')+'-AN-91-22.NC'
-        print 'Using ECMWF file : '+ecmwffilename
+        self.log.info('Using ECMWF file: {0}'.format(ecmwffilename))
         ecm=NC.NCecmwf(ecmwffilename)
         minlat=np.min(ecm['lats'])
         latstep=np.mean(diff(ecm['lats']))
         minlon=np.min(ecm['lons'])
         lonstep=np.mean(np.diff(ecm['lons']))
-        for i in np.range(logdata.shape[0]):
+        for i in np.arange(logdata.shape[0]):
             #extract T and P for the starting lat and long of each scan (Should be updated to middle but needs a good way of averaging the start and end longitutudes) 
-            latpt=np.int(np.floor((logdata[i,4]-minlat)/latstep))
-            lonpt=np.int(np.floor((logdata[i,5]-minlon)/lonstep))
-            T=extractprofile_on_z(self,'T',latpt,lonpt,ecmz)
-            P=extractprofile_on_z(self,'P',latpt,lonpt,ecmz)/100. # to hPa
+            latpt=np.int(np.floor((logdata[i,4]+minlat)/latstep))
+            lonpt=np.int(np.floor((logdata[i,5]+minlon)/lonstep))
+            T=ecm.extractprofile_on_z('T',latpt,lonpt,ecmz)
+            P=ecm.extractprofile_on_z('P',latpt,lonpt,ecmz)/100. # to hPa
             T[np.isnan(T)]=273.0 # tempory fix in case ECMWF make temperatures below the surface nans, P shouldn't matter
-            zpt=donaletty(np.c_[ecmz,P,T],datetime.month(),datetime.day(),newz)
-            zpt[1:2,:].tofile(fid,' ','%5.1f %6.4e\n')
+            zpt=self.donaletty(np.c_[ecmz,P,T],datetime.month,datetime.day,newz)
+            fid.write('{0:<4}{1:<4}\n'.format(*zpt.shape))
+            for row in zpt.tolist():
+                fid.write('{1:.6e} {2:.6e} {0:.6e}\n'.format(*row))
         fid.close()
-            
-def main(infile,outfile):
-    zpt = ZptFile(infile,outfile)
+        self.log.info('Created {0} successfully'.format(outputfilename))    
+def main():
+    set_hermod_logging()
+    if len(argv)==3: ## command and two arguments
+        zpt = ZptFile(argv[1],argv[2])
+    else:
+        exit('Command uses one infile and one outfile as an argument')
 
 if __name__=="__main__":
-    main(argv[1],argv[2]) 
+    main() 

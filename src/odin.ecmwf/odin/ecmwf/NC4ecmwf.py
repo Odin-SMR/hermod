@@ -7,7 +7,7 @@ from netCDF4 import Dataset
 import numpy as np
 import odin.ecmwf.GPHlib as GPH
 from pylab import interp
-
+import logging
 class NCecmwf(dict):
     '''
     classdocs
@@ -18,14 +18,19 @@ class NCecmwf(dict):
         '''
         This routine will allow us to access 
         '''
+        self.log = logging.getLogger(__name__)
         def readfield(fid,fieldname,lonsort):
-            np.disp('Reading field')
+            #np.disp('Reading field')
             field=fid.groups[groupnames[fieldname][0]].variables[fieldname]
             #field=np.r_[field]*field.scale_factor+field.add_offset
             field=np.ma.filled(field,np.nan)[:,:,lonsort]
             return field
     
-        fid=Dataset(filename, 'r')
+        try:        
+            fid=Dataset(filename, 'r')
+        except:
+            self.log.error('Could not find {} - aborting'.format(filname))
+            raise
         groups=fid.groups.keys()
         groupnames={}
         for gr in groups:
@@ -62,7 +67,7 @@ class NCecmwf(dict):
 
     def readfield(self,fieldname):
         if self['CurrentFieldName']!=fieldname :
-            np.disp('Reading field '+fieldname)
+            #np.disp('Reading field '+fieldname)
             field=self['fid'].groups[self.groupnames[fieldname][0]].variables[fieldname]
             #field=np.r_[field]*field.scale_factor+field.add_offset
             field=np.ma.filled(field,np.nan)[:,:,self['lonsort']]

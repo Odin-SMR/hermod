@@ -12,7 +12,7 @@ class L1bDownloader(PDCKerberosTicket,PDCkftpGetFiles):
         self.config = config()
         self.db = connect()
         self.cursor = self.db.cursor()
-        self.log = logging.getLogger('__name__')
+        self.log = logging.getLogger(__name__)
 
     def gettickets(self):
         if not self.renew():
@@ -44,12 +44,14 @@ class L1bDownloader(PDCKerberosTicket,PDCkftpGetFiles):
                             )
                     makedir(dirname(local))
                     self.get(remote,local)
-                    self.log.info('Downloaded {}'.format(local)) 
+                    self.log.info('Downloaded {0}'.format(local)) 
                     if typ=='HDF':
                         retcode =system('/bin/gunzip -fq %s'%(local,))
                         if retcode!=0:
+                                self.log.warn('Could not unzip {0}'.format(
+                                        local)) 
                             continue
-                        self.log.info('Unzipped {}'.format(f[1])) 
+                        self.log.info('Unzipped {0}'.format(f[1])) 
                         self.register(f[0],f[num+1][:-3])
                     else:
                         self.register(f[0],f[num+1])
@@ -94,9 +96,9 @@ def downloadl1bfiles():
             where s.status and (l1bg.id is null or l1bg.date<l1.uploaded) 
                 and s.errmsg='' and l1.calversion in (6,7);
             ''')
-    log.info('Found {} new HDF-files'.format(status))
+    log.info('Found {0} new HDF-files'.format(status))
     result = cursor.fetchall()
-    log.debug('Issued the query: {}'.format(cursor._last_executed))
+    log.debug('Issued the query: {0}'.format(cursor._last_executed))
     cursor.close()
     db.close()
     l1b = L1bDownloader(result)

@@ -4,17 +4,18 @@ from setuptools import setup,find_packages
 
 setup(
         name='odin.ecmwf',
-        version='1.1.1',
+        version='1.1.3',
         description = 'Receives and converts gribfiles from ecmwf',
         entry_points= {"console_scripts": [
             "hermodcreateecmwf = odin.ecmwf.create_odinecmwf:create_insert",
-            "hermodcreatezpt  =  odin.ecmwf.donaletty_EcmwfNC:main",
+            "hermodcreateptz  =  odin.ecmwf.donalettyEcmwfNC:main",
             ]},
         packages = find_packages(exclude=['ez_setup','tests']),
         namespace_packages = ['odin'],
         package_data={'odin.ecmwf': [
                 'odinecmwf/odinecmwf_grib2.so',
-                'odinecmwf/odinecmwf_grib1.so'
+                'odinecmwf/odinecmwf_grib1.so',
+                'cira.mat',
                 ]},
         include_package_data=True,
 

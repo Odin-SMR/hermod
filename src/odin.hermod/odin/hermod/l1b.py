@@ -48,8 +48,8 @@ class L1bDownloader(PDCKerberosTicket,PDCkftpGetFiles):
                     if typ=='HDF':
                         retcode =system('/bin/gunzip -fq %s'%(local,))
                         if retcode!=0:
-                                self.log.warn('Could not unzip {0}'.format(
-                                        local)) 
+                            self.log.warn('Could not unzip {0}'.format(
+                                    local)) 
                             continue
                         self.log.info('Unzipped {0}'.format(f[1])) 
                         self.register(f[0],f[num+1][:-3])

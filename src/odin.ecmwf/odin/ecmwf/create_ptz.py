@@ -27,12 +27,12 @@ def main():
     ''')
     log.info('Found {0} LOG-files with coresponding AN.NC-files'.format(status))
     for f in cur1:
-        logfile = join(conf.get('GEM',LEVEL1B_DIR),f[1])
+        logfile = join(conf.get('GEM','LEVEL1B_DIR'),f[1])
         ptzfile  = logfile.replace('LOG','PTZ')
         ptz =ZptFile(logfile,ptzfile)
         cur2.execute('''
                 replace level1b_gem
-                (id,filname)
+                (id,filename)
                 values (%s,%s)
                 ''',(f[0],f[1].replace('LOG','PTZ')))
     cur1.close()

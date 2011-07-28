@@ -18,7 +18,7 @@ class OdinCursor(Cursor):
     
     def execute(self, *args, **kwargs):
         status =Cursor.execute(self, *args, **kwargs)
-        self.log.debug('Executed : {}'.format(
+        self.log.debug('Executed : {0}'.format(
             " ".join(self._last_executed.split())))
         return status
             

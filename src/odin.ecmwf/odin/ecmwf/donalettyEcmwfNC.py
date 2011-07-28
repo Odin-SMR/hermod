@@ -7,7 +7,8 @@ from scipy.interpolate import splmake, spleval,spline
 from scipy import io as sio
 from pylab import diff,interp
 from pkg_resources import resource_filename
-from odin.config.environment import set_hermod_logging
+from os.path import join
+from odin.config.environment import set_hermod_logging,config
 import logging
 class ZptFile(dict):
     '''
@@ -109,6 +110,7 @@ class ZptFile(dict):
 
 
     def __init__(self, filename, outputfilename):
+        self.conf = config()
         self.log = logging.getLogger(__name__)
         self.log.info('Creating ptz-file for {0}'.format(filename))
         ecmwfpath='/odin/external/ecmwf/'
@@ -145,7 +147,7 @@ class ZptFile(dict):
         hourstr=str(np.int(datetime.hour/6)*600)
         basepath = self.conf.get('ecmwf','basedir')
         ecmwffilename_template = join(basepath,
-                '%Y','%m','ODIN_NWP_%Y_%m_%d%H_%M_00_00_22_AN.NC')
+                '%Y','%m','ODIN_NWP_%Y_%m_%d00_00_00_00_91_AN.NC')
         ecmwffilename=datetime.strftime(ecmwffilename_template)
         self.log.info('Using ECMWF file: {0}'.format(ecmwffilename))
         ecm=NC.NCecmwf(ecmwffilename)

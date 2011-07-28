@@ -29,7 +29,7 @@ class NCecmwf(dict):
         try:        
             fid=Dataset(filename, 'r')
         except:
-            self.log.error('Could not find {} - aborting'.format(filname))
+            self.log.error('Could not find {0} - aborting'.format(filename))
             raise
         groups=fid.groups.keys()
         groupnames={}

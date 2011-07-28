@@ -93,12 +93,12 @@ def downloadl1bfiles():
             from level1 l1
             join status s on (l1.id=s.id)
             left join level1b_gem l1bg on (l1.id=l1bg.id)
-            where s.status and (l1bg.id is null or l1bg.date<l1.uploaded) 
+            where s.status and l1bg.filename regexp ".*HDF|.*LOG"
+                and (l1bg.id is null or l1bg.date<l1.uploaded) 
                 and s.errmsg='' and l1.calversion in (6,7);
             ''')
     log.info('Found {0} new HDF-files'.format(status))
     result = cursor.fetchall()
-    log.debug('Issued the query: {0}'.format(cursor._last_executed))
     cursor.close()
     db.close()
     l1b = L1bDownloader(result)

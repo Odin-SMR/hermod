@@ -18,7 +18,8 @@ class OdinCursor(Cursor):
     
     def execute(self, *args, **kwargs):
         status =Cursor.execute(self, *args, **kwargs)
-        self.log.debug('Fired a query: ' +str(args) + str(kwargs))
+        self.log.debug('Executed : {}'.format(
+            " ".join(self._last_executed.split())))
         return status
             
     def close(self):

@@ -143,7 +143,10 @@ class ZptFile(dict):
         fid.write('{0}\n'.format(logdata.shape[0]))
         datetime=mjd2utc(logdata[0,11])
         hourstr=str(np.int(datetime.hour/6)*600)
-        ecmwffilename=ecmwfpath+'ODIN_'+datetime.strftime('%Y%m%d')+'-AN-91-22.NC'
+        basepath = self.conf.get('ecmwf','basedir')
+        ecmwffilename_template = join(basepath,
+                '%Y','%m','ODIN_NWP_%Y_%m_%d%H_%M_00_00_22_AN.NC')
+        ecmwffilename=datetime.strftime(ecmwffilename_template)
         self.log.info('Using ECMWF file: {0}'.format(ecmwffilename))
         ecm=NC.NCecmwf(ecmwffilename)
         minlat=np.min(ecm['lats'])

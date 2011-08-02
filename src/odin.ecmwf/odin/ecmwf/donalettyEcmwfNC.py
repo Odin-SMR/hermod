@@ -140,7 +140,7 @@ class ZptFile(dict):
         logdata=readlogfile(self.filename)
         fid.write('# ARRAY dimension (={0})\n'.format(logdata.shape[0]))
         fid.write('# MATRIX dimensions (always 3 columns)\n')
-        fid.write('# Pressure[Pa] Temperature[K] Altitude[m]\n')
+        fid.write('# Pressure[hPa] Temperature[K] Altitude[km]\n')
         fid.write('# Created the script hermodcreateptz in the odin.ecmwf package\n')
         fid.write('{0}\n'.format(logdata.shape[0]))
         datetime=mjd2utc(logdata[0,11])
@@ -159,8 +159,8 @@ class ZptFile(dict):
             #extract T and P for the starting lat and long of each scan (Should be updated to middle but needs a good way of averaging the start and end longitutudes) 
             latpt=np.int(np.floor((logdata[i,4]+minlat)/latstep))
             lonpt=np.int(np.floor((logdata[i,5]+minlon)/lonstep))
-            T=ecm.extractprofile_on_z('T',latpt,lonpt,ecmz)
-            P=ecm.extractprofile_on_z('P',latpt,lonpt,ecmz)/100. # to hPa
+            T=ecm.extractprofile_on_z('T',latpt,lonpt,ecmz*1000)
+            P=ecm.extractprofile_on_z('P',latpt,lonpt,ecmz*1000)/100. # to hPa
             T[np.isnan(T)]=273.0 # tempory fix in case ECMWF make temperatures below the surface nans, P shouldn't matter
             zpt=self.donaletty(np.c_[ecmz,P,T],datetime.month,datetime.day,newz)
             fid.write('{0:<4}{1:<4}\n'.format(*zpt.shape))

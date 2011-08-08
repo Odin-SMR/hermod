@@ -4,11 +4,12 @@ from setuptools import setup,find_packages
 
 setup(
         name='odin.ecmwf',
-        version='1.2.4',
+        version='1.2.6',
         description = 'Receives and converts gribfiles from ecmwf',
         entry_points= {"console_scripts": [
             "hermodcreateecmwf = odin.ecmwf.create_odinecmwf:create_insert",
             "hermodcreateptz  =  odin.ecmwf.create_ptz:main",
+            "hermodlist = odin.ecmwf.list_not_downloaded:main",
             ]},
         packages = find_packages(exclude=['ez_setup','tests']),
         namespace_packages = ['odin'],

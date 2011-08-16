@@ -52,8 +52,7 @@ class Ecmwf_Grib2(object):
 
     def outfile(self):
         basepath = self.conf.get('ecmwf','basedir')
-        fullpath = join(basepath,'%Y','%m','ODIN_NWP_%Y_%m_%d%H_%M_00_00_'
-                + str(self.nlev)+'_AN.NC')
+        fullpath = join(basepath,'%Y','%m','ODIN_NWP_%Y_%m_%d_%H.NC')
                 
 	return self.time.strftime(fullpath)
 

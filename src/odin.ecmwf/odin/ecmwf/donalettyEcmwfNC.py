@@ -147,7 +147,7 @@ class ZptFile(dict):
         hourstr=str(np.int(datetime.hour/6)*600)
         basepath = self.conf.get('ecmwf','basedir')
         ecmwffilename_template = join(basepath,
-                '%Y','%m','ODIN_NWP_%Y_%m_%d00_00_00_00_91_AN.NC')
+                '%Y','%m','ODIN_NWP_%Y_%m_%d_00.NC')
         ecmwffilename=datetime.strftime(ecmwffilename_template)
         self.log.info('Using ECMWF file: {0}'.format(ecmwffilename))
         ecm=NC.NCecmwf(ecmwffilename)

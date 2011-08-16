@@ -24,6 +24,8 @@ def main():
                     select * from ecmwf e
                     where e.date=date(level1.start_utc) and e.type='AN')
                 and l1g.filename regexp "^6.*"
+            order by l1g.date desc
+            limit 1500
     ''')
     log.info('Found {0} LOG-files with coresponding AN.NC-files'.format(status))
     for f in cur1:

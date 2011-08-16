@@ -84,7 +84,22 @@ where v.active and l2f.id is null and l1.calversion=6 and (proccount is null or 
 order by orbit desc,fqid   
 limit 400
     '''
-    x = ProcHFactory(query)
+    query2 = '''
+SELECT distinct l1.id,l1n.backend,l1n.orbit, v.id fqid, v.qsmr version, l1n.calversion, a.name, v.process_time FROM level1_new l1n
+join level1 l1 using (orbit,backend,calversion)
+join versions v on (v.fm=l1.freqmode and v.calversion=l1n.calversion)
+join status on (l1.id=status.id)
+join Aero a on (v.id=a.id)
+where not exists
+(select * from level2 l2 where l2.id=l1.id) 
+and exists (select count(*) cnt from level1b_gem l1bg where l1bg.id= l1.id group by l1bg.id having cnt>2)
+and exists (select id from smrl1b_gem sl1bg where sl1bg.id=l1.id)
+and not exists (select * from statusl2 s2 where s2.id=l1.id and s2.version=v.qsmr and s2.fqid=v.id and proccount<4)
+and l1n.freqmode<>0 and v.active=1
+order by l1n.orbit desc
+limit 400
+'''
+    x = ProcHFactory(query2)
     print x
     x.submit()
 

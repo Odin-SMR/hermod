@@ -8,7 +8,7 @@ from ctypes import CDLL
 import os, string, sys, glob
 from  pkg_resources import resource_filename
 from shutil import copy,move
-from os import mkdir
+from os import mkdir,chmod
 from odin.config.environment import config
 from os.path import dirname,isdir,split,join,basename,exists
 import logging
@@ -84,4 +84,5 @@ class Ecmwf_Grib2(object):
     def cpfile(self):
         makedir(dirname(self.outfile()))
         copy(self.an_file.name,self.outfile())
+        chmod(self.outfile(),0o644)
         self.log.debug('Installed {0}'.format(self.outfile()))

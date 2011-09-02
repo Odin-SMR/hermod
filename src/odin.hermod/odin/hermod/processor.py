@@ -94,7 +94,7 @@ where not exists
 (select * from level2 l2 where l2.id=l1.id) 
 and exists (select count(*) cnt from level1b_gem l1bg where l1bg.id= l1.id group by l1bg.id having cnt>2)
 and exists (select id from smrl1b_gem sl1bg where sl1bg.id=l1.id)
-and not exists (select * from statusl2 s2 where s2.id=l1.id and s2.version=v.qsmr and s2.fqid=v.id and proccount<4)
+and not exists (select * from statusl2 s2 where s2.id=l1.id and s2.version=v.qsmr and s2.fqid=v.id and proccount>4)
 and l1n.freqmode<>0 and v.active=1
 order by l1n.orbit desc
 limit 400

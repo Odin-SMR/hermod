@@ -55,7 +55,7 @@ def main():
                         datestart=date(2001,6,1),
                         dateend = date.today(),
                         type = "AN",
-                        limit = 40,
+                        limit = 100,
                         )
     parser.add_option('-s', '--start-date',
             action='callback', callback=parsedate, dest='datestart', nargs=1,

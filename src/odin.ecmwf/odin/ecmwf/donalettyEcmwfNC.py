@@ -138,17 +138,18 @@ class ZptFile(dict):
         self.filename=filename
         fid=open(outputfilename,'w')
         logdata=readlogfile(self.filename)
+        logdata[logdata[:,5]>180,5]-=360.0 #fixa longituder till -180-180 range
         fid.write('# ARRAY dimension (={0})\n'.format(logdata.shape[0]))
         fid.write('# MATRIX dimensions (always 3 columns)\n')
         fid.write('# Pressure[hPa] Temperature[K] Altitude[km]\n')
         fid.write('# Created the script hermodcreateptz in the odin.ecmwf package\n')
         fid.write('{0}\n'.format(logdata.shape[0]))
-        datetime=mjd2utc(logdata[0,11])
-        hourstr=str(np.int(datetime.hour/6)*600)
+        log_datetime=mjd2utc(logdata[0,11])
+        file_datetime = log_datetime.replace(hour=np.int(datetime.hour/6)*6)
         basepath = self.conf.get('ecmwf','basedir')
         ecmwffilename_template = join(basepath,
-                '%Y','%m','ODIN_NWP_%Y_%m_%d_00.NC')
-        ecmwffilename=datetime.strftime(ecmwffilename_template)
+                '%Y','%m','ODIN_NWP_%Y_%m_%d_%H.NC')
+        ecmwffilename=file_datetime.strftime(ecmwffilename_template)
         self.log.info('Using ECMWF file: {0}'.format(ecmwffilename))
         ecm=NC.NCecmwf(ecmwffilename)
         minlat=np.min(ecm['lats'])
@@ -162,7 +163,7 @@ class ZptFile(dict):
             T=ecm.extractprofile_on_z('T',latpt,lonpt,ecmz*1000)
             P=ecm.extractprofile_on_z('P',latpt,lonpt,ecmz*1000)/100. # to hPa
             T[np.isnan(T)]=273.0 # tempory fix in case ECMWF make temperatures below the surface nans, P shouldn't matter
-            zpt=self.donaletty(np.c_[ecmz,P,T],datetime.month,datetime.day,newz)
+            zpt=self.donaletty(np.c_[ecmz,P,T],file_datetime.month,file_datetime.day,newz)
             fid.write('{0:<4}{1:<4}\n'.format(*zpt.shape))
             for row in zpt.tolist():
                 fid.write('{1:.6e} {2:.6e} {0:.6e}\n'.format(*row))

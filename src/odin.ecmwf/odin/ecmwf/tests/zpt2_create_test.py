@@ -7,7 +7,10 @@ from pkg_resources import resource_filename
 from StringIO import StringIO
 class ZPT2TestCase(mocker.MockerTestCase):
     def test_zpt2(self):
-        ztp=ZptFile('OC1BD9D2.LOG','test.ztp2')
+        #2011-07-15
+        ztp=ZptFile('OC1BDD69.LOG','test.ztp2')
+        #2011-05-15
+        #ztp=ZptFile('OC1BD9D2.LOG','test.ztp2')
 
 
 

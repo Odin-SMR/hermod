@@ -145,7 +145,7 @@ class ZptFile(dict):
         fid.write('# Created the script hermodcreateptz in the odin.ecmwf package\n')
         fid.write('{0}\n'.format(logdata.shape[0]))
         log_datetime=mjd2utc(logdata[0,11])
-        file_datetime = log_datetime.replace(hour=np.int(datetime.hour/6)*6)
+        file_datetime = log_datetime.replace(hour=np.int(log_datetime.hour/6)*6)
         basepath = self.conf.get('ecmwf','basedir')
         ecmwffilename_template = join(basepath,
                 '%Y','%m','ODIN_NWP_%Y_%m_%d_%H.NC')

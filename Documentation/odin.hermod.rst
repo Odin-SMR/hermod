@@ -370,7 +370,8 @@ Packages selected to be "released" are copied to ``/misc/apps/odinsite``.
         virtualenv <dir>
         cd <dir>
         svn co http://svn.rss.chalemrs.se/svn/odinsmr/hermod/trunk .
-        python2.6 bootstrap.py
+        bin/python2.6 bootstrap.py
+        bin/easy-install-2.6 numpy==1.3.0
         bin/buildout
 
 

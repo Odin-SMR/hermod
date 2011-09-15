@@ -746,7 +746,7 @@ static float GRAV(float lat, float z) {
   if(z < -1e3  || z > 1000e3) NRERROR("Only altitudes inside [-1,1000] km are allowed.");
   
   // Expression found on web page of UK's National Physical Laboratory
-  return 9.780327*( 1 + 0.0053024*pow(sin(lat),2) - 0.0000058*pow(sin(2*lat),2)) - z*3.086*1e-6;
+  return 9.780327*( 1 + 0.0053024*pow(sin(lat),2) - 0.0000058*pow(sin(2*lat),2));
 }
 
 static void check_err(const int stat, const int line, const char *file) {

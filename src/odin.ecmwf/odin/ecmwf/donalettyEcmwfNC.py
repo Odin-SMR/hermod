@@ -148,7 +148,7 @@ class ZptFile(dict):
         #all values are integers..
 	file_hour=(log_datetime.hour+3)/6*6
         file_datetime = log_datetime.replace(hour=0)
-        file_datetime += timedelta(hours=file_hour)
+        file_datetime += DT.timedelta(hours=file_hour)
         basepath = self.conf.get('ecmwf','basedir')
         ecmwffilename_template = join(basepath,
                 '%Y','%m','ODIN_NWP_%Y_%m_%d_%H.NC')

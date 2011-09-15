@@ -9,13 +9,15 @@ class EcmwfTestCase(mocker.MockerTestCase):
 
     def test_convert_grib(self):
         gribfile = resource_filename('odin.ecmwf',
-                'tests/ECMWF_ODIN_201106300000+000H00M')
+                'tests/ECMWF_ODIN_201105090000+000H00M')
+#                'tests/ECMWF_ODIN_201106300000+000H00M')
 	grib = Ecmwf_Grib2(gribfile)
         grib.convert2nc()
    
     def test_convert(self):
         gribfile = resource_filename('odin.ecmwf',
-                'tests/ECMWF_ODIN_201106300000+000H00M')
+                'tests/ECMWF_ODIN_201105090000+000H00M')
+#                'tests/ECMWF_ODIN_201106300000+000H00M')
 	grib = Ecmwf_Grib2(gribfile)
         grib.convert2nc()
         grib.convert2odin()
@@ -39,7 +41,7 @@ class EcmwfTestCase(mocker.MockerTestCase):
         grib = Ecmwf_Grib2('ECMWF_ODIN_197610090822+000H00M')
         grib.nlev = 91
         self.assertEqual(grib.outfile(),
-                '/basedir/1976/10/ODIN_NWP_1976_10_0908_22_00_00_91_AN.NC')
+                '/basedir/1976/10/ODIN_NWP_1976_10_09_08.NC')
 
 
 def test_suite():

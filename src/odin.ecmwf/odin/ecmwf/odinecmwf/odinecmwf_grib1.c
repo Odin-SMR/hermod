@@ -279,7 +279,7 @@ static void GetGLInfo(GL *g) {
  
   // Get the levs
   len = 0;
-  status = nc_inq_dimid(ncid,"mlev",&dimid);  
+  status = nc_inq_dimid(ncid,"nhym",&dimid);  
   if (status != NC_NOERR) check_err(status,__LINE__,__FILE__);  
   status = nc_inq_dimlen(ncid,dimid,&len); 
   if (status != NC_NOERR) handle_error(status,__LINE__,__FILE__);
@@ -295,7 +295,7 @@ static void GetGLInfo(GL *g) {
 
   // Get intermediate levels
   len = 0;
-  status = nc_inq_dimid(ncid,"ilev",&dimid);  
+  status = nc_inq_dimid(ncid,"nhyi",&dimid);  
   if (status != NC_NOERR) check_err(status,__LINE__,__FILE__); 
   status = nc_inq_dimlen(ncid,dimid,&len); 
   if (status != NC_NOERR) handle_error(status,__LINE__,__FILE__);

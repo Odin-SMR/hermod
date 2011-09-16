@@ -42,7 +42,7 @@ setup(
             'fuse-python==0.2',
             'pyhdf==0.8.3',
             'numpy==1.3.0',
-            'scipy==0.7.0',
+            'scipy==0.6.0',
             'matplotlib==0.99.1.1',
             'pymatlab==0.1.3',
             'netCDF4==0.9.6',

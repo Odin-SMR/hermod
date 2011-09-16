@@ -20,7 +20,7 @@ setup(
             'mysql-python==1.2.3',
             'pyhdf==0.8.3',
             'numpy==1.3.0',
-            'scipy==0.7.0',
+            'scipy==0.6.0',
             'matplotlib==0.99.1.1',
             'basemap==0.99.4',
             'pymatlab==0.1.3',

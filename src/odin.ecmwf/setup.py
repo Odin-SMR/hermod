@@ -30,7 +30,7 @@ setup(
             'mysql-python==1.2.3',
             'odin.config',
             'numpy==1.3.0',
-            'scipy==0.7.0',
+            'scipy==0.6.0',
             'netCDF4==0.9.6',
 		],
         tests_require=['mocker','setuptools'],

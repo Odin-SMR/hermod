@@ -20,7 +20,7 @@ setup(
                 ]},
         include_package_data=True,
 
-        test_suite='odin.ecmwf.tests.test_all.test_suite',
+        test_suite='odin.ecmwf.tests.test_all',
         zip_safe=True,
         author='Joakim Möller',
         author_email='joakim.moller@molflow.com',
@@ -31,7 +31,7 @@ setup(
             'odin.config',
             'numpy==1.3.0',
             'scipy==0.7.0',
-            'netCDF4',
+            'netCDF4==0.9.6',
 		],
         tests_require=['mocker','setuptools'],
 )

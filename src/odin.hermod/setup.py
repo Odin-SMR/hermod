@@ -45,6 +45,7 @@ setup(
             'scipy==0.7.0',
             'matplotlib==0.99.1.1',
             'pymatlab==0.1.3',
+            'netCDF4==0.9.6',
             'odin.config',
 		],
         tests_require=['mocker','setuptools'],

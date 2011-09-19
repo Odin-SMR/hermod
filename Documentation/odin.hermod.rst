@@ -326,31 +326,6 @@ A set of compiled hermod packages exits in ``/misc/apps/odinsite``. The
 installation of hermod is controlled by zc.buildout installation. This way
 buildout pins down the specific version of each dependency package.
 
-.. code-block:: txt
-
-	[buildout]
-	parts = 
-	    odin
-	develop = 
-	    src/odin.iasco
-	    src/odin.hermod
-	    src/odin.config
-	
-	[odin]
-	recipe = zc.recipe.egg==1.2.2
-	interpreter = odinpy
-	find-links =
-	    deps
-	eggs = 
-	    mocker
-	    pymatlab==0.1.3
-	    fuse-python==0.2
-	    scipy==0.7.0
-	    numpy==1.3.0
-	    mysql-python
-	    pexpect
-	    matplotlib==0.99.1.1
-	    basemap==0.99.4
 
 Developers installation
 _______________________
@@ -365,13 +340,14 @@ have a standalone database with a small data set to run off site tests).
 Once developers build packages in the development environment described above.
 Packages selected to be "released" are copied to ``/misc/apps/odinsite``.
 
+To have a copy of hermod running locally for development do the following:
+
 .. code-block:: txt
 
-        virtualenv <dir>
-        cd <dir>
-        svn co http://svn.rss.chalemrs.se/svn/odinsmr/hermod/trunk .
+        svn co http://svn.rss.chalemrs.se/svn/odinsmr/hermod/trunk hermod
+        virtualenv -p /usr/bin/python2.6 hermod
+        cd hermod
         bin/python2.6 bootstrap.py
-        bin/easy-install-2.6 numpy==1.3.0
         bin/buildout
 
 

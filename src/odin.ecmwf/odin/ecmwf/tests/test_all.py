@@ -8,5 +8,5 @@ def additional_tests():
         ])
 
 if __name__=="__main__":
-    unittest.TextTestRunner(verbosity=3).run(test_suite())
+    unittest.TextTestRunner(verbosity=3).run(additional_tests())
 

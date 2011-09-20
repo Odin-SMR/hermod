@@ -4,7 +4,7 @@ from setuptools import setup,find_packages
 
 setup(
         name='odin.ecmwf',
-        version='1.4.0',
+        version='1.4.2',
         description = 'Receives and converts gribfiles from ecmwf',
         entry_points= {"console_scripts": [
             "hermodcreateecmwf = odin.ecmwf.create_odinecmwf:create_insert",
@@ -30,7 +30,7 @@ setup(
             'mysql-python==1.2.3',
             'odin.config',
             'numpy==1.3.0',
-            'scipy==0.6.0',
+            'scipy==0.7.0',
             'netCDF4==0.9.6',
 		],
         tests_require=['mocker','setuptools'],

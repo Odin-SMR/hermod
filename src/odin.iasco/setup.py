@@ -2,7 +2,7 @@ from setuptools import setup,find_packages
 
 setup(
         name="odin.iasco",
-        version="1.0.6",
+        version="1.0.7",
         description = 'Package for processing images with IASCO. Includes processing of wind and odin data, images and updates of databases and the odin homepage',
 	package_data= {'':['matlab/*.m','matlab/*.mat'],},
         entry_points= {"console_scripts": 
@@ -20,7 +20,7 @@ setup(
             'mysql-python==1.2.3',
             'pyhdf==0.8.3',
             'numpy==1.3.0',
-            'scipy==0.6.0',
+            'scipy==0.7.0',
             'matplotlib==0.99.1.1',
             'basemap==0.99.4',
             'pymatlab==0.1.3',

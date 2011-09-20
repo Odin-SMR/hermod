@@ -355,6 +355,23 @@ To have a copy of hermod running locally for development do the following:
 
 __ svn_
 
+Tests
+______
+
+To ensure quality and to simplify for other developers. Unittests are written for some parts of Hermod. Unittests makes sure that the tested function or procedure does what it's  meant for.
+
+Example: How to run a full unittest suite for a package.
+
+.. code-block:: txt
+
+    .. src/odin.ecmwf$> ../bin/odinpy setup.py test
+
+Example: how to run a specific testcase.
+
+.. code-block:: txt
+
+    .. src/odin.ecmwf/odin/ecmwf/tests$> ../../../../../bin/odinpy zpt2_create_test.py
+
 Developing and creating eggs for production
 ___________________________________________
 

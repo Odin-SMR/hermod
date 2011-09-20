@@ -1,6 +1,6 @@
 #!/bin/bash
 
-packages=`find src -type f -name setup.py | cut -d/ -f1-2`
+packages=`find src/odin.* -type f -name setup.py | cut -d/ -f1-2`
 base=`pwd`
 for pkg in $packages
 do

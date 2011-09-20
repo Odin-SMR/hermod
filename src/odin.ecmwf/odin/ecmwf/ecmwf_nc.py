@@ -66,7 +66,7 @@ class Ecmwf_Grib2(object):
     def convert2odin(self):
         odinp_lib = resource_filename('odin.ecmwf',
                 'odinecmwf/odinecmwf_grib2.so')
-        if self.time>=datetime(2011,5,18):
+        if self.time>datetime(2011,5,18):
             odinp_lib = resource_filename('odin.ecmwf',
                     'odinecmwf/odinecmwf_grib2.so')
         else:

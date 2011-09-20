@@ -4,7 +4,7 @@ from setuptools import setup,find_packages,Extension
 
 setup(
         name='odin.hermod',
-        version='3.4.3',
+        version='3.4.4',
         description = 'Routines to simplify and improve speed of odinprocessing',
         entry_points= {"console_scripts": [
             "hermodgetlevel1 = odin.hermod.l1b:downloadl1bfiles",
@@ -44,7 +44,7 @@ setup(
             'fuse-python==0.2',
             'pyhdf==0.8.3',
             'numpy==1.3.0',
-            'scipy==0.6.0',
+            'scipy==0.7.0',
             'matplotlib==0.99.1.1',
             'pymatlab==0.1.3',
             'netCDF4==0.9.6',

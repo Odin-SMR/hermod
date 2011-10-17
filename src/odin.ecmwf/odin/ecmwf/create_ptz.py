@@ -11,7 +11,7 @@ def main():
     cur1 = db.cursor()
     cur2 = db.cursor()
     log = logging.getLogger(__name__)
-    log.info('Searching for LOG-files with out PTZ-files')
+    log.info('Searching for LOG-files without PTZ-files')
     status = cur1.execute('''
           SELECT l1g.id,l1g.filename
             from level1b_gem l1g,level1
@@ -23,7 +23,7 @@ def main():
                 and exists (
                     select * from ecmwf e
                     where e.date=date(level1.start_utc) and e.type='AN')
-                and l1g.filename regexp "^6.*"
+                and l1g.filename regexp "^[67].*"
             order by l1g.date desc
             limit 1500
     ''')

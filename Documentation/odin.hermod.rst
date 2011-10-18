@@ -344,7 +344,7 @@ To have a copy of hermod running locally for development do the following:
 
 .. code-block:: txt
 
-        svn co http://svn.rss.chalemrs.se/svn/odinsmr/hermod/trunk hermod
+        svn co http://svn.rss.chalmers.se/svn/odinsmr/hermod/trunk hermod
         virtualenv -p /usr/bin/python2.6 hermod
         cd hermod
         bin/python2.6 bootstrap.py

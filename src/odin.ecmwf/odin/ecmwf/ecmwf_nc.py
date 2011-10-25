@@ -13,7 +13,6 @@ from odin.config.environment import config
 from os.path import dirname,isdir,split,join,basename,exists
 import logging
 
-log = logging.getLogger(__name__)
 def makedir(dirname):
     '''Makes the directories to ensure the path to filename exists.
     '''

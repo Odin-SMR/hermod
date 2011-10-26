@@ -1,0 +1,10 @@
+#!/bin/bash
+#to install packages for production
+dir=$1
+virtualenv $dir
+cd $dir
+bin/easy_install -f /misc/apps/odinsite \
+	odin.config \
+	odin.hermod \
+	odin.iasco
+

@@ -1,0 +1,5555 @@
+%PDF-1.4
+%“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+% 'BasicFonts': class PDFDictionary 
+1 0 obj
+% The standard fonts dictionary
+<< /F1 2 0 R
+ /F2 3 0 R
+ /F3 4 0 R
+ /F4 5 0 R
+ /F5 86 0 R
+ /F6 103 0 R
+ /F7 109 0 R >>
+endobj
+% 'F1': class PDFType1Font 
+2 0 obj
+% Font Helvetica
+<< /BaseFont /Helvetica
+ /Encoding /WinAnsiEncoding
+ /Name /F1
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'F2': class PDFType1Font 
+3 0 obj
+% Font Helvetica-Bold
+<< /BaseFont /Helvetica-Bold
+ /Encoding /WinAnsiEncoding
+ /Name /F2
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'F3': class PDFType1Font 
+4 0 obj
+% Font Times-Roman
+<< /BaseFont /Times-Roman
+ /Encoding /WinAnsiEncoding
+ /Name /F3
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'F4': class PDFType1Font 
+5 0 obj
+% Font Helvetica-BoldOblique
+<< /BaseFont /Helvetica-BoldOblique
+ /Encoding /WinAnsiEncoding
+ /Name /F4
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'Page1': class PDFPage 
+6 0 obj
+% Page dictionary
+<< /Contents 166 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Annot.NUMBER1': class LinkAnnotation 
+7 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 70 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 62.69291
+ 723.7736
+ 239.4229
+ 735.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER2': class LinkAnnotation 
+8 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 70 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 527.0227
+ 723.7736
+ 532.5827
+ 735.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER3': class LinkAnnotation 
+9 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 70 0 R
+ /XYZ
+ 62.69291
+ 648.0236
+ 0 ]
+ /Rect [ 82.69291
+ 705.7736
+ 146.6029
+ 717.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER4': class LinkAnnotation 
+10 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 70 0 R
+ /XYZ
+ 62.69291
+ 648.0236
+ 0 ]
+ /Rect [ 527.0227
+ 705.7736
+ 532.5827
+ 717.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER5': class LinkAnnotation 
+11 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 87 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 62.69291
+ 687.7736
+ 338.3129
+ 699.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER6': class LinkAnnotation 
+12 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 87 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 527.0227
+ 687.7736
+ 532.5827
+ 699.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER7': class LinkAnnotation 
+13 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 93 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 82.69291
+ 669.7736
+ 226.1129
+ 681.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER8': class LinkAnnotation 
+14 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 93 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 527.0227
+ 669.7736
+ 532.5827
+ 681.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER9': class LinkAnnotation 
+15 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 93 0 R
+ /XYZ
+ 62.69291
+ 675.0236
+ 0 ]
+ /Rect [ 82.69291
+ 651.7736
+ 196.6429
+ 663.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER10': class LinkAnnotation 
+16 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 93 0 R
+ /XYZ
+ 62.69291
+ 675.0236
+ 0 ]
+ /Rect [ 527.0227
+ 651.7736
+ 532.5827
+ 663.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER11': class LinkAnnotation 
+17 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 93 0 R
+ /XYZ
+ 62.69291
+ 603.0236
+ 0 ]
+ /Rect [ 102.6929
+ 633.7736
+ 251.1029
+ 645.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER12': class LinkAnnotation 
+18 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 93 0 R
+ /XYZ
+ 62.69291
+ 603.0236
+ 0 ]
+ /Rect [ 527.0227
+ 633.7736
+ 532.5827
+ 645.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER13': class LinkAnnotation 
+19 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 93 0 R
+ /XYZ
+ 62.69291
+ 330.8236
+ 0 ]
+ /Rect [ 102.6929
+ 615.7736
+ 255.5429
+ 627.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER14': class LinkAnnotation 
+20 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 93 0 R
+ /XYZ
+ 62.69291
+ 330.8236
+ 0 ]
+ /Rect [ 527.0227
+ 615.7736
+ 532.5827
+ 627.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER15': class LinkAnnotation 
+21 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 95 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 102.6929
+ 597.7736
+ 260.5629
+ 609.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER16': class LinkAnnotation 
+22 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 95 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 527.0227
+ 597.7736
+ 532.5827
+ 609.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER17': class LinkAnnotation 
+23 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 95 0 R
+ /XYZ
+ 62.69291
+ 473.2236
+ 0 ]
+ /Rect [ 82.69291
+ 579.7736
+ 186.6329
+ 591.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER18': class LinkAnnotation 
+24 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 95 0 R
+ /XYZ
+ 62.69291
+ 473.2236
+ 0 ]
+ /Rect [ 527.0227
+ 579.7736
+ 532.5827
+ 591.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER19': class LinkAnnotation 
+25 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 99 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 62.69291
+ 561.7736
+ 121.0329
+ 573.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER20': class LinkAnnotation 
+26 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 99 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 527.0227
+ 561.7736
+ 532.5827
+ 573.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER21': class LinkAnnotation 
+27 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 99 0 R
+ /XYZ
+ 62.69291
+ 732.0236
+ 0 ]
+ /Rect [ 82.69291
+ 543.7736
+ 146.6029
+ 555.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER22': class LinkAnnotation 
+28 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 99 0 R
+ /XYZ
+ 62.69291
+ 732.0236
+ 0 ]
+ /Rect [ 527.0227
+ 543.7736
+ 532.5827
+ 555.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER23': class LinkAnnotation 
+29 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 99 0 R
+ /XYZ
+ 62.69291
+ 648.0236
+ 0 ]
+ /Rect [ 82.69291
+ 525.7736
+ 175.5229
+ 537.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER24': class LinkAnnotation 
+30 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 99 0 R
+ /XYZ
+ 62.69291
+ 648.0236
+ 0 ]
+ /Rect [ 527.0227
+ 525.7736
+ 532.5827
+ 537.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER25': class LinkAnnotation 
+31 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 99 0 R
+ /XYZ
+ 62.69291
+ 456.0236
+ 0 ]
+ /Rect [ 82.69291
+ 507.7736
+ 199.9529
+ 519.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER26': class LinkAnnotation 
+32 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 99 0 R
+ /XYZ
+ 62.69291
+ 456.0236
+ 0 ]
+ /Rect [ 527.0227
+ 507.7736
+ 532.5827
+ 519.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER27': class LinkAnnotation 
+33 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 99 0 R
+ /XYZ
+ 62.69291
+ 288.0236
+ 0 ]
+ /Rect [ 102.6929
+ 489.7736
+ 233.8629
+ 501.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER28': class LinkAnnotation 
+34 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 99 0 R
+ /XYZ
+ 62.69291
+ 288.0236
+ 0 ]
+ /Rect [ 527.0227
+ 489.7736
+ 532.5827
+ 501.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER29': class LinkAnnotation 
+35 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 101 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 102.6929
+ 471.7736
+ 157.7229
+ 483.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER30': class LinkAnnotation 
+36 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 101 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 521.4627
+ 471.7736
+ 532.5827
+ 483.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER31': class LinkAnnotation 
+37 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 101 0 R
+ /XYZ
+ 62.69291
+ 605.3849
+ 0 ]
+ /Rect [ 102.6929
+ 453.7736
+ 329.4829
+ 465.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER32': class LinkAnnotation 
+38 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 101 0 R
+ /XYZ
+ 62.69291
+ 605.3849
+ 0 ]
+ /Rect [ 521.4627
+ 453.7736
+ 532.5827
+ 465.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER33': class LinkAnnotation 
+39 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 102 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 102.6929
+ 435.7736
+ 300.0129
+ 447.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER34': class LinkAnnotation 
+40 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 102 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 521.4627
+ 435.7736
+ 532.5827
+ 447.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER35': class LinkAnnotation 
+41 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 102 0 R
+ /XYZ
+ 62.69291
+ 507.6236
+ 0 ]
+ /Rect [ 82.69291
+ 417.7736
+ 156.0629
+ 429.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER36': class LinkAnnotation 
+42 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 102 0 R
+ /XYZ
+ 62.69291
+ 507.6236
+ 0 ]
+ /Rect [ 521.4627
+ 417.7736
+ 532.5827
+ 429.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER37': class LinkAnnotation 
+43 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 102 0 R
+ /XYZ
+ 62.69291
+ 417.6236
+ 0 ]
+ /Rect [ 102.6929
+ 399.7736
+ 159.3929
+ 411.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER38': class LinkAnnotation 
+44 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 102 0 R
+ /XYZ
+ 62.69291
+ 417.6236
+ 0 ]
+ /Rect [ 521.4627
+ 399.7736
+ 532.5827
+ 411.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER39': class LinkAnnotation 
+45 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 102 0 R
+ /XYZ
+ 62.69291
+ 315.4236
+ 0 ]
+ /Rect [ 102.6929
+ 381.7736
+ 159.9529
+ 393.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER40': class LinkAnnotation 
+46 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 102 0 R
+ /XYZ
+ 62.69291
+ 315.4236
+ 0 ]
+ /Rect [ 521.4627
+ 381.7736
+ 532.5827
+ 393.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER41': class LinkAnnotation 
+47 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 104 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 102.6929
+ 363.7736
+ 240.5329
+ 375.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER42': class LinkAnnotation 
+48 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 104 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 521.4627
+ 363.7736
+ 532.5827
+ 375.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER43': class LinkAnnotation 
+49 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 104 0 R
+ /XYZ
+ 62.69291
+ 626.8236
+ 0 ]
+ /Rect [ 102.6929
+ 345.7736
+ 302.7829
+ 357.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER44': class LinkAnnotation 
+50 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 104 0 R
+ /XYZ
+ 62.69291
+ 626.8236
+ 0 ]
+ /Rect [ 521.4627
+ 345.7736
+ 532.5827
+ 357.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER45': class LinkAnnotation 
+51 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 107 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 102.6929
+ 327.7736
+ 236.1129
+ 339.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER46': class LinkAnnotation 
+52 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 107 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 521.4627
+ 327.7736
+ 532.5827
+ 339.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER47': class LinkAnnotation 
+53 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 107 0 R
+ /XYZ
+ 62.69291
+ 648.0236
+ 0 ]
+ /Rect [ 102.6929
+ 309.7736
+ 182.7329
+ 321.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER48': class LinkAnnotation 
+54 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 107 0 R
+ /XYZ
+ 62.69291
+ 648.0236
+ 0 ]
+ /Rect [ 521.4627
+ 309.7736
+ 532.5827
+ 321.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER49': class LinkAnnotation 
+55 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 110 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 62.69291
+ 291.7736
+ 155.4829
+ 303.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER50': class LinkAnnotation 
+56 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 110 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 521.4627
+ 291.7736
+ 532.5827
+ 303.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER51': class LinkAnnotation 
+57 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 112 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 62.69291
+ 273.7736
+ 239.4029
+ 285.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER52': class LinkAnnotation 
+58 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 112 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 521.4627
+ 273.7736
+ 532.5827
+ 285.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER53': class LinkAnnotation 
+59 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 114 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 62.69291
+ 255.7736
+ 236.6229
+ 267.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER54': class LinkAnnotation 
+60 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 114 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 521.4627
+ 255.7736
+ 532.5827
+ 267.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER55': class LinkAnnotation 
+61 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 116 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 62.69291
+ 237.7736
+ 248.8529
+ 249.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER56': class LinkAnnotation 
+62 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 116 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 521.4627
+ 237.7736
+ 532.5827
+ 249.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER57': class LinkAnnotation 
+63 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 118 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 62.69291
+ 219.7736
+ 230.4929
+ 231.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER58': class LinkAnnotation 
+64 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 118 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Rect [ 521.4627
+ 219.7736
+ 532.5827
+ 231.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Page2': class PDFPage 
+65 0 obj
+% Page dictionary
+<< /Annots [ 7 0 R
+ 8 0 R
+ 9 0 R
+ 10 0 R
+ 11 0 R
+ 12 0 R
+ 13 0 R
+ 14 0 R
+ 15 0 R
+ 16 0 R
+ 17 0 R
+ 18 0 R
+ 19 0 R
+ 20 0 R
+ 21 0 R
+ 22 0 R
+ 23 0 R
+ 24 0 R
+ 25 0 R
+ 26 0 R
+ 27 0 R
+ 28 0 R
+ 29 0 R
+ 30 0 R
+ 31 0 R
+ 32 0 R
+ 33 0 R
+ 34 0 R
+ 35 0 R
+ 36 0 R
+ 37 0 R
+ 38 0 R
+ 39 0 R
+ 40 0 R
+ 41 0 R
+ 42 0 R
+ 43 0 R
+ 44 0 R
+ 45 0 R
+ 46 0 R
+ 47 0 R
+ 48 0 R
+ 49 0 R
+ 50 0 R
+ 51 0 R
+ 52 0 R
+ 53 0 R
+ 54 0 R
+ 55 0 R
+ 56 0 R
+ 57 0 R
+ 58 0 R
+ 59 0 R
+ 60 0 R
+ 61 0 R
+ 62 0 R
+ 63 0 R
+ 64 0 R ]
+ /Contents 167 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'FormXob.ab493cc51c5cdffac51623196ce8acd1': class PDFImageXObject 
+66 0 obj
+<< /BitsPerComponent 8
+ /ColorSpace /DeviceRGB
+ /Filter [ /ASCII85Decode
+ /FlateDecode ]
+ /Height 155
+ /Length 2912
+ /SMask 67 0 R
+ /Subtype /Image
+ /Type /XObject
+ /Width 83 >>
+stream
+Gb"/,HVBEI*2f%d1c^g6)%e1;I3m@]7'(GjfK6RHC.TX3A$r11gPN&fc:26K7M9.?0'"dFO@uo(G=b\,<'nNK5C9#6B>$?s:=&BS*hM9PY6Vi6I(u<2ja29uF$;E!$47+I(=:dh>#eRFn(t`NQS.C_k8up;4=;N>o]ai7/gr+r/M4*.YNOY1(@_"_f>>DA['[3=W$i`0T)f#u(`OFgkR?V9k/2rbQcWcXEH,,a=lnc,I.P\m5C`[FIJ\1s@\UWP5:D&<NK"CM=0>f=A&f(\037egP:(KqF]dF;hnJ%oT0@\?20K%%*)"%rs8M*?jH,IbET>',R@3"D%Ls!?kKcq":WF<dq>CLd77GVOd=VW4Ju^LV/h9u(aNi([oB&bkmYR]9;Gs5iX67d!/!W_Rp?_&*jcu:'.YJ[QC21Ut*]%C:pgT4@D;+XOiBn64YW]340V<N3Fs\O_oB+<8+%[=7'TJ*3TP81W/!3B>_o%CjMn-*Nd"/mkkN@U00QH)?`($7MDG:**nH1-KLUU'O54S15n)(nC`bmln]mD[t3#M9N4ZsBZ8=R54kK]kpPH`_L@Uf,,X:6FF?XI.b,GW?$a:B@VO>)5+Q'.:3b/d;5^a)Sj"uqp:RG#?)rujaagph?Vh4%n0!s8YA)F9Xp1Y!co70Wo!p$1(Cldi1Sh%Nr5_o$!Ri5(pP0Z/DUftMkras865"JTejXg55FP``3,^4"1^H_c3PDdd(ZABC#&E3HCG70/8/dEp7UU2QiIoB&at.k?k,L4(%!K=A>!]=[s\O!!%tN!#^`1,Ur.c8X[fldi1*B@4u0P=M:d!I(@:/q*$]p$7Fm(GB)?j:sV0Lkn=VJ7;=#nHb2S;Nsd";6MrEF*$s"TgSKKE/+oD6:FMF&E4NsNZ>=4[at$^#I[-#;A*]1\,gcVX/i9bF:&B`;>O<m<,gb12aFd-C:;TuNh4k[hk(jS\A>e$n'K!Y\T1.5Y`U/#P2>@*"U-%m+ThrZ6tqV_(_@6trqq&9(-C@>kVP"S(G8r8lGijr0uE.2'.:k($kEl@0k5ru!GJt$`j9=(aS>h[RPcTK0+S4pCMR^.FnMnC]3l<ZPak1-8qku'`rN1uHm#!$:`%5a13CmqlG"+jbfl$9`P$Wm8u5E+"*/I(iPYEYhoY\5q!_^.m,(!+-YN)0_1S+c*<QlLi':"2%65NcgtZ:Hp$1(g+$]bqjbr99DMU,h[9@EcDm*Y9Bk]"9+SoUT/HAHuPSl1<M^\,gldq1=4^,mVQBi;V[I!6rE^$/V"31ii2B[X"rquTAWDa9:%]"pd#6ung]NFnF+!7+TX&bAS!L2=Zm0*k5O=&hf?b`-nGNp65S=GPZ:[X&`;HRC;U8+J.p,lM+bQG9k;<#R6`<`B4k30t18n2AkCY,^$EeA^,77I%Jq<9\5Thm:D["u(Rg]1oKQ'E)Q;geipWad.-^OMl_<u`>8/oJOZ$2U:LLkl=TDf;.9U0`sO=]lW*<0nZ!e^i<GUtiJ",;H*P"/UU)LPGnCp>!3"..^3*4A!C?d_O^/ic]?_1@,s2q"T(A$ObP#M;nRqg@3nUn%:>mbEjkP<4mPM._C_'"+1;g;c?V:^>6=1i`erE#XZJWUIX#.N?$=6/6fQaGOOCiG`+S@NK#eN1;Z]tm9$uWMMd9?;l93Sg\::#b:ML.,9oQ"Oa).s4b*I$`S7\PA&jU4>?dj+,OtKTUIUBbNZDnQDP!)WUto,C$S4\B:_67taN-oZH\AKY&>c1u=B\lh4$.(eB(B0bT\.$t`'UuE\Zrc[42U=8YEpkIMCe5UidrDJs0m#b!M'oQA,bl^m'^cc`k3S=)4j$?M@bZ`@:NfRB$D5\YP)Z4)slqEZZ<Srr?DZm/R,Y?2`HpYg(A(7C,U"eN6W?>%'^!727f:F^Oi0hYWHpg9PA+<XfX09l[XKcKJJQh\K`6Y'bqJ&`5F>cJ,kLM_2@=:k>t_dGP,iUg%+]SjC0B2oL`d3Z,FAj^1t&ZaC"3Uq![(Q)l5=]:+u2KoAn#WkKK>-*?D7[WSmfJ4aR_ZF)l<pmG!E^eC7H6Q*@Ksfs>>']=Xg>_5@i3`fD4F<%;s1F6i,VpnlS!eCW<IgeCR?L]7_u/t=tFlA-#sm-X2:;CV4I'`eZnQm*N6^q`2<NJ)t<XK8LdP*2,s(;ATP!jEpGJ5NPD`5MpQ>\p(O`<Jq>CnS_c#"i-:TZ"eR8mH2*`5MpQ>\p(O`<Jq>CnS_c#"i-:TZ"eR9)Pk_<E5;NTpRi]k!/m^e'euKs(TBXC"(Y9?-B^<V"!,G<rPEj>TDW2P!VK%JuP_`8&QK3Gege@Uek)mee)]R5BHf30P]+9s8SP?`5G'?;Xs,m=eqjhB`Dn=!N&2NDhGBP=0Gr<>B*,\O`/"E!"t]^OjPiAfDoZoRW#+65[%?[[ONpW_1;8cs$YAeebp\PMn_r/7Q72?T?_DrEbAonnEg^03,mdUF3Kcfr[`?1DPFD@Oa/li/sl1s$ZWQ&=*Je0Aa4?:YMMVdqW^dL9hM6[SGMMYXlEcf^:K'aX&FFhWio1jeZ$8DeQ;2\W4k<N^6&WM=/Yo[qLe(6s3VCH^,j_h'=rHN#YJHp9B(QO=6GaV7S*C@*"s-K^,eV$*IVU7.!f)j91st*nabd7EY\hTY:c0b[3%1c3]`GiEs8;Ac7g7sCtPjo[ous=:glCF3T4mc@q,gJ'SsIa6X9N'&'2r;_r'C:&[EefI<A7'EGZ";<#RnjC<HuN?X:PSE?XPHC\ZQI6I8fcZk7M*G"-F<o8DPH87RbiDF2]Of<c-Va^gp<1Ekt_CYFS'1c0l>Kd#)@,SI3"M\e#PRA9WDSV$.-PP0k9:jmIL61rd-^A=H*Wip:oW4k=C<u:!<oi,:hO;4e!:A*/:^3U<iY>4c@WP85to[T?OR>OgJSUuHFJggU%Uc<Jk~>endstream
+endobj
+% 'FormXob.34f1e5178e14c8409177e4c2a66483fd': class PDFImageXObject 
+67 0 obj
+<< /BitsPerComponent 8
+ /ColorSpace /DeviceGray
+ /Decode [ 0
+ 1 ]
+ /Filter [ /ASCII85Decode
+ /FlateDecode ]
+ /Height 155
+ /Length 97
+ /Subtype /Image
+ /Type /XObject
+ /Width 83 >>
+stream
+Gb"0F0`_7S#QpatB(N9iQImPf?oP4JUJe'j.[<W&;Q3VFPtIlNWDk@48u5Fb<%=/*V,F9l.[<W&;Q3VFPtL/1EoQ?aWZpHO~>endstream
+endobj
+% 'Annot.NUMBER59': class PDFDictionary 
+68 0 obj
+<< /A << /S /URI
+ /Type /Action
+ /URI (http://python.org/) >>
+ /Border [ 0
+ 0
+ 0 ]
+ /Rect [ 242.2811
+ 465.0413
+ 273.4111
+ 477.0413 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER60': class LinkAnnotation 
+69 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 132 0 R
+ /XYZ
+ 68.69291
+ 256.1887
+ 0 ]
+ /Rect [ 276.998
+ 465.0413
+ 284.4769
+ 477.0413 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Page3': class PDFPage 
+70 0 obj
+% Page dictionary
+<< /Annots [ 68 0 R
+ 69 0 R ]
+ /Contents 168 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ]
+ /XObject << /FormXob.ab493cc51c5cdffac51623196ce8acd1 66 0 R >> >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page4': class PDFPage 
+71 0 obj
+% Page dictionary
+<< /Contents 169 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Annot.NUMBER61': class PDFDictionary 
+72 0 obj
+<< /A << /S /URI
+ /Type /Action
+ /URI (http://python.org/) >>
+ /Border [ 0
+ 0
+ 0 ]
+ /Rect [ 62.69291
+ 627.7736
+ 93.82291
+ 639.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER62': class LinkAnnotation 
+73 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 132 0 R
+ /XYZ
+ 68.69291
+ 256.1887
+ 0 ]
+ /Rect [ 96.60291
+ 627.7736
+ 103.2749
+ 639.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER63': class PDFDictionary 
+74 0 obj
+<< /A << /S /URI
+ /Type /Action
+ /URI (http://dev.mysql.com/doc/refman/5.1/en/) >>
+ /Border [ 0
+ 0
+ 0 ]
+ /Rect [ 62.69291
+ 573.7736
+ 96.03291
+ 585.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER64': class LinkAnnotation 
+75 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 132 0 R
+ /XYZ
+ 68.69291
+ 244.1887
+ 0 ]
+ /Rect [ 98.81291
+ 573.7736
+ 105.4849
+ 585.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER65': class LinkAnnotation 
+76 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 93 0 R
+ /XYZ
+ 62.69291
+ 768.0236
+ 0 ]
+ /Rect [ 85.69291
+ 540.7736
+ 206.8729
+ 552.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER66': class PDFDictionary 
+77 0 obj
+<< /A << /S /URI
+ /Type /Action
+ /URI (http://www.clusterresources.com/products/torque/docs) >>
+ /Border [ 0
+ 0
+ 0 ]
+ /Rect [ 62.69291
+ 519.7736
+ 94.37291
+ 531.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER67': class LinkAnnotation 
+78 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 132 0 R
+ /XYZ
+ 68.69291
+ 232.1887
+ 0 ]
+ /Rect [ 97.15291
+ 519.7736
+ 103.8249
+ 531.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER68': class PDFDictionary 
+79 0 obj
+<< /A << /S /URI
+ /Type /Action
+ /URI (http://www.clusterresources.com/products/torque/docs) >>
+ /Border [ 0
+ 0
+ 0 ]
+ /Rect [ 128.6849
+ 486.7736
+ 160.3649
+ 498.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER69': class LinkAnnotation 
+80 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 132 0 R
+ /XYZ
+ 68.69291
+ 232.1887
+ 0 ]
+ /Rect [ 165.1809
+ 486.7736
+ 173.8888
+ 498.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER70': class LinkAnnotation 
+81 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 93 0 R
+ /XYZ
+ 62.69291
+ 678.0236
+ 0 ]
+ /Rect [ 497.9027
+ 486.7736
+ 527.5467
+ 498.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER71': class LinkAnnotation 
+82 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 93 0 R
+ /XYZ
+ 62.69291
+ 678.0236
+ 0 ]
+ /Rect [ 85.69291
+ 474.7736
+ 145.7229
+ 486.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER72': class PDFDictionary 
+83 0 obj
+<< /A << /S /URI
+ /Type /Action
+ /URI (http://www.clusterresources.com/products/maui/docs) >>
+ /Border [ 0
+ 0
+ 0 ]
+ /Rect [ 62.69291
+ 453.7736
+ 84.36291
+ 465.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER73': class LinkAnnotation 
+84 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 132 0 R
+ /XYZ
+ 68.69291
+ 220.1887
+ 0 ]
+ /Rect [ 87.14291
+ 453.7736
+ 93.81491
+ 465.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER74': class LinkAnnotation 
+85 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 95 0 R
+ /XYZ
+ 62.69291
+ 476.2236
+ 0 ]
+ /Rect [ 357.4729
+ 432.7736
+ 439.1729
+ 444.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'F5': class PDFType1Font 
+86 0 obj
+% Font Courier
+<< /BaseFont /Courier
+ /Encoding /WinAnsiEncoding
+ /Name /F5
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'Page5': class PDFPage 
+87 0 obj
+% Page dictionary
+<< /Annots [ 72 0 R
+ 73 0 R
+ 74 0 R
+ 75 0 R
+ 76 0 R
+ 77 0 R
+ 78 0 R
+ 79 0 R
+ 80 0 R
+ 81 0 R
+ 82 0 R
+ 83 0 R
+ 84 0 R
+ 85 0 R ]
+ /Contents 170 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Annot.NUMBER75': class LinkAnnotation 
+88 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 112 0 R
+ /XYZ
+ 62.69291
+ 768.5236
+ 0 ]
+ /Rect [ 401.2151
+ 717.7736
+ 530.7258
+ 729.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER76': class LinkAnnotation 
+89 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 112 0 R
+ /XYZ
+ 62.69291
+ 768.5236
+ 0 ]
+ /Rect [ 62.69291
+ 705.7736
+ 89.36291
+ 717.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER77': class LinkAnnotation 
+90 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 114 0 R
+ /XYZ
+ 62.69291
+ 768.5236
+ 0 ]
+ /Rect [ 108.8229
+ 705.7736
+ 262.2229
+ 717.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER78': class LinkAnnotation 
+91 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 116 0 R
+ /XYZ
+ 62.69291
+ 768.5236
+ 0 ]
+ /Rect [ 409.3277
+ 113.3736
+ 532.4739
+ 125.3736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER79': class LinkAnnotation 
+92 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 116 0 R
+ /XYZ
+ 62.69291
+ 768.5236
+ 0 ]
+ /Rect [ 62.69291
+ 101.3736
+ 97.15291
+ 113.3736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Page6': class PDFPage 
+93 0 obj
+% Page dictionary
+<< /Annots [ 88 0 R
+ 89 0 R
+ 90 0 R
+ 91 0 R
+ 92 0 R ]
+ /Contents 171 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Annot.NUMBER80': class LinkAnnotation 
+94 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 118 0 R
+ /XYZ
+ 62.69291
+ 768.5236
+ 0 ]
+ /Rect [ 229.5034
+ 395.9736
+ 372.4522
+ 407.9736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Page7': class PDFPage 
+95 0 obj
+% Page dictionary
+<< /Annots [ 94 0 R ]
+ /Contents 172 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page8': class PDFPage 
+96 0 obj
+% Page dictionary
+<< /Contents 173 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Annot.NUMBER81': class PDFDictionary 
+97 0 obj
+<< /A << /S /URI
+ /Type /Action
+ /URI (http://svn.rss.chalmers.se/svn/odinsmr/hermod) >>
+ /Border [ 0
+ 0
+ 0 ]
+ /Rect [ 235.4151
+ 255.7736
+ 382.0885
+ 267.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER82': class LinkAnnotation 
+98 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 132 0 R
+ /XYZ
+ 68.69291
+ 208.1887
+ 0 ]
+ /Rect [ 386.1203
+ 255.7736
+ 394.044
+ 267.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Page9': class PDFPage 
+99 0 obj
+% Page dictionary
+<< /Annots [ 97 0 R
+ 98 0 R ]
+ /Contents 174 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Annot.NUMBER83': class LinkAnnotation 
+100 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 99 0 R
+ /XYZ
+ 62.69291
+ 290.5236
+ 0 ]
+ /Rect [ 146.3504
+ 573.1349
+ 252.3591
+ 585.1349 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Page10': class PDFPage 
+101 0 obj
+% Page dictionary
+<< /Annots [ 100 0 R ]
+ /Contents 175 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page11': class PDFPage 
+102 0 obj
+% Page dictionary
+<< /Contents 176 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'F6': class PDFType1Font 
+103 0 obj
+% Font Courier-Bold
+<< /BaseFont /Courier-Bold
+ /Encoding /WinAnsiEncoding
+ /Name /F6
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'Page12': class PDFPage 
+104 0 obj
+% Page dictionary
+<< /Contents 177 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Annot.NUMBER84': class PDFDictionary 
+105 0 obj
+<< /A << /S /URI
+ /Type /Action
+ /URI (http://www.clusterresources.com/products/torque/docs) >>
+ /Border [ 0
+ 0
+ 0 ]
+ /Rect [ 309.9229
+ 708.7736
+ 341.6029
+ 720.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER85': class LinkAnnotation 
+106 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 132 0 R
+ /XYZ
+ 68.69291
+ 232.1887
+ 0 ]
+ /Rect [ 344.3829
+ 708.7736
+ 348.8309
+ 720.7736 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Page13': class PDFPage 
+107 0 obj
+% Page dictionary
+<< /Annots [ 105 0 R
+ 106 0 R ]
+ /Contents 178 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page14': class PDFPage 
+108 0 obj
+% Page dictionary
+<< /Contents 179 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'F7': class PDFType1Font 
+109 0 obj
+% Font Helvetica-Oblique
+<< /BaseFont /Helvetica-Oblique
+ /Encoding /WinAnsiEncoding
+ /Name /F7
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'Page15': class PDFPage 
+110 0 obj
+% Page dictionary
+<< /Contents 180 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page16': class PDFPage 
+111 0 obj
+% Page dictionary
+<< /Contents 181 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page17': class PDFPage 
+112 0 obj
+% Page dictionary
+<< /Contents 182 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page18': class PDFPage 
+113 0 obj
+% Page dictionary
+<< /Contents 183 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page19': class PDFPage 
+114 0 obj
+% Page dictionary
+<< /Contents 184 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page20': class PDFPage 
+115 0 obj
+% Page dictionary
+<< /Contents 185 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page21': class PDFPage 
+116 0 obj
+% Page dictionary
+<< /Contents 186 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page22': class PDFPage 
+117 0 obj
+% Page dictionary
+<< /Contents 187 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Page23': class PDFPage 
+118 0 obj
+% Page dictionary
+<< /Contents 188 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'Annot.NUMBER86': class LinkAnnotation 
+119 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 70 0 R
+ /XYZ
+ 270.5429
+ 478.2913
+ 0 ]
+ /Rect [ 77.58291
+ 242.9387
+ 83.14291
+ 254.9387 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER87': class LinkAnnotation 
+120 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 87 0 R
+ /XYZ
+ 96.60291
+ 641.0236
+ 0 ]
+ /Rect [ 88.70291
+ 242.9387
+ 94.26291
+ 254.9387 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER88': class PDFDictionary 
+121 0 obj
+<< /A << /S /URI
+ /Type /Action
+ /URI (http://python.org/) >>
+ /Border [ 0
+ 0
+ 0 ]
+ /Rect [ 153.7323
+ 242.9387
+ 228.7823
+ 254.9387 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER89': class LinkAnnotation 
+122 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 87 0 R
+ /XYZ
+ 98.81291
+ 587.0236
+ 0 ]
+ /Rect [ 68.69291
+ 230.9387
+ 74.25291
+ 242.9387 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER90': class PDFDictionary 
+123 0 obj
+<< /A << /S /URI
+ /Type /Action
+ /URI (http://dev.mysql.com/doc/refman/5.1/en/) >>
+ /Border [ 0
+ 0
+ 0 ]
+ /Rect [ 153.7323
+ 230.9387
+ 331.5923
+ 242.9387 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER91': class LinkAnnotation 
+124 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 87 0 R
+ /XYZ
+ 97.15291
+ 533.0236
+ 0 ]
+ /Rect [ 77.58291
+ 218.9387
+ 83.14291
+ 230.9387 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER92': class LinkAnnotation 
+125 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 87 0 R
+ /XYZ
+ 159.0729
+ 500.0236
+ 0 ]
+ /Rect [ 88.70291
+ 218.9387
+ 94.26291
+ 230.9387 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER93': class LinkAnnotation 
+126 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 107 0 R
+ /XYZ
+ 344.3829
+ 722.0236
+ 0 ]
+ /Rect [ 99.82291
+ 218.9387
+ 105.3829
+ 230.9387 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER94': class PDFDictionary 
+127 0 obj
+<< /A << /S /URI
+ /Type /Action
+ /URI (http://www.clusterresources.com/products/torque/docs) >>
+ /Border [ 0
+ 0
+ 0 ]
+ /Rect [ 153.7323
+ 218.9387
+ 394.3723
+ 230.9387 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER95': class LinkAnnotation 
+128 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 87 0 R
+ /XYZ
+ 87.14291
+ 467.0236
+ 0 ]
+ /Rect [ 68.69291
+ 206.9387
+ 74.25291
+ 218.9387 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER96': class PDFDictionary 
+129 0 obj
+<< /A << /S /URI
+ /Type /Action
+ /URI (http://www.clusterresources.com/products/maui/docs) >>
+ /Border [ 0
+ 0
+ 0 ]
+ /Rect [ 153.7323
+ 206.9387
+ 387.6923
+ 218.9387 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER97': class LinkAnnotation 
+130 0 obj
+<< /Border [ 0
+ 0
+ 0 ]
+ /Contents ()
+ /Dest [ 99 0 R
+ /XYZ
+ 373.6029
+ 269.0236
+ 0 ]
+ /Rect [ 68.69291
+ 194.9387
+ 74.25291
+ 206.9387 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Annot.NUMBER98': class PDFDictionary 
+131 0 obj
+<< /A << /S /URI
+ /Type /Action
+ /URI (http://svn.rss.chalmers.se/svn/odinsmr/hermod) >>
+ /Border [ 0
+ 0
+ 0 ]
+ /Rect [ 153.7323
+ 194.9387
+ 360.4623
+ 206.9387 ]
+ /Subtype /Link
+ /Type /Annot >>
+endobj
+% 'Page24': class PDFPage 
+132 0 obj
+% Page dictionary
+<< /Annots [ 119 0 R
+ 120 0 R
+ 121 0 R
+ 122 0 R
+ 123 0 R
+ 124 0 R
+ 125 0 R
+ 126 0 R
+ 127 0 R
+ 128 0 R
+ 129 0 R
+ 130 0 R
+ 131 0 R ]
+ /Contents 189 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 165 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'R133': class PDFCatalog 
+133 0 obj
+% Document Root
+<< /Outlines 135 0 R
+ /PageMode /UseNone
+ /Pages 165 0 R
+ /Type /Catalog >>
+endobj
+% 'R134': class PDFInfo 
+134 0 obj
+<< /Author (\376\377\000J\000o\000a\000k\000i\000m\000 \000M\000\366\000l\000l\000e\000r\000 \000<\000j\000o\000a\000k\000i\000m\000.\000m\000o\000l\000l\000e\000r\000@\000m\000o\000l\000f\000l\000o\000w\000.\000c\000o\000m\000>\000;\000 \000D\000o\000n\000a\000l\000 \000M\000u\000r\000t\000a\000g\000h\000\012\000<\000d\000o\000n\000a\000l\000.\000m\000u\000r\000t\000a\000g\000h\000@\000c\000h\000a\000l\000m\000e\000r\000s\000.\000s\000e\000>\000;\000 \000J\000o\000a\000c\000h\000i\000m\000 \000U\000r\000b\000a\000n\000 \000<\000j\000o\000a\000u\000r\000b\000@\000c\000h\000a\000l\000m\000e\000r\000s\000.\000s\000e\000>)
+ /CreationDate (D:20111026072050+00'00')
+ /Keywords ()
+ /Producer (ReportLab http://www.reportlab.com)
+ /Subject (\(unspecified\))
+ /Title (HERMOD processing suite) >>
+endobj
+% 'R135': class PDFOutlines 
+135 0 obj
+<< /Count 35
+ /First 136 0 R
+ /Last 164 0 R
+ /Type /Outlines >>
+endobj
+% 'Outline.0': class OutlineEntryObject 
+136 0 obj
+<< /Count 1
+ /Dest [ 70 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /First 137 0 R
+ /Last 137 0 R
+ /Next 138 0 R
+ /Parent 135 0 R
+ /Title (\376\377\0001\000\240\000\240\000\240\000L\000e\000v\000e\000l\0002\000 \000p\000r\000o\000c\000e\000s\000s\000i\000n\000g\000 \000c\000h\000a\000i\000n\000 \000-\000 \000H\000e\000r\000m\000o\000d) >>
+endobj
+% 'Outline.30.0': class OutlineEntryObject 
+137 0 obj
+<< /Dest [ 70 0 R
+ /XYZ
+ 62.69291
+ 648.0236
+ 0 ]
+ /Parent 136 0 R
+ /Title (\376\377\0001\000.\0001\000\240\000\240\000\240\000O\000v\000e\000r\000v\000i\000e\000w) >>
+endobj
+% 'Outline.1': class OutlineEntryObject 
+138 0 obj
+<< /Count 6
+ /Dest [ 87 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /First 139 0 R
+ /Last 144 0 R
+ /Next 145 0 R
+ /Parent 135 0 R
+ /Prev 136 0 R
+ /Title (\376\377\0002\000\240\000\240\000\240\000R\000e\000q\000u\000i\000r\000e\000d\000 \000d\000e\000p\000e\000n\000d\000e\000n\000c\000i\000e\000s\000 \000-\000 \000I\000n\000s\000t\000a\000l\000l\000a\000t\000i\000o\000n\000 \000a\000n\000d\000 \000c\000o\000n\000f\000i\000g\000u\000r\000a\000t\000i\000o\000n) >>
+endobj
+% 'Outline.31.0': class OutlineEntryObject 
+139 0 obj
+<< /Dest [ 93 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Next 140 0 R
+ /Parent 138 0 R
+ /Title (\376\377\0002\000.\0001\000\240\000\240\000\240\000I\000n\000s\000t\000a\000l\000l\000a\000t\000i\000o\000n\000 \000o\000f\000 \000t\000h\000e\000 \000D\000a\000t\000a\000b\000a\000s\000e) >>
+endobj
+% 'Outline.31.1': class OutlineEntryObject 
+140 0 obj
+<< /Count 3
+ /Dest [ 93 0 R
+ /XYZ
+ 62.69291
+ 675.0236
+ 0 ]
+ /First 141 0 R
+ /Last 143 0 R
+ /Next 144 0 R
+ /Parent 138 0 R
+ /Prev 139 0 R
+ /Title (\376\377\0002\000.\0002\000\240\000\240\000\240\000T\000o\000r\000q\000u\000e\000 \000c\000o\000n\000f\000i\000g\000u\000r\000a\000t\000i\000o\000n) >>
+endobj
+% 'Outline.32.0': class OutlineEntryObject 
+141 0 obj
+<< /Dest [ 93 0 R
+ /XYZ
+ 62.69291
+ 603.0236
+ 0 ]
+ /Next 142 0 R
+ /Parent 140 0 R
+ /Title (\376\377\0002\000.\0002\000.\0001\000\240\000\240\000\240\000T\000o\000r\000q\000u\000e\000 \000c\000l\000i\000e\000n\000t\000 \000c\000o\000n\000f\000i\000g\000u\000r\000a\000t\000i\000o\000n) >>
+endobj
+% 'Outline.32.1': class OutlineEntryObject 
+142 0 obj
+<< /Dest [ 93 0 R
+ /XYZ
+ 62.69291
+ 330.8236
+ 0 ]
+ /Next 143 0 R
+ /Parent 140 0 R
+ /Prev 141 0 R
+ /Title (\376\377\0002\000.\0002\000.\0002\000\240\000\240\000\240\000T\000o\000r\000q\000u\000e\000 \000s\000e\000r\000v\000e\000r\000 \000c\000o\000n\000f\000i\000g\000u\000r\000a\000t\000i\000o\000n) >>
+endobj
+% 'Outline.32.2': class OutlineEntryObject 
+143 0 obj
+<< /Dest [ 95 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Parent 140 0 R
+ /Prev 142 0 R
+ /Title (\376\377\0002\000.\0002\000.\0003\000\240\000\240\000\240\000T\000o\000r\000q\000u\000e\000 \000s\000t\000a\000r\000t\000i\000n\000g\000 \000a\000n\000d\000 \000s\000t\000o\000p\000p\000i\000n\000g) >>
+endobj
+% 'Outline.31.2': class OutlineEntryObject 
+144 0 obj
+<< /Dest [ 95 0 R
+ /XYZ
+ 62.69291
+ 473.2236
+ 0 ]
+ /Parent 138 0 R
+ /Prev 140 0 R
+ /Title (\376\377\0002\000.\0003\000\240\000\240\000\240\000M\000a\000u\000i\000 \000c\000o\000n\000f\000i\000g\000u\000r\000a\000t\000i\000o\000n) >>
+endobj
+% 'Outline.2': class OutlineEntryObject 
+145 0 obj
+<< /Count 14
+ /Dest [ 99 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /First 146 0 R
+ /Last 153 0 R
+ /Next 160 0 R
+ /Parent 135 0 R
+ /Prev 138 0 R
+ /Title (\376\377\0003\000\240\000\240\000\240\000H\000E\000R\000M\000O\000D) >>
+endobj
+% 'Outline.33.0': class OutlineEntryObject 
+146 0 obj
+<< /Dest [ 99 0 R
+ /XYZ
+ 62.69291
+ 732.0236
+ 0 ]
+ /Next 147 0 R
+ /Parent 145 0 R
+ /Title (\376\377\0003\000.\0001\000\240\000\240\000\240\000O\000v\000e\000r\000v\000i\000e\000w) >>
+endobj
+% 'Outline.33.1': class OutlineEntryObject 
+147 0 obj
+<< /Dest [ 99 0 R
+ /XYZ
+ 62.69291
+ 648.0236
+ 0 ]
+ /Next 148 0 R
+ /Parent 145 0 R
+ /Prev 146 0 R
+ /Title (\376\377\0003\000.\0002\000\240\000\240\000\240\000P\000a\000c\000k\000a\000g\000e\000 \000d\000e\000t\000a\000i\000l\000s) >>
+endobj
+% 'Outline.33.2': class OutlineEntryObject 
+148 0 obj
+<< /Count 4
+ /Dest [ 99 0 R
+ /XYZ
+ 62.69291
+ 456.0236
+ 0 ]
+ /First 149 0 R
+ /Last 152 0 R
+ /Next 153 0 R
+ /Parent 145 0 R
+ /Prev 147 0 R
+ /Title (\376\377\0003\000.\0003\000\240\000\240\000\240\000H\000E\000R\000M\000O\000D\000 \000I\000n\000s\000t\000a\000l\000l\000a\000t\000i\000o\000n) >>
+endobj
+% 'Outline.34.0': class OutlineEntryObject 
+149 0 obj
+<< /Dest [ 99 0 R
+ /XYZ
+ 62.69291
+ 288.0236
+ 0 ]
+ /Next 150 0 R
+ /Parent 148 0 R
+ /Title (\376\377\0003\000.\0003\000.\0001\000\240\000\240\000\240\000D\000e\000v\000e\000l\000o\000p\000e\000r\000s\000 \000i\000n\000s\000t\000a\000l\000l\000a\000t\000i\000o\000n) >>
+endobj
+% 'Outline.34.1': class OutlineEntryObject 
+150 0 obj
+<< /Dest [ 101 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Next 151 0 R
+ /Parent 148 0 R
+ /Prev 149 0 R
+ /Title (\376\377\0003\000.\0003\000.\0002\000\240\000\240\000\240\000T\000e\000s\000t\000s) >>
+endobj
+% 'Outline.34.2': class OutlineEntryObject 
+151 0 obj
+<< /Dest [ 101 0 R
+ /XYZ
+ 62.69291
+ 605.3849
+ 0 ]
+ /Next 152 0 R
+ /Parent 148 0 R
+ /Prev 150 0 R
+ /Title (\376\377\0003\000.\0003\000.\0003\000\240\000\240\000\240\000D\000e\000v\000e\000l\000o\000p\000i\000n\000g\000 \000a\000n\000d\000 \000c\000r\000e\000a\000t\000i\000n\000g\000 \000e\000g\000g\000s\000 \000f\000o\000r\000 \000p\000r\000o\000d\000u\000c\000t\000i\000o\000n) >>
+endobj
+% 'Outline.34.3': class OutlineEntryObject 
+152 0 obj
+<< /Dest [ 102 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Parent 148 0 R
+ /Prev 151 0 R
+ /Title (\376\377\0003\000.\0003\000.\0004\000\240\000\240\000\240\000I\000n\000s\000t\000a\000l\000l\000a\000t\000i\000o\000n\000 \000i\000n\000 \000P\000r\000o\000d\000u\000c\000t\000i\000o\000n\000 \000e\000n\000v\000i\000r\000o\000n\000m\000e\000n\000t) >>
+endobj
+% 'Outline.33.3': class OutlineEntryObject 
+153 0 obj
+<< /Count 6
+ /Dest [ 102 0 R
+ /XYZ
+ 62.69291
+ 507.6236
+ 0 ]
+ /First 154 0 R
+ /Last 159 0 R
+ /Parent 145 0 R
+ /Prev 148 0 R
+ /Title (\376\377\0003\000.\0004\000\240\000\240\000\240\000D\000a\000t\000a\000 \000m\000o\000d\000e\000l) >>
+endobj
+% 'Outline.35.0': class OutlineEntryObject 
+154 0 obj
+<< /Dest [ 102 0 R
+ /XYZ
+ 62.69291
+ 417.6236
+ 0 ]
+ /Next 155 0 R
+ /Parent 153 0 R
+ /Title (\376\377\0003\000.\0004\000.\0001\000\240\000\240\000\240\000l\000e\000v\000e\000l\0001) >>
+endobj
+% 'Outline.35.1': class OutlineEntryObject 
+155 0 obj
+<< /Dest [ 102 0 R
+ /XYZ
+ 62.69291
+ 315.4236
+ 0 ]
+ /Next 156 0 R
+ /Parent 153 0 R
+ /Prev 154 0 R
+ /Title (\376\377\0003\000.\0004\000.\0002\000\240\000\240\000\240\000s\000t\000a\000t\000u\000s) >>
+endobj
+% 'Outline.35.2': class OutlineEntryObject 
+156 0 obj
+<< /Dest [ 104 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Next 157 0 R
+ /Parent 153 0 R
+ /Prev 155 0 R
+ /Title (\376\377\0003\000.\0004\000.\0003\000\240\000\240\000\240\000D\000o\000w\000n\000l\000o\000a\000d\000i\000n\000g\000 \000l\000e\000v\000e\000l\0001\000 \000f\000i\000l\000e\000s) >>
+endobj
+% 'Outline.35.3': class OutlineEntryObject 
+157 0 obj
+<< /Dest [ 104 0 R
+ /XYZ
+ 62.69291
+ 626.8236
+ 0 ]
+ /Next 158 0 R
+ /Parent 153 0 R
+ /Prev 156 0 R
+ /Title (\376\377\0003\000.\0004\000.\0004\000\240\000\240\000\240\000F\000i\000n\000d\000i\000n\000g\000 \000s\000c\000a\000n\000s\000 \000a\000v\000a\000i\000l\000a\000b\000l\000e\000 \000f\000o\000r\000 \000p\000r\000o\000c\000e\000s\000s\000i\000n\000g) >>
+endobj
+% 'Outline.35.4': class OutlineEntryObject 
+158 0 obj
+<< /Dest [ 107 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Next 159 0 R
+ /Parent 153 0 R
+ /Prev 157 0 R
+ /Title (\376\377\0003\000.\0004\000.\0005\000\240\000\240\000\240\000Q\000u\000e\000u\000i\000n\000g\000 \000a\000n\000d\000 \000e\000x\000e\000c\000u\000t\000i\000o\000n) >>
+endobj
+% 'Outline.35.5': class OutlineEntryObject 
+159 0 obj
+<< /Dest [ 107 0 R
+ /XYZ
+ 62.69291
+ 648.0236
+ 0 ]
+ /Parent 153 0 R
+ /Prev 158 0 R
+ /Title (\376\377\0003\000.\0004\000.\0006\000\240\000\240\000\240\000P\000r\000o\000c\000e\000s\000s\000i\000n\000g) >>
+endobj
+% 'Outline.3': class OutlineEntryObject 
+160 0 obj
+<< /Dest [ 110 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Next 161 0 R
+ /Parent 135 0 R
+ /Prev 145 0 R
+ /Title (\376\377\0004\000\240\000\240\000\240\000T\000r\000o\000u\000b\000l\000e\000s\000h\000o\000o\000t\000i\000n\000g) >>
+endobj
+% 'Outline.4': class OutlineEntryObject 
+161 0 obj
+<< /Dest [ 112 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Next 162 0 R
+ /Parent 135 0 R
+ /Prev 160 0 R
+ /Title (\376\377\0005\000\240\000\240\000\240\000A\000p\000p\000e\000n\000d\000i\000x\000 \000A\000 \000-\000 \000M\000y\000S\000Q\000L\000 \000C\000r\000e\000a\000t\000e\000 \000s\000c\000r\000i\000p\000t) >>
+endobj
+% 'Outline.5': class OutlineEntryObject 
+162 0 obj
+<< /Dest [ 114 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Next 163 0 R
+ /Parent 135 0 R
+ /Prev 161 0 R
+ /Title (\376\377\0006\000\240\000\240\000\240\000A\000p\000p\000e\000n\000d\000i\000x\000 \000B\000 \000-\000 \000M\000y\000S\000Q\000L\000 \000T\000a\000b\000l\000e\000 \000l\000a\000y\000o\000u\000t) >>
+endobj
+% 'Outline.6': class OutlineEntryObject 
+163 0 obj
+<< /Dest [ 116 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Next 164 0 R
+ /Parent 135 0 R
+ /Prev 162 0 R
+ /Title (\376\377\0007\000\240\000\240\000\240\000A\000p\000p\000e\000n\000d\000i\000x\000 \000C\000 \000-\000 \000T\000o\000r\000q\000u\000e\000 \000s\000e\000r\000v\000e\000r\000 \000s\000e\000t\000t\000i\000n\000g\000s) >>
+endobj
+% 'Outline.7': class OutlineEntryObject 
+164 0 obj
+<< /Dest [ 118 0 R
+ /XYZ
+ 62.69291
+ 765.0236
+ 0 ]
+ /Parent 135 0 R
+ /Prev 163 0 R
+ /Title (\376\377\0008\000\240\000\240\000\240\000A\000p\000p\000e\000n\000d\000i\000x\000 \000D\000 \000-\000 \000M\000a\000u\000i\000 \000c\000o\000n\000f\000i\000g\000u\000r\000a\000t\000i\000o\000n) >>
+endobj
+% 'R165': class PDFPages 
+165 0 obj
+% page tree
+<< /Count 24
+ /Kids [ 6 0 R
+ 65 0 R
+ 70 0 R
+ 71 0 R
+ 87 0 R
+ 93 0 R
+ 95 0 R
+ 96 0 R
+ 99 0 R
+ 101 0 R
+ 102 0 R
+ 104 0 R
+ 107 0 R
+ 108 0 R
+ 110 0 R
+ 111 0 R
+ 112 0 R
+ 113 0 R
+ 114 0 R
+ 115 0 R
+ 116 0 R
+ 117 0 R
+ 118 0 R
+ 132 0 R ]
+ /Type /Pages >>
+endobj
+% 'R166': class PDFStream 
+166 0 obj
+% page stream
+<< /Length 1940 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 741.0236 cm
+q
+BT 1 0 0 1 0 4 Tm 108.2549 0 Td 24 TL /F2 20 Tf 0 0 0 rg (HERMOD processing suite) Tj T* -108.2549 0 Td ET
+Q
+Q
+q
+1 0 0 1 62.69291 680.0236 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 39 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL 31.37937 0 Td (Authors:) Tj T* -31.37937 0 Td ET
+Q
+Q
+q
+1 0 0 1 91.03937 39 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Joakim M\366ller <) Tj (joakim.moller@molflow.com) Tj (>) Tj T* ET
+Q
+Q
+q
+1 0 0 1 91.03937 21 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Donal Murtagh <) Tj (donal.murtagh@chalmers.se) Tj (>) Tj T* ET
+Q
+Q
+q
+1 0 0 1 91.03937 3 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Joachim Urban <) Tj (joaurb@chalmers.se) Tj (>) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 665.0236 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL 33.02937 0 Td (Version:) Tj T* -33.02937 0 Td ET
+Q
+Q
+q
+1 0 0 1 91.03937 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (0.2) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 650.0236 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL 48.03937 0 Td (Date:) Tj T* -48.03937 0 Td ET
+Q
+Q
+q
+1 0 0 1 91.03937 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (2010-10-01) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 623.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2.5 Tm /F4 12.5 Tf 15 TL (Abstract) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 581.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL (Hermod is a part of the Odin processing chain - automating level1b data to level2 data. This document) Tj T* (describes the installation, configuration and function of the program suite. In short Hermod prepares) Tj T* (requirements such as external data files and launches a Qsmr session when all requirements are met.) Tj T* ET
+Q
+Q
+ 
+endstream
+endobj
+% 'R167': class PDFStream 
+167 0 obj
+% page stream
+<< /Length 7857 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 744.0236 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (Contents) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 216.0236 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 0 507 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 .501961 rg (1   Level2 processing chain - Hermod) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 507 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL 66.44 0 Td (3) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 489 cm
+q
+BT 1 0 0 1 20 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (1.1   Overview) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 489 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 66.44 0 Td (3) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 471 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 .501961 rg (2   Required dependencies - Installation and configuration) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 471 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL 66.44 0 Td (5) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 453 cm
+q
+BT 1 0 0 1 20 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (2.1   Installation of the Database) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 453 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 66.44 0 Td (6) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 435 cm
+q
+BT 1 0 0 1 20 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (2.2   Torque configuration) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 435 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 66.44 0 Td (6) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 417 cm
+q
+BT 1 0 0 1 40 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (2.2.1   Torque client configuration) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 417 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 66.44 0 Td (6) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 399 cm
+q
+BT 1 0 0 1 40 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (2.2.2   Torque server configuration) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 399 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 66.44 0 Td (6) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 381 cm
+q
+BT 1 0 0 1 40 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (2.2.3   Torque starting and stopping) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 381 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 66.44 0 Td (7) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 363 cm
+q
+BT 1 0 0 1 20 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (2.3   Maui configuration) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 363 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 66.44 0 Td (7) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 345 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 .501961 rg (3   HERMOD) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 345 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL 66.44 0 Td (9) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 327 cm
+q
+BT 1 0 0 1 20 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (3.1   Overview) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 327 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 66.44 0 Td (9) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 309 cm
+q
+BT 1 0 0 1 20 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (3.2   Package details) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 309 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 66.44 0 Td (9) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 291 cm
+q
+BT 1 0 0 1 20 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (3.3   HERMOD Installation) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 291 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 66.44 0 Td (9) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 273 cm
+q
+BT 1 0 0 1 40 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (3.3.1   Developers installation) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 273 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 66.44 0 Td (9) Tj T* -66.44 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 255 cm
+q
+BT 1 0 0 1 40 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (3.3.2   Tests) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 255 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 60.88 0 Td (10) Tj T* -60.88 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 237 cm
+q
+BT 1 0 0 1 40 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (3.3.3   Developing and creating eggs for production) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 237 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 60.88 0 Td (10) Tj T* -60.88 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 219 cm
+q
+BT 1 0 0 1 40 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (3.3.4   Installation in Production environment) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 219 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 60.88 0 Td (11) Tj T* -60.88 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 201 cm
+q
+BT 1 0 0 1 20 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (3.4   Data model) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 201 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 60.88 0 Td (11) Tj T* -60.88 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 183 cm
+q
+BT 1 0 0 1 40 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (3.4.1   level1) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 183 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 60.88 0 Td (11) Tj T* -60.88 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 165 cm
+q
+BT 1 0 0 1 40 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (3.4.2   status) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 165 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 60.88 0 Td (11) Tj T* -60.88 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 147 cm
+q
+BT 1 0 0 1 40 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (3.4.3   Downloading level1 files) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 147 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 60.88 0 Td (12) Tj T* -60.88 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 129 cm
+q
+BT 1 0 0 1 40 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (3.4.4   Finding scans available for processing) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 129 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 60.88 0 Td (12) Tj T* -60.88 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 111 cm
+q
+BT 1 0 0 1 40 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (3.4.5   Queuing and execution) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 111 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 60.88 0 Td (13) Tj T* -60.88 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 93 cm
+q
+BT 1 0 0 1 40 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (3.4.6   Processing) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 93 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 60.88 0 Td (13) Tj T* -60.88 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 75 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 .501961 rg (4   Troubleshooting) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 75 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL 60.88 0 Td (15) Tj T* -60.88 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 57 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 .501961 rg (5   Appendix A - MySQL Create script) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 57 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL 60.88 0 Td (17) Tj T* -60.88 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 39 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 .501961 rg (6   Appendix B - MySQL Table layout) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 39 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL 60.88 0 Td (19) Tj T* -60.88 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 21 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 .501961 rg (7   Appendix C - Torque server settings) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 21 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL 60.88 0 Td (21) Tj T* -60.88 0 Td ET
+Q
+Q
+q
+1 0 0 1 0 3 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 .501961 rg (8   Appendix D - Maui configuration) Tj T* ET
+Q
+Q
+q
+1 0 0 1 397.8898 3 cm
+q
+0 0 .501961 rg
+0 0 .501961 RG
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL 60.88 0 Td (23) Tj T* -60.88 0 Td ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 216.0236 cm
+Q
+ 
+endstream
+endobj
+% 'R168': class PDFStream 
+168 0 obj
+% page stream
+<< /Length 2706 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 744.0236 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (1   Level2 processing chain - Hermod) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 702.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL .74436 Tw (The processing chain program suite is a set of python modules that provides an information system that) Tj T* 0 Tw .831751 Tw (makes it possible to track every single Odin Level1 file and choose a suitable processor to make higher) Tj T* 0 Tw (level data i.e. Level2 data.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 660.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL .39811 Tw (Hermod is a part of the Odin processing chain making high level information from calibrated satellite data) Tj T* 0 Tw .827984 Tw (to very high level data ie. Human understandable data and possibly data collected and aggregated over) Tj T* 0 Tw (longer time periods.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 630.0236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (1.1   Overview) Tj T* ET
+Q
+Q
+q
+1 0 0 1 287.6778 482.2913 cm
+q
+19.92 0 0 141.7323 0 0 cm
+/FormXob.ab493cc51c5cdffac51623196ce8acd1 Do
+Q
+Q
+q
+1 0 0 1 62.69291 452.2913 cm
+q
+BT 1 0 0 1 0 14 Tm .806888 Tw 12 TL /F1 10 Tf 0 0 0 rg (The Hermod suite are written mostly in ) Tj 0 0 .501961 rg (Python) Tj 0 0 0 rg ( ) Tj /F1 8 Tf 0 0 .501961 rg 5 Ts (1 ) Tj /F1 10 Tf 0 0 0 rg 0 Ts (and small part of the code is written in C with Python's) Tj T* 0 Tw (C-api to extend Pythons capabilities to interact with different tools in the Processing chain.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 422.2913 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .956488 Tw (Meta data from calculations made by Qsmr is stored in a database and data is stored in files at the file) Tj T* 0 Tw (system.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 392.2913 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .700574 Tw (Hermod is the collection name for the processing chain. The name Hermod was chosen after one of the) Tj T* 0 Tw (sons of Odin - Hermod known for his speed.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 338.2913 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 38 Tm /F1 10 Tf 12 TL 1.374104 Tw (The Hermod processing system can be seen as a set of scripts that glues Qsmr's calculations and its) Tj T* 0 Tw .655251 Tw (results into the database. Hermod also uses those result to find out what data is missing or what can be) Tj T* 0 Tw 1.171412 Tw (calculated for the moment ie. all prerequisites for starting Qsmr calculations are resolved. Hermod also) Tj T* 0 Tw (serves other automated systems like IASCO model with data.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 338.2913 cm
+Q
+q
+1 0 0 1 62.69291 338.2913 cm
+Q
+ 
+endstream
+endobj
+% 'R169': class PDFStream 
+169 0 obj
+% page stream
+<< /Length 80 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 765.0236 cm
+Q
+ 
+endstream
+endobj
+% 'R170': class PDFStream 
+170 0 obj
+% page stream
+<< /Length 4529 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 723.0236 cm
+q
+BT 1 0 0 1 0 24.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (2   Required dependencies - Installation and) Tj T* (configuration) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 693.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL 1.125868 Tw (The Odin processing chain and Hermod make use of third party software. They are all based on some) Tj T* 0 Tw (type of open source license like GNU GPL or BSD license.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 663.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .538221 Tw (Hermod is built to run on Ubuntu Linux 10.04 \(server version\) but may work on different Ubuntu versions) Tj T* 0 Tw (as well as other POSIX OS:es probably even on windows.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 645.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Hermod needs other components to work properly:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 627.0236 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (Python) Tj 0 0 0 rg ( ) Tj /F1 8 Tf 0 0 .501961 rg 5 Ts (1 ) Tj /F1 10 Tf 0 0 0 rg 0 Ts (:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 621.0236 cm
+Q
+q
+1 0 0 1 62.69291 591.0236 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+BT 1 0 0 1 0 5 Tm  T* ET
+q
+1 0 0 1 23 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .649985 Tw (Hermods core is implemented in Python 2.6. But other versions may also work. Hermod uses a lot) Tj T* 0 Tw (of external packages see below.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 591.0236 cm
+Q
+q
+1 0 0 1 62.69291 573.0236 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (MySQL) Tj 0 0 0 rg ( ) Tj /F1 8 Tf 0 0 .501961 rg 5 Ts (2 ) Tj /F1 10 Tf 0 0 0 rg 0 Ts (:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 567.0236 cm
+Q
+q
+1 0 0 1 62.69291 537.0236 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+BT 1 0 0 1 0 5 Tm  T* ET
+q
+1 0 0 1 23 3 cm
+q
+BT 1 0 0 1 0 14 Tm 2.420751 Tw 12 TL /F1 10 Tf 0 0 0 rg (Relational database to manage meta data. Database installation for this project i discussed in) Tj T* 0 Tw 0 0 .501961 rg (Installation of the Database) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 537.0236 cm
+Q
+q
+1 0 0 1 62.69291 519.0236 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (Torque) Tj 0 0 0 rg ( ) Tj /F1 8 Tf 0 0 .501961 rg 5 Ts (3 ) Tj /F1 10 Tf 0 0 0 rg 0 Ts (:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 513.0236 cm
+Q
+q
+1 0 0 1 62.69291 471.0236 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+BT 1 0 0 1 0 5 Tm  T* ET
+q
+1 0 0 1 23 3 cm
+q
+BT 1 0 0 1 0 26 Tm .44748 Tw 12 TL /F1 10 Tf 0 0 0 rg (Torque is a Cluster Resource Manager. Documentation and detailed installation instructions can be) Tj T* 0 Tw 2.035982 Tw (found at ) Tj 0 0 .501961 rg (Torque) Tj 0 0 0 rg ( ) Tj /F1 8 Tf 0 0 .501961 rg 5 Ts (3 ) Tj /F1 10 Tf 0 0 0 rg 0 Ts (documentation pages. Site specific configuration will be discussed in ) Tj 0 0 .501961 rg (Torque) Tj T* 0 Tw (configuration ) Tj 0 0 0 rg (section.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 471.0236 cm
+Q
+q
+1 0 0 1 62.69291 453.0236 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (Maui) Tj 0 0 0 rg ( ) Tj /F1 8 Tf 0 0 .501961 rg 5 Ts (4 ) Tj /F1 10 Tf 0 0 0 rg 0 Ts (:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 447.0236 cm
+Q
+q
+1 0 0 1 62.69291 429.0236 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+BT 1 0 0 1 0 5 Tm  T* ET
+q
+1 0 0 1 23 3 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The Cluster Scheduler only site specific setup vill be noted in ) Tj 0 0 .501961 rg (Maui configuration) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 429.0236 cm
+Q
+q
+1 0 0 1 62.69291 411.0236 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (On a Ubuntu 10.04 LTS machine for developing Hermod the following apt-packages need to be installed:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 89.82362 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 312 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 290 Tm /F5 10 Tf 12 TL (gfortran) Tj T* (libatlas-base-dev) Tj T* (libblas-dev) Tj T* (libfreetype6-dev) Tj T* (libfuse-dev) Tj T* (libgeos-dev) Tj T* (libhdf4g-dev) Tj T* (libjasper-dev) Tj T* (libjpeg62-dev) Tj T* (libmysqlclient-dev) Tj T* (libpng12-dev) Tj T* (libtorque-dev) Tj T* (openssh-server) Tj T* (pkg-config) Tj T* (python-dev) Tj T* (python-matplotlib) Tj T* (python-numpy) Tj T* (python-scipy) Tj T* (python-virtualenv) Tj T* (python-virtualenv) Tj T* (subversion) Tj T* (torque-dev) Tj T* (ubuntu-dev-tools) Tj T* (vim-nox) Tj T* (zlib1g-dev) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+ 
+endstream
+endobj
+% 'R171': class PDFStream 
+171 0 obj
+% page stream
+<< /Length 5256 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 747.0236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (2.1   Installation of the Database) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 705.0236 cm
+q
+BT 1 0 0 1 0 26 Tm 2.55061 Tw 12 TL /F1 10 Tf 0 0 0 rg (Configuration of the database is minimal - Hermod works fine on a standard apt installation of the) Tj T* 0 Tw 1.856905 Tw (package. But further tuning may increase performance significantly. See ) Tj 0 0 .501961 rg (Appendix A - MySQL create) Tj T* 0 Tw (script ) Tj 0 0 0 rg (and ) Tj 0 0 .501961 rg (Appendix B - MySQL Table layout ) Tj 0 0 0 rg (for database and table layout.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 687.0236 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (On the nodes at least ) Tj /F5 10 Tf (libmysqlclient ) Tj /F1 10 Tf (needs to be installed.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 657.0236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (2.2   Torque configuration) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 615.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL .757984 Tw (Two types of Torque installations are required - one server installation and several client installations on) Tj T* 0 Tw .643318 Tw (each node in the cluster. The server installation manages the queueingsystem and needs to know about) Tj T* 0 Tw (all clients \(computee nodes\) in the cluster. The clients does only need to know about the server.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 588.0236 cm
+q
+BT 1 0 0 1 0 2.5 Tm 15 TL /F4 12.5 Tf 0 0 0 rg (2.2.1   Torque client configuration) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 546.0236 cm
+q
+BT 1 0 0 1 0 26 Tm .268294 Tw 12 TL /F1 10 Tf 0 0 0 rg (A site-specific installation script ) Tj /F5 10 Tf (/misc/apps/torque-package-mom-linux-x86_64.sh ) Tj /F1 10 Tf (provided all) Tj T* 0 Tw .383318 Tw (configuration needed at the client. But some additional configuration is needed to provide the per session) Tj T* 0 Tw (temp directory.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 528.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The following script makes all steps in the installation process.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 386.8236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 132 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 110 Tm /F5 10 Tf 12 TL (#!/bin/bash) Tj T* (# A script to install, prepare and start a node) Tj T* (# run as root) Tj T*  T* (aptitude purge torque-mom torque-client -y) Tj T* (sh /misc/apps/torque-package-mom-linux-x86_64.sh --install) Tj T* (cp /misc/apps/prologue.user /var/spool/torque/mom_priv/) Tj T* (cp /misc/apps/epilogue.user /var/spool/torque/mom_priv/) Tj T* (ldconfig) Tj T* (pbs_mom) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 342.8236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL .439986 Tw (An important part of the processing system is the scripts at the client that creates a temporary directories) Tj T* 0 Tw .467485 Tw (before a processing starts and removes it when processing is finished. These scripts runs whether or not) Tj T* 0 Tw (the processing was successful or not.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 315.8236 cm
+q
+BT 1 0 0 1 0 2.5 Tm 15 TL /F4 12.5 Tf 0 0 0 rg (2.2.2   Torque server configuration) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 273.8236 cm
+q
+BT 1 0 0 1 0 26 Tm 1.847109 Tw 12 TL /F1 10 Tf 0 0 0 rg (A site-specific installation script ) Tj /F5 10 Tf (torque-package-server-linux-x86_64.sh ) Tj /F1 10 Tf (installs binaries and) Tj T* 0 Tw 1.813059 Tw (libraries and some basic configuration. Editing configuration files to reflect connected nodes and their) Tj T* 0 Tw (capabilities is necessary.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 255.8236 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The file ) Tj /F5 10 Tf (/var/spool/torque/server_priv/nodes ) Tj /F1 10 Tf (defines the computee nodes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 198.6236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 48 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F5 10 Tf 12 TL (glass np=8 hermod node x86_64) Tj T* (sard np=2 hermod node x86_64) Tj T* (...) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 142.6236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 38 Tm /F1 10 Tf 12 TL .017318 Tw (The attributes hermod, node and x86_64 specifies different capabilities en each node. 'x86_64' tells us the) Tj T* 0 Tw .475868 Tw (architecture on the node is 64 bits. 'hermod' states that hermod, Qsmr and Q-pack in installed and works) Tj T* 0 Tw .845542 Tw (correctly. The last attribute shows us the computer is a node with no other users than the torque queue) Tj T* 0 Tw (operates the computer. 'desktop' would state it is a workstation with human users.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 100.6236 cm
+q
+BT 1 0 0 1 0 26 Tm .545697 Tw 12 TL /F1 10 Tf 0 0 0 rg (Some additional settings con be done through torque's configuration program ) Tj /F5 10 Tf (qmgr) Tj /F1 10 Tf (. A printout of Torque) Tj T* 0 Tw .108735 Tw (server settings generated with ) Tj /F5 10 Tf (qmgr -C 'print server' ) Tj /F1 10 Tf (can be found in ) Tj 0 0 .501961 rg (Appendix C - Torque server) Tj T* 0 Tw (settings) Tj 0 0 0 rg (.) Tj T* ET
+Q
+Q
+ 
+endstream
+endobj
+% 'R172': class PDFStream 
+172 0 obj
+% page stream
+<< /Length 4235 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 750.0236 cm
+q
+BT 1 0 0 1 0 2.5 Tm 15 TL /F4 12.5 Tf 0 0 0 rg (2.2.3   Torque starting and stopping) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 696.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 38 Tm /F1 10 Tf 12 TL 2.017984 Tw (There are currently no system V init scripts implemented. Starting and stopping server and nodes is) Tj T* 0 Tw .509988 Tw (manual. There is no problem shutting off a node before the server but the running job at the node will be) Tj T* 0 Tw .744198 Tw (killed. If server is stopped the current queue will be saved and the current running jobs at the moms will) Tj T* 0 Tw (continue. When server is started again moms will report their finished jobs.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 678.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (start server at morion:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 644.8236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 24 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F5 10 Tf 12 TL ($ /usr/local/sbin/pbs_server) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 624.8236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (start moms at nodes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 591.6236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 24 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F5 10 Tf 12 TL ($ /usr/local/sbin/pbs_mom) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 571.6236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (stop moms at nodes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 538.4236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 24 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F5 10 Tf 12 TL ($ /usr/local/sbin/momctl -s) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 518.4236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (stop server at morion:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 485.2236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 24 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F5 10 Tf 12 TL ($ /usr/local/bin/qterm -t immediate) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 455.2236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (2.3   Maui configuration) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 437.2236 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The main configuration file can be found at ) Tj /F5 10 Tf (morion.rss.chalmers.se) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 431.2236 cm
+Q
+q
+1 0 0 1 62.69291 413.2236 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+BT 1 0 0 1 0 5 Tm  T* ET
+q
+1 0 0 1 23 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (/usr/local/maui/maui.cfg) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 413.2236 cm
+Q
+q
+1 0 0 1 62.69291 371.2236 cm
+q
+BT 1 0 0 1 0 26 Tm .167209 Tw 12 TL /F1 10 Tf 0 0 0 rg (Full configuration file can be found in ) Tj 0 0 .501961 rg (Appendix D - Maui configuration) Tj 0 0 0 rg (. This setup restrict one user to take) Tj T* 0 Tw .943984 Tw (all resources at once enforcing Odin processing always have at least a minimum of processor available) Tj T* 0 Tw (but also giving users access to the queue.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 353.2236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (start the scheduler:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 320.0236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 24 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F5 10 Tf 12 TL ($ /usr/local/maui/sbin/maui) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 300.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (stop the scheduler:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 266.8236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 24 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F5 10 Tf 12 TL ($ /usr/local/maui/bin/schedctl -k) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 258.8236 cm
+Q
+q
+1 0 0 1 62.69291 258.8236 cm
+Q
+ 
+endstream
+endobj
+% 'R173': class PDFStream 
+173 0 obj
+% page stream
+<< /Length 80 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 765.0236 cm
+Q
+ 
+endstream
+endobj
+% 'R174': class PDFStream 
+174 0 obj
+% page stream
+<< /Length 5503 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 744.0236 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (3   HERMOD) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 714.0236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (3.1   Overview) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 660.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 38 Tm /F1 10 Tf 12 TL 1.248876 Tw (Hermod is a program suite written in Python that wraps around QSMR and inserts meta data in to the) Tj T* 0 Tw .495697 Tw (SMR database. Hermod runs regularly and decides when to run QSMR according to information Hermod) Tj T* 0 Tw .461984 Tw (can find in the SMR Database. Hermod provides a fully automatic processing system for processing data) Tj T* 0 Tw (from Level1 data to Level2 data.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 630.0236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (3.2   Package details) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 600.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .387984 Tw (Hermod is divided into several smaller entities that provide specific functionality. The current status of the) Tj T* 0 Tw (source code is still in a form of transition from one package to more and smaller sub packages.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 582.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (odin.hermod) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 540.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL .492126 Tw (The odin.hermod package is the package which is responsible for the information and bookkeeping parts) Tj T* 0 Tw .777485 Tw (of hermod i.e keep track of file transactions, file dependencies and finally submitting jobs to the queuing) Tj T* 0 Tw (system) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 522.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (odin.config) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 504.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The odin.config i more or less a configuration package Hermod and Iasco shares this package) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 486.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (odin.iasco) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 468.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (This runs and manages the IASCO model.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 438.0236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (3.3   HERMOD Installation) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 384.0236 cm
+q
+BT 1 0 0 1 0 38 Tm 6.73229 Tw 12 TL /F1 10 Tf 0 0 0 rg (For the moment hermod is running from the development source i.e. from the directory) Tj T* 0 Tw 3.900976 Tw /F5 10 Tf (~odinop/hermod_jm ) Tj /F1 10 Tf (for Ubuntu 10.04 and ) Tj /F5 10 Tf (~odinop/hermod_glass ) Tj /F1 10 Tf (for 9.08 this directory is) Tj T* 0 Tw .779036 Tw (checked out from svn. This is not by any means the ideal way to maintain a piece of software. This is a) Tj T* 0 Tw (temporary solution.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 342.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL .492126 Tw (Best way to continue development is to separate development and production. First all processing nodes) Tj T* 0 Tw .90832 Tw (and servers in the system need to have the same OS version \(Ubuntu 10.04 LTS\). Using the same OS) Tj T* 0 Tw (makes it possible to run Hermod from on single installation shared by NFS.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 300.0236 cm
+q
+BT 1 0 0 1 0 26 Tm 2.279982 Tw 12 TL /F1 10 Tf 0 0 0 rg (A set of compiled hermod packages exits in ) Tj /F5 10 Tf (/misc/apps/odinsite) Tj /F1 10 Tf (. The installation of hermod is) Tj T* 0 Tw .095697 Tw (controlled by zc.buildout installation. This way buildout pins down the specific version of each dependency) Tj T* 0 Tw (package.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 273.0236 cm
+q
+BT 1 0 0 1 0 2.5 Tm 15 TL /F4 12.5 Tf 0 0 0 rg (3.3.1   Developers installation) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 207.0236 cm
+q
+BT 1 0 0 1 0 50 Tm 1.251735 Tw 12 TL /F1 10 Tf 0 0 0 rg (The source of hermod is available at ) Tj 0 0 .501961 rg (Chalmers' Subversion repository) Tj 0 0 0 rg ( ) Tj /F1 8 Tf 0 0 .501961 rg 5 Ts (5 ) Tj /F1 10 Tf 0 0 0 rg 0 Ts (. A developers installation is a) Tj T* 0 Tw .957765 Tw (isolated installation which is running in its own environment - from here it's possible to run unit test and) Tj T* 0 Tw .04152 Tw (other functional testing. With a correct .hermod.config and .hermod.config.secret it's possible to connect to) Tj T* 0 Tw .135542 Tw (the database or PDC. \(Future work: It would even be possible to have a standalone database with a small) Tj T* 0 Tw (data set to run off site tests\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 177.0236 cm
+q
+BT 1 0 0 1 0 14 Tm .249147 Tw 12 TL /F1 10 Tf 0 0 0 rg (Once developers build packages in the development environment described above. Packages selected to) Tj T* 0 Tw (be "released" are copied to ) Tj /F5 10 Tf (/misc/apps/odinsite) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 159.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (To have a copy of hermod running locally for development do the following:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 77.82362 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 72 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 50 Tm /F5 10 Tf 12 TL (svn co http://svn.rss.chalmers.se/svn/odinsmr/hermod/trunk hermod) Tj T* (virtualenv -p /usr/bin/python2.6 hermod) Tj T* (cd hermod) Tj T* (bin/python2.6 bootstrap.py) Tj T* (bin/buildout) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+ 
+endstream
+endobj
+% 'R175': class PDFStream 
+175 0 obj
+% page stream
+<< /Length 8312 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 750.0236 cm
+q
+BT 1 0 0 1 0 2.5 Tm 15 TL /F4 12.5 Tf 0 0 0 rg (3.3.2   Tests) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 720.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL 1.371235 Tw (To ensure quality and to simplify for other developers. Unittests are written for some parts of Hermod.) Tj T* 0 Tw (Unittests makes sure that the tested function or procedure does what it's meant for.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 702.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Example: How to run a full unittest suite for a package.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 668.8236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F5 10 Tf 0 0 0 rg (.. src/odin.ecmwf$) Tj (>) Tj ( ../bin/odinpy setup.py test) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 648.8236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Example: how to run a specific testcase.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 617.3849 cm
+q
+q
+.930106 0 0 .930106 0 0 cm
+q
+1 0 0 1 6.6 7.095962 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 504 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F5 10 Tf 0 0 0 rg (.. src/odin.ecmwf/odin/ecmwf/tests$) Tj (>) Tj ( ../../../../../bin/odinpy zpt2_create_test.py) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 590.3849 cm
+q
+BT 1 0 0 1 0 2.5 Tm 15 TL /F4 12.5 Tf 0 0 0 rg (3.3.3   Developing and creating eggs for production) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 536.3849 cm
+q
+BT 1 0 0 1 0 38 Tm 1.31936 Tw 12 TL /F1 10 Tf 0 0 0 rg (Once you have a ) Tj 0 0 .501961 rg (Developers installation ) Tj 0 0 0 rg (you can change or correct Hermod's behaivor. If you want to) Tj T* 0 Tw 1.246654 Tw (deploy your changes you have to change the version variable in the setup.py file. When tests are ok -) Tj T* 0 Tw .124989 Tw (commit your changes to svn. If you don't have any test for your code - consider to add a test to cover your) Tj T* 0 Tw (code.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 518.3849 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (To build installable eggs use the python interpretor created with buildout.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 461.1849 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 48 re B*
+Q
+q
+BT 1 0 0 1 0 26 Tm 12 TL /F5 10 Tf 0 0 0 rg ($ cd ) Tj (<) Tj (devel) Tj (>) Tj  T* ($ cd src/odin.hermod) Tj T* ($ ../../bin/odinpy setup.py bdist_egg) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 441.1849 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (To install an egg in a productoin environment.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 395.9849 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 36 re B*
+Q
+q
+BT 1 0 0 1 0 14 Tm 12 TL /F5 10 Tf 0 0 0 rg ($ cd ) Tj (<) Tj (production) Tj (>) Tj  T* ($ bin/easy_install -U -f ) Tj (<) Tj (where the eggs are) Tj (>) Tj ( odin.hermod) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 387.9849 cm
+Q
+q
+1 0 0 1 62.69291 369.9849 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (1.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (make changes) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 369.9849 cm
+Q
+q
+1 0 0 1 62.69291 372.9849 cm
+Q
+q
+1 0 0 1 62.69291 354.9849 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (2.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (run tests) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 354.9849 cm
+Q
+q
+1 0 0 1 62.69291 357.9849 cm
+Q
+q
+1 0 0 1 62.69291 339.9849 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (3.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (commit) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 339.9849 cm
+Q
+q
+1 0 0 1 62.69291 342.9849 cm
+Q
+q
+1 0 0 1 62.69291 324.9849 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (4.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (build eggs) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 324.9849 cm
+Q
+q
+1 0 0 1 62.69291 327.9849 cm
+Q
+q
+1 0 0 1 62.69291 309.9849 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (5.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (install in production environment.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 309.9849 cm
+Q
+q
+1 0 0 1 62.69291 293.9849 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL (This is the cycle I use when developing for Hermod.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 72.69291 293.9849 cm
+Q
+q
+1 0 0 1 72.69291 275.9849 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (1.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (check out from svn) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 72.69291 275.9849 cm
+Q
+q
+1 0 0 1 72.69291 278.9849 cm
+Q
+q
+1 0 0 1 72.69291 260.9849 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (2.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (create environment) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 72.69291 260.9849 cm
+Q
+q
+1 0 0 1 72.69291 263.9849 cm
+Q
+q
+1 0 0 1 72.69291 245.9849 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (3.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (develop) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 72.69291 245.9849 cm
+Q
+q
+1 0 0 1 72.69291 248.9849 cm
+Q
+q
+1 0 0 1 72.69291 230.9849 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (4.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (run tests) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 72.69291 230.9849 cm
+Q
+q
+1 0 0 1 72.69291 233.9849 cm
+Q
+q
+1 0 0 1 72.69291 215.9849 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (5.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (check in) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 72.69291 215.9849 cm
+Q
+q
+1 0 0 1 72.69291 218.9849 cm
+Q
+q
+1 0 0 1 72.69291 200.9849 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (6.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (release) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 72.69291 200.9849 cm
+Q
+q
+1 0 0 1 72.69291 203.9849 cm
+Q
+q
+1 0 0 1 72.69291 185.9849 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (7.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (deploy) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 72.69291 185.9849 cm
+Q
+q
+1 0 0 1 72.69291 188.9849 cm
+Q
+q
+1 0 0 1 72.69291 170.9849 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 5.66 0 Td (8.) Tj T* -5.66 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (remove development files) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 72.69291 170.9849 cm
+Q
+q
+1 0 0 1 62.69291 152.9849 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Step 1-2 is normally done once.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 134.9849 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Step 3-4 iterates many times.Step 3-5 when tests are sucessful.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 116.9849 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Step 8 is seldom made.) Tj T* ET
+Q
+Q
+ 
+endstream
+endobj
+% 'R176': class PDFStream 
+176 0 obj
+% page stream
+<< /Length 4911 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 750.0236 cm
+q
+BT 1 0 0 1 0 2.5 Tm 15 TL /F4 12.5 Tf 0 0 0 rg (3.3.4   Installation in Production environment) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 720.0236 cm
+q
+BT 1 0 0 1 0 14 Tm 1.371647 Tw 12 TL /F1 10 Tf 0 0 0 rg (Released packages can be installed in the production environment by using Python's ) Tj /F5 10 Tf (easy_install) Tj T* 0 Tw /F1 10 Tf (utility.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 690.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL 2.597126 Tw (Packages can be installed either into the system environment or into a virtual python environment.) Tj T* 0 Tw (\(Preferably the virtual environment to not clutter the system installation\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 596.8236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 84 re B*
+Q
+q
+BT 1 0 0 1 0 62 Tm 12 TL /F5 10 Tf 0 0 0 rg (virtualenv ) Tj (<) Tj (dir) Tj (>) Tj  T* (cd ) Tj (<) Tj (dir) Tj (>) Tj  T* (bin/easy_install -f /misc/apps/odinsite \\) Tj T* (        odin.config \\) Tj T* (        odin.hermod \\) Tj T* (        odin.iasco) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 576.8236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Later on updates can be installed by:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 519.6236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 48 re B*
+Q
+q
+BT 1 0 0 1 0 26 Tm 12 TL /F5 10 Tf 0 0 0 rg (cd ) Tj (<) Tj (dir) Tj (>) Tj  T* (bin/easy_install -f /mist/apps/odinsite -U \\) Tj T* (        odin.hermod) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 489.6236 cm
+q
+BT 1 0 0 1 0 3 Tm 18 TL /F2 15 Tf 0 0 0 rg (3.4   Data model) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 459.6236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .497984 Tw (The database consists of a number of loosely connected tables with records \(rows\) describing meta data) Tj T* 0 Tw (about satellite measurement or metadata of files stored on disk.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 429.6236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .049988 Tw (The Hermod data model is pretty simple. All tables are 'knitted' together with a 'id' field. For example in the) Tj T* 0 Tw ('level1'-table the logical key that identifies each row is the fields 'orbit','calversion' and 'freqmode'.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 402.6236 cm
+q
+BT 1 0 0 1 0 2.5 Tm 15 TL /F4 12.5 Tf 0 0 0 rg (3.4.1   level1) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 360.6236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL .107765 Tw (This table contains the metadata from the process of producing 'Level 1' data at Onsala. One orbit of Odin) Tj T* 0 Tw 1.33311 Tw (corresponds to at least 2 rows in the database, one for each combination of freqmode, calversion and) Tj T* 0 Tw (backend.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 327.4236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F5 10 Tf 0 0 0 rg (id -) Tj (>) Tj ( orbit, calversion, backend, freqmode -) Tj (>) Tj ( 'records in level1') Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 300.4236 cm
+q
+BT 1 0 0 1 0 2.5 Tm 15 TL /F4 12.5 Tf 0 0 0 rg (3.4.2   status) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 282.4236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Some errormessages from the level0 to level1 process are captured in this table.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 249.2236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F5 10 Tf 0 0 0 rg (id -) Tj (>) Tj ( status,errmsg) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 217.2236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .917209 Tw (The 'id'-field is included in the 'level2'-table to make it possible to find all level2 products derived from a) Tj T* 0 Tw ('level1' record.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 199.2236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (level2:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 166.0236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F5 10 Tf 0 0 0 rg (id, fqid, scanno -) Tj (>) Tj ( 'records in level2-table') Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 146.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (level2files:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 112.8236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F5 10 Tf 0 0 0 rg (id, fqid -) Tj (>) Tj ( 'records in level2files-table') Tj T* ET
+Q
+Q
+Q
+Q
+Q
+ 
+endstream
+endobj
+% 'R177': class PDFStream 
+177 0 obj
+% page stream
+<< /Length 10981 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 750.0236 cm
+q
+BT 1 0 0 1 0 2.5 Tm 15 TL /F4 12.5 Tf 0 0 0 rg (3.4.3   Downloading level1 files) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 732.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Hermod searches the database to find new files available on PDC but not in the local file storage.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 638.8236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 84 re B*
+Q
+q
+BT 1 0 0 1 0 62 Tm 12 TL /F6 10 Tf 0 .501961 0 rg (select) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (l1) Tj (.) Tj (id) Tj (,) Tj (l1) Tj (.) Tj (filename) Tj (,) Tj (l1) Tj (.) Tj (logname) Tj  T* /F6 10 Tf 0 .501961 0 rg (from) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (level1) Tj ( ) Tj (l1) Tj  T* /F6 10 Tf 0 .501961 0 rg (join) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (status) Tj ( ) Tj (s) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (on) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (\() Tj (l1) Tj (.) Tj (id) Tj .4 .4 .4 rg (=) Tj 0 0 0 rg (s) Tj (.) Tj (id) Tj (\)) Tj  T* /F6 10 Tf 0 .501961 0 rg (left) Tj /F5 10 Tf 0 0 0 rg ( ) Tj /F6 10 Tf 0 .501961 0 rg (join) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (level1b_gem) Tj ( ) Tj (l1bg) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (on) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (\() Tj (l1) Tj (.) Tj (id) Tj .4 .4 .4 rg (=) Tj 0 0 0 rg (l1bg) Tj (.) Tj (id) Tj (\)) Tj  T* /F6 10 Tf 0 .501961 0 rg (where) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (s) Tj (.) Tj (status) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (and) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (\() Tj (l1bg) Tj (.) Tj (id) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (is) Tj /F5 10 Tf 0 0 0 rg ( ) Tj /F6 10 Tf 0 .501961 0 rg (null) Tj /F5 10 Tf 0 0 0 rg ( ) Tj /F6 10 Tf 0 .501961 0 rg (or) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (l1bg) Tj (.) Tj 0 .501961 0 rg (date) Tj .4 .4 .4 rg (<) Tj 0 0 0 rg (l1) Tj (.) Tj (uploaded) Tj (\)) Tj  T* (        ) Tj /F6 10 Tf 0 .501961 0 rg (and) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (s) Tj (.) Tj (errmsg) Tj .4 .4 .4 rg (=) Tj .729412 .129412 .129412 rg ('') Tj 0 0 0 rg ( ) Tj /F6 10 Tf 0 .501961 0 rg (and) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (l1) Tj (.) Tj (calversion) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (in) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (\() Tj .4 .4 .4 rg (6) Tj 0 0 0 rg (,) Tj .4 .4 .4 rg (7) Tj 0 0 0 rg (\);) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 611.8236 cm
+q
+BT 1 0 0 1 0 2.5 Tm 15 TL /F4 12.5 Tf 0 0 0 rg (3.4.4   Finding scans available for processing) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 593.8236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (To find new orbits in the database that has not already been processed to a level2 file.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 140.6236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 444 re B*
+Q
+q
+BT 1 0 0 1 0 422 Tm 12 TL /F6 10 Tf 0 .501961 0 rg (select) Tj /F5 10 Tf 0 0 0 rg ( ) Tj /F6 10 Tf 0 .501961 0 rg (distinct) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (l1) Tj (.) Tj (id) Tj (,) Tj (l1) Tj (.) Tj (back) Tj ( ) Tj (backend) Tj (,) Tj (l1) Tj (.) Tj (orbit) Tj ( ) Tj (orbit) Tj (,) Tj (v) Tj (.) Tj (id) Tj ( ) Tj (fqid) Tj (,) Tj  T* (        ) Tj (v) Tj (.) Tj (qsmr) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (version) Tj /F5 10 Tf 0 0 0 rg (,) Tj ( ) Tj (l1) Tj (.) Tj (calversion) Tj (,) Tj (a) Tj (.) Tj (name) Tj (,) Tj (v) Tj (.) Tj (process_time) Tj  T* /F6 10 Tf 0 .501961 0 rg (from) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (\() Tj  T* (        ) Tj /F6 10 Tf 0 .501961 0 rg (select) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (orbit) Tj (,) Tj (id) Tj (,) Tj (substr) Tj (\() Tj (backend) Tj (,) Tj .4 .4 .4 rg (1) Tj 0 0 0 rg (,) Tj .4 .4 .4 rg (3) Tj 0 0 0 rg (\)) Tj ( ) Tj (back) Tj (,) Tj (freqmode) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (mode) Tj /F5 10 Tf 0 0 0 rg (,) Tj  T* (                ) Tj (calversion) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (from) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (level1) Tj  T* (        ) Tj /F6 10 Tf 0 .501961 0 rg (join) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (status) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (using) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (\() Tj (id) Tj (\)) Tj  T* (        ) Tj /F6 10 Tf 0 .501961 0 rg (join) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (level1b_gem) Tj ( ) Tj (l1g) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (using) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (\() Tj (id) Tj (\)) Tj  T* (        ) Tj /F6 10 Tf 0 .501961 0 rg (where) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (status) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (and) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (l1g) Tj (.) Tj (filename) Tj ( ) Tj (regexp) Tj ( ) Tj .098039 .090196 .486275 rg (".*HDF") Tj 0 0 0 rg  T* (                ) Tj /F6 10 Tf 0 .501961 0 rg (and) Tj /F5 10 Tf 0 0 0 rg ( ) Tj /F6 10 Tf 0 .501961 0 rg (not) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (locate) Tj (\() Tj .729412 .129412 .129412 rg (',') Tj 0 0 0 rg (,) Tj (freqmode) Tj (\)) Tj  T* /F6 10 Tf 0 .501961 0 rg (union) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (\() Tj  T* (        ) Tj /F6 10 Tf 0 .501961 0 rg (select) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (orbit) Tj (,) Tj (id) Tj (,) Tj (substr) Tj (\() Tj (backend) Tj (,) Tj .4 .4 .4 rg (1) Tj 0 0 0 rg (,) Tj .4 .4 .4 rg (3) Tj 0 0 0 rg (\)) Tj ( ) Tj (back) Tj (,) Tj  T* (                ) Tj (substr) Tj (\() Tj (freqmode) Tj (,) Tj .4 .4 .4 rg (1) Tj 0 0 0 rg (,) Tj ( ) Tj (locate) Tj (\() Tj .729412 .129412 .129412 rg (',') Tj 0 0 0 rg (,) Tj (freqmode) Tj (\)) Tj .4 .4 .4 rg (-) Tj (1) Tj 0 0 0 rg (\)) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (mode) Tj /F5 10 Tf 0 0 0 rg (,) Tj  T* (                ) Tj (calversion) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (from) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (level1) Tj  T* (        ) Tj /F6 10 Tf 0 .501961 0 rg (join) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (status) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (using) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (\() Tj (id) Tj (\)) Tj  T* (        ) Tj /F6 10 Tf 0 .501961 0 rg (join) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (level1b_gem) Tj ( ) Tj (l1g) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (using) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (\() Tj (id) Tj (\)) Tj  T* (        ) Tj /F6 10 Tf 0 .501961 0 rg (where) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (status) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (and) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (l1g) Tj (.) Tj (filename) Tj ( ) Tj (regexp) Tj ( ) Tj .098039 .090196 .486275 rg (".*HDF") Tj 0 0 0 rg  T* (                ) Tj /F6 10 Tf 0 .501961 0 rg (and) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (locate) Tj (\() Tj .729412 .129412 .129412 rg (',') Tj 0 0 0 rg (,) Tj (freqmode) Tj (\)) Tj  T* (      ) Tj (\)) Tj  T* /F6 10 Tf 0 .501961 0 rg (union) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (\() Tj  T* (        ) Tj /F6 10 Tf 0 .501961 0 rg (select) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (orbit) Tj (,) Tj (id) Tj (,) Tj (substr) Tj (\() Tj (backend) Tj (,) Tj .4 .4 .4 rg (1) Tj 0 0 0 rg (,) Tj .4 .4 .4 rg (3) Tj 0 0 0 rg (\)) Tj ( ) Tj (back) Tj (,) Tj  T* (                ) Tj (substr) Tj (\() Tj (freqmode) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (from) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (locate) Tj (\() Tj .729412 .129412 .129412 rg (',') Tj 0 0 0 rg (,) Tj (freqmode) Tj (\)) Tj .4 .4 .4 rg (+) Tj (1) Tj 0 0 0 rg (\)) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (mode) Tj /F5 10 Tf 0 0 0 rg (,) Tj  T* (                ) Tj (calversion) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (from) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (level1) Tj  T* (        ) Tj /F6 10 Tf 0 .501961 0 rg (join) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (status) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (using) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (\() Tj (id) Tj (\)) Tj  T* (        ) Tj /F6 10 Tf 0 .501961 0 rg (join) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (level1b_gem) Tj ( ) Tj (l1g) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (using) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (\() Tj (id) Tj (\)) Tj  T* (        ) Tj /F6 10 Tf 0 .501961 0 rg (where) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (status) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (and) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (l1g) Tj (.) Tj (filename) Tj ( ) Tj (regexp) Tj ( ) Tj .098039 .090196 .486275 rg (".*HDF") Tj 0 0 0 rg  T* (                ) Tj /F6 10 Tf 0 .501961 0 rg (and) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (locate) Tj (\() Tj .729412 .129412 .129412 rg (',') Tj 0 0 0 rg (,) Tj (freqmode) Tj (\)) Tj  T* (      ) Tj (\)\)) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (as) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (l1) Tj  T* /F6 10 Tf 0 .501961 0 rg (join) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (versions) Tj ( ) Tj (v) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (on) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (\() Tj (l1) Tj (.) Tj /F6 10 Tf 0 .501961 0 rg (mode) Tj /F5 10 Tf .4 .4 .4 rg (=) Tj 0 0 0 rg (v) Tj (.) Tj (fm) Tj (\)) Tj  T* /F6 10 Tf 0 .501961 0 rg (join) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (Aero) Tj ( ) Tj (a) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (on) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (\() Tj (v) Tj (.) Tj (id) Tj .4 .4 .4 rg (=) Tj 0 0 0 rg (a) Tj (.) Tj (id) Tj (\)) Tj  T* /F6 10 Tf 0 .501961 0 rg (left) Tj /F5 10 Tf 0 0 0 rg ( ) Tj /F6 10 Tf 0 .501961 0 rg (join) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (level2files) Tj ( ) Tj (l2f) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (on) Tj /F5 10 Tf 0 0 0 rg  T* (        ) Tj (\() Tj (l1) Tj (.) Tj (id) Tj .4 .4 .4 rg (=) Tj 0 0 0 rg (l2f) Tj (.) Tj (id) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (and) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (v) Tj (.) Tj (id) Tj .4 .4 .4 rg (=) Tj 0 0 0 rg (l2f) Tj (.) Tj (fqid) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (and) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (v) Tj (.) Tj (qsmr) Tj .4 .4 .4 rg (=) Tj 0 0 0 rg (l2f) Tj (.) Tj /F6 10 Tf 0 .501961 0 rg (version) Tj /F5 10 Tf 0 0 0 rg (\)) Tj  T* /F6 10 Tf 0 .501961 0 rg (left) Tj /F5 10 Tf 0 0 0 rg ( ) Tj /F6 10 Tf 0 .501961 0 rg (join) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (statusl2) Tj ( ) Tj (s2) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (on) Tj /F5 10 Tf 0 0 0 rg  T* (        ) Tj (\() Tj (l1) Tj (.) Tj (id) Tj .4 .4 .4 rg (=) Tj 0 0 0 rg (s2) Tj (.) Tj (id) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (and) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (v) Tj (.) Tj (id) Tj .4 .4 .4 rg (=) Tj 0 0 0 rg (s2) Tj (.) Tj (fqid) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (and) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (v) Tj (.) Tj (qsmr) Tj .4 .4 .4 rg (=) Tj 0 0 0 rg (s2) Tj (.) Tj /F6 10 Tf 0 .501961 0 rg (version) Tj /F5 10 Tf 0 0 0 rg (\)) Tj  T* /F6 10 Tf 0 .501961 0 rg (where) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (v) Tj (.) Tj (active) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (and) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (l2f) Tj (.) Tj (id) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (is) Tj /F5 10 Tf 0 0 0 rg ( ) Tj /F6 10 Tf 0 .501961 0 rg (null) Tj /F5 10 Tf 0 0 0 rg ( ) Tj /F6 10 Tf 0 .501961 0 rg (and) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (l1) Tj (.) Tj (calversion) Tj .4 .4 .4 rg (=) Tj (6) Tj 0 0 0 rg  T* (        ) Tj /F6 10 Tf 0 .501961 0 rg (and) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (\() Tj (proccount) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (is) Tj /F5 10 Tf 0 0 0 rg ( ) Tj /F6 10 Tf 0 .501961 0 rg (null) Tj /F5 10 Tf 0 0 0 rg ( ) Tj /F6 10 Tf 0 .501961 0 rg (or) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (proccount) Tj .4 .4 .4 rg (<) Tj (4) Tj 0 0 0 rg (\)) Tj  T* /F6 10 Tf 0 .501961 0 rg (order) Tj /F5 10 Tf 0 0 0 rg ( ) Tj /F6 10 Tf 0 .501961 0 rg (by) Tj /F5 10 Tf 0 0 0 rg ( ) Tj (orbit) Tj ( ) Tj /F6 10 Tf 0 .501961 0 rg (desc) Tj /F5 10 Tf 0 0 0 rg (,) Tj (fqid) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+ 
+endstream
+endobj
+% 'R178': class PDFStream 
+178 0 obj
+% page stream
+<< /Length 2096 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 750.0236 cm
+q
+BT 1 0 0 1 0 2.5 Tm 15 TL /F4 12.5 Tf 0 0 0 rg (3.4.5   Queuing and execution) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 708.0236 cm
+q
+BT 1 0 0 1 0 26 Tm .807356 Tw 12 TL /F1 10 Tf 0 0 0 rg (A "job" is defined from the look up in the previous section. Information about the processing is sent to a) Tj T* 0 Tw .844985 Tw (queue for later execution. The Resource system that handles the queue and the execution nodes in the) Tj T* 0 Tw (computing cluster \() Tj /F5 10 Tf (glass) Tj /F1 10 Tf (,``larimar``,``titanite``,``...``\) is ) Tj 0 0 .501961 rg (Torque) Tj 0 0 0 rg ( ) Tj /F1 8 Tf 0 0 .501961 rg 5 Ts (3) Tj /F1 10 Tf 0 0 0 rg 0 Ts (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 690.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Basically the "job" is a shell script sent to another machine for execution.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 660.0236 cm
+q
+BT 1 0 0 1 0 14 Tm .957045 Tw 12 TL /F1 10 Tf 0 0 0 rg (The script ) Tj /F5 10 Tf (run processor ) Tj /F1 10 Tf (puts the shell script in queue with different input parameters to run on the) Tj T* 0 Tw (computee nodes.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 633.0236 cm
+q
+BT 1 0 0 1 0 2.5 Tm 15 TL /F4 12.5 Tf 0 0 0 rg (3.4.6   Processing) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 591.0236 cm
+q
+BT 1 0 0 1 0 26 Tm 1.495681 Tw 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F5 10 Tf (hermodprocessor) Tj /F1 10 Tf (-script executes the main-function in ) Tj /F5 10 Tf (odin.hermod.processor) Tj /F1 10 Tf (-module. This) Tj T* 0 Tw 2.275318 Tw (module looks in the database to find level1b records which not have as many corresponding level2) Tj T* 0 Tw (records as hermod expects.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 561.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL 1.125542 Tw (When Hermod detects a job to run - Hermod sends a wrapped Qsmr job to the processing cluster and) Tj T* 0 Tw (collects the results and puts them in the database and the file system.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 561.0236 cm
+Q
+q
+1 0 0 1 62.69291 561.0236 cm
+Q
+ 
+endstream
+endobj
+% 'R179': class PDFStream 
+179 0 obj
+% page stream
+<< /Length 80 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 765.0236 cm
+Q
+ 
+endstream
+endobj
+% 'R180': class PDFStream 
+180 0 obj
+% page stream
+<< /Length 905 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 744.0236 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (4   Troubleshooting) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 726.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (A job is stale - showing negative time whith qstat:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 684.0236 cm
+q
+BT 1 0 0 1 0 26 Tm .315488 Tw 12 TL /F1 10 Tf 0 0 0 rg (The execution service on the node is probably dead. Use ) Tj /F7 10 Tf (qstat -rn ) Tj /F1 10 Tf (to see what node the job runs on, also) Tj T* 0 Tw 1.532619 Tw (note the jobnumber. Log in as root at the stale node. Start the mom by ) Tj /F7 10 Tf (pbs_mom) Tj /F1 10 Tf (. When the mom is) Tj T* 0 Tw (started lauch ) Tj 1 0 0 rg (`) Tj 0 0 0 rg (momctl -c <) Tj (jobnumber) Tj (> to clear the nodes status.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 684.0236 cm
+Q
+q
+1 0 0 1 62.69291 684.0236 cm
+Q
+ 
+endstream
+endobj
+% 'R181': class PDFStream 
+181 0 obj
+% page stream
+<< /Length 80 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 765.0236 cm
+Q
+ 
+endstream
+endobj
+% 'R182': class PDFStream 
+182 0 obj
+% page stream
+<< /Length 254 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 744.0236 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (5   Appendix A - MySQL Create script) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 738.0236 cm
+Q
+q
+1 0 0 1 62.69291 738.0236 cm
+Q
+ 
+endstream
+endobj
+% 'R183': class PDFStream 
+183 0 obj
+% page stream
+<< /Length 80 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 765.0236 cm
+Q
+ 
+endstream
+endobj
+% 'R184': class PDFStream 
+184 0 obj
+% page stream
+<< /Length 253 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 744.0236 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (6   Appendix B - MySQL Table layout) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 738.0236 cm
+Q
+q
+1 0 0 1 62.69291 738.0236 cm
+Q
+ 
+endstream
+endobj
+% 'R185': class PDFStream 
+185 0 obj
+% page stream
+<< /Length 80 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 765.0236 cm
+Q
+ 
+endstream
+endobj
+% 'R186': class PDFStream 
+186 0 obj
+% page stream
+<< /Length 2213 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 744.0236 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (7   Appendix C - Torque server settings) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 146.8236 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 588 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 566 Tm /F5 10 Tf 12 TL (#) Tj T* (# Create queues and set their attributes.) Tj T* (#) Tj T* (#) Tj T* (# Create and define queue batch) Tj T* (#) Tj T* (create queue batch) Tj T* (set queue batch queue_type = Execution) Tj T* (set queue batch resources_default.nodes = 1) Tj T* (set queue batch resources_default.walltime = 01:00:00) Tj T* (set queue batch enabled = True) Tj T* (set queue batch started = True) Tj T* (#) Tj T* (# Create and define queue new) Tj T* (#) Tj T* (create queue new) Tj T* (set queue new queue_type = Execution) Tj T* (set queue new resources_default.nodes = 1) Tj T* (set queue new resources_default.walltime = 01:00:00) Tj T* (set queue new enabled = True) Tj T* (set queue new started = True) Tj T* (#) Tj T* (# Create and define queue new) Tj T* (#) Tj T* (create queue rerun) Tj T* (set queue rerun queue_type = Execution) Tj T* (set queue rerun resources_default.nodes = 1) Tj T* (set queue rerun resources_default.walltime = 01:00:00) Tj T* (set queue rerun enabled = True) Tj T* (set queue rerun started = True) Tj T* (#) Tj T* (# Set server attributes.) Tj T* (#) Tj T* (set server scheduling = True) Tj T* (set server acl_hosts = morion) Tj T* (set server managers = root@morion.rss.chalmers.se) Tj T* (set server operators = root@morion.rss.chalmers.se) Tj T* (set server default_queue = batch) Tj T* (set server log_events = 511) Tj T* (set server mail_from = adm) Tj T* (set server query_other_jobs = True) Tj T* (set server scheduler_iteration = 600) Tj T* (set server node_check_rate = 150) Tj T* (set server tcp_timeout = 6) Tj T* (set server mom_job_sync = True) Tj T* (set server keep_completed = 300) Tj T* (set server auto_node_np = True) Tj T* (set server next_job_number = 18315) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 138.8236 cm
+Q
+q
+1 0 0 1 62.69291 138.8236 cm
+Q
+ 
+endstream
+endobj
+% 'R187': class PDFStream 
+187 0 obj
+% page stream
+<< /Length 80 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 765.0236 cm
+Q
+ 
+endstream
+endobj
+% 'R188': class PDFStream 
+188 0 obj
+% page stream
+<< /Length 2007 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 744.0236 cm
+q
+BT 1 0 0 1 0 3.5 Tm 21 TL /F2 17.5 Tf 0 0 0 rg (8   Appendix D - Maui configuration) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 726.0236 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The only configuration file is in /usr/local/maui/maui.cfg:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 80.82362 cm
+q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468.6898 636 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 614 Tm /F5 10 Tf 12 TL (# maui.cfg 3.3) Tj T*  T* (SERVERHOST            morion) Tj T* (# primary admin must be first in list) Tj T* (ADMIN1                root e0joakim jo) Tj T* (ADMIN2                donal odinop) Tj T* (ADMIN3                all) Tj T*  T* (# Resource Manager Definition) Tj T*  T* (RMCFG[base] TYPE=PBS) Tj T*  T* (# Allocation Manager Definition) Tj T*  T* (AMCFG[bank]  TYPE=NONE) Tj T*  T* (# full parameter docs at http://supercluster.org/mauidocs/a.fparameters.html) Tj T* (# use the 'schedctl -l' command to display current configuration) Tj T*  T* (RMPOLLINTERVAL        00:00:30) Tj T*  T* (SERVERPORT            42559) Tj T* (SERVERMODE            NORMAL) Tj T*  T* (# Admin: http://supercluster.org/mauidocs/a.esecurity.html) Tj T*  T*  T* (LOGFILE               maui.log) Tj T* (LOGFILEMAXSIZE        10000000) Tj T* (LOGLEVEL              3) Tj T*  T* (# Job Priority: http://supercluster.org/mauidocs/5.1jobprioritization.html) Tj T*  T* (QUEUETIMEWEIGHT       1) Tj T*  T* (# FairShare: http://supercluster.org/mauidocs/6.3fairshare.html) Tj T*  T* (FSPOLICY              PSDEDICATED) Tj T* (FSDEPTH               7) Tj T* (FSINTERVAL            6:00:00) Tj T* (FSDECAY               0.80) Tj T*  T* (FSWEIGHT 10) Tj T* (CREDWEIGHT 100) Tj T* (USERWEIGHT 0) Tj T* (GROUPWEIGHT 0) Tj T* (CLASSWEIGHT 100) Tj T* (SERVICEWEIGHT 1) Tj T* (QUEUETIMEWEIGHT 1) Tj T* (FSCLASSWEIGHT 100) Tj T* (FSUSERWEIGHT 0) Tj T*  T* ET
+Q
+Q
+Q
+Q
+Q
+ 
+endstream
+endobj
+% 'R189': class PDFStream 
+189 0 obj
+% page stream
+<< /Length 3604 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 347.2281 cm
+q
+q
+.868237 0 0 .868237 0 0 cm
+q
+1 0 0 1 6.6 7.601613 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 540 480 re B*
+Q
+q
+0 0 0 rg
+BT 1 0 0 1 0 458 Tm /F5 10 Tf 12 TL  T* (# Throttling Policies: http://supercluster.org/mauidocs/6.2throttlingpolicies.html) Tj T*  T* (# NONE SPECIFIED) Tj T*  T* (# Backfill: http://supercluster.org/mauidocs/8.2backfill.html) Tj T*  T* (BACKFILLPOLICY        FIRSTFIT) Tj T* (RESERVATIONPOLICY     CURRENTHIGHEST) Tj T*  T* (# Node Allocation: http://supercluster.org/mauidocs/5.2nodeallocation.html) Tj T*  T* (NODEALLOCATIONPOLICY  MINRESOURCE) Tj T*  T* (# QOS: http://supercluster.org/mauidocs/7.3qos.html) Tj T*  T* (# QOSCFG[hi]  PRIORITY=100 XFTARGET=100 FLAGS=PREEMPTOR:IGNMAXJOB) Tj T* (# QOSCFG[low] PRIORITY=-1000 FLAGS=PREEMPTEE) Tj T*  T* (# Standing Reservations: http://supercluster.org/mauidocs/7.1.3standingreservations.html) Tj T*  T* (# SRSTARTTIME[test] 8:00:00) Tj T* (# SRENDTIME[test]   17:00:00) Tj T* (# SRDAYS[test]      MON TUE WED THU FRI) Tj T* (# SRTASKCOUNT[test] 20) Tj T* (# SRMAXTIME[test]   0:30:00) Tj T*  T* (# Creds: http://supercluster.org/mauidocs/6.1fairnessoverview.html) Tj T*  T* (USERCFG[DEFAULT]      FSTARGET=20 MAXJOB=10) Tj T* (USERCFG[odinop]       FSTARGET=50 MAXJOB=50) Tj T* (# USERCFG[john]         PRIORITY=100  FSTARGET=10.0-) Tj T* (# GROUPCFG[staff]       PRIORITY=1000 QLIST=hi:low QDEF=hi) Tj T* (#CLASSCFG[batch]       FLAGS=PREEMPTEE) Tj T* (CLASSCFG[batch]       FLAGS=PREEMPTEE PRIORITY=10000) Tj T* (# CLASSCFG[interactive] FLAGS=PREEMPTOR) Tj T* (CLASSCFG[batch] FSTARGET=40.0) Tj T* (CLASSCFG[rerun] FSTARGET=20.0) Tj T* (CLASSCFG[new] FSTARGET=40.0) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 282.5352 cm
+Q
+q
+1 0 0 1 62.69291 254.1887 cm
+n 0 14.17323 m 469.8898 14.17323 l S
+Q
+q
+1 0 0 1 62.69291 242.1887 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (1\() Tj 0 0 .501961 rg (1) Tj 0 0 0 rg (, ) Tj 0 0 .501961 rg (2) Tj 0 0 0 rg (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 91.03937 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (http://python.org/) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 230.1887 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (2) Tj T* ET
+Q
+Q
+q
+1 0 0 1 91.03937 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (http://dev.mysql.com/doc/refman/5.1/en/) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 218.1887 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (3\() Tj 0 0 .501961 rg (1) Tj 0 0 0 rg (, ) Tj 0 0 .501961 rg (2) Tj 0 0 0 rg (, ) Tj 0 0 .501961 rg (3) Tj 0 0 0 rg (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 91.03937 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (http://www.clusterresources.com/products/torque/docs) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 206.1887 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (4) Tj T* ET
+Q
+Q
+q
+1 0 0 1 91.03937 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (http://www.clusterresources.com/products/maui/docs) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 194.1887 cm
+0 0 0 rg
+BT /F3 10 Tf 12 TL ET
+q
+1 0 0 1 6 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (5) Tj T* ET
+Q
+Q
+q
+1 0 0 1 91.03937 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 .501961 rg (http://svn.rss.chalmers.se/svn/odinsmr/hermod) Tj T* ET
+Q
+Q
+q
+Q
+Q
+ 
+endstream
+endobj
+xref
+0 190
+0000000000 65535 f
+0000000113 00000 n
+0000000286 00000 n
+0000000451 00000 n
+0000000626 00000 n
+0000000795 00000 n
+0000000982 00000 n
+0000001278 00000 n
+0000001519 00000 n
+0000001760 00000 n
+0000002001 00000 n
+0000002243 00000 n
+0000002485 00000 n
+0000002727 00000 n
+0000002969 00000 n
+0000003211 00000 n
+0000003454 00000 n
+0000003697 00000 n
+0000003940 00000 n
+0000004183 00000 n
+0000004426 00000 n
+0000004669 00000 n
+0000004912 00000 n
+0000005155 00000 n
+0000005398 00000 n
+0000005641 00000 n
+0000005884 00000 n
+0000006127 00000 n
+0000006370 00000 n
+0000006613 00000 n
+0000006856 00000 n
+0000007099 00000 n
+0000007342 00000 n
+0000007585 00000 n
+0000007828 00000 n
+0000008071 00000 n
+0000008315 00000 n
+0000008559 00000 n
+0000008803 00000 n
+0000009047 00000 n
+0000009291 00000 n
+0000009535 00000 n
+0000009779 00000 n
+0000010023 00000 n
+0000010267 00000 n
+0000010511 00000 n
+0000010755 00000 n
+0000010999 00000 n
+0000011243 00000 n
+0000011487 00000 n
+0000011731 00000 n
+0000011975 00000 n
+0000012219 00000 n
+0000012463 00000 n
+0000012707 00000 n
+0000012951 00000 n
+0000013195 00000 n
+0000013439 00000 n
+0000013683 00000 n
+0000013927 00000 n
+0000014171 00000 n
+0000014415 00000 n
+0000014659 00000 n
+0000014903 00000 n
+0000015147 00000 n
+0000015375 00000 n
+0000016231 00000 n
+0000019438 00000 n
+0000019805 00000 n
+0000020044 00000 n
+0000020271 00000 n
+0000020649 00000 n
+0000020946 00000 n
+0000021185 00000 n
+0000021428 00000 n
+0000021688 00000 n
+0000021932 00000 n
+0000022174 00000 n
+0000022447 00000 n
+0000022690 00000 n
+0000022963 00000 n
+0000023207 00000 n
+0000023450 00000 n
+0000023692 00000 n
+0000023963 00000 n
+0000024207 00000 n
+0000024436 00000 n
+0000024596 00000 n
+0000025032 00000 n
+0000025276 00000 n
+0000025520 00000 n
+0000025764 00000 n
+0000026008 00000 n
+0000026236 00000 n
+0000026591 00000 n
+0000026819 00000 n
+0000027122 00000 n
+0000027419 00000 n
+0000027685 00000 n
+0000027912 00000 n
+0000028240 00000 n
+0000028469 00000 n
+0000028775 00000 n
+0000029060 00000 n
+0000029232 00000 n
+0000029530 00000 n
+0000029804 00000 n
+0000030034 00000 n
+0000030350 00000 n
+0000030635 00000 n
+0000030817 00000 n
+0000031101 00000 n
+0000031385 00000 n
+0000031669 00000 n
+0000031953 00000 n
+0000032237 00000 n
+0000032521 00000 n
+0000032805 00000 n
+0000033089 00000 n
+0000033388 00000 n
+0000033632 00000 n
+0000033875 00000 n
+0000034115 00000 n
+0000034358 00000 n
+0000034619 00000 n
+0000034863 00000 n
+0000035107 00000 n
+0000035351 00000 n
+0000035625 00000 n
+0000035868 00000 n
+0000036140 00000 n
+0000036383 00000 n
+0000036635 00000 n
+0000037062 00000 n
+0000037204 00000 n
+0000038055 00000 n
+0000038184 00000 n
+0000038592 00000 n
+0000038827 00000 n
+0000039361 00000 n
+0000039715 00000 n
+0000040089 00000 n
+0000040448 00000 n
+0000040823 00000 n
+0000041187 00000 n
+0000041488 00000 n
+0000041783 00000 n
+0000042037 00000 n
+0000042342 00000 n
+0000042711 00000 n
+0000043050 00000 n
+0000043316 00000 n
+0000043772 00000 n
+0000044187 00000 n
+0000044496 00000 n
+0000044751 00000 n
+0000045022 00000 n
+0000045383 00000 n
+0000045814 00000 n
+0000046160 00000 n
+0000046432 00000 n
+0000046725 00000 n
+0000047103 00000 n
+0000047476 00000 n
+0000047869 00000 n
+0000048211 00000 n
+0000048543 00000 n
+0000050584 00000 n
+0000058542 00000 n
+0000061349 00000 n
+0000061528 00000 n
+0000066158 00000 n
+0000071515 00000 n
+0000075851 00000 n
+0000076030 00000 n
+0000081634 00000 n
+0000090047 00000 n
+0000095059 00000 n
+0000106142 00000 n
+0000108339 00000 n
+0000108518 00000 n
+0000109523 00000 n
+0000109702 00000 n
+0000110056 00000 n
+0000110235 00000 n
+0000110588 00000 n
+0000110767 00000 n
+0000113081 00000 n
+0000113260 00000 n
+0000115368 00000 n
+trailer
+<< /ID 
+ % ReportLab generated PDF document -- digest (http://www.reportlab.com) 
+ [(\343UpD\)\267\177|\265F\010\321m\326{\266) (\343UpD\)\267\177|\265F\010\321m\326{\266)] 
+
+ /Info 134 0 R
+ /Root 133 0 R
+ /Size 190 >>
+startxref
+119045
+%%EOF

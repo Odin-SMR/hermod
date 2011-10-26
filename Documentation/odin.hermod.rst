@@ -326,6 +326,19 @@ A set of compiled hermod packages exits in ``/misc/apps/odinsite``. The
 installation of hermod is controlled by zc.buildout installation. This way
 buildout pins down the specific version of each dependency package.
 
+This is the cycle to use when developing for Hermod.
+
+ #. check out from svn
+ #. create environment
+ #. develop
+ #. run tests - preferable unit or system tests
+ #. check in - 
+ #. Release - create binary eggs and copy them to production site
+ #. deploy - installing binary packages
+ #. remove development files
+
+Notes Step 1-2 is normally done once. Step 3-4 iterates many times.Step 3-5 when tests are sucessful. Step 9 is seldom made.
+
 
 Developers installation
 _______________________
@@ -392,13 +405,7 @@ To install an egg in a productoin environment.
        $ cd <production>
        $ bin/easy_install -U -f <where the eggs are> odin.hermod
 
-#. make changes
-#. run tests
-#. commit
-#. build eggs
-#. install in production environment.
  
-
 
 Installation in Production environment
 ______________________________________

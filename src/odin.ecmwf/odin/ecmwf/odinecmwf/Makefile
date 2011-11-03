@@ -12,9 +12,9 @@ LDFLAGS=  $(LIB_DIRS) $(LIBS)
 
 all: shared exec
 
-shared: odinecmwf_grib2.so odinecmwf_grib1.so
+shared: odinecmwf_grib2.so
 
-exec: odinecmwf_grib2 odinecmwf_grib1 
+exec: odinecmwf_grib2
 
 #Rule to link as a shared library
 %.so: %.o
@@ -23,5 +23,5 @@ exec: odinecmwf_grib2 odinecmwf_grib1
 distclean: clean
 
 clean:
-	$(RM) -f odinecmwf_grib1.so odinecmwf_grib1.o odinecmwf_grib1 odinecmwf_grib2.so odinecmwf_grib2.o odinecmwf_grib2 
+	$(RM) -f odinecmwf_grib2.so odinecmwf_grib2.o odinecmwf_grib2 
 

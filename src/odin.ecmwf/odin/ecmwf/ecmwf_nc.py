@@ -65,15 +65,8 @@ class Ecmwf_Grib2(object):
     def convert2odin(self):
         odinp_lib = resource_filename('odin.ecmwf',
                 'odinecmwf/odinecmwf_grib2.so')
-        if self.time>datetime(2011,5,18):
-            odinp_lib = resource_filename('odin.ecmwf',
-                    'odinecmwf/odinecmwf_grib2.so')
-        else:
-            odinp_lib = resource_filename('odin.ecmwf',
-                    'odinecmwf/odinecmwf_grib1.so')
-
         if not exists(odinp_lib):
-            self.log.critical('odinecmwf_gribX.so not installed')
+            self.log.critical('odinecmwf_grib2.so not installed')
             exit(1)
 	odin_nc = CDLL(odinp_lib,mode=1)
         self.log.debug('Starting create_odin_nc  {0}'.format(self.nc_file.name))

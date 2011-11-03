@@ -46,16 +46,28 @@ int create_odin_nc(char *name_in, char *name_out) {
   printf("INFO: Opening file ->%s\n",g->infile);    
   #endif
   status = nc_open(g->infile, NC_NOWRITE, &g->incid); 
-  if (status != NC_NOERR) handle_error(status,__LINE__,__FILE__);
+  if (status != NC_NOERR) {
+    handle_error(status,__LINE__,__FILE__);
+    return -1;
+  }
 
   status = nc_inq_varid (g->incid,"time", &tid);
-  if (status != NC_NOERR) handle_error(status,__LINE__,__FILE__);
+  if (status != NC_NOERR) {
+    handle_error(status,__LINE__,__FILE__);
+    return -1;
+  } 
   
   // find out how much space is needed for attribute values 
   status = nc_inq_attlen (g->incid,tid, "units", &tlen);
-  if (status != NC_NOERR) handle_error(status,__LINE__,__FILE__);
+  if (status != NC_NOERR) {
+    handle_error(status,__LINE__,__FILE__);
+    return -1;
+  }
   status = nc_get_att_text(g->incid,tid, "units", tname);
-  if (status != NC_NOERR) handle_error(status,__LINE__,__FILE__);
+  if (status != NC_NOERR) {
+    handle_error(status,__LINE__,__FILE__);
+    return -1;
+  }
   tname[tlen] = '\0';   
   #ifndef ODINECMWF_SILENT
   if(DEBUG) printf("%s\n",tname);
@@ -86,9 +98,18 @@ int create_odin_nc(char *name_in, char *name_out) {
 
   float *sp = Getdata(g->incid,(long)g->gridsize,"SP");
   float *z  = Getdata(g->incid,(long)g->gridsize,"Z");
-  float *t  = Getdata(g->incid,(long)g->size,"t");
-  float *q  = Getdata(g->incid,(long)g->size,"q");
-  float *vo = Getdata(g->incid,(long)g->size,"vo");
+  float *t,*q,*vo;
+  int tester_varid=0;
+  if (nc_inq_varid(g->incid,"t",&tester_varid)==NC_NOERR) {
+    t  = Getdata(g->incid,(long)g->size,"t");
+    q  = Getdata(g->incid,(long)g->size,"q");
+    vo = Getdata(g->incid,(long)g->size,"vo");
+  } else {
+    t  = Getdata(g->incid,(long)g->size,"T");
+    q  = Getdata(g->incid,(long)g->size,"Q");
+    vo = Getdata(g->incid,(long)g->size,"VO");
+  }
+    
 
   #ifndef ODINECMWF_SILENT
   printf("INFO MAIN: Calculate and write the full pressure fields, GP, GMH, PT, and PV. Note: half levels are not saved\n");  
@@ -103,13 +124,23 @@ int create_odin_nc(char *name_in, char *name_out) {
   WRITE1D(g->lon,"f",g->lonid,g->glgrp);
   WRITE1D(g->nlevs,"i",g->lvlid,g->glgrp);    
  
-  WriteXtra("t",g->Tid,g,(long)g->size,3,1);
-  WriteXtra("q",g->Qid,g,(long)g->size,3,0);
-  WriteXtra("u",g->Uid,g,(long)g->size,3,1);
-  WriteXtra("v",g->Vid,g,(long)g->size,3,1);
-  WriteXtra("o3",g->O3id,g,(long)g->size,3,0);
-  WriteXtra("ciwc",g->CIWCid,g,(long)g->size,3,0);
-  WriteXtra("clwc",g->CLWCid,g,(long)g->size,3,0);
+  if (nc_inq_varid(g->incid,"t",&tester_varid)==NC_NOERR) {
+    WriteXtra("t",g->Tid,g,(long)g->size,3,1);
+    WriteXtra("q",g->Qid,g,(long)g->size,3,0);
+    WriteXtra("u",g->Uid,g,(long)g->size,3,1);
+    WriteXtra("v",g->Vid,g,(long)g->size,3,1);
+    WriteXtra("o3",g->O3id,g,(long)g->size,3,0);
+    WriteXtra("ciwc",g->CIWCid,g,(long)g->size,3,0);
+    WriteXtra("clwc",g->CLWCid,g,(long)g->size,3,0);
+  } else {
+    WriteXtra("T",g->Tid,g,(long)g->size,3,1);
+    WriteXtra("Q",g->Qid,g,(long)g->size,3,0);
+    WriteXtra("U",g->Uid,g,(long)g->size,3,1);
+    WriteXtra("V",g->Vid,g,(long)g->size,3,1);
+    WriteXtra("O3",g->O3id,g,(long)g->size,3,0);
+    WriteXtra("CIWC",g->CIWCid,g,(long)g->size,3,0);
+    WriteXtra("CLWC",g->CLWCid,g,(long)g->size,3,0);
+  }
   WriteXtra("T2M",g->T2Mid,g,(long)g->gridsize,2,1);
   WriteXtra("U10M",g->U10Mid,g,(long)g->gridsize,2,1);
   WriteXtra("V10M",g->V10Mid,g,(long)g->gridsize,2,1);
@@ -121,9 +152,15 @@ int create_odin_nc(char *name_in, char *name_out) {
   WriteXtra("Z",g->Zid,g,(long)g->gridsize,2,1);
 	
   status = nc_close(g->oncid);
-  if(status != NC_NOERR) check_err(status,__LINE__,__FILE__);
+  if(status != NC_NOERR) {
+    check_err(status,__LINE__,__FILE__);
+    return -1;
+  }
   status = nc_close(g->incid);
-  if(status != NC_NOERR) check_err(status,__LINE__,__FILE__);
+  if(status != NC_NOERR) {
+    check_err(status,__LINE__,__FILE__);
+    return -1;
+  }
   //streamClose(g->streamID);
   nlev = g->nlev;
   if(g) free(g); g = NULL;
@@ -753,7 +790,9 @@ static void check_err(const int stat, const int line, const char *file) {
   if (stat != NC_NOERR) {
     (void)fprintf(stderr,"line %d of %s: %s\n", line, file, nc_strerror(stat));
     fflush(stderr);
+  #ifndef ODINECMWF_SILENT
     exit(1);
+  #endif
   }
 }
 
@@ -1651,6 +1690,8 @@ static void AddAtt(data *Var, int id, int grpid, char *name, GL *g) {
 void handle_error(int status, int line, char *file) {
   if (status != NC_NOERR) {
     fprintf(stderr, "%s at line %d in file %s\n", nc_strerror(status),line,file);
+  #ifndef ODINECMWF_SILENT
     exit(EXIT_FAILURE);
+  #endif
   }
 }

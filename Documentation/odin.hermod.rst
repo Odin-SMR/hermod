@@ -434,6 +434,39 @@ Later on updates can be installed by:
 	bin/easy_install -f /mist/apps/odinsite -U \
 		odin.hermod
 
+Running scripts manually
+________________________
+
+All scripts can be run manually. Take a look at the crontab installed at odinops account on morion.
+
+.. code-block:: txt
+
+	odinop@morion:~$ crontab -l
+	####
+	## odin.hermod 
+	## 2011-08-01 joakim.moller@molflow.com
+	## Scripts to download and make files to resolve dependencies for L2 processing
+	##
+	# Get missing or updated l1b-files from pdc
+	45 02 * * * /home/odinop/hermod_production_2.6/bin/hermodgetlevel1 
+	## Get files from nilu
+	#45 03 * * * /home/odinop/hermod_jm/bin/hermodgetwinds
+	## get files from ecmwf
+	45 03 * * * /home/odinop/hermod_production_2.6/bin/hermodcreateecmwf
+	## remove old gribfiles (gribfiles older than 14 days)
+	57 11 * * * find /odin/external/ecmwfNCD/trash -type f -ctime +14 -delete
+	## Make zpts
+	#45 04 * * * /home/odinop/hermod_jm/bin/hermodmakezpt > /home/odinop/crontab_logs/zpt.txt
+	## Make ptzs
+	45 04 * * * /home/odinop/hermod_production_2.6/bin/hermodcreateptz
+	## relink files
+	40 */2 * * * /home/odinop/hermod_production_2.6/bin/hermodrelink
+	## Run qsmr on l1b files not sucessfully processed before, or on updated l1b files
+	45 06 * * * /home/odinop/hermod_production_2.6/bin/hermodrunprocessor > /home/odinop/crontab_logs/processor.txt
+	## Mail logs 
+	30 09 * * * tail -n 500 /home/odinop/hermod_systemlogs/system.log | sendemail -s mail.chalmers.se -f hermod@rss.chalmers.se -t joaurb@chalmers.se donal@chalmers.se -u 'Hermod logs' -q
+	####
+
 Data model
 ----------
 

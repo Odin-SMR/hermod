@@ -70,7 +70,12 @@ class Ecmwf_Grib2(object):
             exit(1)
 	odin_nc = CDLL(odinp_lib,mode=1)
         self.log.debug('Starting create_odin_nc  {0}'.format(self.nc_file.name))
-	self.nlev = odin_nc.create_odin_nc(self.nc_file.name,self.an_file.name)
+	status = odin_nc.create_odin_nc(self.nc_file.name,self.an_file.name)
+        if status==-1:
+            self.log.error('Error while creating odin_nc files from {0}'.format(
+                    self.filename))
+            raise RuntimeError("Somefields might be missing in file {0}".format(
+                    self.filename))
         self.log.debug('create_odin_nc completed')
 
     def cpfile(self):

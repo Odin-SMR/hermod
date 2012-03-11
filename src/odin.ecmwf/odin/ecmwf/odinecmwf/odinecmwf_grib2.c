@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
   i = create_odin_nc(argv[1],argv[2]);
 
  
-  return EXIT_SUCCESS;
+  return i;
 }
 
 int create_odin_nc(char *name_in, char *name_out) {
@@ -631,7 +631,7 @@ static void GMHPV(GL *g,
       Re = GeoidRadius(lat);
       float hr = gp[lev+i]/G0; // reduced GP to geopotential meter
       if (hr < -650) NRERROR("Lowest elevation too low!");
-      gravity = GRAV(lat,hr);
+      gravity = GRAV(lat);
       if (gravity > 10) {
 	        fprintf(stderr,"Grav: %g lat: %f\n",gravity,lat);
          NRERROR("Graivity too high");
@@ -681,11 +681,20 @@ static void GMHPV(GL *g,
       for(i = 0; i < gridsize; i++) {
 	if (i > (li+1)*g->nlon - 1) li++;
 	float lat = g->lat[li]*D2R;
+    // Calculate the gravity as a function of lat and height (reduced gp)
+    Re = GeoidRadius(lat);
+    gravity = GRAV(lat);
+    if (gravity > 10) {
+#ifndef ODINECMWF_SILENT
+       fprintf(stderr,"Grav: %g lat: %f\n",gravity,lat);
+#endif
+       NRERROR("Gravity too high");
+    }
 	// Calculate the dtheta 
-	double dtheta = abs(PT[uplev+i] - PT[lwrlev+i]);
+	double dtheta = PT[uplev+i] - PT[lwrlev+i];
 	// Calculate dp
-	double dp = abs(P[lwrlev+i] - P[uplev+i]);
-	pv[lev+i] = (VO[lev+i] + OMEGA*sin(lat)) * (dtheta/dp)*gravity;
+	double dp = P[uplev+i] - P[lwrlev+i];
+	pv[lev+i] = -1*(VO[lev+i] + 2*OMEGA*sin(lat)) * (dtheta/dp)*gravity;
 	if(i == 0) {
 	  lvlpv_max = pv[lev+i];
 	  lvlpv_min = pv[lev+i];
@@ -774,14 +783,7 @@ void MaxMinS(short *array, long size) {
 }
   #endif
 
-static float GRAV(float lat, float z) {
-
-  if(abs(lat)*180/M_PI > 89.5) {
-    printf("WARNING Lat > 90 = %f. Setting it to 89.9*M_PI/180\n",lat);
-    lat = 89.9*M_PI/180;
-  }
-  if(z < -1e3  || z > 1000e3) NRERROR("Only altitudes inside [-1,1000] km are allowed.");
-  
+static float GRAV(float lat) {
   // Expression found on web page of UK's National Physical Laboratory
   return 9.780327*( 1 + 0.0053024*pow(sin(lat),2) - 0.0000058*pow(sin(2*lat),2));
 }
@@ -1220,7 +1222,7 @@ static void SetupNC(GL *g) {// create cdl.nc
     check_err(stat,__LINE__,__FILE__);
     }
     { // formula3 
-    stat = nc_put_att_text(Data_3D_grp, Data_3D_GMH_id, "formula3", 97, "g(lat,z) = 9.780327*( 1 + 0.0053024*pow(sin(lat),2) - 0.0000058*pow(sin(2*lat),2)) - z*3.086*1e-6");
+    stat = nc_put_att_text(Data_3D_grp, Data_3D_GMH_id, "formula3", 82, "g(lat,z) = 9.780327*( 1 + 0.0053024*pow(sin(lat),2) - 0.0000058*pow(sin(2*lat),2))");
     check_err(stat,__LINE__,__FILE__);
     }
     { // G0 
@@ -1246,7 +1248,7 @@ static void SetupNC(GL *g) {// create cdl.nc
     check_err(stat,__LINE__,__FILE__);
     }
     { // longname 
-    stat = nc_put_att_text(Data_3D_grp, Data_3D_PV_id, "longname", 19, "Potential Vorticity");
+    stat = nc_put_att_text(Data_3D_grp, Data_3D_PV_id, "longname", 25, "Ertel Potential Vorticity");
     check_err(stat,__LINE__,__FILE__);
     }
     { // _FillValue 

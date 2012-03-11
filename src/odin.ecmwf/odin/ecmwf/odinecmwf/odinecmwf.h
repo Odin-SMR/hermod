@@ -153,7 +153,7 @@ static void MaxMin(float *array, long size);
 #ifndef ODINECMWF_SILENT
 static void MaxMinS(short *array, long size);
 #endif
-static float GRAV(float lat, float z);
+static float GRAV(float lat);
 static void WriteXtra(char *name, int id, GL *g, long size, int ndim, int p);
 static void SetupNC(GL *g);
 static void check_err(const int stat, const int line, const char *file);

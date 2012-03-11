@@ -17,6 +17,7 @@ def create_insert():
     db = connect()
     cursor = db.cursor()
     for f in file_list:
+        log.info('using file {0}'.format(f))
         ecmwf = Ecmwf_Grib2(f)
         ecmwf.convert2nc()
         ecmwf.convert2odin()

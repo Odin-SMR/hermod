@@ -57,6 +57,7 @@ setup(
             'pymatlab==0.1.3',
             'netCDF4==0.9.6',
             'odin.config',
+            'pymatlab==0.1.3',
 		],
         tests_require=['mocker','setuptools'],
 )

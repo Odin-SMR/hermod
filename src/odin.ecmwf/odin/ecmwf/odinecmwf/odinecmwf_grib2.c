@@ -510,7 +510,11 @@ static void FullPresGpPt(GL *g,
       fp[lev+i] = (ph[lev+i] + ph[lwrlev+i])*0.5; // Full pressure level
       gp[lev+i] = hgp[lwrlev+i] + (RD*Tv*alpha);        
       // just do a quick check to make sure the gp doesn't go crazy. -709 => min(Z)
-      if (gp[lev+i] < -709) printf("fp = %f Tv = %f gp = %f\n",fp[lev+i],Tv,gp[lev+i]);
+#ifndef ODINECMWF_SILENT
+      if (gp[lev+i] < -709) {
+	      printf("fp = %f Tv = %f gp = %f\n",fp[lev+i],Tv,gp[lev+i]);
+      }
+#endif
       //Calculate Potential Temperature without taking into account moisture
       pt[lev+i] = t[lev+i]*pow((REFPRES/fp[lev+i]),KAPPA);    
       // add the next half level

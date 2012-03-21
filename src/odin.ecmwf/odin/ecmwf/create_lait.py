@@ -1,17 +1,18 @@
 
 from odin.config.environment import config,set_hermod_logging
 from odin.config.database import connect
+from odin.ecmwf.pyPV2EQL import main
 from os.path import join,basename,split
 from glob import glob
 import logging
 
 def create_insert():
-#    set_hermod_logging()
+    set_hermod_logging()
     conf = config()
-#    log = logging.getLogger(__name__)
+    log = logging.getLogger(__name__)
     basepath = conf.get('ecmwf','basedir')
 
-#    log.info('Scanning database for non existing lait-files')
+    log.info('Scanning database for non existing lait-files')
     db = connect()
     cursor1 = db.cursor()
     cursor2 = db.cursor()
@@ -23,7 +24,7 @@ def create_insert():
         """ )
     for date,hour,filename in cursor1:
         try:
-            #insert kazutoshi-san's routine
+            main(filename)
         except:
             log.error('some problems creating laitfile from {0}'.format(
                 filename))
@@ -31,7 +32,7 @@ def create_insert():
         cursor2.execute(
             '''
             insert into lait (date,hour,filename) values (%s,%s,%s)
-            ''',(date,hour,laitfile))
+            ''',(date,hour,filename.replace('.NC','.lait.mat'))
     cursor.close()
     db.close()
 	

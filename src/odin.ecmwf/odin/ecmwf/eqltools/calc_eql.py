@@ -18,7 +18,7 @@ __version__ = '0.1'
 #------------------------------------------------------------------
 
 import numpy as np
-import NC4ecmwf_PV as NC4
+import odin.ecmwf.eqltools.NC4ecmwf_PV as NC4
 import os
 from scipy.io import savemat
 

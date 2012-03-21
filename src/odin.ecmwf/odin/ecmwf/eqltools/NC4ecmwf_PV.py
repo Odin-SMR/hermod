@@ -8,7 +8,7 @@ based on NC4ecmwf.py
 #-----------------------------
 from netCDF4 import Dataset
 import numpy as np
-import GPHlib as GPH
+import odin.ecmwf.GPHlib as GPH
 from pylab import interp
 #-----------------------------
 

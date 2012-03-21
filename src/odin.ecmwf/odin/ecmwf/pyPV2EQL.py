@@ -23,7 +23,7 @@ file_format = 'ODIN_NWP_YYYY_MM_DD_HH'
 #------------------------------------------------------------------
 
 import numpy as np
-import tools.calc_eql as CE
+import odin.ecmwf.eqltools.calc_eql as CE
 import time,datetime,sys,os,pwd
 from optparse import OptionParser
 

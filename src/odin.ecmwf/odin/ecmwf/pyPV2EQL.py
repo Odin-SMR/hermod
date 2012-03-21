@@ -18,8 +18,6 @@ __version__ = "0.1"
 __filename__ = "pyPV2EQL.py"
 __user__ = 'odinop' #operator
 
-file_format = 'ODIN_NWP_YYYY_MM_DD_HH'
-
 #------------------------------------------------------------------
 
 import numpy as np
@@ -51,54 +49,41 @@ def mjd2utc(mjd):
 	mjd_sec = mjd*86400.
 	return time.gmtime(mjd_sec-dje_sec)[:6]
 
-def main(datetimeobj,path,force=False):
+def main(filename,force=False):
 	'''
 	main process to convert netcdf file to matlab file
 	
 	Example
 	----------
-	main('2001-01-01 00:00','./',True)
-	'''
+	main('/odin/external/~~~~~~~~~~~~~.NC',True)
+	matlab file must be created in same directory with NC file
+        '''
 	#check usee name
 	if (pwd.getpwuid(os.getuid())[0]!=__user__) & (pwd.getpwuid(os.getuid())[0]!='root'):
-		print('Error '+__filename__+': to be run by user odinop or root!')
-		print(pwd.getpwuid(os.getuid())[0])
-		return
+		msg = 'Error '+__filename__+': to be run by user odinop or root! you are %s'%(pwd.getpwuid(os.getuid())[0])
+	        raise RuntimeError,msg
 
 	#load netcdf file
-	pv_type = '.lait' # PV converted to scaled pv according to Lait!!
+	pv_ext = '.lait.mat' # PV converted to scaled pv according to Lait!!
 
-	yy = datetimeobj.year
-	mm = datetimeobj.month
-	dd = datetimeobj.day
-	hh = datetimeobj.hour
-	
 	# file names
-	dirpath = path+'/%04i/%02i/'%(yy,mm)
-	filename = dirpath+file_format.replace('YYYY','%04i'%yy).replace('MM','%02i'%mm).replace('DD','%02i'%dd).replace('HH','%02i'%hh)
-
-	inputfile = filename+'.NC'	
-	outputfile = filename+pv_type+'.mat'
+	inputfile = filename	
+	outputfile = filename.replace('.NC',pv_ext)
 
 	# load
 	if not os.path.isfile(inputfile):
-		print('Warning '+__filename__+': no %s exists!!'%inputfile)
-		return
+		msg = 'Warning '+__filename__+': no %s exists!!'%inputfile
+		raise RuntimeError,msg
 	else:
 		if np.logical_and(os.path.isfile(outputfile),force==False): #check existance of file and force writting flag
-			print('Warning '+__filename__+': %s exists already, skipped'%outputfile)
-			return
+			msg = 'Warning '+__filename__+': %s exists already, skipped'%outputfile
+			raise RuntimeError,msg
 		else:
-			print('... processing ...')
-			print('%s --> %s'%(inputfile,outputfile))
 			d = CE.EQL(inputfile) #load data
 			d.get_eql() #calculate
 
-			#make directories (includes intermidiates)
-			if not os.path.isdir(os.path.dirname(outputfile)):os.makedirs(os.path.dirname(outputfile))
 			#write file
 			d.saveasmat(outputfile)
-			print('data saved into %s'%outputfile)
 
 
 #------------------------------------------------------------------
@@ -108,16 +93,13 @@ if __name__ == '__main__':
 	
 	parser.add_option("-F", "--force", dest="force",
 					  help="force writing existing mat files", metavar="bool", default=False)
-	parser.add_option("--path", dest="path",default='/odin/external/ecmwfNCD',
-					  help="base path of pv file directory. default is '/odin/external/ecmwfNCD'")
 
 	(options, args) = parser.parse_args()
 	
 	print(options,args)
 
 	if len(args) != 1:
-		raise IOError,'have to put 4 values (yyyy,mm,dd,hh) for Input'
+		raise IOError,'filename should have been as Input'
 	else:
-		args = np.asarray(args,dtype=np.int)
-		datetimeobj = datetime.datetime(*args)
-		main(datetimeobj,options.opath,force=options.force)
+                filename = args[0]
+		main(filename,force=options.force)

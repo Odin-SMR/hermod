@@ -196,7 +196,7 @@ def unique1d(arr):
 
         #sort the input array
         id_arr_sorted = arr.argsort()
-        arr_sorted = arr[id_arr_sorrted]
+        arr_sorted = arr[id_arr_sorted]
         
         #find where the values change
         diff_arr_sorted = np.diff(arr_sorted)

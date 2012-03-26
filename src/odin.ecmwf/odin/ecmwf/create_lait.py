@@ -21,6 +21,7 @@ def create_insert():
         select date, hour, ecmwf.filename from ecmwf 
         left join lait using (date,hour)
         where     ecmwf.type ='AN' and lait.filename is null
+        limit 480
         """ )
     for date,hour,filename in cursor1:
         try:

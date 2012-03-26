@@ -9,6 +9,7 @@ setup(
         entry_points= {"console_scripts": [
             "hermodcreateecmwf = odin.ecmwf.create_odinecmwf:create_insert",
             "hermodcreateptz  =  odin.ecmwf.create_ptz:main",
+            "hermodcreatelait = odin.ecmwf.create_lait:create_insert",
             "hermodlist = odin.ecmwf.list_not_downloaded:main",
             ]},
         packages = find_packages(exclude=['ez_setup','tests']),

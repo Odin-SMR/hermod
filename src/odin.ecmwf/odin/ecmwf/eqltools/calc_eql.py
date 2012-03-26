@@ -133,7 +133,7 @@ class EQL(dict):
 			eql_pv_temp[i_theta] = np.r_[[j.mean() for j in np.split(pvsort,ind1)]]
 			
 			
-			tmp_eql_pv,ind2 = np.unique(eql_pv_temp[i_theta],return_index=1)
+			tmp_eql_pv,ind2 = unique1d(eql_pv_temp[i_theta])
 			ind3 = np.isfinite(tmp_eql_pv)
 				
 			if ind3.size > 175:
@@ -170,3 +170,44 @@ class EQL(dict):
 		
 		savemat(filename,data,oned_as='row')
 
+def unique1d(arr):
+        '''
+        same with numpy.unique (only for 1D)
+
+        Input
+        --------
+        arr : 1D array
+        
+        Output
+        --------
+        outarr : array of uniques
+        indices : indices
+
+        Example
+        --------
+        >>> arr = np.random.random(10).round(1)*10
+        >>> arr
+        array([ 2.,  7.,  2.,  8.,  5.,  4.,  1.,  2.,  6.,  9.])
+        >>> unique1d(arr)
+        (array([ 1.,  2.,  4.,  5.,  6.,  7.,  8.,  9.]),
+        array([6, 0, 5, 4, 8, 1, 3, 9]))
+        '''
+        arr = arr.flatten()
+
+        #sort the input array
+        id_arr_sorted = arr.argsort()
+        arr_sorted = arr[id_arr_sorrted]
+        
+        #find where the values change
+        diff_arr_sorted = np.diff(arr_sorted)
+        id_unique = np.append([0],find(diff_arr_sorted!=0)+1)
+        
+        return arr_sorted[id_unique],id_arr_sorted[id_unique]
+
+def find(condition):
+        '''
+        copy of matplotlib.find
+        Return the indices where ravel(condition) is true
+        '''
+        res, = np.nonzero(np.ravel(condition))
+        return res

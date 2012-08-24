@@ -25,15 +25,17 @@ def create_insert():
         """ )
     for date,hour,filename in cursor1:
         try:
-            main(filename)
-        except:
-            log.error('some problems creating laitfile from {0}'.format(
-                filename))
+            main(basepath+filename)
+        except Exception,msg:
+            print msg
+            log.error('some problems creating laitfile from {0}: {1}'.format(
+                filename,msg))
             continue
         cursor2.execute(
             '''
             insert into lait (date,hour,filename) values (%s,%s,%s)
-            ''',(date,hour,filename.replace('.NC','.lait.mat'))
-    cursor.close()
+            ''',(date,hour,filename.replace('.NC','.lait.mat')))
+    cursor2.close()
+    cursor1.close()
     db.close()
 	

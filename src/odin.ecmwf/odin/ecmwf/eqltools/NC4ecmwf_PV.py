@@ -48,7 +48,6 @@ class NC4:
 		self.pv0 = self.readfield('PV',self.latsort,self.lonsort)
 
 	def readfield(self,fieldname,latsort,lonsort):
-		np.disp('Reading field')
 		field = self.fid.groups[self.groupnames[fieldname][0]].variables[fieldname]
 		field = np.ma.filled(field,np.nan)
 		field = field[:,latsort,:] #sort by latitude
@@ -134,7 +133,6 @@ def smooth(f, window_len=10, window='hanning'):
         raise ValueError, "Window is on of 'flat', 'hanning', 'hamming', 'bartlett', 'blackman'"
 
     s=np.r_[2*f[0]-f[window_len:1:-1], f, 2*f[-1]-f[-1:-window_len:-1]]
-    #print(len(s))
     
     if window == 'flat': #moving average
         w = np.ones(window_len,'d')

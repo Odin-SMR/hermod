@@ -126,9 +126,6 @@ class EQL(dict):
 			areasort = np.cumsum(A_grid.ravel()[id])
 			eqvsquares = np.floor(np.interp(areasort,A_eql,range(self.eqls.size)))
 			
-			#ind1 = np.unique(eqvsquares,return_index=1)[1][1:-1]+1
-			#eql_pv_temp[i_theta] = np.r_[1.1*pvsort[0],pvsort[ind1],1.1*pvsort[-1]]
-			
 			ind1 = np.arange(eqvsquares.size)[np.diff(eqvsquares)==1]
 			eql_pv_temp[i_theta] = np.r_[[j.mean() for j in np.split(pvsort,ind1)]]
 			
@@ -168,7 +165,7 @@ class EQL(dict):
 					'pv':np.asarray(10*1e6*data['eql']['pv'],dtype=np.int16),
 				})
 		
-		savemat(filename,data,oned_as='row')
+		savemat(filename,data)
 
 def unique1d(arr):
         '''

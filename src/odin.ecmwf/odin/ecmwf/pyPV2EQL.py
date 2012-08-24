@@ -13,7 +13,7 @@ This function is based on matlab routine.
 The Original routine is in odintools/ecmwf.
 '''
 
-usage = "pyPV2EQL.py [options] startmjd stopmjd"
+usage = "pyPV2EQL.py [options] file"
 __version__ = "0.1"
 __filename__ = "pyPV2EQL.py"
 __user__ = 'odinop' #operator

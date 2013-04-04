@@ -27,11 +27,11 @@ setup(
         url='http://odin.rss.chalmers.se',
         install_requires=[
             'setuptools',
-            'mysql-python==1.2.3',
+            'mysql-python',
             'odin.config',
-            'numpy==1.3.0',
-            'scipy>=0.7.0',
-            'netCDF4==0.9.6',
+            'numpy',
+            'scipy',
+            'netCDF4',
 		],
         tests_require=['mocker','setuptools'],
 )

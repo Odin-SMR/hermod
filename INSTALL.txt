@@ -1,10 +1,13 @@
-#!/bin/bash
-#to install packages for production
-dir=$1
-virtualenv $dir
-cd $dir
-bin/easy_install -f /misc/apps/odinsite \
-	odin.config \
-	odin.hermod \
-	odin.iasco
+=======
+Hermod
+=======
+
+Installation of Hermod.
+
+ sudo apt-get install build-essential git-svn bison flex gfortran libatlas-base-dev python-dev pkg-config cmake
+ git svn clone -s -r1299:HEAD http://svn.rss.chalmers.se/svn/odinsmr/hermod
+ cd hermod
+ python virtualenv.py .
+ bin/python bootstrap.py
+ bin/buildout
 

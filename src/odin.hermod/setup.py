@@ -36,12 +36,6 @@ setup(
 
 				test_suite='odin.hermod.tests.test_all',
 				zip_safe=False,
-				ext_modules=[Extension('odin.hermod.torque',
-						['odin/hermod/pbs.c'],
-						libraries=['torque'],
-						include_dirs=['/usr/local/pbs/include','/usr/include/torque'],
-						library_dirs=['/usr/local/pbs/lib','/usr/lib'],
-						)],
 				author='Joakim Möller',
 				author_email='joakim.moller@chalmers.se',
 				url='http://odin.rss.chalmers.se',
@@ -58,6 +52,7 @@ setup(
 				'netCDF4',
 				'odin.config',
 				'pymatlab',
+                                'torquepy',
 				],
 				tests_require=['mocker','setuptools'],
 				)

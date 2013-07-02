@@ -20,7 +20,7 @@ class WindMaker(GEMMatlab):
             idn, logfile = f
             filename = join(prefix,logfile)
             try:
-                self.matlab_command(
+                print self.matlab_command(
                         "create_tp_ecmwf_rss2('%s')"%filename)
             except RuntimeError,e:
                 #error or logmessage

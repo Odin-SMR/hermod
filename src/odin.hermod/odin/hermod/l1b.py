@@ -59,10 +59,10 @@ class L1bDownloader(PDCKerberosTicket,PDCkftpGetFiles):
 
     def register(self, idn, name):
         self.cursor.execute("""
-                replace level1b_gem
-                values (%s,%s,CURRENT_TIMESTAMP)
+                replace level1b_gem (id,filename) 
+                values (%s,%s)
                 """,(idn,name))
-        self.log.debug('Regisetered in data base, using sql: {0}'.format(
+        self.log.debug('Registered in data base, using sql: {0}'.format(
                 self.cursor._last_executed))
 
     def finish(self):

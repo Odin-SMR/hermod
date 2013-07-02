@@ -1,6 +1,6 @@
 LDLIBS= -lnetcdf -lhdf5_hl -lhdf5 -lz -lm 
-LDFLAGS= -L/usr/local/lib
-INCLUDES= -I/usr/local/include
+LDFLAGS= -L/home/odinop/hermod_production/parts/netcdf/lib -L/home/odinop/hermod_production/parts/hdf5/lib -Wl,-rpath=/home/odinop/hermod_production/parts/netcdf/lib,-rpath=/home/odinop/hermod_production/parts/hdf5/lib
+INCLUDES= -I/home/odinop/hermod_production/parts/netcdf/include -I/home/odinop/hermod_production/parts/hdf5/include
 #to build with outputs -> comment SILENT
 SILENT= -DODINECMWF_SILENT
 CPPFLAGS= $(INCLUDES) $(SILENT)

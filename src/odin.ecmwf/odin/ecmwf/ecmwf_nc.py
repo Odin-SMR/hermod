@@ -36,7 +36,8 @@ class Ecmwf_Grib2(object):
     def convert2nc(self):
         err = StringIO()
         out = StringIO()
-        session = Popen(['cdo','-f','nc4','-t','ecmwf','copy',
+        cdo_path = resource_filename('odin.ecmwf','.')+'/../../../../parts/cdo/bin/cdo'
+        session = Popen([cdo_path,'-f','nc4','-t','ecmwf','copy',
                 self.filename, self.nc_file.name],stdout=PIPE,stderr=PIPE)
         exit_code = session.wait()
         if exit_code<>0:

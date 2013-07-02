@@ -1,9 +1,11 @@
 from MySQLdb import connect
 from MySQLdb.cursors import DictCursor
+import logging
 
 from odin.hermod.hermodBase import connection_str
+from odin.config.environment import set_hermod_logging
 from pbs import GEMPbs
-from odin.hermod.torque import TorqueConnection
+from torquepy import TorqueConnection
 
 class ProcessorHandler:
     """Handles a set of transitions
@@ -11,12 +13,11 @@ class ProcessorHandler:
 
     def __init__(self, processors_ids):
         self.proclist = []
-        torque_con = TorqueConnection()
-        already_inqueue = torque_con.inqueue()
+        torque_con = TorqueConnection('morion')
+        already_inqueue = torque_con.inqueue('new')
         for p in processors_ids:
             if not "o%(orbit).4X%(calversion).1f%(fqid).2i%(version)s" %p in already_inqueue:
                 self.proclist.append(Processor(**p))
-        torque_con.close()
 
     def __repr__(self):
         s = ''
@@ -54,6 +55,9 @@ def ProcHFactory(sqlquery):
     return ProcessorHandler(result)
 
 def main():
+    set_hermod_logging()
+    logger = logging.getLogger(__name__)
+    logger.info('''looking for L1b-files to process''')
     query = '''
  select distinct l1.id,l1.back backend,l1.orbit orbit,v.id fqid,v.qsmr version,
             l1.calversion,a.name,v.process_time
@@ -101,8 +105,10 @@ limit 400
 '''
     x = ProcHFactory(query2)
     print x
+    logger.info('''submitting jobs to the queue''')
     x.submit()
 
 if __name__=='__main__':
+    
     main()
 

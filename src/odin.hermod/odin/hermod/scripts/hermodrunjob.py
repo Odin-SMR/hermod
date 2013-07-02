@@ -1,16 +1,19 @@
-#!/usr/bin/python2.5
+#!/usr/bin/python2.7
 
 '''
 This script runs on a computing node, it starts Matlab and parses its output.
 
 '''
 
+import logging
+import socket
 from sys import stderr, stdout, argv, exit
-from os import getenv,remove,environ
-from os.path import join,exists
+from os import getenv,remove,environ,makedirs
+from os.path import join,exists,dirname
 from string import Template
 from datetime import datetime
 from re import compile 
+from tempfile import mkdtemp
 
 from MySQLdb import connect
 from MySQLdb.cursors import DictCursor
@@ -19,6 +22,7 @@ from pyhdf.HDF import HDF, HDF4Error
 from pyhdf import VS
 
 
+from odin.config.environment import set_hermod_logging
 from odin.hermod.session import GEMMatlab
 from odin.hermod.pdc import PDCKerberosTicket,PDCkftpGetFiles
 from odin.hermod.hermodBase import connection_str,HermodError,HermodWarning,config
@@ -71,9 +75,12 @@ class GEMRunner(GEMLevel2FileNames,PDCkftpGetFiles,PDCKerberosTicket):
         if workdir is None:
             a =getenv('PBS_JOBID')
             if not a is None:
-                workdir = join('/tmp', 'tmp'+a.split('.')[0])
+                workdir = '/tmp/tmp'+a.split('.')[0]
+                if not exists(workdir):
+                    makedirs(workdir)
+                #workdir = mkdtemp(suffix=a.split('.')[0])
             else:
-                workdir = '/tmp'
+                workdir = mkdtemp()
         param['dir'] = workdir
         self.parameters = param
 
@@ -200,11 +207,22 @@ class GEMRunner(GEMLevel2FileNames,PDCkftpGetFiles,PDCKerberosTicket):
         db.close()
 
 def main():
+    set_hermod_logging()
+    logger=logging.getLogger(__name__)
+    logger.info(
+        'Starting processing at nodecomputer: {}'.format(socket.gethostname())
+    )
     errors = False
     errmsg = ""
+    logmsg=""
     for i in ['id','version','fqid','orbit','backend','process_time','calversion']:
         if not environ.has_key(i):
             raise HermodError('missing evironment variable "%s"' %i )
+        else:
+            logmsg = logmsg+' '+i+'='+environ[i]
+            
+    
+    logger.debug('got environtment: {}'.format(logmsg))
     run = GEMRunner(environ)
     run.setname()
     run.delete_old()

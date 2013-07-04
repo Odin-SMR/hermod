@@ -16,15 +16,17 @@ class WindMaker(GEMMatlab):
         prefix = self.config.get('GEM','LEVEL1B_DIR')
         self.matlab_command("cd /odin/extdata/ecmwf/tz")
         for f in self.lists:
-            print f
+#            print f
             idn, logfile = f
             filename = join(prefix,logfile)
+            print filename
             try:
-                print self.matlab_command(
+                a= self.matlab_command(
                         "create_tp_ecmwf_rss2('%s')"%filename)
             except RuntimeError,e:
                 #error or logmessage
-                print "error"
+                print "error",e
+                print 'from matlab:',self.m_session.buf[:]
                 continue
             self.register(idn,logfile.replace("LOG","ZPT"))
 

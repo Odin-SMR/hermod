@@ -1,0 +1,9 @@
+#!/usr/bin/python
+import nis,commands,os,sys
+
+for i in nis.cat("auto.odin").keys():
+  ec=commands.getstatusoutput('ls /odin/'+i)
+  if ec[0]:
+    print "ERROR NIS map "+ i+" not present on " + os.uname()[1]
+  
+sys.exit(0)

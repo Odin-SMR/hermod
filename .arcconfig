@@ -1,0 +1,9 @@
+{
+  "project_id" : "Workflow test",
+  "conduit_uri" : "http://phabricator.molflow.com/",
+  "load" : [".arclib"],
+  "lint.engine" : "ExampleLintEngine",
+  "lint.pylint.codes.error" : "^E.*",
+  "lint.pylint.codes.warning" : "^W.*",
+  "unit.engine" : "SetupPyUnitTestEngine"
+}

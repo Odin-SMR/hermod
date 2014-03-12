@@ -1,4 +1,6 @@
 #!/bin/bash
+#
+# This script is quite handy if you develop at gemm's computers
 
 packages=`find src/odin.* -type f -name setup.py | cut -d/ -f1-2`
 base=`pwd`

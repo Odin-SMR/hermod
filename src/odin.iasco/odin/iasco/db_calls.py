@@ -83,7 +83,7 @@ def getNewDates():
     latest_assimilated[0]=latest_assimilated[0]+timedelta(1) # Don't assimilate the last day twice
     
     lwd = db.cursor()
-    lwd.execute('''SELECT MAX(date) from ecmwf where type in ('U','V') ''') # Last day with wind data
+    lwd.execute('''SELECT MAX(date) from ecmwf where type in ('U','V','AN') ''') # Last day with wind data
     lwd.close()
     latest_wind_date=[i[0] for i in lwd]
     latest_wind_date[0] = latest_wind_date[0]-timedelta(1)

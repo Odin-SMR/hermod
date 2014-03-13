@@ -12,6 +12,7 @@ from datetime import date as dtdate
 from odin.config.environment import *
 from pkg_resources import resource_stream
 from os.path import dirname
+from create_winds import create_winds
 
 def extractWinds(date,logger): 
     """
@@ -25,9 +26,17 @@ def extractWinds(date,logger):
     # Convert the date to mjd
     date_mjd=utc2mjd(date.year,date.month,date.day)
 
+    try:
+        create_winds(date_mjd)
+    except RuntimeError,error_msg:
+        logger.error(error_msg) # Write error to log
+        raise(RuntimeError(error_msg))
+    return
+    
     cmd = "addpath(genpath('" + config().get('GEM','MATLAB_DIR') + "'), '" + file_dir + "');\n" + 'MakeWinds(' + str(date_mjd) + ');' 
     session = MatlabSession('matlab -nodisplay') 
     session.putstring('command',cmd)
+    
         
     try:
         session.run('eval(command)') 

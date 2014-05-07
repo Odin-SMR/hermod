@@ -1,0 +1,3 @@
+#!/usr/bin/python2.5
+from sys import stderr
+print >> stderr, "Hermod: MOM received cancel, exiting"

@@ -1,0 +1,12 @@
+#!/usr/bin/python2.5
+
+from shutil import rmtree
+from datetime import datetime
+from sys import argv,stderr,exit
+
+inparam = argv
+
+print "%s:" %(inparam[0])
+print datetime.now()
+print inparam[6],inparam[7]
+exit(0)

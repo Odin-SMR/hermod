@@ -1,0 +1,19 @@
+#!/usr/bin/python2.5
+
+from shutil import rmtree
+from datetime import datetime
+from sys import argv,stderr,exit
+
+inparam = argv
+
+print "%s:" %(inparam[0])
+print datetime.now()
+tempdir = '/tmp'
+try:
+    id = inparam[1].split('.')[0]
+except IndexError,inst:
+    print >> stderr, "Error reading jobid:", inst
+    exit(1)
+tempdir = '/tmp/tmp%s' % (id,)
+rmtree(tempdir,ignore_errors=True)
+exit(0)

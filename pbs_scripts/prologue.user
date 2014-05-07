@@ -1,0 +1,25 @@
+#!/usr/bin/python2.5
+
+from os import uname,mkdir
+from datetime import datetime
+from sys import argv,stderr,exit
+
+inparam = argv
+sysinfo = uname()
+
+print "%s:" %(inparam[0])
+print datetime.now()
+print sysinfo[1],sysinfo[2],sysinfo[4]
+tempdir = '/tmp'
+try:
+    id = inparam[1].split('.')[0]
+except IndexError,inst:
+    print >> stderr, "Error reading jobid:", inst
+    exit(1)
+tempdir = '/tmp/tmp%s' % (id,)
+try:
+    mkdir(tempdir)
+except OSError,inst:
+    print >> stderr , "Error creating tempdir:", inst.errno, inst.strerror, inst.filename
+    exit(1)
+exit(0)

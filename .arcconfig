@@ -4,6 +4,5 @@
   "load" : [".arclib"],
   "lint.engine" : "ExampleLintEngine",
   "lint.pylint.codes.error" : "^E.*",
-  "lint.pylint.codes.warning" : "^W.*",
-  "unit.engine" : "SetupPyUnitTestEngine"
+  "lint.pylint.codes.warning" : "^W.*"
 }

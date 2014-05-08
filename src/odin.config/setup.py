@@ -21,7 +21,7 @@ setup(
         url='http://odin.rss.chalmers.se',
         install_requires=[
             'setuptools',
-            'mysql-python==1.2.3',
+            'mysql-python',
             ]
         #tests_require=['mocker','setuptools'],
 )

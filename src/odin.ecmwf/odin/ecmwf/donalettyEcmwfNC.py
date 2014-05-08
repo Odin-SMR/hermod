@@ -18,7 +18,7 @@ class ZptFile(dict):
              
     '''
     
-    def donaletty(self,g5zpt, month, day, lat):
+    def donaletty(self, g5zpt, month, day, newz, lat):
         '''Inputs :
                     g5zpt : heights (km) Pressure (hPa) and temperature profile
                             should extend to at least 60 km
@@ -95,7 +95,7 @@ class ZptFile(dict):
         k=1.38054e-23 # jK-1 Boltzman's constant
         #load cira.mat
         cira = sio.loadmat(resource_filename('odin.ecmwf','cira.mat'))
-        latpt=np.min( np.hstack((  np.max( np.hstack((1,np.round((lat+85)/10+0.5)))) ,17 )) )
+        latpt=np.min([np.max([1,round((lat+85)/10+0.5)]),17])
         monthrange=np.arange((month-1)*25,month*25)
         ciraT=cira['temp'][monthrange,latpt]
         z=np.r_[g5zpt[g5zpt[:,0]<60,0],np.arange(75,121,5)]
@@ -123,6 +123,7 @@ class ZptFile(dict):
 
         def utc2mjd(year, month, day, hour=0, min=0, sec=0, ticks=0):
             deltat=DT.timedelta(0, (hour*60 + min)*60+ sec , ticks)
+            dateoffset=(DT.date(2001,1,1).toordinal())-51910
             return(DT.date(year,month,day).toordinal()-dateoffset+(deltat.seconds + deltat.microseconds/1e6)/24./60./60.)
 
         def readlogfile(filename):
@@ -166,7 +167,7 @@ class ZptFile(dict):
             T=ecm.extractprofile_on_z('T',latpt,lonpt,ecmz*1000)
             P=ecm.extractprofile_on_z('P',latpt,lonpt,ecmz*1000)/100. # to hPa
             T[np.isnan(T)]=273.0 # tempory fix in case ECMWF make temperatures below the surface nans, P shouldn't matter
-            zpt=self.donaletty(np.c_[ecmz,P,T],file_datetime.month,file_datetime.day,newz)
+            zpt=self.donaletty(np.c_[ecmz,P,T],file_datetime.month,file_datetime.day,newz,logdata[i,4])
             fid.write('{0:<4}{1:<4}\n'.format(*zpt.shape))
             for row in zpt.tolist():
                 fid.write('{1:.6e} {2:.6e} {0:.6e}\n'.format(*row))

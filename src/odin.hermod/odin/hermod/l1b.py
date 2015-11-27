@@ -6,7 +6,7 @@ from os.path import dirname,join,isdir,split
 import logging
 
 class L1bDownloader(PDCKerberosTicket,PDCkftpGetFiles):
-    
+
     def __init__(self,lists):
         self.lists = lists
         self.config = config()
@@ -21,7 +21,7 @@ class L1bDownloader(PDCKerberosTicket,PDCkftpGetFiles):
             self.log.debug('Accquired a new kerberos ticket from PDC')
         else:
             self.log.debug('Using an old ticket')
-    
+
     def download(self):
         self.connect()
         self.log.debug('Connected to PDC via ftp')
@@ -44,14 +44,14 @@ class L1bDownloader(PDCKerberosTicket,PDCkftpGetFiles):
                             )
                     makedir(dirname(local))
                     self.get(remote,local)
-                    self.log.info('Downloaded {0}'.format(local)) 
+                    self.log.info('Downloaded {0}'.format(local))
                     if typ=='HDF':
                         retcode =system('/bin/gunzip -fq %s'%(local,))
                         if retcode!=0:
                             self.log.warn('Could not unzip {0}'.format(
-                                    local)) 
+                                    local))
                             continue
-                        self.log.info('Unzipped {0}'.format(f[1])) 
+                        self.log.info('Unzipped {0}'.format(f[1]))
                         self.register(f[0],f[num+1][:-3])
                     else:
                         self.register(f[0],f[num+1])
@@ -59,7 +59,7 @@ class L1bDownloader(PDCKerberosTicket,PDCkftpGetFiles):
 
     def register(self, idn, name):
         self.cursor.execute("""
-                replace level1b_gem (id,filename) 
+                replace level1b_gem (id,filename)
                 values (%s,%s)
                 """,(idn,name))
         self.log.debug('Registered in data base, using sql: {0}'.format(
@@ -89,12 +89,12 @@ def downloadl1bfiles():
     db = connect()
     cursor = db.cursor()
     status = cursor.execute('''
-SELECT l.id,l.filename,l.logname 
-FROM level1 l natural join status s 
-left join level1b_gem lg using (id)
-where s.status and s.errmsg='' and 
-(lg.id is null or (lg.date<uploaded and lg.filename regexp ".*HDF")) 
-and l.calversion in (6,7)
+SELECT l.id,l.filename,l.logname
+FROM level1 l left join level1b_gem lg using (id)
+where (lg.id is null or (lg.date<uploaded and lg.filename regexp ".*HDF"))
+      and cast(l.calversion as decimal(2,1)) in (6.0, 6.1, 7.0)
+      and l.filename is not NULL
+      and l.filename != ''
 order by uploaded desc
             ''')
     log.info('Found {0} new HDF-files'.format(status))
@@ -105,4 +105,3 @@ order by uploaded desc
     l1b.gettickets()
     l1b.download()
     l1b.finish()
-

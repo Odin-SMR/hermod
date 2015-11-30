@@ -1,0 +1,23 @@
+hermod:
+  image: docker2.molflow.com/devops/hermod_python
+  links:
+    - mysql
+    - torque
+  volumes:
+    - ./src/:/src
+  command:
+    sleep 10000
+
+mysql:
+  image: mysql:5.5
+  environment:
+    - MYSQL_ROOT_PASSWORD***REMOVED***
+    - MYSQL_DATABASE=qsmr
+    - MYSQL_USER=odinop
+    - MYSQL_PASSWORD=***REMOVED***
+
+torque:
+  image: agaveapi/torque
+  ports:
+    - localhost:10022:22
+  privileged: true

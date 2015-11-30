@@ -13,7 +13,7 @@ class ProcessorHandler:
 
     def __init__(self, processors_ids):
         self.proclist = []
-        torque_con = TorqueConnection('morion')
+        torque_con = TorqueConnection('torque_host')
         already_inqueue = torque_con.inqueue('new')
         for p in processors_ids:
             if not "o%(orbit).4X%(calversion).1f%(fqid).2i%(version)s" %p in already_inqueue:
@@ -81,11 +81,11 @@ join level1b_gem l1g using (id)
 where status and l1g.filename regexp ".*HDF" and locate(',',freqmode)
 )) as l1
 join versions v on (l1.mode=v.fm)
-join Aero a on (v.id=a.id) 
+join Aero a on (v.id=a.id)
 left join level2files l2f on (l1.id=l2f.id and v.id=l2f.fqid and v.qsmr=l2f.version)
 left join statusl2 s2 on (l1.id=s2.id and v.id=s2.fqid and v.qsmr=s2.version)
 where v.active and l2f.id is null and l1.calversion=6 and (proccount is null or proccount<4)
-order by orbit desc,fqid   
+order by orbit desc,fqid
 limit 400
     '''
     query2 = '''
@@ -95,7 +95,7 @@ join versions v on (v.fm=l1.freqmode and v.calversion=l1n.calversion)
 join status on (l1.id=status.id)
 join Aero a on (v.id=a.id)
 where not exists
-(select * from level2 l2 where l2.id=l1.id) 
+(select * from level2 l2 where l2.id=l1.id)
 and exists (select count(*) cnt from level1b_gem l1bg where l1bg.id= l1.id group by l1bg.id having cnt>2)
 and exists (select id from smrl1b_gem sl1bg where sl1bg.id=l1.id)
 and not exists (select * from statusl2 s2 where s2.id=l1.id and s2.version=v.qsmr and s2.fqid=v.id and proccount>4)
@@ -109,6 +109,6 @@ limit 400
     x.submit()
 
 if __name__=='__main__':
-    
+
     main()
 

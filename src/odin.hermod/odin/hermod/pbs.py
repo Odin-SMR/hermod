@@ -6,7 +6,7 @@ from odin.config.environment import config
 runscript = """
 #PBS -N %(jobname)s
 #PBS -l walltime=%(process_time)s,nodes=1:hermod:node:precise,mem=950mb
-#PBS -q %(queue)s@morion
+#PBS -q %(queue)s@torque_host
 #PBS -e %(errfile)s
 #PBS -o %(outfile)s
 #PBS -d %(workdir)s
@@ -16,19 +16,19 @@ runscript = """
 """
 #the runscript is not generic enough - have to change the last line
 class GEMPbs(IPbs):
-    
+
     def set_submit_info(self,queue='new'):
         self.conf = config()
 
         self.info['queue'] = queue
         self.info['jobname'] =  'o%(orbit).4X%(calversion).1f%(fqid).2i%(version)s' % self.info
-        self.info['errfile'] = join(expanduser('~'),'logs', 
+        self.info['errfile'] = join(expanduser('~'),'logs',
                 self.info['jobname']+'.err')
         self.info['outfile'] = join(expanduser('~'),'logs',
                 self.info['jobname']+'.out')
         self.info['workdir'] = join(expanduser('~'),'Matlab',
-                'Qsmr_%s'%self.info['version'].replace('-','_')) 
-            
+                'Qsmr_%s'%self.info['version'].replace('-','_'))
+
 
 
     def submit(self):

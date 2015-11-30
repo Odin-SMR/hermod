@@ -223,7 +223,7 @@ server but the running job at the node will be killed. If server is stopped the
 current queue will be saved and the current running jobs at the moms will
 continue. When server is started again moms will report their finished jobs. 
 
-start server at morion:
+start server at torque_host:
 
 .. code-block:: txt
 
@@ -241,25 +241,26 @@ stop moms at nodes:
 
         $ /usr/local/sbin/momctl -s
 
-stop server at morion:
+stop server at torque_host:
 
 .. code-block:: txt
 
         $ /usr/local/bin/qterm -t immediate
 
- 
+
 Maui configuration
 ------------------
- 
-The main configuration file can be found at ``morion.rss.chalmers.se``.
- 
+
+The main configuration file can be found on torque_host
+(``morion.rss.chalmers.se``).
+
          /usr/local/maui/maui.cfg
- 
-         
+
+
 Full configuration file can be found in `Appendix D - Maui configuration`_.
 This setup restrict one user to take all resources at once enforcing Odin
-processing always have at least a minimum of processor available but also giving
-users access to the queue.
+processing always have at least a minimum of processor available but also
+giving users access to the queue.
 
 start the scheduler:
 
@@ -437,11 +438,11 @@ Later on updates can be installed by:
 Running scripts manually
 ________________________
 
-All scripts can be run manually. Take a look at the crontab installed at odinops account on morion.
+All scripts can be run manually. Take a look at the crontab installed at odinops account on torque_host.
 
 .. code-block:: txt
 
-	odinop@morion:~$ crontab -l
+	odinop@torque_host:~$ crontab -l
 	####
 	## odin.hermod 
 	## 2011-08-01 joakim.moller@molflow.com
@@ -657,9 +658,9 @@ Appendix C - Torque server settings
         # Set server attributes.
         #
         set server scheduling = True
-        set server acl_hosts = morion
-        set server managers = root@morion.rss.chalmers.se
-        set server operators = root@morion.rss.chalmers.se
+        set server acl_hosts = torque_host
+        set server managers = root@torque_host
+        set server operators = root@torque_host
         set server default_queue = batch
         set server log_events = 511
         set server mail_from = adm
@@ -674,53 +675,53 @@ Appendix C - Torque server settings
 
 Appendix D - Maui configuration
 ===============================
- 
+
 The only configuration file is in /usr/local/maui/maui.cfg:
 
 .. code-block:: txt
-        
+
         # maui.cfg 3.3
-        
-        SERVERHOST            morion
+
+        SERVERHOST            torque_host
         # primary admin must be first in list
         ADMIN1                root e0joakim jo
         ADMIN2		      donal odinop
         ADMIN3		      all
-        
+
         # Resource Manager Definition
-        
+
         RMCFG[base] TYPE=PBS
-        
+
         # Allocation Manager Definition
-        
+
         AMCFG[bank]  TYPE=NONE
-        
+
         # full parameter docs at http://supercluster.org/mauidocs/a.fparameters.html
         # use the 'schedctl -l' command to display current configuration
-        
+
         RMPOLLINTERVAL        00:00:30
-        
+
         SERVERPORT            42559
         SERVERMODE            NORMAL
-        
+
         # Admin: http://supercluster.org/mauidocs/a.esecurity.html
-        
-        
+
+
         LOGFILE               maui.log
         LOGFILEMAXSIZE        10000000
         LOGLEVEL              3
-        
+
         # Job Priority: http://supercluster.org/mauidocs/5.1jobprioritization.html
-        
-        QUEUETIMEWEIGHT       1 
-        
+
+        QUEUETIMEWEIGHT       1
+
         # FairShare: http://supercluster.org/mauidocs/6.3fairshare.html
-        
+
         FSPOLICY              PSDEDICATED
         FSDEPTH               7
         FSINTERVAL            6:00:00
         FSDECAY               0.80
-        
+
         FSWEIGHT 10
         CREDWEIGHT 100
         USERWEIGHT 0
@@ -730,36 +731,36 @@ The only configuration file is in /usr/local/maui/maui.cfg:
         QUEUETIMEWEIGHT 1
         FSCLASSWEIGHT 100
         FSUSERWEIGHT 0
-        
-        
+
+
         # Throttling Policies: http://supercluster.org/mauidocs/6.2throttlingpolicies.html
-        
+
         # NONE SPECIFIED
-        
+
         # Backfill: http://supercluster.org/mauidocs/8.2backfill.html
-        
+
         BACKFILLPOLICY        FIRSTFIT
         RESERVATIONPOLICY     CURRENTHIGHEST
-        
+
         # Node Allocation: http://supercluster.org/mauidocs/5.2nodeallocation.html
-        
+
         NODEALLOCATIONPOLICY  MINRESOURCE
-        
+
         # QOS: http://supercluster.org/mauidocs/7.3qos.html
-        
+
         # QOSCFG[hi]  PRIORITY=100 XFTARGET=100 FLAGS=PREEMPTOR:IGNMAXJOB
         # QOSCFG[low] PRIORITY=-1000 FLAGS=PREEMPTEE
-        
+
         # Standing Reservations: http://supercluster.org/mauidocs/7.1.3standingreservations.html
-        
+
         # SRSTARTTIME[test] 8:00:00
         # SRENDTIME[test]   17:00:00
         # SRDAYS[test]      MON TUE WED THU FRI
         # SRTASKCOUNT[test] 20
         # SRMAXTIME[test]   0:30:00
-        
+
         # Creds: http://supercluster.org/mauidocs/6.1fairnessoverview.html
-        
+
         USERCFG[DEFAULT]      FSTARGET=20 MAXJOB=10
         USERCFG[odinop]       FSTARGET=50 MAXJOB=50
         # USERCFG[john]         PRIORITY=100  FSTARGET=10.0-
@@ -770,4 +771,4 @@ The only configuration file is in /usr/local/maui/maui.cfg:
         CLASSCFG[batch] FSTARGET=40.0
         CLASSCFG[rerun] FSTARGET=20.0
         CLASSCFG[new] FSTARGET=40.0
-        
+

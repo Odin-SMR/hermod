@@ -7,6 +7,7 @@ echo "-------------------------"
 echo " Installing odin.config: "
 echo "-------------------------"
 cd $HERMOD_ROOT/src/odin.config/
+python setup.py develop
 echo " "
 
 echo "------------------------"

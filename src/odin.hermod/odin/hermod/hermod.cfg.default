@@ -9,13 +9,13 @@ filearea: /odin/smr/Data/
 [READ_SQL]
 user : gem
 db : smr
-host : jet.rss.chalmers.se
+host : mysql_host
 
 [WRITE_SQL]
 user : odinuser
-passwd: secret
+passwd: ***REMOVED***
 db : smr
-host : jet.rss.chalmers.se
+host : mysql_host
 
 [GEM]
 SPOOL_DIR: %(filearea)sspool/
@@ -26,7 +26,7 @@ ECMWF_DIR : /odin/extdata/ecmwf/
 logs : /home/odinop/logs/
 user : odinop
 passwd : secret
-host : jet.rss.chalmers.se
+host : mysql_host
 
 [PDC]
 PDC_DIR : /data/odin/level1b/aero/submm/

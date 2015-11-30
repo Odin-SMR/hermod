@@ -3,7 +3,7 @@ from subprocess import Popen,PIPE
 from sys import argv
 
 def execute_query(query):
-    s =Popen(['mysql','-hjet','-ugem','smr','--table'],stdin=PIPE)
+    s =Popen(['mysql','-hmysql','-ugem','smr','--table'],stdin=PIPE)
     s.stdin.write(query)
     s.stdin.close()
 
@@ -15,10 +15,10 @@ hex(orbit) Orbit,
 #hex(min(orbit)) start_orb,
 #hex(max(orbit)) stop_orb,
 #count(*) orbits,
-level1.freqmode FreqMode, 
-level1.calversion L1bVer, 
-level1.attversion AttVer, 
-level1.nscans NScans, 
+level1.freqmode FreqMode,
+level1.calversion L1bVer,
+level1.attversion AttVer,
+level1.nscans NScans,
 #level1.processed Processed,
 level1.filename Name,
 level1.uploaded Uploaded,
@@ -40,8 +40,8 @@ hex(orbit) Orbit,
 #hex(min(orbit)) StartOrb,
 #hex(max(orbit)) StopOrb,
 #count(*) Orbits,
-level1.freqmode L1bMode, 
-level1.calversion L1bVer, 
+level1.freqmode L1bMode,
+level1.calversion L1bVer,
 #level1.processed L1b_Processed,
 level1.uploaded L1b_Uploaded,
 level2files.fqid L2Mode,
@@ -59,7 +59,7 @@ def last_ecmwf():
     execute_query('''
 SELECT date Date,
 type Type,
-hour Hour, 
+hour Hour,
 filename Name,
 downloaded Downloaded
 FROM ecmwf WHERE downloaded>'2010-09-01'
@@ -74,7 +74,7 @@ def list_ecmwf():
     execute_query('''
 SELECT date Date,
 type Type,
-hour Hour, 
+hour Hour,
 filename Name,
 downloaded Downloaded
 FROM ecmwf WHERE downloaded>'2001-07-01'
@@ -90,16 +90,16 @@ hex(orbit) Orbit,
 #hex(min(orbit)) start_orb,
 #hex(max(orbit)) stop_orb,
 #count(*) orbits,
-level1.freqmode FreqMode, 
-level1.calversion L1bVer, 
-level1.attversion AttVer, 
-level1.nscans NScans, 
+level1.freqmode FreqMode,
+level1.calversion L1bVer,
+level1.attversion AttVer,
+level1.nscans NScans,
 #level1.processed Processed,
 level1.filename Name,
 level1.uploaded Uploaded,
 #level1b_gem.filename Filename,
 level1b_gem.date Date
-FROM level1 JOIN level1b_gem using (id) 
+FROM level1 JOIN level1b_gem using (id)
 WHERE level1.uploaded>'2001-07-01'
 #group by date(start_utc)
 #order by level1.uploaded asc
@@ -114,16 +114,16 @@ hex(orbit) Orbit,
 #hex(min(orbit)) start_orb,
 #hex(max(orbit)) stop_orb,
 #count(*) orbits,
-level1.freqmode FreqMode, 
-level1.calversion L1bVer, 
-level1.attversion AttVer, 
-level1.nscans NScans, 
+level1.freqmode FreqMode,
+level1.calversion L1bVer,
+level1.attversion AttVer,
+level1.nscans NScans,
 #level1.processed Processed,
 level1.filename Name,
 level1.uploaded Uploaded #,
 ##level1b_gem.filename Filename,
 # level1b_gem.date Date
-FROM level1 # JOIN level1b_gem using (id) 
+FROM level1 # JOIN level1b_gem using (id)
 WHERE level1.uploaded>'2001-07-01'
 #group by date(start_utc)
 #order by level1.uploaded asc
@@ -139,15 +139,15 @@ SELECT date, id, filename FROM level1b_gem WHERE date>'2001-07-01' ORDER BY id;
 
 def list_l2():
     '''old/hermodlist_l2.py'''
-    
+
     execute_query('''
 SELECT date(start_utc) Observation,
 hex(orbit) Orbit,
 #hex(min(orbit)) StartOrb,
 #hex(max(orbit)) StopOrb,
 #count(*) Orbits,
-level1.freqmode L1bMode, 
-level1.calversion L1bVer, 
+level1.freqmode L1bMode,
+level1.calversion L1bVer,
 #level1.processed L1b_Processed,
 level1.uploaded L1b_Uploaded,
 level2files.fqid L2Mode,

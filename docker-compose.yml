@@ -4,7 +4,9 @@ hermod:
     - mysql
     - torque
   volumes:
-    - ./src/:/src
+    - ./:/src
+    - ./log:/home/odinop/hermod_systemlogs/
+
   command:
     sleep 10000
 

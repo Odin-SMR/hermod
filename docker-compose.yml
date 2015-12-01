@@ -1,5 +1,5 @@
 hermod:
-  image: docker2.molflow.com/devops/hermod_python
+  image: docker2.molflow.com/odin/hermod
   links:
     - mysql
     - torque

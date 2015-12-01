@@ -12,8 +12,8 @@ mysql:
   image: mysql:5.5
   environment:
     - MYSQL_ROOT_PASSWORD***REMOVED***
-    - MYSQL_DATABASE=qsmr
-    - MYSQL_USER=odinop
+    - MYSQL_DATABASE=smr
+    - MYSQL_USER=odinuser
     - MYSQL_PASSWORD=***REMOVED***
 
 torque:

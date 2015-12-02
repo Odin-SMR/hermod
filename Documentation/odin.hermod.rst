@@ -223,7 +223,7 @@ server but the running job at the node will be killed. If server is stopped the
 current queue will be saved and the current running jobs at the moms will
 continue. When server is started again moms will report their finished jobs. 
 
-start server at torque_host:
+start server at torquehost:
 
 .. code-block:: txt
 
@@ -241,7 +241,7 @@ stop moms at nodes:
 
         $ /usr/local/sbin/momctl -s
 
-stop server at torque_host:
+stop server at torquehost:
 
 .. code-block:: txt
 
@@ -251,7 +251,7 @@ stop server at torque_host:
 Maui configuration
 ------------------
 
-The main configuration file can be found on torque_host
+The main configuration file can be found on torquehost
 (``morion.rss.chalmers.se``).
 
          /usr/local/maui/maui.cfg
@@ -438,11 +438,11 @@ Later on updates can be installed by:
 Running scripts manually
 ________________________
 
-All scripts can be run manually. Take a look at the crontab installed at odinops account on torque_host.
+All scripts can be run manually. Take a look at the crontab installed at odinops account on torquehost.
 
 .. code-block:: txt
 
-	odinop@torque_host:~$ crontab -l
+	odinop@torquehost:~$ crontab -l
 	####
 	## odin.hermod 
 	## 2011-08-01 joakim.moller@molflow.com
@@ -658,9 +658,9 @@ Appendix C - Torque server settings
         # Set server attributes.
         #
         set server scheduling = True
-        set server acl_hosts = torque_host
-        set server managers = root@torque_host
-        set server operators = root@torque_host
+        set server acl_hosts = torquehost
+        set server managers = root@torquehost
+        set server operators = root@torquehost
         set server default_queue = batch
         set server log_events = 511
         set server mail_from = adm
@@ -682,7 +682,7 @@ The only configuration file is in /usr/local/maui/maui.cfg:
 
         # maui.cfg 3.3
 
-        SERVERHOST            torque_host
+        SERVERHOST            torquehost
         # primary admin must be first in list
         ADMIN1                root e0joakim jo
         ADMIN2		      donal odinop

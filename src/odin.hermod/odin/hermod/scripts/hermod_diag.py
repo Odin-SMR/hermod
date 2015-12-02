@@ -3,7 +3,7 @@ from subprocess import Popen,PIPE
 from sys import argv
 
 def execute_query(query):
-    s =Popen(['mysql','-hmysql','-ugem','smr','--table'],stdin=PIPE)
+    s =Popen(['mysql','-hmysqlhost','-ugem','smr','--table'],stdin=PIPE)
     s.stdin.write(query)
     s.stdin.close()
 

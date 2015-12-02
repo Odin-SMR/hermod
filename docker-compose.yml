@@ -1,8 +1,8 @@
 hermod:
   image: docker2.molflow.com/odin/hermod
   links:
-    - mysql
-    - torque
+    - mysqlhost
+    - torquehost
   volumes:
     - ./:/src
     - ./log:/home/odinop/hermod_systemlogs/
@@ -10,15 +10,15 @@ hermod:
   command:
     sleep 10000
 
-mysql:
-  image: mysql:5.5
+mysqlhost:
+  image: docker2.molflow.com/devops/hermod_mysql
   environment:
     - MYSQL_ROOT_PASSWORD***REMOVED***
     - MYSQL_DATABASE=smr
     - MYSQL_USER=odinuser
     - MYSQL_PASSWORD=***REMOVED***
 
-torque:
+torquehost:
   image: agaveapi/torque
   ports:
     - localhost:10022:22

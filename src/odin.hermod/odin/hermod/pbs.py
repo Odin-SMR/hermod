@@ -6,7 +6,7 @@ from odin.config.environment import config
 runscript = """
 #PBS -N %(jobname)s
 #PBS -l walltime=%(process_time)s,nodes=1:hermod:node:precise,mem=950mb
-#PBS -q %(queue)s@torque_host
+#PBS -q %(queue)s@torquehost
 #PBS -e %(errfile)s
 #PBS -o %(outfile)s
 #PBS -d %(workdir)s

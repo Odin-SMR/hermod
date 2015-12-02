@@ -9,13 +9,13 @@ filearea: /odin/smr/Data/
 [READ_SQL]
 user : gem
 db : smr
-host : mysql_host
+host : mysqlhost
 
 [WRITE_SQL]
 user : odinuser
 passwd: ***REMOVED***
 db : smr
-host : mysql_host
+host : mysqlhost
 
 [GEM]
 SPOOL_DIR: %(filearea)sspool/
@@ -26,7 +26,7 @@ ECMWF_DIR : /odin/extdata/ecmwf/
 logs : /home/odinop/logs/
 user : odinop
 passwd : secret
-host : mysql_host
+host : mysqlhost
 
 [PDC]
 PDC_DIR : /data/odin/level1b/aero/submm/

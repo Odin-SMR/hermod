@@ -13,7 +13,7 @@ class ProcessorHandler:
 
     def __init__(self, processors_ids):
         self.proclist = []
-        torque_con = TorqueConnection('torque_host')
+        torque_con = TorqueConnection('torquehost')
         already_inqueue = torque_con.inqueue('new')
         for p in processors_ids:
             if not "o%(orbit).4X%(calversion).1f%(fqid).2i%(version)s" %p in already_inqueue:

@@ -49,5 +49,6 @@ pip-log.txt
 
 #Temporary files
 *.swp
+.ropeproject
 
 

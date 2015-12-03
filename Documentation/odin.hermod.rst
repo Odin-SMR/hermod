@@ -2,21 +2,21 @@
 HERMOD processing suite
 =======================
 
-:Authors: 
+:Authors:
 
         Joakim Möller <joakim.moller@molflow.com>, Donal Murtagh
         <donal.murtagh@chalmers.se>, Joachim Urban <joaurb@chalmers.se>
 
-:Version: 
-        
-        0.2 
+:Version:
+
+        0.2
 
 
 :Date:
 
         2010-10-01
 
-:Abstract: 
+:Abstract:
 
         Hermod is a part of the Odin processing chain - automating level1b data
         to level2 data. This document describes the installation, configuration
@@ -25,10 +25,10 @@ HERMOD processing suite
         when all requirements are met.
 
 .. .. raw:: pdf
-..        
+..
 ..        PageBreak
 
-.. contents:: 
+.. contents::
 .. target-notes::
 .. sectnum::
 
@@ -39,7 +39,7 @@ The processing chain program suite is a set of python modules that provides an
 information system that makes it possible to track every single Odin Level1
 file and choose a suitable processor to make higher level data i.e. Level2
 data.
- 
+
 Hermod is a part of the Odin processing chain making high level information
 from calibrated satellite data to very high level data ie. Human understandable
 data and possibly data collected and aggregated over longer time periods.
@@ -55,10 +55,10 @@ written in C with Python's C-api to extend Pythons capabilities to
 interact with different tools in the Processing chain.
 
 Meta data from calculations made by Qsmr is stored in a database and
-data is stored in files at the file system. 
+data is stored in files at the file system.
 
 Hermod is the collection name for the processing chain. The name Hermod was
-chosen after one of the sons of Odin - Hermod known for his speed. 
+chosen after one of the sons of Odin - Hermod known for his speed.
 
 The Hermod processing system can be seen as a set of scripts that glues Qsmr's
 calculations and its results into the database. Hermod also uses those result
@@ -99,7 +99,7 @@ Torque_ :
         configuration`_ section.
 
 Maui_ :
-        
+
         The Cluster Scheduler only site specific setup vill be noted in `Maui
         configuration`_
 
@@ -111,57 +111,57 @@ Maui_ :
 On a Ubuntu 10.04 LTS machine for developing Hermod the following apt-packages
 need to be installed:
 
-.. code-block:: txt 
-        
-      gfortran 
-      libatlas-base-dev 
-      libblas-dev 
+.. code-block:: txt
+
+      gfortran
+      libatlas-base-dev
+      libblas-dev
       libfreetype6-dev
-      libfuse-dev 
+      libfuse-dev
       libgeos-dev
       libhdf4g-dev
       libjasper-dev
       libjpeg62-dev
       libmysqlclient-dev
       libpng12-dev
-      libtorque-dev 
-      openssh-server 
-      pkg-config 
-      python-dev 
-      python-matplotlib 
-      python-numpy 
-      python-scipy 
+      libtorque-dev
+      openssh-server
+      pkg-config
+      python-dev
+      python-matplotlib
+      python-numpy
+      python-scipy
       python-virtualenv
-      python-virtualenv 
-      subversion 
-      torque-dev 
-      ubuntu-dev-tools 
+      python-virtualenv
+      subversion
+      torque-dev
+      ubuntu-dev-tools
       vim-nox
       zlib1g-dev
 
 Installation of the Database
 -----------------------------
- 
+
 Configuration of the database is minimal - Hermod works fine on a standard apt
 installation of the package. But further tuning may increase performance
 significantly.  See `Appendix A - MySQL create script`_ and `Appendix B
-- MySQL Table layout`_ for database and table layout. 
+- MySQL Table layout`_ for database and table layout.
 
 On the nodes at least ``libmysqlclient`` needs to be installed.
 
 Torque configuration
 --------------------
- 
+
 Two types of Torque installations are required - one server installation and
 several client installations on each node in the cluster. The server
 installation manages the queueingsystem and needs to know about all clients
 (computee nodes) in the cluster. The clients does only need to know about the
 server.
 
- 
+
 Torque client configuration
 ___________________________
- 
+
 A site-specific installation script
 ``/misc/apps/torque-package-mom-linux-x86_64.sh`` provided all configuration
 needed at the client. But some additional configuration is needed to provide
@@ -189,7 +189,7 @@ successful or not.
 
 Torque server configuration
 ___________________________
- 
+
 A site-specific installation script ``torque-package-server-linux-x86_64.sh``
 installs binaries and libraries and some basic configuration. Editing
 configuration files to reflect connected nodes and their capabilities is
@@ -200,7 +200,7 @@ The file ``/var/spool/torque/server_priv/nodes`` defines the computee nodes:
 .. code-block:: txt
 
         glass np=8 hermod node x86_64
-        sard np=2 hermod node x86_64 
+        sard np=2 hermod node x86_64
         ...
 
 The attributes hermod, node and x86_64 specifies different capabilities en each
@@ -221,7 +221,7 @@ There are currently no system V init scripts implemented. Starting and stopping
 server and nodes is manual. There is no problem shutting off a node before the
 server but the running job at the node will be killed. If server is stopped the
 current queue will be saved and the current running jobs at the moms will
-continue. When server is started again moms will report their finished jobs. 
+continue. When server is started again moms will report their finished jobs.
 
 start server at torquehost:
 
@@ -333,7 +333,7 @@ This is the cycle to use when developing for Hermod.
  #. create environment
  #. develop
  #. run tests - preferable unit or system tests
- #. check in - 
+ #. check in -
  #. Release - create binary eggs and copy them to production site
  #. deploy - installing binary packages
  #. remove development files
@@ -406,7 +406,7 @@ To install an egg in a productoin environment.
        $ cd <production>
        $ bin/easy_install -U -f <where the eggs are> odin.hermod
 
- 
+
 
 Installation in Production environment
 ______________________________________
@@ -444,12 +444,12 @@ All scripts can be run manually. Take a look at the crontab installed at odinops
 
 	odinop@torquehost:~$ crontab -l
 	####
-	## odin.hermod 
+	## odin.hermod
 	## 2011-08-01 joakim.moller@molflow.com
 	## Scripts to download and make files to resolve dependencies for L2 processing
 	##
 	# Get missing or updated l1b-files from pdc
-	45 02 * * * /home/odinop/hermod_production_2.6/bin/hermodgetlevel1 
+	45 02 * * * /home/odinop/hermod_production_2.6/bin/hermodgetlevel1
 	## Get files from nilu
 	#45 03 * * * /home/odinop/hermod_jm/bin/hermodgetwinds
 	## get files from ecmwf
@@ -464,7 +464,7 @@ All scripts can be run manually. Take a look at the crontab installed at odinops
 	40 */2 * * * /home/odinop/hermod_production_2.6/bin/hermodrelink
 	## Run qsmr on l1b files not sucessfully processed before, or on updated l1b files
 	45 06 * * * /home/odinop/hermod_production_2.6/bin/hermodrunprocessor > /home/odinop/crontab_logs/processor.txt
-	## Mail logs 
+	## Mail logs
 	30 09 * * * tail -n 500 /home/odinop/hermod_systemlogs/system.log | sendemail -s mail.chalmers.se -f hermod@rss.chalmers.se -t joaurb@chalmers.se donal@chalmers.se -u 'Hermod logs' -q
 	####
 
@@ -482,7 +482,7 @@ level1
 ______
 
 This table contains the metadata from the process of producing 'Level 1' data at Onsala. One orbit of Odin corresponds to at least 2 rows in the database, one for each combination of freqmode, calversion and backend.
-        
+
 .. code-block:: txt
 
         id -> orbit, calversion, backend, freqmode -> 'records in level1'
@@ -500,13 +500,13 @@ The 'id'-field is included in the 'level2'-table to make it possible to find
 all level2 products derived from a 'level1' record.
 
 level2:
-        
+
 .. code-block:: txt
 
         id, fqid, scanno -> 'records in level2-table'
 
 level2files:
-        
+
 .. code-block:: txt
 
         id, fqid -> 'records in level2files-table'
@@ -523,7 +523,7 @@ local file storage.
         from level1 l1
         join status s on (l1.id=s.id)
         left join level1b_gem l1bg on (l1.id=l1bg.id)
-        where s.status and (l1bg.id is null or l1bg.date<l1.uploaded) 
+        where s.status and (l1bg.id is null or l1bg.date<l1.uploaded)
                 and s.errmsg='' and l1.calversion in (6,7);
 
 
@@ -542,7 +542,7 @@ level2 file.
                         calversion from level1
                 join status using (id)
                 join level1b_gem l1g using (id)
-                where status and l1g.filename regexp ".*HDF" 
+                where status and l1g.filename regexp ".*HDF"
                         and not locate(',',freqmode)
         union (
                 select orbit,id,substr(backend,1,3) back,
@@ -550,7 +550,7 @@ level2 file.
                         calversion from level1
                 join status using (id)
                 join level1b_gem l1g using (id)
-                where status and l1g.filename regexp ".*HDF" 
+                where status and l1g.filename regexp ".*HDF"
                         and locate(',',freqmode)
               )
         union (
@@ -559,18 +559,18 @@ level2 file.
                         calversion from level1
                 join status using (id)
                 join level1b_gem l1g using (id)
-                where status and l1g.filename regexp ".*HDF" 
+                where status and l1g.filename regexp ".*HDF"
                         and locate(',',freqmode)
               )) as l1
         join versions v on (l1.mode=v.fm)
-        join Aero a on (v.id=a.id) 
-        left join level2files l2f on 
+        join Aero a on (v.id=a.id)
+        left join level2files l2f on
                 (l1.id=l2f.id and v.id=l2f.fqid and v.qsmr=l2f.version)
-        left join statusl2 s2 on 
+        left join statusl2 s2 on
                 (l1.id=s2.id and v.id=s2.fqid and v.qsmr=s2.version)
-        where v.active and l2f.id is null and l1.calversion=6 
+        where v.active and l2f.id is null and l1.calversion=6
                 and (proccount is null or proccount<4)
-        order by orbit desc,fqid   
+        order by orbit desc,fqid
 
 Queuing and execution
 _____________________
@@ -578,7 +578,7 @@ _____________________
 A "job" is defined from the look up in the previous section. Information
 about the processing is sent to a queue for later execution. The Resource
 system that handles the queue and the execution nodes in the computing cluster
-(``glass``,``larimar``,``titanite``,``...``) is Torque_. 
+(``glass``,``larimar``,``titanite``,``...``) is Torque_.
 
 Basically the "job" is a shell script sent to another machine for execution.
 
@@ -611,14 +611,14 @@ Appendix A - MySQL Create script
 ================================
 
 .. This script is available at the SMILES svn-repository_
-.. 
+..
 .. .. _svn-repository: http://svn.rss.chalmers.se/svn/smiles/branches/jmbranch2/docs/database_model.sql
 
 Appendix B - MySQL Table layout
 ===============================
 
 .. .. image:: database_model.png
- 
+
 Appendix C - Torque server settings
 ===================================
 

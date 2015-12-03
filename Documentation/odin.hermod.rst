@@ -50,7 +50,7 @@ Overview
 .. image:: flow.png
     :height: 5cm
 
-The Hermod suite are written mostly in Python_ and small part of the code is
+The Hermod suite is written mostly in Python_ and small part of the code is
 written in C with Python's C-api to extend Pythons capabilities to
 interact with different tools in the Processing chain.
 
@@ -61,8 +61,8 @@ Hermod is the collection name for the processing chain. The name Hermod was
 chosen after one of the sons of Odin - Hermod known for his speed.
 
 The Hermod processing system can be seen as a set of scripts that glues Qsmr's
-calculations and its results into the database. Hermod also uses those result
-to find out what data is missing or what can be calculated for the moment ie.
+calculations and results into the database. Hermod also uses those results
+to find out what data is missing or what can be calculated for the moment i.e.
 all prerequisites for starting Qsmr calculations are resolved. Hermod also
 serves other automated systems like IASCO model with data.
 
@@ -77,25 +77,25 @@ They are all based on some type of open source license like GNU GPL or BSD
 license.
 
 Hermod is built to run on Ubuntu Linux 10.04 (server version) but may work on
-different Ubuntu versions as well as other POSIX OS:es probably even on windows.
+different Ubuntu versions as well as other POSIX OS:es, and probably even on windows.
 
 Hermod needs other components to work properly:
 
 Python_ :
 
         Hermods core is implemented in Python 2.6. But other versions may also
-        work. Hermod uses a lot of external packages see below.
+        work. Hermod uses a lot of external packages, see below.
 
 MySQL_ :
 
         Relational database to manage meta data. Database installation for this
-        project i discussed in `Installation of the Database`_
+        project is discussed in `Installation of the Database`_
 
 Torque_ :
 
         Torque is a Cluster Resource Manager.  Documentation and detailed
-        installation instructions can be found at Torque_ documentation pages.
-        Site specific configuration will be discussed in `Torque
+        installation instructions can be found in the Torque_ documentation
+        pages. Site specific configuration will be discussed in the `Torque
         configuration`_ section.
 
 Maui_ :
@@ -143,7 +143,7 @@ Installation of the Database
 -----------------------------
 
 Configuration of the database is minimal - Hermod works fine on a standard apt
-installation of the package. But further tuning may increase performance
+installation of the package, but further tuning may increase performance
 significantly.  See `Appendix A - MySQL create script`_ and `Appendix B
 - MySQL Table layout`_ for database and table layout.
 
@@ -153,21 +153,20 @@ Torque configuration
 --------------------
 
 Two types of Torque installations are required - one server installation and
-several client installations on each node in the cluster. The server
-installation manages the queueingsystem and needs to know about all clients
-(computee nodes) in the cluster. The clients does only need to know about the
-server.
+several client installations, one on each node in the cluster. The server
+installation manages the queueing system and needs to know about all clients
+(computee nodes) in the cluster. The clients only need to know about the server.
 
 
 Torque client configuration
 ___________________________
 
 A site-specific installation script
-``/misc/apps/torque-package-mom-linux-x86_64.sh`` provided all configuration
-needed at the client. But some additional configuration is needed to provide
+``/misc/apps/torque-package-mom-linux-x86_64.sh`` provides all configuration
+needed on the client, but some additional configuration is needed to provide
 the per session temp directory.
 
-The following script makes all steps in the installation process.
+The following script performs all steps in the installation process.
 
 .. code-block:: txt
 
@@ -183,7 +182,7 @@ The following script makes all steps in the installation process.
         pbs_mom
 
 An important part of the processing system is the scripts at the client that
-creates a temporary directories before a processing starts and removes it when
+create temporary directories before a processing starts and removes them when
 processing is finished. These scripts runs whether or not the processing was
 successful or not.
 
@@ -203,16 +202,16 @@ The file ``/var/spool/torque/server_priv/nodes`` defines the computee nodes:
         sard np=2 hermod node x86_64
         ...
 
-The attributes hermod, node and x86_64 specifies different capabilities en each
+The attributes hermod, node and x86_64 specifies different capabilities on each
 node. 'x86_64' tells us the architecture on the node is 64 bits. 'hermod'
 states that hermod, Qsmr and Q-pack in installed and works correctly. The last
-attribute shows us the computer is a node with no other users than the torque
+attribute shows us the computer is a node where no other users than the torque
 queue operates the computer. 'desktop' would state it is a workstation with
 human users.
 
-Some additional settings con be done through torque's configuration program
-``qmgr``. A printout of Torque server settings generated with ``qmgr -C 'print
-server'`` can be found in `Appendix C - Torque server settings`_.
+Some additional settings can be done through torque's configuration program
+``qmgr``. A printout of Torque server settings, generated with ``qmgr -C 'print
+server'``, can be found in `Appendix C - Torque server settings`_.
 
 Torque starting and stopping
 ____________________________
@@ -258,9 +257,9 @@ The main configuration file can be found on torquehost
 
 
 Full configuration file can be found in `Appendix D - Maui configuration`_.
-This setup restrict one user to take all resources at once enforcing Odin
-processing always have at least a minimum of processor available but also
-giving users access to the queue.
+This setup restricts one user from taking all resources at once, enforcing Odin
+processing always to have at least a minimum of one processor available, but
+also giving users access to the queue.
 
 start the scheduler:
 
@@ -298,13 +297,13 @@ odin.hermod
 
 The odin.hermod package is the package which is responsible for the information
 and bookkeeping parts of hermod i.e keep track of file transactions,
-file dependencies and finally submitting jobs to the queuing system
+file dependencies and finally submitting jobs to the queuing system.
 
 
 odin.config
 
-The odin.config i more or less a configuration package Hermod and Iasco shares
-this package
+The odin.config is more or less a configuration package. Hermod and Iasco share
+this package.
 
 odin.iasco
 
@@ -315,7 +314,7 @@ HERMOD Installation
 
 For the moment hermod is running from the development source i.e. from the
 directory ``~odinop/hermod_jm`` for Ubuntu 10.04 and  ``~odinop/hermod_glass``
-for 9.08 this directory is checked out from svn. This is not by any means the
+for 9.08. This directory is checked out from svn. This is not by any means the
 ideal way to maintain a piece of software. This is a temporary solution.
 
 Best way to continue development is to separate development and production.
@@ -332,7 +331,7 @@ This is the cycle to use when developing for Hermod.
  #. check out from svn
  #. create environment
  #. develop
- #. run tests - preferable unit or system tests
+ #. run tests - preferably unit or system tests
  #. check in -
  #. Release - create binary eggs and copy them to production site
  #. deploy - installing binary packages
@@ -344,9 +343,9 @@ Notes Step 1-2 is normally done once. Step 3-4 iterates many times.Step 3-5 when
 Developers installation
 _______________________
 
-The source of  hermod is available at `Chalmers' Subversion repository`__ . A
-developers installation is a isolated installation which is running in its own
-environment - from here it's possible to run unit test and other functional
+The source of  hermod is available at `Chalmers' Subversion repository`__. A
+developers installation is an isolated installation running in its own
+environment - from here it's possible to run unit tests and other functional
 testing. With a correct .hermod.config and .hermod.config.secret it's possible
 to connect to the database or PDC. (Future work: It would even be possible to
 have a standalone database with a small data set to run off site tests).
@@ -372,24 +371,30 @@ __ svn_
 Tests
 ______
 
-To ensure quality and to simplify for other developers. Unittests are written for some parts of Hermod. Unittests makes sure that the tested function or procedure does what it's  meant for.
+To ensure quality and to simplify for other developers. Unit tests are written
+for some parts of Hermod. Unit tests makes sure that the tested function or
+procedure does what it's meant to.
 
-Example: How to run a full unittest suite for a package.
+Example: How to run a full unit test suite for a package.
 
 .. code-block:: txt
 
-    .. src/odin.ecmwf$> ../bin/odinpy setup.py test
+    src/odin.ecmwf$> ../bin/odinpy setup.py test
 
 Example: how to run a specific testcase.
 
 .. code-block:: txt
 
-    .. src/odin.ecmwf/odin/ecmwf/tests$> ../../../../../bin/odinpy zpt2_create_test.py
+    src/odin.ecmwf/odin/ecmwf/tests$> ../../../../../bin/odinpy zpt2_create_test.py
 
 Developing and creating eggs for production
 ___________________________________________
 
-Once you have a `Developers installation`_ you can change or correct Hermod's behaivor. If you want to deploy your changes you have to change the version variable in the setup.py file. When tests are ok - commit your changes to svn. If you don't have any test for your code - consider to add a test to cover your code.
+Once you have a `Developers installation`_ you can change or correct Hermod's
+behaivour. If you want to deploy your changes you have to change the version
+variable in the setup.py file. When tests are ok - commit your changes to svn.
+If you don't have any test for your code - consider to add a test to cover your
+code.
 
 To build installable eggs use the python interpretor created with buildout.
 
@@ -399,7 +404,7 @@ To build installable eggs use the python interpretor created with buildout.
         $ cd src/odin.hermod
         $ ../../bin/odinpy setup.py bdist_egg
 
-To install an egg in a productoin environment.
+To install an egg in a production environment.
 
 .. code-block:: txt
 
@@ -415,25 +420,25 @@ Released packages can be installed in the production environment by using
 Python's ``easy_install`` utility.
 
 Packages can be installed either into the system environment or into a virtual
-python environment. (Preferably the virtual environment to not clutter the
+Python environment. (Preferably the virtual environment to not clutter the
 system installation)
 
 .. code-block:: txt
-	
-	virtualenv <dir>
-	cd <dir>
-	bin/easy_install -f /misc/apps/odinsite \
-		odin.config \
-		odin.hermod \
-		odin.iasco
+
+        virtualenv <dir>
+        cd <dir>
+        bin/easy_install -f /misc/apps/odinsite \
+                odin.config \
+                odin.hermod \
+                odin.iasco
 
 Later on updates can be installed by:
 
 .. code-block:: txt
-	
-	cd <dir>
-	bin/easy_install -f /mist/apps/odinsite -U \
-		odin.hermod
+
+        cd <dir>
+        bin/easy_install -f /mist/apps/odinsite -U \
+                odin.hermod
 
 Running scripts manually
 ________________________
@@ -472,16 +477,19 @@ Data model
 ----------
 
 The database consists of a number of loosely connected tables with records
-(rows) describing meta data about satellite measurement or metadata of files stored on disk.
+(rows) describing meta data about satellite measurement or metadata of files
+stored on disk.
 
-The Hermod data model is pretty simple. All tables are 'knitted' together with a
-'id' field. For example in the 'level1'-table the logical key that identifies
-each row is the fields 'orbit','calversion' and 'freqmode'.
+The Hermod data model is pretty simple. All tables are 'knitted' together with
+an 'id' field. For example in the 'level1'-table the logical key that
+identifies each row is the fields 'orbit', 'calversion' and 'freqmode'.
 
 level1
 ______
 
-This table contains the metadata from the process of producing 'Level 1' data at Onsala. One orbit of Odin corresponds to at least 2 rows in the database, one for each combination of freqmode, calversion and backend.
+This table contains the metadata from the process of producing 'Level 1' data
+at Onsala. One orbit of Odin corresponds to at least 2 rows in the database,
+one for each combination of freqmode, calversion and backend.
 
 .. code-block:: txt
 
@@ -490,11 +498,12 @@ This table contains the metadata from the process of producing 'Level 1' data at
 status
 ______
 
-Some errormessages from the level0 to level1 process are captured in this table.
+Some errormessages from the level0 to level1 process are captured in this
+table.
 
 .. code-block:: txt
 
-        id -> status,errmsg
+        id -> status, errmsg
 
 The 'id'-field is included in the 'level2'-table to make it possible to find
 all level2 products derived from a 'level1' record.
@@ -530,7 +539,7 @@ local file storage.
 Finding scans available for processing
 ______________________________________
 
-To find new orbits in the database that has not already been processed to a
+To find new orbits in the database that have not already been processed to a
 level2 file.
 
 .. code-block:: sql
@@ -578,24 +587,24 @@ _____________________
 A "job" is defined from the look up in the previous section. Information
 about the processing is sent to a queue for later execution. The Resource
 system that handles the queue and the execution nodes in the computing cluster
-(``glass``,``larimar``,``titanite``,``...``) is Torque_.
+(``glass``, ``larimar``, ``titanite``, ``...``) is Torque_.
 
 Basically the "job" is a shell script sent to another machine for execution.
 
 The script ``run processor`` puts  the shell script in queue with different
-input parameters to  run on the computee nodes.
+input parameters to run on the computee nodes.
 
 Processing
 __________
 
 The ``hermodprocessor``-script executes the main-function in
 ``odin.hermod.processor``-module. This module looks in the database to find
-level1b records which not have as many corresponding level2 records as hermod
+level1b records that do not have as many corresponding level2 records as Hermod
 expects.
 
-When Hermod detects a job to run - Hermod sends a wrapped Qsmr job to the
-processing cluster and collects the results and puts them in the database and the
-file system.
+When Hermod detects a job to run Hermod sends a wrapped Qsmr job to the
+processing cluster, collects the results and puts them in the database and
+the file system.
 
 Troubleshooting
 ===============
@@ -605,7 +614,7 @@ A job is stale - showing negative time whith qstat:
 The execution service on the node is probably dead. Use `qstat -rn` to see what
 node the job runs on, also note the jobnumber. Log in as root at the stale
 node. Start the mom by `pbs_mom`. When the mom is started lauch `momctl -c
-<jobnumber> to clear the nodes status.
+<jobnumber>` to clear the nodes status.
 
 Appendix A - MySQL Create script
 ================================

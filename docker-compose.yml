@@ -6,9 +6,8 @@ hermod:
   volumes:
     - ./:/src
     - ./log:/home/odinop/hermod_systemlogs/
-
-  command:
-    sleep 10000
+    - ./kinit_fejk:/usr/bin/kinit
+    - ./kftp_fejk:/usr/bin/kftp
 
 mysqlhost:
   image: docker2.molflow.com/devops/hermod_mysql

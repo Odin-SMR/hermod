@@ -7,17 +7,11 @@ copy hermod-install.sh /src/
 # - Copy default configs (this should perhaps be done in hermod-install.sh):
 copy .hermod.cfg.secret /root/
 copy src/odin.hermod/odin/hermod/hermod.cfg.default /etc/
-# - Fake Kerberos:
-copy kinit_fejk /usr/bin/kinit
-copy kftp_fejk /usr/bin/kftp
 
 # Setup permissions:
 run chmod +x /src/hermod-entrypoint.sh \
     /src/hermod-entrypoint.sh
 run chmod 0600 /root/.hermod.cfg.secret
-# - Fake Kerberos:
-run chmod +x /usr/bin/kinit \
-    /usr/bin/kftp
 
 workdir /src
 run ./hermod-install.sh install

@@ -4,6 +4,7 @@ import logging
 
 from odin.hermod.hermodBase import connection_str
 from odin.config.environment import set_hermod_logging
+from odin.config.environment import config as odin_config
 from pbs import GEMPbs
 from torquepy import TorqueConnection
 
@@ -13,7 +14,8 @@ class ProcessorHandler:
 
     def __init__(self, processors_ids):
         self.proclist = []
-        torque_con = TorqueConnection('torquehost')
+        self.conf = odin_config()
+        torque_con = TorqueConnection(self.conf.get("TORQUE", "torquehost"))
         already_inqueue = torque_con.inqueue('new')
         for p in processors_ids:
             if not "o%(orbit).4X%(calversion).1f%(fqid).2i%(version)s" %p in already_inqueue:

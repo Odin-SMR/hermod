@@ -1,12 +1,12 @@
 from subprocess import Popen,PIPE
 from os.path import join,expanduser
 from interfaces import IPbs
-from odin.config.environment import config
+from odin.config.environment import config as odin_config
 
 runscript = """
 #PBS -N %(jobname)s
 #PBS -l walltime=%(process_time)s,nodes=1:hermod:node:precise,mem=950mb
-#PBS -q %(queue)s@torquehost
+#PBS -q %(queue)s@%(torquehost)s
 #PBS -e %(errfile)s
 #PBS -o %(outfile)s
 #PBS -d %(workdir)s
@@ -18,9 +18,10 @@ runscript = """
 class GEMPbs(IPbs):
 
     def set_submit_info(self,queue='new'):
-        self.conf = config()
+        self.conf = odin_config()
 
         self.info['queue'] = queue
+        self.info['torquehost'] = self.conf.get("TORQUE", "torquehost")
         self.info['jobname'] =  'o%(orbit).4X%(calversion).1f%(fqid).2i%(version)s' % self.info
         self.info['errfile'] = join(expanduser('~'),'logs',
                 self.info['jobname']+'.err')

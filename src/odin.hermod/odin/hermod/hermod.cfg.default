@@ -45,3 +45,6 @@ host: zardoz.nilu.no
 basedir = /odin/external/ecmwfNCD
 spooldir = /odin/external/ecmwfNCD/spool
 trash = /odin/external/ecmwfNCD/trash
+
+[TORQUE]
+torquehost : torquehost

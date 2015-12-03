@@ -18,6 +18,8 @@ def config():
     t = SafeConfigParser()
     config_files = t.read([
     	resource_filename("odin.config","defaults.cfg"),
+    	'/etc/hermod.cfg.default',
+    	'/etc/hermod.cfg',
         expanduser('~/.hermod.cfg'),
         expanduser('~/.hermod.cfg.secret'),
         ])
@@ -43,7 +45,7 @@ def set_hermod_logging():
     parser = SafeConfigParser()
     used_files = parser.read([
             resource_filename('odin.config','odinlogger.cfg'),
-            expanduser('~/.odin/hermod.logger.cfg'), 
+            expanduser('~/.odin/hermod.logger.cfg'),
             ])
     # create a temporary file on disk
     config_file = NamedTemporaryFile()
@@ -51,4 +53,4 @@ def set_hermod_logging():
     config_file.file.flush()
     # let the logger read the temporary file
     logging.config.fileConfig(config_file.name)
-    
+

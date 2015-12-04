@@ -8,12 +8,11 @@ copy hermod-install.sh /src/
 copy .hermod.cfg.secret /root/
 copy src/odin.hermod/odin/hermod/hermod.cfg.default /etc/
 
-# Setup permissions:
-run chmod +x /src/hermod-entrypoint.sh \
-    /src/hermod-entrypoint.sh
-run chmod 0600 /root/.hermod.cfg.secret
-
-workdir /src
-run ./hermod-install.sh install
+run chmod +x \
+        /src/hermod-entrypoint.sh \
+        /src/hermod-entrypoint.sh && \
+    chmod 0600 /root/.hermod.cfg.secret && \
+    cd /src && \
+    ./hermod-install.sh install
 #entrypoint ./hermod-entrypoint.sh
 cmd /usr/local/bin/hermodlogserver

@@ -16,7 +16,9 @@ from gemlogger import logger
 class PDCKerberosTicket(IKerberosTicket):
 
     def request(self):
-        ticket = spawn('/usr/bin/kinit -f -r 154h -l 26h  %s@%s'%(config.get('PDC','user'),config.get('PDC','principal')))
+        ticket = spawn(
+            '/usr/bin/kinit -f -r 154h -l 26h  %s@%s'%(
+                config.get('PDC','user'),config.get('PDC','principal')))
         ticket.expect('.*Password: $')
         ticket.sendline(config.get('PDC','passwd'))
         ticket.expect(EOF)
@@ -55,7 +57,8 @@ class PDCkftpGetFiles(IGetFiles):
 
     def connect(self):
         self.counter = 0
-        self.session = spawn('/usr/bin/kftp',['-p','pisces.pdc.kth.se'],timeout=30)
+        self.session = spawn(
+            '/usr/bin/kftp',['-p',config.get('PDC','host')],timeout=30)
         self.pattern = self.session.compile_pattern_list([
             '.*complete.*ftp> $',
             '.*Timeout.*ftp> $',

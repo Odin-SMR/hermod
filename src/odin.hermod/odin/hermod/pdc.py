@@ -4,7 +4,7 @@ import os.path as o
 import sys
 import subprocess
 
-from odin.hermod.hermodBase import *
+from odin.config.environment import config
 
 from interfaces import IKerberosTicket,IGetFiles
 from pexpect import spawn,EOF,TIMEOUT

@@ -16,11 +16,12 @@ from gemlogger import logger
 class PDCKerberosTicket(IKerberosTicket):
 
     def request(self):
+        conf = config()
         ticket = spawn(
             '/usr/bin/kinit -f -r 154h -l 26h  %s@%s'%(
-                config.get('PDC','user'),config.get('PDC','principal')))
+                conf.get('PDC','user'),conf.get('PDC','principal')))
         ticket.expect('.*Password: $')
-        ticket.sendline(config.get('PDC','passwd'))
+        ticket.sendline(conf.get('PDC','passwd'))
         ticket.expect(EOF)
         ticket.close()
         retcode = ticket.exitstatus
@@ -56,9 +57,10 @@ class PDCkftpGetFiles(IGetFiles):
             self.counter = self.counter + 1
 
     def connect(self):
+        conf = config()
         self.counter = 0
         self.session = spawn(
-            '/usr/bin/kftp',['-p',config.get('PDC','host')],timeout=30)
+            '/usr/bin/kftp',['-p',conf.get('PDC','host')],timeout=30)
         self.pattern = self.session.compile_pattern_list([
             '.*complete.*ftp> $',
             '.*Timeout.*ftp> $',
@@ -68,7 +70,7 @@ class PDCkftpGetFiles(IGetFiles):
             TIMEOUT,
             ])
         index=self.session.expect(['.*ftp> $',EOF,TIMEOUT])
-        self.session.sendline('user %s'%config.get('PDC','user'))
+        self.session.sendline('user %s'%conf.get('PDC','user'))
         index=self.session.expect(['.*ftp> $',EOF,TIMEOUT])
         return True
 

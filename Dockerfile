@@ -20,7 +20,7 @@ run chmod +x \
 #entrypoint ./hermod-entrypoint.sh
 user odinop
 workdir /home/odinop
-copy .hermod.cfg.secret .
+copy .hermod.cfg.secret ./
 run sudo chown odinop:gem .hermod.cfg.secret && \
     chmod 0600 .hermod.cfg.secret && \
     mkdir hermod_systemlogs

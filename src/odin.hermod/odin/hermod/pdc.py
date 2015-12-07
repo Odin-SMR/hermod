@@ -1,16 +1,10 @@
-import MySQLdb as sql
-import os
-import os.path as o
 import sys
-import subprocess
 
-from odin.config.environment import config
+from odin.config.environment import config, set_hermod_logger
 
 from interfaces import IKerberosTicket,IGetFiles
 from pexpect import spawn,EOF,TIMEOUT
 from subprocess import Popen,PIPE
-from sys import stderr
-from gemlogger import logger
 
 
 class PDCKerberosTicket(IKerberosTicket):
@@ -47,10 +41,11 @@ class PDCKerberosTicket(IKerberosTicket):
         destroy.stderr.close()
         return True
 
+
 class PDCkftpGetFiles(IGetFiles):
 
     def count(self):
-        if self.counter> 400:
+        if self.counter > 400:
             self.close()
             self.connect()
         else:
@@ -60,7 +55,8 @@ class PDCkftpGetFiles(IGetFiles):
         conf = config()
         self.counter = 0
         self.session = spawn(
-            '/usr/bin/kftp',['-p',conf.get('PDC','host')],timeout=30)
+            '/usr/bin/kftp', ['-p', conf.get('PDC', 'host')], timeout=30)
+        # self.session.logfile = sys.stdout
         self.pattern = self.session.compile_pattern_list([
             '.*complete.*ftp> $',
             '.*Timeout.*ftp> $',
@@ -92,7 +88,8 @@ class PDCkftpGetFiles(IGetFiles):
             self.session.sendline('put %s %s'%(src,dest))
             index = self.session.expect(self.pattern,timeout=20)
         self.count()
-        return index==0
+        # print "Put will return with index: {0}".format(index)
+        return index == 0
 
     def get(self,src,dest):
         index = -1
@@ -100,7 +97,8 @@ class PDCkftpGetFiles(IGetFiles):
             self.session.sendline('get %s %s'%(src,dest))
             index = self.session.expect(self.pattern,timeout=20)
         self.count()
-        return index==0
+        # print "Get will return with index: {0}".format(index)
+        return index == 0
 
     def delete(self,src):
         index = -1
@@ -108,4 +106,5 @@ class PDCkftpGetFiles(IGetFiles):
             self.session.sendline('delete %s'%(src,))
             index = self.session.expect(self.pattern,timeout=5)
         self.count()
-        return index==3
+        # print "Delete will return with index: {0}".format(index)
+        return index == 3

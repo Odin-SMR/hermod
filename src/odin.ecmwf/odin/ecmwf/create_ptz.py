@@ -15,27 +15,30 @@ def main():
     status = cur1.execute('''
           SELECT l1g.id,l1g.filename
             from level1b_gem l1g,level1
-            where l1g.id=level1.id and l1g.filename regexp ".*HDF" and level1.start_utc>"2011-05-01"
+            where l1g.id=level1.id
+                and l1g.filename regexp ".*HDF"
+                and level1.start_utc>"2011-05-01"
                 and not exists (
-                    select * from level1b_gem s 
-                    where s.filename regexp ".*PTZ" 
-                        and l1g.id=s.id) 
+                    select * from level1b_gem s
+                    where s.filename regexp ".*PTZ"
+                        and l1g.id=s.id)
                 and exists (
                     select * from ecmwf e
                     where e.date=date(level1.start_utc) and e.type='AN')
-                and l1g.filename regexp "^[6].*"
+                and l1g.filename regexp "^(6\.0|6\.1).*"
           UNION
           SELECT l1g.id,l1g.filename
             from level1b_gem l1g,level1
-            where l1g.id=level1.id and l1g.filename regexp ".*HDF"
+            where l1g.id=level1.id
+                and l1g.filename regexp ".*HDF"
                 and not exists (
-                    select * from level1b_gem s 
-                    where s.filename regexp ".*PTZ" 
-                        and l1g.id=s.id) 
+                    select * from level1b_gem s
+                    where s.filename regexp ".*PTZ"
+                        and l1g.id=s.id)
                 and exists (
                     select * from ecmwf e
                     where e.date=date(level1.start_utc) and e.type='AN')
-                and l1g.filename regexp "^[7].*"
+                and l1g.filename regexp "^(7.0).*"
             order by id desc
             limit 600;
     ''')
@@ -53,7 +56,7 @@ def main():
     cur1.close()
     cur2.close()
     db.close()
-         
+
 
 
 if __name__=="__main__":

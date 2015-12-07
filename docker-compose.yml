@@ -5,7 +5,6 @@ hermod:
     - torquehost
   volumes:
     - ./:/src
-    - ./log:/home/odinop/hermod_systemlogs/
     - ./kinit_fejk:/usr/bin/kinit
     - ./kftp_fejk:/usr/bin/kftp
 

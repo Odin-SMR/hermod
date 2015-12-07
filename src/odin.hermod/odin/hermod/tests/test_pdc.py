@@ -3,7 +3,7 @@ from unittest import TestCase,makeSuite,TestSuite,TextTestRunner
 from odin.hermod.pdc import PDCKerberosTicket,PDCkftpGetFiles
 from odin.config.environment import config
 from os.path import exists,basename,join
-from os import remove
+from os import remove, environ
 from tempfile import NamedTemporaryFile
 
 class PDCTestCase(TestCase):
@@ -49,7 +49,7 @@ class PDCTestCase(TestCase):
         origfile = f.name
         remotefile = join(self.config.get('PDC','smrl2_dir'),
                 'version_1.2',basename(f.name))
-        localfile = basename(f.name)
+        localfile = join(environ["HOME"], basename(f.name))
         self.assert_(self.ftp.connect())
         self.assert_(self.ftp.put(origfile,remotefile))
         self.assert_(self.ftp.get(remotefile,localfile))

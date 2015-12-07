@@ -69,10 +69,16 @@ class PDCkftpGetFiles(IGetFiles):
             EOF,
             TIMEOUT,
             ])
-        index=self.session.expect(['.*ftp> $',EOF,TIMEOUT])
-        self.session.sendline('user %s'%conf.get('PDC','user'))
-        index=self.session.expect(['.*ftp> $',EOF,TIMEOUT])
-        return True
+        index = self.session.expect(['Name.*: ', EOF, TIMEOUT])
+        if index != 0:
+            # print "Connect fail with index: {0}".format(index)
+            return False
+        else:
+            self.session.sendline('%s' % conf.get('PDC', 'user'))
+
+        index = self.session.expect(self.pattern, timeout=20)
+        # print "Connect will return with index: {0}".format(index)
+        return index == 3
 
     def close(self):
         self.session.sendline('bye')

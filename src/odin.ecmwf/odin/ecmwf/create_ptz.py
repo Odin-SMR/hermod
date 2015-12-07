@@ -25,7 +25,7 @@ def main():
                 and exists (
                     select * from ecmwf e
                     where e.date=date(level1.start_utc) and e.type='AN')
-                and l1g.filename regexp "^(6\.0|6\.1).*"
+                and l1g.filename regexp "^(6\.0).*"
           UNION
           SELECT l1g.id,l1g.filename
             from level1b_gem l1g,level1
@@ -38,7 +38,7 @@ def main():
                 and exists (
                     select * from ecmwf e
                     where e.date=date(level1.start_utc) and e.type='AN')
-                and l1g.filename regexp "^(7.0).*"
+                and l1g.filename regexp "^(6\.1|7\.0).*"
             order by id desc
             limit 600;
     ''')

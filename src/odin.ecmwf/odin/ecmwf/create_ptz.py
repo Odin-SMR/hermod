@@ -47,7 +47,7 @@ def main():
         hdffile = join(conf.get('GEM','LEVEL1B_DIR'),f[1])
         logfile  = hdffile.replace('HDF','LOG')
         ptzfile  = logfile.replace('LOG','PTZ')
-        ptz =ZptFile(logfile,ptzfile)
+        ZptFile(logfile, ptzfile)
         cur2.execute('''
                 replace level1b_gem
                 (id,filename)

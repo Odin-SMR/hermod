@@ -4,10 +4,10 @@ from docker2.molflow.com/devops/hermod_python
 run addgroup --gid 500 gem && \
     adduser --disabled-password --gecos '' --ingroup gem --uid 507 odinop && \
     adduser odinop sudo && \
-    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers 
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Copy stuff:
-copy ./ /src
+copy ./src/ /src/src
 copy hermod-entrypoint.sh /src/
 copy hermod-install.sh /src/
 # - Copy default configs (this should perhaps be done in hermod-install.sh):

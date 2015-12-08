@@ -1,6 +1,6 @@
 import sys
 
-from odin.config.environment import config, set_hermod_logger
+from odin.config.environment import config, set_hermod_logging
 
 from interfaces import IKerberosTicket,IGetFiles
 from pexpect import spawn,EOF,TIMEOUT

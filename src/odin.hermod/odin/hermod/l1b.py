@@ -1,13 +1,14 @@
 from odin.config.database import connect
-from odin.hermod.pdc import PDCKerberosTicket,PDCkftpGetFiles
-from odin.config.environment import config,set_hermod_logging
-from os import mkdir,system
-from os.path import dirname,join,isdir,split
+from odin.hermod.pdc import PDCKerberosTicket, PDCkftpGetFiles
+from odin.config.environment import config, set_hermod_logging
+from os import mkdir, system
+from os.path import dirname, join, isdir, split
 import logging
 
-class L1bDownloader(PDCKerberosTicket,PDCkftpGetFiles):
 
-    def __init__(self,lists):
+class L1bDownloader(PDCKerberosTicket, PDCkftpGetFiles):
+
+    def __init__(self, lists):
         self.lists = lists
         self.config = config()
         self.db = connect()
@@ -26,44 +27,39 @@ class L1bDownloader(PDCKerberosTicket,PDCkftpGetFiles):
         self.connect()
         self.log.debug('Connected to PDC via ftp')
         for f in self.lists:
-            if f[1]=='' or f[1] is None:
-                self.log.warn("HDF file entry is empty, database id {0}".format(
-                        f[0]))
+            if f[1] == '' or f[1] is None:
+                self.log.warn(
+                    "HDF file entry is empty, database id {0}".format(f[0]))
             if f[2] == '' or f[2] is None:
-                self.log.warn("LOG file entry is empty, database id {0}".format(
-                        f[0]))
+                self.log.warn(
+                    "LOG file entry is empty, database id {0}".format(f[0]))
             else:
-                for num,typ in enumerate(['HDF','LOG']):
-                    remote = join(
-                            self.config.get('PDC','PDC_DIR'),
-                            f[num+1],
-                            )
-                    local = join(
-                            self.config.get("GEM","LEVEL1B_DIR"),
-                            f[num+1],
-                            )
+                for num, typ in enumerate(['HDF', 'LOG']):
+                    remote = join(self.config.get('PDC', 'PDC_DIR'),
+                                  f[num + 1],)
+                    local = join(self.config.get("GEM", "LEVEL1B_DIR"),
+                                 f[num + 1],)
                     makedir(dirname(local))
-                    self.get(remote,local)
+                    self.get(remote, local)
                     self.log.info('Downloaded {0}'.format(local))
-                    if typ=='HDF':
-                        retcode =system('/bin/gunzip -fq %s'%(local,))
-                        if retcode!=0:
-                            self.log.warn('Could not unzip {0}'.format(
-                                    local))
+                    if typ == 'HDF':
+                        retcode = system('/bin/gunzip -fq %s' % (local,))
+                        if retcode != 0:
+                            self.log.warn('Could not unzip {0}'.format(local))
                             continue
                         self.log.info('Unzipped {0}'.format(f[1]))
-                        self.register(f[0],f[num+1][:-3])
+                        self.register(f[0], f[num+1][:-3])
                     else:
-                        self.register(f[0],f[num+1])
+                        self.register(f[0], f[num+1])
         self.close()
 
     def register(self, idn, name):
         self.cursor.execute("""
                 replace level1b_gem (id,filename)
                 values (%s,%s)
-                """,(idn,name))
+                """, (idn, name))
         self.log.debug('Registered in data base, using sql: {0}'.format(
-                self.cursor._last_executed))
+                       self.cursor._last_executed))
 
     def finish(self):
         self.cursor.close()
@@ -79,7 +75,6 @@ def makedir(dirname):
         mkdir(dirname)
     else:
         return
-
 
 
 def downloadl1bfiles():

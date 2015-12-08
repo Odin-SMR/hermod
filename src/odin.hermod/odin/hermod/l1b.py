@@ -88,15 +88,14 @@ def downloadl1bfiles():
     log.info('Scanning database for new level1 files')
     db = connect()
     cursor = db.cursor()
-    status = cursor.execute('''
-SELECT l.id,l.filename,l.logname
-FROM level1 l left join level1b_gem lg using (id)
-where (lg.id is null or (lg.date<uploaded and lg.filename regexp ".*HDF"))
-      and cast(l.calversion as decimal(2,1)) in (6.0, 6.1, 7.0)
-      and l.filename is not NULL
-      and l.filename != ''
-order by uploaded desc
-            ''')
+    status = cursor.execute(
+        'SELECT l.id,l.filename,l.logname'
+        'FROM level1 l left join level1b_gem lg using (id)'
+        'WHERE (lg.id is null or (lg.date<uploaded and lg.filename regexp ".*HDF"))'
+        '   and l.calversion in (6.0, 6.1, 7.0)'
+        '   and l.filename is not NULL'
+        '   and l.filename != ""'
+        'ORDER BY uploaded desc')
     log.info('Found {0} new HDF-files'.format(status))
     result = cursor.fetchall()
     cursor.close()

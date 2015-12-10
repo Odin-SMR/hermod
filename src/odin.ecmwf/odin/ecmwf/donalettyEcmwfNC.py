@@ -15,7 +15,7 @@ class ZptFile(dict):
          Create ZPT2 file using the new NetCDF ECMWF files
          Created
              Donal Murtagh July 2011.
-    
+
     '''
 
     def donaletty(self, g5zpt, month, day, newz, lat):
@@ -62,10 +62,10 @@ class ZptFile(dict):
                 Mbars = np.r_[28.9644, 28.9151, 28.73, 28.40, 27.88, 27.27, 26.68, 26.20, 25.80, 25.44, 25.09, 24.75, 24.42, 24.10]
                 Mbarz=np.arange(85,151,5)
                 m=interp(z,Mbarz,Mbars)
-                return m    
+                return m
 
             def g(z, lat):
-                #Re=6372;  
+                #Re=6372;
                 #g=9.81*(1-2.*z/Re)
                 return 9.80616 *(1 - 0.0026373*np.cos(2*lat*np.pi/180.) + \
                              0.0000059*np.cos(2*lat*np.pi/180.)**2)*(1-2.*z/geoid_radius(lat))
@@ -90,7 +90,7 @@ class ZptFile(dict):
             p=nodens*1e6*k*newT
             return newT,p,rho,nodens,n2,o2,o
 
-        
+
         Ro=8.3143 # ideal gas constant
         k=1.38054e-23 # jK-1 Boltzman's constant
         #load cira.mat
@@ -136,7 +136,7 @@ class ZptFile(dict):
             data = np.zeros((nrows, 12))
             for row in range(nrows):
                 tmp = allrows[row].split()
-                data[row] = np.r_[tmp[0:12]]    
+                data[row] = np.r_[tmp[0:12]]
             return data
 
         self.filename = filename
@@ -173,7 +173,7 @@ class ZptFile(dict):
             T = ecm.extractprofile_on_z('T', latpt, lonpt, ecmz*1000)
             P = ecm.extractprofile_on_z(
                 'P', latpt, lonpt, ecmz*1000)/100. # to hPa
-            T[np.isnan(T)] = 273.0 # tempory fix in case ECMWF make 
+            T[np.isnan(T)] = 273.0 # tempory fix in case ECMWF make
             #temperatures below the surface nans, P shouldn't matter
             zpt = self.donaletty(
                 np.c_[ecmz, P, T],

@@ -33,6 +33,8 @@ echo " "
 echo "------------------------"
 echo " Installing odin.ecmwf: "
 echo "------------------------"
+cd $HERMOD_ROOT/src/odin.ecmwf/odin/ecmwf/odinecmwf
+make
 cd $HERMOD_ROOT/src/odin.ecmwf/
 python setup.py $INSTALL_MODE
 echo " "

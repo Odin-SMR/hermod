@@ -1,10 +1,7 @@
-import sys
-
 from odin.config.environment import config, set_hermod_logging
-
-from interfaces import IKerberosTicket,IGetFiles
-from pexpect import spawn,EOF,TIMEOUT
-from subprocess import Popen,PIPE
+from interfaces import IKerberosTicket, IGetFiles
+from pexpect import spawn, EOF, TIMEOUT
+from subprocess import Popen, PIPE
 
 
 class PDCKerberosTicket(IKerberosTicket):
@@ -12,31 +9,31 @@ class PDCKerberosTicket(IKerberosTicket):
     def request(self):
         conf = config()
         ticket = spawn(
-            '/usr/bin/kinit -f -r 154h -l 26h  %s@%s'%(
-                conf.get('PDC','user'),conf.get('PDC','principal')))
+            '/usr/bin/kinit -f -r 154h -l 26h  %s@%s' % (
+                conf.get('PDC', 'user'), conf.get('PDC', 'principal')))
         ticket.expect('.*Password: $')
-        ticket.sendline(conf.get('PDC','passwd'))
+        ticket.sendline(conf.get('PDC', 'passwd'))
         ticket.expect(EOF)
         ticket.close()
         retcode = ticket.exitstatus
-        return retcode==0
+        return retcode == 0
 
     def check(self):
-        getticket = Popen(['/usr/bin/klist','-t'],stdout=PIPE,stderr=PIPE)
+        getticket = Popen(['/usr/bin/klist', '-t'], stdout=PIPE, stderr=PIPE)
         retcode = getticket.wait()
         msg = getticket.stdout.read()
         getticket.stdout.close()
         return (not retcode)
 
     def renew(self):
-        getticket = Popen(['/usr/bin/kinit','-R'],stderr=PIPE)
+        getticket = Popen(['/usr/bin/kinit', '-R'], stderr=PIPE)
         retcode = getticket.wait()
         msg = getticket.stderr.read()
         getticket.stderr.close()
-        return retcode==0
+        return retcode == 0
 
     def destroy(self):
-        destroy = Popen(['/usr/bin/kdestroy'],stderr=PIPE)
+        destroy = Popen(['/usr/bin/kdestroy'], stderr=PIPE)
         retcode = destroy.wait()
         destroy.stderr.close()
         return True
@@ -84,33 +81,33 @@ class PDCkftpGetFiles(IGetFiles):
 
     def close(self):
         self.session.sendline('bye')
-        self.session.expect(['.*Goodbye.$',EOF,TIMEOUT],timeout=5)
+        self.session.expect(['.*Goodbye.$', EOF, TIMEOUT], timeout=5)
         self.session.close()
         return True
 
-    def put(self,src,dest):
+    def put(self, src, dest):
         index = -1
         if self.session.isalive():
-            self.session.sendline('put %s %s'%(src,dest))
-            index = self.session.expect(self.pattern,timeout=20)
+            self.session.sendline('put %s %s' % (src, dest))
+            index = self.session.expect(self.pattern, timeout=20)
         self.count()
         # print "Put will return with index: {0}".format(index)
         return index == 0
 
-    def get(self,src,dest):
+    def get(self, src, dest):
         index = -1
         if self.session.isalive():
-            self.session.sendline('get %s %s'%(src,dest))
-            index = self.session.expect(self.pattern,timeout=20)
+            self.session.sendline('get %s %s' % (src, dest))
+            index = self.session.expect(self.pattern, timeout=20)
         self.count()
         # print "Get will return with index: {0}".format(index)
         return index == 0
 
-    def delete(self,src):
+    def delete(self, src):
         index = -1
         if self.session.isalive():
-            self.session.sendline('delete %s'%(src,))
-            index = self.session.expect(self.pattern,timeout=5)
+            self.session.sendline('delete %s' % (src,))
+            index = self.session.expect(self.pattern, timeout=5)
         self.count()
         # print "Delete will return with index: {0}".format(index)
         return index == 3

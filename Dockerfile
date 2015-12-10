@@ -20,11 +20,11 @@ run chmod +x \
 #entrypoint ./hermod-entrypoint.sh
 user odinop
 workdir /home/odinop
+add ./test_data/datafile.tar.gz /
 copy .hermod.cfg.secret ./
 run sudo chown odinop:gem .hermod.cfg.secret && \
     chmod 0600 .hermod.cfg.secret && \
     mkdir hermod_systemlogs
-run sudo mkdir /odin && \
-    sudo chown odinop:gem /odin && \
+run sudo chown -R odinop:gem /odin && \
     chmod 2770 /odin
 cmd /usr/local/bin/hermodlogserver

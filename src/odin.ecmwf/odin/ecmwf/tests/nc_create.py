@@ -9,14 +9,12 @@ class EcmwfTestCase(mocker.MockerTestCase):
 
     def test_convert_grib(self):
         gribfile = resource_filename('odin.ecmwf',
-#                'tests/ECMWF_ODIN_201105090000+000H00M')
                 'tests/ECMWF_ODIN_201106300000+000H00M')
 	grib = Ecmwf_Grib2(gribfile)
         grib.convert2nc()
    
     def test_convert(self):
         gribfile = resource_filename('odin.ecmwf',
-#                'tests/ECMWF_ODIN_201105090000+000H00M')
                 'tests/ECMWF_ODIN_201106300000+000H00M')
 	grib = Ecmwf_Grib2(gribfile)
         grib.convert2nc()

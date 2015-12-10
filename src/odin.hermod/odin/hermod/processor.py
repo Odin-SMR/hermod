@@ -8,6 +8,7 @@ from odin.config.environment import config as odin_config
 from pbs import GEMPbs
 from torquepy import TorqueConnection
 
+
 class ProcessorHandler:
     """Handles a set of transitions
     """
@@ -18,29 +19,34 @@ class ProcessorHandler:
         torque_con = TorqueConnection(self.conf.get("TORQUE", "torquehost"))
         already_inqueue = torque_con.inqueue('new')
         for p in processors_ids:
-            if not "o%(orbit).4X%(calversion).1f%(fqid).2i%(version)s" %p in already_inqueue:
+            if (not "o%(orbit).4X%(calversion).1f%(fqid).2i%(version)s" % p in
+                    already_inqueue):
                 self.proclist.append(Processor(**p))
 
     def __repr__(self):
         s = ''
         for i in self.proclist:
-            s = s + repr(i) +'\n'
+            s = s + repr(i) + '\n'
         return s
 
-    def submit(self,queue='new'):
+    def submit(self, queue='new'):
         for i in self.proclist:
             i.set_submit_info(queue=queue)
             i.submit()
+
 
 class Processor(GEMPbs):
     """A transition from a level1-object to a level2
     """
 
-    def __init__(self,*arg,**kwargs):
+    def __init__(self, *arg, **kwargs):
         self.info = kwargs
 
     def __repr__(self):
-        return 'Processor object: %(id)i, %(orbit)X, %(calversion)s, %(backend)s, %(version)s, %(fqid)i, %(process_time)s' %(self.info)
+        return ('Processor object: %(id)i, %(orbit)X, %(calversion)s, ' +
+                '%(backend)s, %(version)s, %(fqid)i, %(process_time)s' %
+                (self.info))
+
 
 def ProcHFactory(sqlquery):
     """Factory returns a Processor handler from a sqlquery.
@@ -51,7 +57,7 @@ def ProcHFactory(sqlquery):
     db = connect(**connection_str)
     cursor = db.cursor(DictCursor)
     cursor.execute(sqlquery)
-    result =cursor.fetchall()
+    result = cursor.fetchall()
     cursor.close()
     db.close()
     return ProcessorHandler(result)

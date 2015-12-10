@@ -73,6 +73,12 @@ class PDCkftpGetFiles(IGetFiles):
             self.session.sendline('%s' % conf.get('PDC', 'user'))
 
         index = self.session.expect(self.pattern, timeout=20)
+        # If index != 3, try entering a passwd:
+        if index != 3:
+            if self.session.expect(['.*Password:'], timeout=20) == 0:
+                self.session.sendline('%s' % conf.get('PDC', 'passwd'))
+                index = self.session.expect(self.pattern, timeout=20)
+
         # print "Connect will return with index: {0}".format(index)
         return index == 3
 

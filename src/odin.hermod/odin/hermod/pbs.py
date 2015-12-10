@@ -13,8 +13,11 @@ runscript = """
 #PBS -v id=%(id)i,orbit=%(orbit)i,fqid=%(fqid)s,version=%(version)s,backend=%(backend)s,calversion=%(calversion)s,name=%(name)s,process_time=%(process_time)s,LD_LIBRARY_PATH=/opt/matlab/bin/glnxa64
 
 /home/odinop/hermod_production/bin/hermodrunjob
+#docker exec -d odinop_hermod_1 hermodrunjob id=%(id)i,orbit=%(orbit)i,fqid=%(fqid)s,version=%(version)s,backend=%(backend)s,calversion=%(calversion)s,name=%(name)s,process_time=%(process_time)s,LD_LIBRARY_PATH=/opt/matlab/bin/glnxa64
 """
-#the runscript is not generic enough - have to change the last line
+# the runscript is not generic enough - have to change the last line
+
+
 class GEMPbs(IPbs):
 
     def set_submit_info(self,queue='new'):
@@ -41,5 +44,6 @@ class GEMPbs(IPbs):
         print s.stderr.read()
         s.stdout.close()
         s.stderr.close()
+
 
 

@@ -56,61 +56,66 @@ def ProcHFactory(sqlquery):
     db.close()
     return ProcessorHandler(result)
 
+
 def main():
     set_hermod_logging()
     logger = logging.getLogger(__name__)
     logger.info('''looking for L1b-files to process''')
     query = '''
- select distinct l1.id,l1.back backend,l1.orbit orbit,v.id fqid,v.qsmr version,
-            l1.calversion,a.name,v.process_time
-from (
-select orbit,id,substr(backend,1,3) back,freqmode mode,calversion from level1
-join status using (id)
-join level1b_gem l1g using (id)
-where status and l1g.filename regexp ".*HDF" and not locate(',',freqmode)
-union
-(
-select orbit,id,substr(backend,1,3) back,substr(freqmode,1, locate(',',freqmode)-1) mode,calversion from level1
-join status using (id)
-join level1b_gem l1g using (id)
-where status and l1g.filename regexp ".*HDF" and locate(',',freqmode)
-)
-union
-(
-select orbit,id,substr(backend,1,3) back,substr(freqmode from locate(',',freqmode)+1) mode,calversion from level1
-join status using (id)
-join level1b_gem l1g using (id)
-where status and l1g.filename regexp ".*HDF" and locate(',',freqmode)
-)) as l1
-join versions v on (l1.mode=v.fm)
-join Aero a on (v.id=a.id)
-left join level2files l2f on (l1.id=l2f.id and v.id=l2f.fqid and v.qsmr=l2f.version)
-left join statusl2 s2 on (l1.id=s2.id and v.id=s2.fqid and v.qsmr=s2.version)
-where v.active and l2f.id is null and l1.calversion=6 and (proccount is null or proccount<4)
-order by orbit desc,fqid
-limit 400
-    '''
-    query2 = '''
-SELECT distinct l1.id,l1n.backend,l1n.orbit, v.id fqid, v.qsmr version, l1n.calversion, a.name, v.process_time FROM level1_new l1n
-join level1 l1 using (orbit,backend,calversion)
-join versions v on (v.fm=l1.freqmode and v.calversion=l1n.calversion)
-join status on (l1.id=status.id)
-join Aero a on (v.id=a.id)
-where not exists
-(select * from level2 l2 where l2.id=l1.id)
-and exists (select count(*) cnt from level1b_gem l1bg where l1bg.id= l1.id group by l1bg.id having cnt>2)
-and exists (select id from smrl1b_gem sl1bg where sl1bg.id=l1.id)
-and not exists (select * from statusl2 s2 where s2.id=l1.id and s2.version=v.qsmr and s2.fqid=v.id and proccount>4)
-and l1n.freqmode<>0 and v.active=1
-order by l1n.orbit desc
-limit 400
+SELECT DISTINCT l1.id, l1.back backend, l1.orbit orbit, v.id fqid,
+                v.qsmr version, l1.calversion, a.name, v.process_time
+FROM (
+    SELECT orbit, id, SUBSTR(backend, 1, 3) back, freqmode mode, calversion
+    FROM level1
+    JOIN level1b_gem l1g USING (id)
+    WHERE l1g.filename REGEXP ".*HDF"
+          AND NOT LOCATE(',',freqmode)
+          AND level1.filename IS NOT NULL
+          AND level1.filename != ''
+    UNION
+    (
+    SELECT orbit, id, SUBSTR(backend, 1, 3) back,
+           SUBSTR(freqmode, 1, LOCATE(',', freqmode) - 1) mode,
+           calversion
+    FROM level1
+    JOIN level1b_gem l1g USING (id)
+    WHERE l1g.filename REGEXP ".*HDF"
+          AND LOCATE(',', freqmode)
+          AND level1.filename IS NOT NULL
+          AND level1.filename != ''
+    )
+    UNION
+    (
+    SELECT orbit, id, SUBSTR(backend, 1, 3) back,
+           SUBSTR(freqmode from locate(',', freqmode) + 1) mode,
+           calversion
+    FROM level1
+    JOIN level1b_gem l1g USING (id)
+    WHERE l1g.filename REGEXP ".*HDF"
+          AND LOCATE(',',freqmode)
+          AND level1.filename IS NOT NULL
+          AND level1.filename != ''
+)) AS l1
+JOIN versions v ON (l1.mode = CAST(v.fm AS CHAR(4)))
+JOIN Aero a ON (v.id = a.id)
+LEFT JOIN level2files l2f ON (l1.id = l2f.id AND v.id = l2f.fqid AND
+                              v.qsmr = l2f.version)
+LEFT JOIN statusl2 s2 ON (l1.id = s2.id AND v.id = s2.fqid AND
+                          v.qsmr = s2.version)
+WHERE v.active
+      AND l2f.id IS NULL
+      AND l1.calversion IN (6.0, 6.1, 7.0)
+      AND (proccount IS NULL OR proccount < 4)
+      AND v.calversion = l1.calversion
+ORDER BY orbit DESC, fqid
+LIMIT 400
 '''
-    x = ProcHFactory(query2)
+    x = ProcHFactory(query)
     print x
     logger.info('''submitting jobs to the queue''')
     x.submit()
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
 
     main()
-

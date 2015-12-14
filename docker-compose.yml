@@ -3,6 +3,7 @@ hermod:
   links:
     - mysqlhost
     - torquehost
+    - pdchost
   volumes:
     - ./:/src
     - ./kinit_fejk:/usr/bin/kinit
@@ -21,3 +22,8 @@ torquehost:
   ports:
     - localhost:10022:22
   privileged: true
+
+pdchost:
+  image: docker2.molflow.com/devops/hermod_pdc
+  ports:
+    - localhost:11022:22

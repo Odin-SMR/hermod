@@ -17,7 +17,12 @@ run chmod +x \
         /src/hermod-entrypoint.sh && \
     cd /src && \
     ./hermod-install.sh install
-#entrypoint ./hermod-entrypoint.sh
+# - Copy ssh keys for fejk pdc:
+copy ./ssh_keys/pdc_rsa /home/odinop/.ssh/id_rsa
+run chmod 600 /home/odinop/.ssh/id_rsa && \
+    chmod 700 /home/odinop/.ssh && \
+    chown -R odinop /home/odinop/.ssh
+
 user odinop
 workdir /home/odinop
 add ./test_data/datafile.tar.gz /
@@ -28,3 +33,4 @@ run sudo chown odinop:gem .hermod.cfg.secret && \
 run sudo chown -R odinop:gem /odin && \
     chmod 2770 /odin
 cmd /usr/local/bin/hermodlogserver
+#entrypoint ./hermod-entrypoint.sh

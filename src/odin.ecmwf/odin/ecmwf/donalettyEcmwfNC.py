@@ -5,7 +5,6 @@ import odin.ecmwf.NC4ecmwf as NC
 from scipy.integrate import odeint
 from scipy.interpolate import splmake, spleval, spline
 from scipy import io as sio
-from pylab import diff, interp
 from pkg_resources import resource_filename
 from os.path import join
 from odin.config.environment import set_hermod_logging, config
@@ -61,7 +60,7 @@ class ZptFile(dict):
             def intermbar(z):
                 Mbars = np.r_[28.9644, 28.9151, 28.73, 28.40, 27.88, 27.27, 26.68, 26.20, 25.80, 25.44, 25.09, 24.75, 24.42, 24.10]
                 Mbarz=np.arange(85,151,5)
-                m=interp(z,Mbarz,Mbars)
+                m = np.interp(z, Mbarz, Mbars)
                 return m
 
             def g(z, lat):
@@ -101,10 +100,10 @@ class ZptFile(dict):
         z=np.r_[g5zpt[g5zpt[:,0]<60,0],np.arange(75,121,5)]
         temp=np.r_[g5zpt[g5zpt[:,0]<60,2],ciraT[15:25]]
         newz=np.arange(121)
-        normrho=interp([20],g5zpt[:,0],g5zpt[:,1])*28.9644/1000/Ro/interp([20],
-                       g5zpt[:,0],g5zpt[:,2])
+        normrho = (np.interp([20], g5zpt[:,0], g5zpt[:,1]) * 28.9644 / 1000 /
+                   Ro / np.interp([20], g5zpt[:,0], g5zpt[:,2]))
         newT,newp,rho,nodens,n2,o2,o=intatm(z,temp,newz,20,normrho[0],lat)
-        zpt=np.vstack((newz,newp,newT)).transpose()
+        zpt = np.vstack((newz, newp, newT)).transpose()
         return zpt
 
 
@@ -161,7 +160,7 @@ class ZptFile(dict):
         self.log.info('Using ECMWF file: {0}'.format(ecmwffilename))
         ecm = NC.NCecmwf(ecmwffilename)
         minlat = np.min(ecm['lats'])
-        latstep = np.mean(diff(ecm['lats']))
+        latstep = np.mean(np.diff(ecm['lats']))
         minlon = np.min(ecm['lons'])
         lonstep = np.mean(np.diff(ecm['lons']))
         for i in np.arange(logdata.shape[0]):

@@ -6,7 +6,6 @@ Created on Mar 12, 2009
 from netCDF4 import Dataset
 import numpy as np
 import odin.ecmwf.GPHlib as GPH
-from pylab import interp
 import logging
 class NCecmwf(dict):
     '''
@@ -16,7 +15,7 @@ class NCecmwf(dict):
 
     def __init__(self, filename):
         '''
-        This routine will allow us to access 
+        This routine will allow us to access
         '''
         self.log = logging.getLogger(__name__)
         def readfield(fid,fieldname,lonsort):
@@ -25,8 +24,8 @@ class NCecmwf(dict):
             #field=np.r_[field]*field.scale_factor+field.add_offset
             field=np.ma.filled(field,np.nan)[:,:,lonsort]
             return field
-    
-        try:        
+
+        try:
             fid=Dataset(filename, 'r')
         except:
             self.log.error('Could not find {0} - aborting'.format(filename))
@@ -55,7 +54,7 @@ class NCecmwf(dict):
         cfn="Pressure Level"
         cf=pres
         self.update(dict({'fid':fid,'lats': lats, 'lons': lons, 'lonsort': lonsort,'pres': pres, 'gph': gph, 'theta':theta, 'CurrentFieldName':cfn,'CurrentField':cf}))
-    
+
 
     def extractprofile_on_z(self,fieldname,latpt,longpt,newz):
         gph=self['gph']
@@ -76,7 +75,7 @@ class NCecmwf(dict):
         else:
             field=self['CurrentField']
         return field
- 
+
     def extractfield_on_p (self,fieldname,plevels):
         '''
         This routine will extract a field on given pressure levels
@@ -106,12 +105,12 @@ class NCecmwf(dict):
                 #f=interpolate.interp1d(np.flipud(logpres[:,i,j]),np.flipud(field[:,i,j]))
                 #newfield[:,i,j]=np.interp(np.log(plevels),np.flipud(logpres[:,i,j]),np.flipud(field[:,i,j]))
                 newfield[:,i,j]=np.flipud(np.interp(np.flipud(thlevels),np.flipud(theta[:,i,j]),np.flipud(field[:,i,j])))
-        newfield=newfield[:,:,self['lonsort']]       #sort longitudes        
-        return newfield    
-    
+        newfield=newfield[:,:,self['lonsort']]       #sort longitudes
+        return newfield
+
     def fileclose (self):
         self['fid'].close()
-                
-        
-            
-        
+
+
+
+

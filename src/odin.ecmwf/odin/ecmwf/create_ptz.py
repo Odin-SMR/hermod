@@ -50,18 +50,11 @@ def main():
         logfile = hdffile.replace('HDF', 'LOG')
         ptzfile = logfile.replace('LOG', 'PTZ')
         ZptFile(logfile, ptzfile)
-        sql_replace_filetype = '''
-                replace level1b_gem
-                (id,filename)
-                values (%s,%s)
-                ''' % (f[0], f[1].replace('HDF', 'PTZ'))
         cur2.execute('''
                 replace level1b_gem
                 (id,filename)
-                values (%s,%s)
+                values (%s, "%s")
                 ''', (f[0], f[1].replace('HDF', 'PTZ')))
-        log.info('Tried this query: {0}'.format(sql_replace_filetype))
-        print 'Tried this query: {0}'.format(sql_replace_filetype)
     cur1.close()
     cur2.close()
     db.close()

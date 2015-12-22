@@ -50,11 +50,14 @@ def main():
         logfile = hdffile.replace('HDF', 'LOG')
         ptzfile = logfile.replace('LOG', 'PTZ')
         ZptFile(logfile, ptzfile)
-        cur2.execute('''
+        query = '''
                 replace level1b_gem
-                (id,filename)
-                values (%s, "%s")
-                ''', (f[0], f[1].replace('HDF', 'PTZ')))
+                (id, filename)
+                values (%s, "%s");
+                ''' % (f[0], f[1].replace('HDF', 'PTZ'))
+        status = cur2.execute(query)
+        log.info('Tried query {0} with status {1}'.format(query, status))
+        print 'Tried query {0} with status {1}'.format(query, status)
     cur1.close()
     cur2.close()
     db.close()

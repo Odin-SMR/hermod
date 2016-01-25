@@ -16,6 +16,8 @@ mysqlhost:
     - MYSQL_DATABASE=smr
     - MYSQL_USER=odinuser
     - MYSQL_PASSWORD=***REMOVED***
+  ports:
+    - localhost:3306:3306
 
 torquehost:
   image: agaveapi/torque

@@ -30,6 +30,13 @@ cd $HERMOD_ROOT/src/odin.config/
 python setup.py $INSTALL_MODE
 echo " "
 
+echo "-------------------------"
+echo " Installing hermod: "
+echo "-------------------------"
+cd $HERMOD_ROOT/src/hermod/
+python setup.py $INSTALL_MODE
+echo " "
+
 echo "------------------------"
 echo " Installing odin.ecmwf: "
 echo "------------------------"

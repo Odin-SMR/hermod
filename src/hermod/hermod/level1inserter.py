@@ -3,13 +3,15 @@ Level1 inserter
 
 inserts level1file into hermod db
 """
-from os.path import walk, relpath, getctime
+from os import walk
+from os.path import getctime
 from os.path import join as path_join
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from hermod.model import HdfFile, LogFile, Scan, Level1
 from datetime import datetime
 from sys import argv
+import re
 
 class FileServer(object):
     """ Handles Odin files in a directory
@@ -31,17 +33,17 @@ class Level1Inserter(object):
         engine = create_engine('mysql://odinuser:***REMOVED***@mysqlhost/hermod')
         session = sessionmaker(bind=engine)
         self.ses = session()
-        self.pattern = compile(
-            "^(?P<calversion>[\d]+\.[\d]+).*"
+        self.pattern = re.compile(
+            "^.*(?P<calversion>[\d]+\.[\d]+).*"
             "O(?P<backend>[ABCD])"
             "1B(?P<orbit>[\w]{4,5})"
             "\.(?P<type>[\w]{3})"
             "(?:$|\.gz$)"
-            )
+        )
         file_storage = FileServer(level1b_dir)
         file_list = file_storage.add_files()
         for l1_file in file_list:
-            match = self.pattern.search(relpath(l1_file, level1b_dir))
+            match = self.pattern.search(l1_file)
             if match is None:
                 continue
             matchdict = match.groupdict()
@@ -84,7 +86,7 @@ class Level1Inserter(object):
 
 def main():
     """IT all starts here"""
-    if len(argv) == 0:
+    if len(argv) == 1:
         level1b_dirs = ['/odin/smr/Data/level1b/']
     else:
         level1b_dirs = argv[1:]

@@ -34,8 +34,7 @@ class Ecmwf_Grib2(object):
         self.conf = config()
 
     def convert2nc(self):
-        cdo_path = '/usr/local/bin/cdo'
-        session = Popen([cdo_path, '-f', 'nc4', '-t', 'ecmwf', 'copy',
+        session = Popen(['cdo', '-f', 'nc4', '-t', 'ecmwf', 'copy',
                         self.filename, self.nc_file.name], stdout=PIPE,
                         stderr=PIPE)
         exit_code = session.wait()

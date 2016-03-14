@@ -57,7 +57,6 @@ def main():
                 ''' % (f[0], f[1].replace('HDF', 'PTZ'))
         status = cur2.execute(query)
         log.info('Tried query {0} with status {1}'.format(query, status))
-        print 'Tried query {0} with status {1}'.format(query, status)
     cur1.close()
     cur2.close()
     db.close()

@@ -102,7 +102,7 @@ FROM (
           AND level1.filename IS NOT NULL
           AND level1.filename != ''
 )) AS l1
-JOIN versions v ON (l1.mode = CAST(v.fm AS CHAR(4)))
+JOIN versions v ON (CAST(l1.mode as UNSIGNED) = v.fm)
 JOIN Aero a ON (v.id = a.id)
 LEFT JOIN level2files l2f ON (l1.id = l2f.id AND v.id = l2f.fqid AND
                               v.qsmr = l2f.version)

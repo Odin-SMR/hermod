@@ -12,6 +12,7 @@ runscript = """
 #PBS -d %(workdir)s
 #PBS -v id=%(id)i,orbit=%(orbit)i,fqid=%(fqid)s,version=%(version)s,backend=%(backend)s,calversion=%(calversion)s,name=%(name)s,process_time=%(process_time)s,LD_LIBRARY_PATH=/opt/matlab/bin/glnxa64
 
+umask 027
 /home/odinop/hermod_production/bin/hermodrunjob
 #docker exec -d odinop_hermod_1 hermodrunjob id=%(id)i,orbit=%(orbit)i,fqid=%(fqid)s,version=%(version)s,backend=%(backend)s,calversion=%(calversion)s,name=%(name)s,process_time=%(process_time)s,LD_LIBRARY_PATH=/opt/matlab/bin/glnxa64
 """

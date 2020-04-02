@@ -12,10 +12,10 @@ hermod:
 mysqlhost:
   image: docker2.molflow.com/devops/hermod_mysql
   environment:
-    - MYSQL_ROOT_PASSWORD***REMOVED***
+    - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     - MYSQL_DATABASE=smr
     - MYSQL_USER=odinuser
-    - MYSQL_PASSWORD=***REMOVED***
+    - MYSQL_PASSWORD=${MYSQL_PASSWORD}
   ports:
     - localhost:3306:3306
 

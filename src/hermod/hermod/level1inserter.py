@@ -3,6 +3,7 @@ Level1 inserter
 
 inserts level1file into hermod db
 """
+import os
 from os import walk
 from os.path import getctime
 from os.path import join as path_join
@@ -30,7 +31,8 @@ class FileServer(object):
 
 class Level1Inserter(object):
     def __init__(self, level1b_dir):
-        engine = create_engine('mysql://odinuser:***REMOVED***@mysqlhost/hermod')
+        connectstring=os.getenv('ODIN_DB_CONNECT', 'mysql://user:paswd@host/db')
+        engine = create_engine(connectstring)
         session = sessionmaker(bind=engine)
         self.ses = session()
         self.pattern = re.compile(

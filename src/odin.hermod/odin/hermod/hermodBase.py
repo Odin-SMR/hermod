@@ -8,7 +8,7 @@ class HermodWarning(Exception):
     pass
 
 #Read configfiles
-config = c.ConfigParser()
+config = c.SafeConfigParser(os.environ)
 config_files = config.read(['/etc/hermod.cfg.default','/etc/hermod.cfg',
                             os.path.expanduser('~/.hermod.cfg'),
                             os.path.expanduser('~/.hermod.cfg.secret')])

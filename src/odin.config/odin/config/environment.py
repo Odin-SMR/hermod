@@ -1,6 +1,6 @@
 from ConfigParser import SafeConfigParser
 from os.path import expanduser
-from os import stat
+from os import stat, environ
 from sys import stdout
 from stat import S_IMODE,S_IRGRP,ST_MODE,S_IROTH
 from pkg_resources import resource_filename
@@ -15,7 +15,7 @@ class HermodWarning(Exception):
 
 def config():
     log = logging.getLogger(__name__)
-    t = SafeConfigParser()
+    t = SafeConfigParser(environ)
     config_files = t.read([
     	resource_filename("odin.config","defaults.cfg"),
     	'/etc/hermod.cfg.default',
@@ -42,7 +42,7 @@ def config():
     return t
 
 def set_hermod_logging():
-    parser = SafeConfigParser()
+    parser = SafeConfigParser(environ)
     used_files = parser.read([
             resource_filename('odin.config','odinlogger.cfg'),
             expanduser('~/.odin/hermod.logger.cfg'),
